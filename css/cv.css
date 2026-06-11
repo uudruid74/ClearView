@@ -1,0 +1,190 @@
+html {
+    background-image: url(/pics/background.webp);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+body {
+    margin: 0 0;
+    padding: 1rem 2rem 2rem 2rem;
+    font-family: var(--font-family-sans-serif);
+    box-sizing: border-box;
+}
+small { font-family: var(--font-family-small); }
+.token svg {
+    background: linear-gradient(45deg, #fff2, #fffA);
+}
+.formtitle {
+    font-size: 125%;
+    font-weight: bold;
+    font-family: var(--font-family-serif);
+}
+.forminfo {
+    font-family: var(--font-family-small);
+}
+ul.tabbar {
+    justify-content: flex-start;
+}
+ul.tabbar > li {
+    text-align: center;
+    text-rendering: optimizeLegibility;
+    position: relative;
+    list-style: none;
+    background: var(--secondary);
+    transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+}
+ul.tabbar > li.active {
+    background: var(--primary);
+}
+form.htmx-request ul.tabbar > li {
+    transform: scale(0.90);
+    margin-left: 0;
+    margin-right: 0;
+}
+form.htmx-request ul.tabbar > li.active {
+    transform: scale(1.20);
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+}
+button.close {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    display: block;
+    background-image: var(--icon-close);
+    background-position: center;
+    background-color: transparent;
+    transition: opacity var(--transition);
+    border: none;
+    mix-blend-mode: difference;
+}
+form {
+    transform: scale(0.25);
+    font-size: 100%;
+    transition: font-size 0.03s ease-in;
+    animation: scaleUp 0.33s ease-in-out 0.01s forwards;
+ }
+ @keyframes scaleUp {
+    80% { transform: scale(1.2); }
+    to { transform: scale(1); }
+}
+
+form .bottom {
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    flex-grow: 1;
+    background: var(--card-sectioning-background-color);
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+}
+[type=checkbox][role=switch] {
+    margin: var(--form-element-spacing-vertical) var(--form-element-spacing-horizontal);
+}
+.tabbody {
+    margin-bottom: 0.25em;
+    border-top-left-radius: 0;
+    transition: opacity 0.03s ease-in-out, font-size 0.03s ease-in-out;
+}
+.tabbody label {
+    position: relative;
+    left: 4%;
+}
+form.htmx-request .tabbody {
+    opacity: 60%;
+    font-size: 92%;
+}
+.horizontal {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin: 0;
+}
+.columns {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    gap: var(--block-spacing-horizontal);
+}
+.vertical {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+}
+.rows {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+}
+.align_center, .centered {
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: space-around;
+    align-items: center;
+}
+img.align_center {
+    border-radius: 0.25rem;
+}
+.dynamic {
+    display: flex;
+    flex-flow: column wrap;
+    flex-grow: 1;
+    align-content: center;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.dynamic input {
+    width: unset;
+}
+canvas, img, svg, video {
+    max-width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+audio, canvas, iframe, img, svg, video {
+    vertical-align: middle;
+}
+input:not([type=checkbox],[type=radio]), select, textarea {
+    margin: var(--form-element-spacing-vertical) var(--form-element-spacing-horizontal);
+}
+.right { float: right; }
+.left { float: left; }
+.emj {
+    text-align: center;
+    display: inline-block;
+    width: 1.5em;
+    font-family: var(--font-family-emoji);
+}
+.spread { gap: 1.5rem; }
+.container, .container-fluid {
+    padding: 2rem 2rem;
+}
+.cramped { padding: calc(var(--spacing) /2) var(--spacing) !important; }
+.cramped img { max-height: 4rem; }
+.mosaic{ display: none; }
+
+@media screen and (orientation: portrait) {
+    .dynamic {
+        flex-flow: row wrap;
+        margin: 0;
+        width: 92% !important;
+    }
+    .dynamic input {
+        width: calc(100% - 10rem);
+    }
+    .columns {
+        flex-flow: row wrap;
+    }
+}
+@media screen and (orientation: landscape) {
+    .columns .container,
+    .columns .container-fluid {
+        height: 100%
+    }
+}
+

@@ -1,0 +1,261 @@
+/* Liquid Glass Additions for Clearview (Pico) + CV */
+:root {
+    --baseOffset: 120deg;
+    --headerOffset: 30deg;
+    --effectsSpin: 60deg;
+}
+[data-theme="light"] {
+    --theme-accent-a: black;
+    --theme-accent-b: white;
+    --theme-container-bright: 130%;
+    --theme-accent-bright: 30%;
+}
+[data-theme="dark"] {
+    --theme-accent-a: white;
+    --theme-accent-b: black;
+    --theme-container-bright: 30%;
+    --theme-accent-bright: 130%;
+}
+ol,ul {
+    font-family: var(--font-family-small);
+    font-weight: 315;
+}
+/* Viewport properties and keyframes */
+@property --viewportPos {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 50;
+}
+
+@property --viewportCurve {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes viewportPos {
+  0% { --viewportPos: 10; --viewportCurve: 70; }
+  30% { --viewportPos: 30; --viewportCurve: 55; }
+  50% { --viewportPos: 50; --viewportCurve: 0; }
+  70% { --viewportPos: 70; --viewportCurve: 55; }
+  100% { --viewportPos: 100; --viewportCurve: 70; }
+}
+
+/* Base glass effects for .glass */
+.glass, .glass button, .glass [role="button"] {
+    --primary-border: color-mix(in srgb, color-mix(in srgb, var(--primary-background), var(--theme-accent-b)), transparent 65%);
+    background: var(--primary-border);
+    backdrop-filter: blur(8px) saturate(80%) brightness(var(--theme-container-bright));
+    --savePos: var(--viewportPos);
+    filter: hue-rotate(calc(calc(var(--viewportPos)/100 * 180deg) - var(--baseOffset)));
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.2em;
+    animation: viewportPos auto linear both;
+    animation-timeline: view();
+}
+
+/* Undo for images */
+.glass img {
+    filter: hue-rotate(calc(((var(--savePos) / 100 * 180deg) - var(--baseOffset)) * -1));
+    z-index: 1;
+}
+
+/* Dynamic shadow borders for .glass */
+.glass, .glass button, .glass [role="button"] {
+  --curve-norm: calc(var(--viewportCurve) / 100);
+  --pos-norm: calc(var(--viewportPos) / 100);
+  --max-border-side: 8px;
+  --top-width: calc(var(--max-border-side) * var(--curve-norm));
+  --bottom-width: calc(var(--max-border-side) * var(--curve-norm));
+  --left-width: calc(var(--max-border-side) * var(--curve-norm));
+  --right-width: calc(var(--max-border-side) * var(--curve-norm));
+  --glass-shadow-base: inset 0 var(--top-width) 0 0 var(--border-top),
+                      inset 0 calc(-1 * var(--bottom-width)) 0 0 var(--border-bottom),
+                      inset var(--left-width) 0 0 0 var(--border-left),
+                      inset calc(-1 * var(--right-width)) 0 0 0 var(--border-right);
+    border: none;
+    box-shadow: var(--glass-shadow-base);
+}
+
+/* Border colors */
+.glass, .glass button, .glass [role="button"] {
+  --border-top: color-mix(in srgb, var(--primary-border), var(--theme-accent-a) 15%);
+  --border-left: color-mix(in srgb, var(--primary-border), var(--theme-accent-a) 10%);
+  --border-right: color-mix(in srgb, var(--primary-border), var(--theme-accent-b) 40%);
+  --border-bottom: color-mix(in srgb, var(--primary-border), var(--theme-accent-b) 50%);
+}
+
+/* Dynamic shadows for .glass */
+.glass, .glass button, .glass [role="button"] {
+  --shadow-base: calc(1.5px * var(--curve-norm));
+  box-shadow: var(--glass-shadow-base), 0 4px calc(var(--shadow-base) + 4px * var(--pos-norm)) rgba(0,0,0,0.2);
+}
+
+/* Subtle glare gradients overlay */
+.glass::after, .glass button::after, .glass [role="button"]::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(182deg, rgba(255,255,255,0.2) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Gradient reflections */
+.glass::before, .glass button::before, .glass [role="button"]::before {
+  --border-top: color-mix(in srgb, var(--primary-border), var(--theme-accent-a) 20%);
+  --border-bottom: color-mix(in srgb, var(--primary-border), var(--theme-accent-b) 20%);
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to bottom, var(--border-top) 0%, transparent 30%, var(--border-bottom) 100%);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Child links complementary colors */
+.glass a {
+  --link-hue: calc(hue(var(--glass-tint)) + 180);
+  color: hsl(var(--link-hue), saturation(var(--glass-tint)), lightness(var(--glass-tint)));
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+}
+
+.glass a:visited {
+  --link-hue: calc(hue(var(--glass-tint)) + 90);
+  color: hsl(var(--link-hue), saturation(var(--glass-tint)), lightness(var(--glass-tint)));
+}
+
+.glass a:active {
+  --link-hue: calc(hue(var(--glass-tint)) + 270);
+  color: hsl(var(--link-hue), saturation(var(--glass-tint)), lightness(var(--glass-tint)));
+}
+
+.glass a:hover {
+  transform: translate(-2px, -2px) scale(1.05);
+}
+
+/* Headers etched effect */
+.glass h1, .glass h2, .glass h3, .glass h4, .glass h5, .glass h6 {
+    font-family: var(--font-family-serif);
+    color: var(--primary-border);
+    filter: saturate(2.5) brightness(var(--theme-accent-bright)) hue-rotate(var(--headerOffset));
+    text-shadow: -0.75px -0.75px 1px color-mix(in srgb, var(--primary-border), var(--theme-accent-b)),
+                 0.25px 0.25px 0.5px color-mix(in srgb, var(--primary-border), var(--theme-accent-a)),
+                 3px 3px 6px black;
+    font-weight: 450;
+}
+
+/* Checkboxes and radios in glass */
+.glass input[type="checkbox"], .glass input[type="radio"] {
+  animation: viewportPos auto linear both;
+  animation-timeline: view();
+  appearance: none;
+  width: 1em; height: 1em;
+  border-radius: 50%;
+  border: var(--border-width) solid var(--form-element-border-color);
+  background: transparent;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+.glass input[type="checkbox"]:checked, .glass input[type="radio"]:checked {
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary), inset 0 0 5px var(--theme-accent-a);
+  backdrop-filter: blur(2px);
+}
+
+/* Progress in glass */
+.glass progress {
+  animation: viewportPos auto linear both;
+  animation-timeline: view();
+}
+
+.glass progress::-webkit-progress-value, .glass progress::-moz-progress-bar {
+  background: linear-gradient(to right, var(--primary) 0%, color-mix(in srgb, var(--primary), var(--theme-accent-a) 20%) 50%, var(--primary) 100%);
+  box-shadow: inset 0 -2px 4px rgba(255,255,255,0.3), inset 0 2px 4px rgba(0,0,0,0.2);
+  backdrop-filter: blur(2px);
+}
+
+/* Tooltips in glass */
+.glass [role="tooltip"] {
+  animation: viewportPos auto linear both;
+  animation-timeline: view();
+  background: color-mix(in srgb, var(--background-color, #fff) 10%, transparent);
+  backdrop-filter: blur(20px);
+  font-family: var(--font-family-small);
+}
+
+.glass [role="tooltip"] * {
+  text-shadow: 0 0 15px var(--glass-tint);
+}
+
+/* Blockquote in glass */
+.glass blockquote {
+  animation: viewportPos auto linear both;
+  animation-timeline: view();
+  border-left: calc(0.5em + 0.2em);
+  border-top: 0; border-right: 0; border-bottom: 0;
+  padding-left: 1em;
+  font-family: var(--font-family-monospace);
+  background: color-mix(in srgb, var(--background-color, var(--theme-accent-a)) 5%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+/* Hover and active effects in glass */
+.glass button:hover, .glass [role="button"]:hover, .glass input:hover, .glass select:hover, .glass textarea:hover, .glass a:hover {
+  --hover-transparent: color-mix(in srgb, var(--primary-hover-background), transparent);
+  box-shadow: 0 0 1rem var(--hover-transparent);
+  filter: saturate(2.5) brightness(var(--theme-accent-bright)) hue-rotate(var(--effectsSpin));
+  transform: translate(-0.15em, -0.15em) scale(1.02);
+  transition: transform 0.2s;
+}
+
+.glass .htmx-indicator {
+  animation: hue-spin 1s linear infinite;
+}
+
+@keyframes hue-spin {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* Shadows for floating elements in glass */
+.glass .card, .glass header, .glass footer, .glass form, .glass details, .glass [role="menu"], .glass [role="listbox"] {
+  box-shadow: var(--glass-shadow-base), 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.glass [role="menu"], .glass [role="listbox"] {
+  box-shadow: var(--glass-shadow-base), 0 8px 40px rgba(0,0,0,0.3);
+}
+
+/* Container shadows */
+.glass.container, .glass.container-fluid {
+  box-shadow: var(--glass-shadow-base), 8px 10px 12px #0008;
+}
+
+/* Sidebar with details - assuming .nav-drawer on details */
+details.nav-drawer {
+  transition: transform 0.3s ease-out;
+}
+
+details.nav-drawer summary {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+@media (orientation: portrait) {
+  details.nav-drawer {
+    width: 100%;
+  }
+  details.nav-drawer:not([open]) {
+    animation: pop-slide 0.5s forwards;
+  }
+}
+
+@keyframes pop-slide {
+  0% { transform: scale(1) translate(0, 0); border-width: var(--border-width); }
+  50% { transform: scale(1.05) translate(-5%, -5%); border-width: calc(var(--border-width) + 0.1em); }
+  100% { transform: translate(-100%, 0); border-width: var(--border-width); }
+}

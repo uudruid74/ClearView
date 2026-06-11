@@ -1,0 +1,46 @@
+<?php
+
+namespace ClearView;
+
+class jsonmangler
+{
+    public static function mangle($input)
+    {
+        $json = json_encode($input);
+        // Replace commas within quoted strings with %2C
+        $json = preg_replace_callback('/"([^"]*)"/', function ($matches) {
+            return '"' . str_replace(',', '%2C', $matches[1]) . '"';
+        }, $json);
+        $noQuotes = str_replace('"', '', $json);
+        return preg_replace('/\s+/', ' ', $noQuotes);
+    }
+
+    public static function unmangle(string $jsonString)
+    {
+        // Add quotes around keys
+        $jsonString = preg_replace('/([{,])\s*([a-zA-Z0-9_]+)\s*:/', '$1"$2":', $jsonString);
+
+        // Add quotes around string values and convert %2C back to commas
+        $jsonString = preg_replace_callback('/:\s*([^,\[\]\{\}\n]+)\s*([,}\n\]])/', function ($matches) {
+            $value = trim($matches[1]);
+            // Check if the value is a non-quoted string (not a number, boolean, null, array, or object)
+            if (!preg_match('/^(true|false|null|\d+(\.\d+)?|\[.*\]|\{.*\})$/', $value)) {
+                // Convert %2C to comma and add quotes
+                $value = '"' . str_replace('%2C', ',', $value) . '"';
+            }
+            return ': ' . $value . $matches[2];
+        }, $jsonString);
+
+        // Handle boolean and null values explicitly
+        $jsonString = preg_replace('/:\s*(true|false|null)\s*([,}])/', ': $1$2', $jsonString);
+
+        // Decode the JSON string into an associative array
+        $jsonArray = json_decode($jsonString, true);
+
+        // Check if JSON decoding was successful and return an associative array
+        if (json_last_error() === JSON_ERROR_NONE && is_array($jsonArray)) {
+            return $jsonArray;
+        }
+        return null;
+    }
+}

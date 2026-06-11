@@ -1,0 +1,57 @@
+<?php
+
+namespace ClearView;
+
+class jsonmangler
+{
+    public static function mangle($input)
+    {
+        $json = json_encode($input);
+        // Replace special characters within quoted strings and remove quotes
+        $json = preg_replace_callback('/"([^"]*)"/', function ($matches) {
+            $str = $matches[1];
+            $str = str_replace(
+                [',',    '"',   '&',   '<',   '>',   "'",   '{{',  '}}' ],
+                ['%2C', '%22', '%26', '%3C', '%3E', '%27', '%7B', '%7D' ],
+                $str
+            );
+            return $str;
+        }, $json);
+        return preg_replace('/\s+/', ' ', $json);
+    }
+
+    public static function unmangle(string $jsonString)
+    {
+        if (!str_contains($jsonString,'"')) {
+            // Add quotes around keys
+            $jsonString = preg_replace('/([{,])\s*([a-zA-Z0-9_]+)\s*:/', '$1"$2":', $jsonString);
+
+            // Add quotes around string values and decode percent-encoded characters
+            $jsonString = preg_replace_callback('/:\s*([^,\[\]\{\}\n]+)\s*([,}\n\]])/', function ($matches) {
+                $value = trim($matches[1]);
+                if (!preg_match('/^(true|false|null|\d+(\.\d+)?|\[.*\]|\{.*\})$/', $value)) {
+                    $value = str_replace(
+                        ['%2C', '%22', '%26', '%3C', '%3E', '%27', '%7B', '%7D' ],
+                        [',',    '"',   '&',   '<',   '>',   "'",   '{{', '}}' ],
+                        $value
+                    );
+                    $value = '"' . $value . '"';
+                }
+                return ': ' . $value . $matches[2];
+            }, $jsonString);
+
+            // Handle boolean and null values explicitly
+            $jsonString = preg_replace('/:\s*(true|false|null)\s*([,}])/', ': $1$2', $jsonString);
+        }
+
+        // Decode the JSON string into an associative array
+        $jsonArray = json_decode($jsonString, true);
+
+        // Check if JSON decoding was successful and return an associative array
+        if (json_last_error() === JSON_ERROR_NONE && is_array($jsonArray)) {
+            return $jsonArray;
+        }
+        return null;
+    }
+}
+

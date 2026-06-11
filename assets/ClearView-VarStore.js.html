@@ -1,0 +1,158 @@
+<h1 id="clearview-varstorejs">ClearView-VarStore.js</h1>
+<p>A Surreal plugin for managing client-side variable storage in a structured, JSON-based format, integrated with DOM elements. It organizes data in variable stores (<code>&lt;div class=&quot;varstore&quot;&gt;</code>) using hidden inputs, supporting panes, inlays, and field-level operations. Ideal for syncing client state with server-side data, mirroring ClearView&#39;s <code>dumpEverything()</code> JSON format.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Variable Storage</strong>: Stores JSON objects in hidden <code>&lt;input&gt;</code> elements within a <code>.varstore</code> <code>&lt;div&gt;</code>.</li>
+<li><strong>Pane and Inlay Management</strong>: Organizes data by pane (e.g., <code>loginVarStore</code>) and inlay (e.g., <code>pane</code>, <code>newuser</code>).</li>
+<li><strong>Field Operations</strong>: Get, set, or delete specific fields in JSON objects, with DOM attribute syncing (e.g., <code>name</code>).</li>
+<li><strong>Element Lookup</strong>: Retrieves DOM elements linked to variable data via <code>id</code> fields.</li>
+<li><strong>JSON Dumping</strong>: Exports the entire varstore as a JSON tree, matching server-side formats.</li>
+<li><strong>Chaining</strong>: Supports Surreal&#39;s fluent API for method chaining (e.g., <code>me(&#39;.varstore&#39;).pane(&#39;login&#39;).getVar()</code>).</li>
+<li><strong>Array Support</strong>: Handles array fields (e.g., <code>contents: [&quot;item1&quot;, &quot;item2&quot;]</code>) with proper mangling/unmangling.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Include Surreal and the plugin in your project:</p>
+<pre><code class="language-html">&lt;script src=&quot;surreal.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;ClearView-VarStore.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<h2 id="html-structure">HTML Structure</h2>
+<p>Variable stores are <code>&lt;div&gt;</code> elements with <code>class=&quot;varstore&quot;</code>, containing hidden <code>&lt;input&gt;</code> elements:</p>
+<pre><code class="language-html">&lt;div id=&quot;loginVarStore&quot; class=&quot;varstore&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;pane-_CV_tabbar&quot; value=&quot;{class:tabbar,id:_CV_tabbar,contents:[_CV_tab_login,_CV_tab_newuser],__op__:add}&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;newuser-email&quot; value=&quot;{value:user@example.com,id:emailField,__op__:add}&quot;&gt;
+&lt;/div&gt;
+&lt;input id=&quot;loginVarStore-newuser-emailField&quot; name=&quot;email&quot;&gt;
+</code></pre>
+<h2 id="functions">Functions</h2>
+<h3 id="panepanename"><code>pane(paneName)</code></h3>
+<p>Sets the active pane name (e.g., <code>login</code>) for varstore lookups.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>paneName</code> (string, optional) - Pane name.</li>
+<li><strong>Returns</strong>: <code>HTMLElement</code> (for chaining).</li>
+<li><strong>Example</strong>:<pre><code class="language-javascript">me(&#39;.varstore&#39;).pane(&#39;login&#39;); // Sets _pane to &#39;login&#39;
+</code></pre>
+</li>
+</ul>
+<h3 id="inlayinlayname"><code>inlay(inlayName)</code></h3>
+<p>Sets the default inlay (e.g., <code>pane</code>) for variable lookups.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>inlayName</code> (string, optional) - Inlay name.</li>
+<li><strong>Returns</strong>: <code>HTMLElement</code>.</li>
+<li><strong>Example</strong>:<pre><code class="language-javascript">me(&#39;.varstore&#39;).inlay(&#39;newuser&#39;); // Sets _inlay to &#39;newuser&#39;
+</code></pre>
+</li>
+</ul>
+<h3 id="getvarvariable"><code>getVar(variable)</code></h3>
+<p>Retrieves a JSON object from a varstore input.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>variable</code> (string, optional) - Variable name (e.g., <code>newuser::email</code>) or inferred from <code>element.name</code>/<code>element.id</code>.</li>
+<li><strong>Returns</strong>: <code>Proxy</code> (JSON object) or <code>null</code>.</li>
+<li><strong>Notes</strong>: For non-varstore elements, parses <code>id</code> as <code>{pane}VarStore-{inlay}-{varname}</code>.</li>
+<li><strong>Example</strong>:<pre><code class="language-javascript">const email = me(&#39;.varstore&#39;).getVar(&#39;newuser::email&#39;);
+console.log(email.value); // &quot;user@example.com&quot;
+const tabbar = me(&#39;.tabbar&#39;).getVar(); // Uses id=&quot;loginVarStore-pane-_CV_tabbar&quot;
+console.log(tabbar.contents); // [&quot;_CV_tab_login&quot;, &quot;_CV_tab_newuser&quot;]
+</code></pre>
+</li>
+</ul>
+<h3 id="elementvariable"><code>element(variable)</code></h3>
+<p>Finds the DOM element linked to a variable’s <code>id</code> field.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>variable</code> (string, optional) - Variable name.</li>
+<li><strong>Returns</strong>: <code>HTMLElement</code> or <code>null</code>.</li>
+<li><strong>Notes</strong>: Constructs <code>#{pane}VarStore-{inlay}-{id}</code> from the JSON <code>id</code> field.</li>
+<li><strong>Example</strong>:<pre><code class="language-javascript">const el = me(&#39;.varstore&#39;).element(&#39;newuser::email&#39;);
+console.log(el.id); // &quot;loginVarStore-newuser-emailField&quot;
+</code></pre>
+</li>
+</ul>
+<h3 id="setvarvariable-field-value"><code>setVar(variable, field, value)</code></h3>
+<p>Sets a variable or field in the varstore.</p>
+<ul>
+<li><strong>Parameters</strong>:<ul>
+<li><code>variable</code> (string, optional) - Variable name.</li>
+<li><code>field</code> (string or object) - Field name (4 args) or JSON object (3 args, <code>value</code> is <code>null</code>).</li>
+<li><code>value</code> (any, optional) - Field value (4 args).</li>
+</ul>
+</li>
+<li><strong>Returns</strong>: <code>HTMLElement</code>.</li>
+<li><strong>Notes</strong>: Syncs <code>element.name</code> if <code>field === &#39;name&#39;</code> for non-varstore elements.</li>
+<li><strong>Examples</strong>:<pre><code class="language-javascript">me(&#39;input&#39;).setVar(&#39;email&#39;, &#39;value&#39;, &#39;new@example.com&#39;); // Sets field
+me(&#39;input&#39;).setVar(&#39;email&#39;, { value: &#39;new@example.com&#39; }); // Sets full JSON
+me(&#39;input&#39;).setVar(&#39;email&#39;, &#39;name&#39;, &#39;newname&#39;); // Sets name and element.name
+</code></pre>
+</li>
+</ul>
+<h3 id="delvarvariable-field"><code>delVar(variable, field)</code></h3>
+<p>Deletes a variable or field from the varstore.</p>
+<ul>
+<li><strong>Parameters</strong>:<ul>
+<li><code>variable</code> (string, optional) - Variable name.</li>
+<li><code>field</code> (string, optional) - Field name (3 args).</li>
+</ul>
+</li>
+<li><strong>Returns</strong>: <code>HTMLElement</code>.</li>
+<li><strong>Notes</strong>: Clears <code>element.name</code> if <code>field === &#39;name&#39;</code> for non-varstore elements.</li>
+<li><strong>Examples</strong>:<pre><code class="language-javascript">me(&#39;input&#39;).delVar(&#39;email&#39;); // Deletes entire variable
+me(&#39;input&#39;).delVar(&#39;email&#39;, &#39;name&#39;); // Deletes field, clears element.name
+</code></pre>
+</li>
+</ul>
+<h3 id="dumppanename"><code>dump(paneName)</code></h3>
+<p>Dumps the varstore as a JSON string, grouped by inlay and varname.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>paneName</code> (string, optional) - Pane name.</li>
+<li><strong>Returns</strong>: String (JSON).</li>
+<li><strong>Notes</strong>: Uses <code>element</code> if <code>.varstore</code>, else <code>_pane</code> or <code>.varstore</code>.</li>
+<li><strong>Example</strong>:<pre><code class="language-javascript">const json = me(&#39;.varstore&#39;).dump();
+console.log(json);
+// {
+//   &quot;pane&quot;: {
+//     &quot;_CV_tabbar&quot;: { &quot;class&quot;: &quot;tabbar&quot;, &quot;contents&quot;: [&quot;_CV_tab_login&quot;, &quot;_CV_tab_newuser&quot;], ... }
+//   },
+//   &quot;newuser&quot;: {
+//     &quot;email&quot;: { &quot;value&quot;: &quot;user@example.com&quot;, &quot;id&quot;: &quot;emailField&quot;, ... }
+//   }
+// }
+</code></pre>
+</li>
+</ul>
+<h2 id="example-usage">Example Usage</h2>
+<h3 id="chaining">Chaining</h3>
+<pre><code class="language-javascript">me(&#39;.varstore&#39;)
+  .pane(&#39;login&#39;)
+  .inlay(&#39;newuser&#39;)
+  .setVar(&#39;email&#39;, &#39;value&#39;, &#39;new@example.com&#39;)
+  .getVar(&#39;email&#39;); // { value: &quot;new@example.com&quot;, ... }
+</code></pre>
+<h3 id="non-varstore-element">Non-Varstore Element</h3>
+<pre><code class="language-javascript">const tabbar = me(&#39;.tabbar&#39;).getVar(); // id=&quot;loginVarStore-pane-_CV_tabbar&quot;
+console.log(tabbar.class); // &quot;tabbar&quot;
+const el = me(&#39;.tabbar&#39;).element();
+console.log(el.id); // &quot;loginVarStore-pane-_CV_tabbar&quot;
+</code></pre>
+<h3 id="field-operations">Field Operations</h3>
+<pre><code class="language-javascript">me(&#39;input&#39;).setVar(&#39;email&#39;, &#39;name&#39;, &#39;newname&#39;);
+console.log(me(&#39;input&#39;).getVar(&#39;email&#39;).name); // &quot;newname&quot;
+console.log(me(&#39;input&#39;).name); // &quot;newname&quot;
+me(&#39;input&#39;).delVar(&#39;email&#39;, &#39;name&#39;);
+console.log(me(&#39;input&#39;).name); // &quot;&quot;
+</code></pre>
+<h3 id="dumping">Dumping</h3>
+<pre><code class="language-javascript">me(&#39;.varstore&#39;).pane(&#39;login&#39;);
+const json = me(&#39;input&#39;).dump(); // Dumps loginVarStore
+me(&#39;.varstore&#39;).dump(&#39;otherPane&#39;); // Dumps otherPaneVarStore
+</code></pre>
+<h2 id="notes">Notes</h2>
+<ul>
+<li><strong>ID Format</strong>: Non-varstore elements use <code>id=&quot;{pane}VarStore-{inlay}-{varname}&quot;</code> (e.g., <code>loginVarStore-pane-_CV_tabbar</code>).</li>
+<li><strong>Mangled JSON</strong>: Values are stored as <code>{key:value,...}</code>, with arrays like <code>[item1,item2]</code> and commas escaped as <code>%2C</code>. Handled by <code>parseMangledJson</code> and <code>serializeToMangledJson</code>.</li>
+<li><strong>Surreal Dependency</strong>: Requires Surreal’s <code>me()</code> selector (<a href="https://github.com/gnat/surreal">Surreal GitHub</a>).</li>
+<li><strong>Server Sync</strong>: <code>dump()</code> mirrors ClearView’s <code>dumpEverything()</code> for client-server comparison.</li>
+</ul>
+<h2 id="comparisons">Comparisons</h2>
+<ul>
+<li><strong>Surreal</strong>: Like Surreal’s plugin system, it extends <code>me()</code> with a fluent API, but focuses on structured data storage.</li>
+<li><strong>jQuery Plugins</strong>: Similar to jQuery’s DOM utilities, but uses hidden inputs for persistence and JSON for flexibility.</li>
+<li><strong>LocalStorage APIs</strong>: Unlike LocalStorage, it ties data to DOM elements, enabling seamless UI integration.</li>
+</ul>

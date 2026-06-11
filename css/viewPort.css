@@ -1,0 +1,28 @@
+/* --viewportPos goes from 0-100 based on its location in the viewport */
+@property --viewportPos {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+/* --curvePos is a curve from 0-100-0, with a wide center */
+@property --viewportCurve {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+/* Sets the variable based on the animation */
+@keyframes viewportPos {
+  0% { --scrollPos: 0%; }
+  100% { --scrollPos: 100%; }
+}
+
+/* animation-timeline ties animation to the viewport */
+.viewportPos, .viewportCurve {
+  animation: viewportPos auto linear both;
+  animation-timeline: view(block);
+}
+.viewportCurve {
+  --viewportCurve: calc(4 * var(--viewportPos) * (1 - var(--viewportPos) / 100));
+}
