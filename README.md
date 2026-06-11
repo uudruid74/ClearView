@@ -57,7 +57,6 @@ class login extends Form
     {
         ClearView::Session()->logout();
         $this->triggerevent(’userchange’);
-        echo "Login";           // Overwrites button text
     }
     // Processwire does all the login magic
     public function login()
@@ -70,7 +69,7 @@ class login extends Form
                 ’login’       => ’Success!’
             ]);
             $this->triggerevent(’userchange’);
-            $this->close();            // close the form
+                 ->close();            // close the form
         } else {
             $this->setVars([           // Login failed
                 ’formtitle’   => "Login Failed!",
