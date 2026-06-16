@@ -1,0 +1,4 @@
+{% import 'components/macros/anchor.macro.twig' as anchor %}
+{%- set base = link(on)|split('#')|first -%}
+{%- set fragment = anchor.for_element(on, at) -%}
+<a href="{{ fragment ? base ~ '#' ~ fragment : base }}" class="headerlink"><i class="fas fa-link"></i></a>

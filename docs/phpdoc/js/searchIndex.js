@@ -6,11 +6,6 @@ Search.appendIndex(
             "summary": "Singleton\u0020controller\u0020for\u0020the\u0020ClearView\u0020framework.",
             "url": "classes/ClearView-ClearView.html"
         },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A__clone\u0028\u0029",
-            "name": "__clone",
-            "summary": "Prevents\u0020cloning\u0020of\u0020the\u0020singleton\u0020instance.",
-            "url": "classes/ClearView-ClearView.html#method___clone"
-        },                {
             "fqsen": "\\ClearView\\ClearView\u003A\u003A__wakeup\u0028\u0029",
             "name": "__wakeup",
             "summary": "Prevents\u0020unserialization\u0020of\u0020the\u0020singleton\u0020instance.",
@@ -25,11 +20,6 @@ Search.appendIndex(
             "name": "init",
             "summary": "",
             "url": "classes/ClearView-ClearView.html#method_init"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AbuildModuleStack\u0028\u0029",
-            "name": "buildModuleStack",
-            "summary": "Build\u0020a\u0020module\u0020search\u0020stack\u003A\u0020Config\u003A\u003AMODULES_LIST\u0020base\u0020\u002B\u0020ProcessWire\u0020page\u0020hierarchy\u0020modules.",
-            "url": "classes/ClearView-ClearView.html#method_buildModuleStack"
         },                {
             "fqsen": "\\ClearView\\ClearView\u003A\u003AloadInlay\u0028\u0029",
             "name": "loadInlay",
@@ -60,11 +50,6 @@ Search.appendIndex(
             "name": "method",
             "summary": "Gets\u0020the\u0020original\u0020Method\u0020name\u0020of\u0020the\u0020request",
             "url": "classes/ClearView-ClearView.html#method_method"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Protected\u0020constructor\u0020for\u0020the\u0020singleton.",
-            "url": "classes/ClearView-ClearView.html#method___construct"
         },                {
             "fqsen": "\\ClearView\\ClearView\u003A\u003Ajavascript\u0028\u0029",
             "name": "javascript",
@@ -160,56 +145,6 @@ Search.appendIndex(
             "name": "__callStatic",
             "summary": "This\u0020__callStatic\u0020wrapper\u0020returns\u0020Crystals\u0020statically\u0020for\u0020ClearView\u003A\u003ACrystalname\u0028\u0029",
             "url": "classes/ClearView-ClearView.html#method___callStatic"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024scripts",
-            "name": "scripts",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_scripts"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024async",
-            "name": "async",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_async"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024oobBuffer",
-            "name": "oobBuffer",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_oobBuffer"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024debugBuffer",
-            "name": "debugBuffer",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_debugBuffer"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024panename",
-            "name": "panename",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_panename"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024inlayname",
-            "name": "inlayname",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_inlayname"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024command",
-            "name": "command",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_command"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024creator",
-            "name": "creator",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_creator"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024instance",
-            "name": "instance",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_instance"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A\u0024moduleStackCache",
-            "name": "moduleStackCache",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#property_moduleStackCache"
         },                {
             "fqsen": "\\ClearView\\Crystal",
             "name": "Crystal",
@@ -451,11 +386,6 @@ Search.appendIndex(
             "summary": "Gets\u0020a\u0020variable\u0020or\u0020field\u0020from\u0020the\u0020input\u0020object.",
             "url": "classes/ClearView-Input.html#method_getVar"
         },                {
-            "fqsen": "\\ClearView\\Input\u003A\u003AparseUrlSegments\u0028\u0029",
-            "name": "parseUrlSegments",
-            "summary": "",
-            "url": "classes/ClearView-Input.html#method_parseUrlSegments"
-        },                {
             "fqsen": "\\ClearView\\PaneCrystal",
             "name": "PaneCrystal",
             "summary": "Crystal\u0020for\u0020the\u0020pane\u0020page\u0020in\u0020ProcessWire.",
@@ -575,11 +505,6 @@ Search.appendIndex(
             "name": "__call",
             "summary": "Handles\u0020calls\u0020to\u0020undefined\u0020methods,\u0020allowing\u0020short\u0020names\u0020for\u0020sanitizers.",
             "url": "classes/ClearView-Sanitizer.html#method___call"
-        },                {
-            "fqsen": "\\ClearView\\Sanitizer\u003A\u003AgetSanitizerList\u0028\u0029",
-            "name": "getSanitizerList",
-            "summary": "If\u0020\u0024sanitizers\u0020is\u0020a\u0020string,\u0020splits\u0020it\u0020on\u0020\u0027\\\u0027\u0020to\u0020create\u0020an\u0020array\u0020of\u0020sanitizer\u0020names.",
-            "url": "classes/ClearView-Sanitizer.html#method_getSanitizerList"
         },                {
             "fqsen": "\\ClearView\\Session",
             "name": "Session",
@@ -756,10 +681,10 @@ Search.appendIndex(
             "summary": "Constructor\u0020that\u0020processes\u0020templates\u0020and\u0020passes\u0020the\u0020message\u0020to\u0020error\u0028\u0029.",
             "url": "classes/ClearView-Exception.html#method___construct"
         },                {
-            "fqsen": "\\ClearView\\Exception\u003A\u003A\u0024tracemode",
+            "fqsen": "\\ClearView\\Exception\u003A\u003Atracemode\u0028\u0029",
             "name": "tracemode",
-            "summary": "",
-            "url": "classes/ClearView-Exception.html#property_tracemode"
+            "summary": "Gets\/Sets\u0020the\u0020tracemode\u0020flags.",
+            "url": "classes/ClearView-Exception.html#method_tracemode"
         },                {
             "fqsen": "\\ClearView\\Exception\u003A\u003Adebug\u0028\u0029",
             "name": "debug",
@@ -796,11 +721,6 @@ Search.appendIndex(
             "summary": "Output\u0020a\u0020backtrace\u0020at\u0020any\u0020time\u0020as\u0020a\u0020string",
             "url": "classes/ClearView-Exception.html#method_backtrace"
         },                {
-            "fqsen": "\\ClearView\\Exception\u003A\u003AgetCallerInfo\u0028\u0029",
-            "name": "getCallerInfo",
-            "summary": "Gets\u0020caller\u0020information\u0020from\u0020debug_backtrace.",
-            "url": "classes/ClearView-Exception.html#method_getCallerInfo"
-        },                {
             "fqsen": "\\ClearView\\Facet",
             "name": "Facet",
             "summary": "Manages\u0020HTML\u0020rendering\u0020and\u0020template\u0020processing\u0020for\u0020Shards\u0020in\u0020ClearView.",
@@ -830,11 +750,6 @@ Search.appendIndex(
             "name": "_",
             "summary": "Processes\u0020a\u0020template\u0020string\u0020or\u0020object,\u0020condensing\u0020whitespace\u0020and\u0020handling\u0020nested\u0020expressions.",
             "url": "classes/ClearView-Facet.html#method__"
-        },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003AcheckQualifiers\u0028\u0029",
-            "name": "checkQualifiers",
-            "summary": "Checks\u0020if\u0020rendering\u0020conditions\u0020are\u0020met.",
-            "url": "classes/ClearView-Facet.html#method_checkQualifiers"
         },                {
             "fqsen": "\\ClearView\\Facet\u003A\u003AgetField\u0028\u0029",
             "name": "getField",
@@ -886,20 +801,15 @@ Search.appendIndex(
             "summary": "Registers\u0020a\u0020method\u0020or\u0020HTML\u0020to\u0020be\u0020processed\u0020when\u0020the\u0020stack\u0020is\u0020popped\u0020to\u0020this\u0020position.",
             "url": "classes/ClearView-Facet.html#method_onClose"
         },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003A\u0024afterClose",
+            "fqsen": "\\ClearView\\Facet\u003A\u003AafterClose\u0028\u0029",
             "name": "afterClose",
-            "summary": "",
-            "url": "classes/ClearView-Facet.html#property_afterClose"
+            "summary": "Registers\u0020a\u0020method\u0020or\u0020HTML\u0020to\u0020be\u0020processed\u0020after\u0020the\u0020next\u0020close\u0028\u0029.",
+            "url": "classes/ClearView-Facet.html#method_afterClose"
         },                {
             "fqsen": "\\ClearView\\Facet\u003A\u003Ause\u0028\u0029",
             "name": "use",
             "summary": "Static\u0020version\u0020of\u0020using\u0028\u0029.",
             "url": "classes/ClearView-Facet.html#method_use"
-        },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003Apopto\u0028\u0029",
-            "name": "popto",
-            "summary": "Pops\u0020the\u0020tag\u0020stack\u0020back\u0020to\u0020a\u0020specific\u0020position,\u0020processing\u0020closing\u0020tags\u0020or\u0020method\u0020markers.",
-            "url": "classes/ClearView-Facet.html#method_popto"
         },                {
             "fqsen": "\\ClearView\\Facet\u003A\u003AhandleTag\u0028\u0029",
             "name": "handleTag",
@@ -976,36 +886,6 @@ Search.appendIndex(
             "summary": "Forwards\u0020unknown\u0020method\u0020calls\u0020to\u0020the\u0020target\u0020element,\u0020ClearView,\u0020or\u0020Mosaic.",
             "url": "classes/ClearView-Facet.html#method___call"
         },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003A\u0024tagstack",
-            "name": "tagstack",
-            "summary": "",
-            "url": "classes/ClearView-Facet.html#property_tagstack"
-        },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003A\u0024position",
-            "name": "position",
-            "summary": "",
-            "url": "classes/ClearView-Facet.html#property_position"
-        },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003A\u0024oobCount",
-            "name": "oobCount",
-            "summary": "",
-            "url": "classes/ClearView-Facet.html#property_oobCount"
-        },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003A\u0024recordCount",
-            "name": "recordCount",
-            "summary": "",
-            "url": "classes/ClearView-Facet.html#property_recordCount"
-        },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003A\u0024containedCount",
-            "name": "containedCount",
-            "summary": "",
-            "url": "classes/ClearView-Facet.html#property_containedCount"
-        },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003A\u0024data",
-            "name": "data",
-            "summary": "",
-            "url": "classes/ClearView-Facet.html#property_data"
-        },                {
             "fqsen": "\\ClearView\\Inlay",
             "name": "Inlay",
             "summary": "Subclass\u0020of\u0020Pane\u0020used\u0020when\u0020the\u0020URL\u0020includes\u0020an\u0020inlay\u0020segment.",
@@ -1046,11 +926,6 @@ Search.appendIndex(
             "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
             "url": "classes/ClearView-Element-a.html#method_render"
         },                {
-            "fqsen": "\\ClearView\\Element\\a\u003A\u003Alinktype\u0028\u0029",
-            "name": "linktype",
-            "summary": "",
-            "url": "classes/ClearView-Element-a.html#method_linktype"
-        },                {
             "fqsen": "\\ClearView\\Element\\a\u003A\u003A\u0024buzz",
             "name": "buzz",
             "summary": "",
@@ -1080,11 +955,6 @@ Search.appendIndex(
             "name": "render",
             "summary": "Renders\u0020the\u0020attr\u0020glyph.",
             "url": "classes/ClearView-Element-attr.html#method_render"
-        },                {
-            "fqsen": "\\ClearView\\Element\\attr\u003A\u003AbuildSurrealScript\u0028\u0029",
-            "name": "buildSurrealScript",
-            "summary": "Builds\u0020the\u0020Surreal\u0020\u003Cscript\u003E\u0020tag\u0020that\u0020modifies\u0020the\u0020parent\u0020element.",
-            "url": "classes/ClearView-Element-attr.html#method_buildSurrealScript"
         },                {
             "fqsen": "\\ClearView\\Element\\button",
             "name": "button",
@@ -1236,16 +1106,6 @@ Search.appendIndex(
             "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
             "url": "classes/ClearView-Element-fragment.html#method_render"
         },                {
-            "fqsen": "\\ClearView\\Element\\fragment\u003A\u003A\u0024primaryField",
-            "name": "primaryField",
-            "summary": "",
-            "url": "classes/ClearView-Element-fragment.html#property_primaryField"
-        },                {
-            "fqsen": "\\ClearView\\Element\\fragment\u003A\u003A\u0024contentsType",
-            "name": "contentsType",
-            "summary": "",
-            "url": "classes/ClearView-Element-fragment.html#property_contentsType"
-        },                {
             "fqsen": "\\ClearView\\Element\\glyph",
             "name": "glyph",
             "summary": "Default\u0020render\u0020implementation\u0020for\u0020elements\u0020that\u0020don\u0027t\u0020have\u0020their\u0020own\u0020class",
@@ -1366,11 +1226,6 @@ Search.appendIndex(
             "summary": "Opens\u0020\u003Cmain\u003E,\u0020emits\u0020preserved\u0020Mosaic\u0020inputs,\u0020then\u0020loads\nand\u0020renders\u0020the\u0020current\u0020view\u0020or\u0020captured\u0020children.",
             "url": "classes/ClearView-Element-main.html#method_render"
         },                {
-            "fqsen": "\\ClearView\\Element\\main\u003A\u003ApushWatchedFieldOOB\u0028\u0029",
-            "name": "pushWatchedFieldOOB",
-            "summary": "Pushes\u0020OOB\u0020HTML\u0020updates\u0020for\u0020ProcessWire\u0020page\u0020fields\u0020listed\u0020in\u0020page\u002Dfields.",
-            "url": "classes/ClearView-Element-main.html#method_pushWatchedFieldOOB"
-        },                {
             "fqsen": "\\ClearView\\Element\\meta",
             "name": "meta",
             "summary": "Represents\u0020an\u0020HTML\u0020element\u0020with\u0020dynamic\u0020rendering\u0020capabilities\u0020in\u0020ClearView.",
@@ -1415,11 +1270,6 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "Constructs\u0020a\u0020Reference,\u0020forcing\u0020anonymous\u0020inlay\u0020so\u0020it\u0020never\nregisters\u0020in\u0020Mosaic\u0020\u0028which\u0020would\u0020overwrite\u0020the\u0020target\u0020Shard\u0029.",
             "url": "classes/ClearView-Element-reference.html#method___construct"
-        },                {
-            "fqsen": "\\ClearView\\Element\\reference\u003A\u003Aresolve\u0028\u0029",
-            "name": "resolve",
-            "summary": "Resolves\u0020the\u0020target\u0020Shard\u0020from\u0020Mosaic\u0020by\u0020inlay\u0020\u002B\u0020name.",
-            "url": "classes/ClearView-Element-reference.html#method_resolve"
         },                {
             "fqsen": "\\ClearView\\Element\\reference\u003A\u003AgetField\u0028\u0029",
             "name": "getField",
@@ -1476,11 +1326,6 @@ Search.appendIndex(
             "summary": "Renders\u0020the\u0020tabbar\u0020by\u0020initializing\u0020tabs\u0020and\u0020rendering\u0020contents.",
             "url": "classes/ClearView-Element-tabbar.html#method_render"
         },                {
-            "fqsen": "\\ClearView\\Element\\tabbar\u003A\u003AinitializeTabs\u0028\u0029",
-            "name": "initializeTabs",
-            "summary": "Initializes\u0020the\u0020tabbar\u0020contents\u0020by\u0020creating\u0020an\u0020array\u0020of\u0020tab\u0020elements.",
-            "url": "classes/ClearView-Element-tabbar.html#method_initializeTabs"
-        },                {
             "fqsen": "\\ClearView\\Element\\tabbar\u003A\u003A\u0024inlay",
             "name": "inlay",
             "summary": "",
@@ -1500,11 +1345,6 @@ Search.appendIndex(
             "name": "render",
             "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
             "url": "classes/ClearView-Element-textarea.html#method_render"
-        },                {
-            "fqsen": "\\ClearView\\Element\\textarea\u003A\u003A\u0024primaryField",
-            "name": "primaryField",
-            "summary": "",
-            "url": "classes/ClearView-Element-textarea.html#property_primaryField"
         },                {
             "fqsen": "\\ClearView\\Element\\title",
             "name": "title",
@@ -1630,11 +1470,6 @@ Search.appendIndex(
             "name": "init",
             "summary": "Initializes\u0020the\u0020Mosaic\u0020singleton.",
             "url": "classes/ClearView-Mosaic.html#method_init"
-        },                {
-            "fqsen": "\\ClearView\\Mosaic\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Protected\u0020constructor\u0020for\u0020singleton\u0020pattern.",
-            "url": "classes/ClearView-Mosaic.html#method___construct"
         },                {
             "fqsen": "\\ClearView\\Mosaic\u003A\u003AloadMosaic\u0028\u0029",
             "name": "loadMosaic",
@@ -1766,26 +1601,6 @@ Search.appendIndex(
             "summary": "Finds\u0020multiple\u0020Shards\u0020by\u0020field\u0020and\u0020value.",
             "url": "classes/ClearView-Mosaic.html#method_findShards"
         },                {
-            "fqsen": "\\ClearView\\Mosaic\u003A\u003A\u0024mosaic",
-            "name": "mosaic",
-            "summary": "",
-            "url": "classes/ClearView-Mosaic.html#property_mosaic"
-        },                {
-            "fqsen": "\\ClearView\\Mosaic\u003A\u003A\u0024checkList",
-            "name": "checkList",
-            "summary": "",
-            "url": "classes/ClearView-Mosaic.html#property_checkList"
-        },                {
-            "fqsen": "\\ClearView\\Mosaic\u003A\u003A\u0024trackChanges",
-            "name": "trackChanges",
-            "summary": "",
-            "url": "classes/ClearView-Mosaic.html#property_trackChanges"
-        },                {
-            "fqsen": "\\ClearView\\Mosaic\u003A\u003A\u0024instance",
-            "name": "instance",
-            "summary": "",
-            "url": "classes/ClearView-Mosaic.html#property_instance"
-        },                {
             "fqsen": "\\ClearView\\Page",
             "name": "Page",
             "summary": "Class\u0020for\u0020managing\u0020page\u0020data\u0020in\u0020ProcessWire.",
@@ -1840,11 +1655,6 @@ Search.appendIndex(
             "name": "hasChanged",
             "summary": "Checks\u0020if\u0020the\u0020crystal\u0020has\u0020changed\u0020and\u0020saves\u0020if\u0020necessary.",
             "url": "classes/ClearView-Page.html#method_hasChanged"
-        },                {
-            "fqsen": "\\ClearView\\Page\u003A\u003AsearchChildren\u0028\u0029",
-            "name": "searchChildren",
-            "summary": "Searches\u0020children\u0020for\u0020matching\u0020field\u0020values.",
-            "url": "classes/ClearView-Page.html#method_searchChildren"
         },                {
             "fqsen": "\\ClearView\\Page\u003A\u003AgetChildren\u0028\u0029",
             "name": "getChildren",
@@ -1961,40 +1771,10 @@ Search.appendIndex(
             "summary": "Parses\u0020a\u0020template\u0020expression\u0020string\u0020into\u0020its\u0020component\u0020parts.",
             "url": "classes/ClearView-QueryParser.html#method_parse"
         },                {
-            "fqsen": "\\ClearView\\QueryParser\u003A\u003AresolveMethodCall\u0028\u0029",
-            "name": "resolveMethodCall",
-            "summary": "Resolves\u0020a\u0020method\u0020call\u0020expression.",
-            "url": "classes/ClearView-QueryParser.html#method_resolveMethodCall"
-        },                {
-            "fqsen": "\\ClearView\\QueryParser\u003A\u003AresolveCSSDefinition\u0028\u0029",
-            "name": "resolveCSSDefinition",
-            "summary": "Resolves\u0020a\u0020CSS\u0020definition\u0020expression.",
-            "url": "classes/ClearView-QueryParser.html#method_resolveCSSDefinition"
-        },                {
-            "fqsen": "\\ClearView\\QueryParser\u003A\u003AresolveHTMLAttribute\u0028\u0029",
-            "name": "resolveHTMLAttribute",
-            "summary": "Resolves\u0020an\u0020HTML\u0020attribute\u0020expression.",
-            "url": "classes/ClearView-QueryParser.html#method_resolveHTMLAttribute"
-        },                {
-            "fqsen": "\\ClearView\\QueryParser\u003A\u003AresolveVariable\u0028\u0029",
-            "name": "resolveVariable",
-            "summary": "Resolves\u0020a\u0020variable\u0020expression.",
-            "url": "classes/ClearView-QueryParser.html#method_resolveVariable"
-        },                {
-            "fqsen": "\\ClearView\\QueryParser\u003A\u003AresolveInlayQuery\u0028\u0029",
-            "name": "resolveInlayQuery",
-            "summary": "Resolves\u0020an\u0020inlay\u0020query\u0020expression.",
-            "url": "classes/ClearView-QueryParser.html#method_resolveInlayQuery"
-        },                {
             "fqsen": "\\ClearView\\QueryParser\u003A\u003AprocessTemplate\u0028\u0029",
             "name": "processTemplate",
             "summary": "",
             "url": "classes/ClearView-QueryParser.html#method_processTemplate"
-        },                {
-            "fqsen": "\\ClearView\\QueryParser\u003A\u003AgetVarValue\u0028\u0029",
-            "name": "getVarValue",
-            "summary": "Gets\u0020a\u0020variable\u0027s\u0020value\u0020from\u0020the\u0020most\u0020specific\u0020scope\u0020outwards.",
-            "url": "classes/ClearView-QueryParser.html#method_getVarValue"
         },                {
             "fqsen": "\\ClearView\\QueryParser\u003A\u003Acompare\u0028\u0029",
             "name": "compare",
@@ -2010,11 +1790,6 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "Constructs\u0020a\u0020Shard\u0020from\u0020input\u0020data.",
             "url": "classes/ClearView-Shard.html#method___construct"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AtoArray\u0028\u0029",
-            "name": "toArray",
-            "summary": "Converts\u0020a\u0020Shard\u0020or\u0020scalar\u0020value\u0020to\u0020an\u0020array\u0020for\u0020Mosaic\u0020merging.",
-            "url": "classes/ClearView-Shard.html#method_toArray"
         },                {
             "fqsen": "\\ClearView\\Shard\u003A\u003Acreateid\u0028\u0029",
             "name": "createid",
@@ -2056,16 +1831,6 @@ Search.appendIndex(
             "summary": "Canonicalizes\u0020children\u003A\u0020stores\u0020named\u0020and\u0020id\u003D\u0022\u0023\u0022\u0020children\u0020in\u0020Mosaic\nand\u0020replaces\u0020their\u0020tree\u0020slots\u0020with\u0020References.\u0020Unnamed\u0020children\n\u0028without\u0020id\u003D\u0022\u0023\u0022\u0029\u0020are\u0020left\u0020as\u002Dis\u0020\u0028never\u0020stored\u0020in\u0020Mosaic\u0029.",
             "url": "classes/ClearView-Shard.html#method_canonicalizeChildren"
         },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AcanonicalizeInline\u0028\u0029",
-            "name": "canonicalizeInline",
-            "summary": "Recursively\u0020canonicalizes\u0020an\u0020inline\u0020children\u0020array\u0020without\u0020creating\nShards\u0020that\u0020would\u0020be\u0020registered\u0020in\u0020Mosaic.\u0020Named\u0020and\u0020id\u003D\u0022\u0023\u0022\u0020children\nfound\u0020at\u0020any\u0020depth\u0020are\u0020stored\u0020in\u0020Mosaic\u0020and\u0020replaced\u0020with\u0020References.",
-            "url": "classes/ClearView-Shard.html#method_canonicalizeInline"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AsearchChildren\u0028\u0029",
-            "name": "searchChildren",
-            "summary": "Searchesildren\u0020for\u0020matching\u0020field\u0020values.",
-            "url": "classes/ClearView-Shard.html#method_searchChildren"
-        },                {
             "fqsen": "\\ClearView\\Shard\u003A\u003AgetVar\u0028\u0029",
             "name": "getVar",
             "summary": "Gets\u0020a\u0020Mosaic\u0020variable.",
@@ -2105,16 +1870,6 @@ Search.appendIndex(
             "name": "setField",
             "summary": "Sets\u0020a\u0020field\u0020value.",
             "url": "classes/ClearView-Shard.html#method_setField"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AsetRawField\u0028\u0029",
-            "name": "setRawField",
-            "summary": "Sets\u0020a\u0020raw\u0020field\u0020value\u0020without\u0020processing.",
-            "url": "classes/ClearView-Shard.html#method_setRawField"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AsetRawFields\u0028\u0029",
-            "name": "setRawFields",
-            "summary": "Sets\u0020multiple\u0020raw\u0020fields.",
-            "url": "classes/ClearView-Shard.html#method_setRawFields"
         },                {
             "fqsen": "\\ClearView\\Shard\u003A\u003AsetPrimaryField\u0028\u0029",
             "name": "setPrimaryField",
@@ -2231,11 +1986,6 @@ Search.appendIndex(
             "summary": "Initializes\u0020a\u0020field\u0020if\u0020\u0020\u0020\u0020\u0020\u002A",
             "url": "classes/ClearView-Shard.html#method_initField"
         },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AinitRawField\u0028\u0029",
-            "name": "initRawField",
-            "summary": "Initializes\u0020a\u0020raw\u0020field\u0020if\u0020unset.",
-            "url": "classes/ClearView-Shard.html#method_initRawField"
-        },                {
             "fqsen": "\\ClearView\\Shard\u003A\u003AinitFields\u0028\u0029",
             "name": "initFields",
             "summary": "Initializes\u0020multiple\u0020fields\u0020if\u0020unset.",
@@ -2301,11 +2051,6 @@ Search.appendIndex(
             "summary": "Searches\u0020the\u0020fields\u0020of\u0020the\u0020Shard\u0020based\u0020on\u0020a\u0020query.",
             "url": "classes/ClearView-Shard.html#method_getFields"
         },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AwildcardToRegex\u0028\u0029",
-            "name": "wildcardToRegex",
-            "summary": "Converts\u0020a\u0020wildcard\u0020pattern\u0020to\u0020a\u0020regex\u0020pattern.",
-            "url": "classes/ClearView-Shard.html#method_wildcardToRegex"
-        },                {
             "fqsen": "\\ClearView\\Shard\u003A\u003AgetChildren\u0028\u0029",
             "name": "getChildren",
             "summary": "Searches\u0020or\u0020indexes\u0020the\u0020\u0027__children\u0027\u0020field\u0020of\u0020the\u0020Shard.",
@@ -2361,35 +2106,10 @@ Search.appendIndex(
             "summary": "Input\u0020type\u0020for\u0020view\u002Dbased\u0020loading.",
             "url": "classes/ClearView-Shard.html#constant_VIEW"
         },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003A\u0024data",
-            "name": "data",
-            "summary": "",
-            "url": "classes/ClearView-Shard.html#property_data"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003A\u0024primaryField",
-            "name": "primaryField",
-            "summary": "",
-            "url": "classes/ClearView-Shard.html#property_primaryField"
-        },                {
             "fqsen": "\\ClearView\\Shard\u003A\u003A\u0024address",
             "name": "address",
             "summary": "",
             "url": "classes/ClearView-Shard.html#property_address"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003A\u0024iteratorPosition",
-            "name": "iteratorPosition",
-            "summary": "",
-            "url": "classes/ClearView-Shard.html#property_iteratorPosition"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003A\u0024childType",
-            "name": "childType",
-            "summary": "",
-            "url": "classes/ClearView-Shard.html#property_childType"
-        },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003A\u0024canonicalId",
-            "name": "canonicalId",
-            "summary": "",
-            "url": "classes/ClearView-Shard.html#property_canonicalId"
         },                {
             "fqsen": "\\ClearView\\Shared",
             "name": "Shared",
@@ -2463,12 +2183,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder",
             "name": "ViewBuilder",
-            "summary": "Minimal\u0020ViewBuilder\u0020\u2014\u0020assembles\u0020a\u0020view\u0020\/\u0020element\u0020tree\u0020at\u0020runtime\nfor\u0020headless\u0020testing.",
+            "summary": "Builds\u0020a\u0020ClearView\u0020element\u0020tree\u0020at\u0020runtime\u0020for\u0020unit\u0020testing.",
             "url": "classes/ClearView-Test-Fixture-ViewBuilder.html"
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003Anew\u0028\u0029",
             "name": "new",
-            "summary": "Create\u0020a\u0020new\u0020builder,\u0020resetting\u0020ClearView\u0020\/\u0020Mosaic\u0020\/\u0020Facet\u0020state.",
+            "summary": "Create\u0020a\u0020fresh\u0020builder,\u0020resetting\u0020all\u0020singleton\u0020state.",
             "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#method_new"
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003Areset\u0028\u0029",
@@ -2483,7 +2203,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003AwithElement\u0028\u0029",
             "name": "withElement",
-            "summary": "Add\u0020an\u0020Element\u0020\u0028glyph\u0029\u0020by\u0020id.",
+            "summary": "Add\u0020an\u0020Element\u0020\u0028glyph\u0029\u0020by\u0020ID.",
             "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#method_withElement"
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003AwithChild\u0028\u0029",
@@ -2498,33 +2218,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003AgetElement\u0028\u0029",
             "name": "getElement",
-            "summary": "Retrieve\u0020a\u0020previously\u0020added\u0020element\u0020by\u0020id.",
+            "summary": "Get\u0020a\u0020registered\u0020element\u0020by\u0020ID\u0020from\u0020Mosaic.",
             "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#method_getElement"
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003Arender\u0028\u0029",
             "name": "render",
-            "summary": "Render\u0020a\u0020specific\u0020named\u0020element,\u0020capturing\u0020its\u0020output.",
+            "summary": "Render\u0020the\u0020assembled\u0020tree\u0020or\u0020a\u0020single\u0020named\u0020shard\u0020to\u0020HTML.",
             "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#method_render"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003A\u0024panename",
-            "name": "panename",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#property_panename"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003A\u0024inlayname",
-            "name": "inlayname",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#property_inlayname"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003A\u0024shardIds",
-            "name": "shardIds",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#property_shardIds"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003A\u0024registered",
-            "name": "registered",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#property_registered"
         },                {
             "fqsen": "\\ClearView\\Test\\InlayRegistry",
             "name": "InlayRegistry",
@@ -2551,11 +2251,6 @@ Search.appendIndex(
             "summary": "Reset\u0020all\u0020registered\u0020stubs\u0020\u0028called\u0020between\u0020tests\u0029.",
             "url": "classes/ClearView-Test-InlayRegistry.html#method_reset"
         },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003A\u0024stubs",
-            "name": "stubs",
-            "summary": "",
-            "url": "classes/ClearView-Test-InlayRegistry.html#property_stubs"
-        },                {
             "fqsen": "\\ClearView\\Test\\StubPane",
             "name": "StubPane",
             "summary": "Base\u0020class\u0020for\u0020dynamically\u002Dgenerated\u0020stub\u0020panes.",
@@ -2566,670 +2261,20 @@ Search.appendIndex(
             "summary": "Initializes\u0020the\u0020pane.",
             "url": "classes/ClearView-Test-StubPane.html#method___construct"
         },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003AgetStubData\u0028\u0029",
-            "name": "getStubData",
-            "summary": "Subclasses\u0020override\u0020this\u0020to\u0020return\u0020the\u0020stub\u0020payload.",
-            "url": "classes/ClearView-Test-StubPane.html#method_getStubData"
-        },                {
             "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003Arender\u0028\u0029",
             "name": "render",
             "summary": "Render\u0020the\u0020stub\u0020data\u0020as\u0020an\u0020HTML\u0020fragment.",
             "url": "classes/ClearView-Test-StubPane.html#method_render"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003ArenderArray\u0028\u0029",
-            "name": "renderArray",
-            "summary": "Recursively\u0020render\u0020an\u0020array\u0020as\u0020nested\u0020\u003Cdl\u003E\/\u003Cul\u003E\u0020elements.",
-            "url": "classes/ClearView-Test-StubPane.html#method_renderArray"
         },                {
             "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A\u0024callables",
             "name": "callables",
             "summary": "",
             "url": "classes/ClearView-Test-StubPane.html#property_callables"
         },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A\u0024panename",
-            "name": "panename",
-            "summary": "",
-            "url": "classes/ClearView-Test-StubPane.html#property_panename"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A\u0024inlayname",
-            "name": "inlayname",
-            "summary": "",
-            "url": "classes/ClearView-Test-StubPane.html#property_inlayname"
-        },                {
             "fqsen": "\\ClearView\\Test\\TestFixtureException",
             "name": "TestFixtureException",
-            "summary": "Exception\u0020thrown\u0020when\u0020a\u0020test\u0020fixture\u0020encounters\u0020invalid\u0020or\ninconsistent\u0020state\u003A\u0020duplicate\u0020shard\u0020ids,\u0020missing\u0020named\u0020shards,\ninvalid\u0020stub\u0020data,\u0020etc.",
+            "summary": "Exception\u0020thrown\u0020when\u0020a\u0020test\u0020fixture\u0020encounters\u0020invalid\u0020state.",
             "url": "classes/ClearView-Test-TestFixtureException.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#method___construct"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003AinitClearView\u0028\u0029",
-            "name": "initClearView",
-            "summary": "Initialise\u0020the\u0020ClearView\u0020singleton\u0020just\u0020enough\u0020that\nElement\u003A\u003A__construct\u0020doesn\u0027t\u0020crash\u0020on\u0020CurrentPane\u0028\u0029.",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#method_initClearView"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003AtearDownMosaic\u0028\u0029",
-            "name": "tearDownMosaic",
-            "summary": "Tear\u0020down\u0020the\u0020Mosaic\u0020singleton\u0020so\u0020\u003A\u003Ainit\u0028\u0029\u0020can\u0020be\u0020called\u0020again.",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#method_tearDownMosaic"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003A\u0024elements",
-            "name": "elements",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#property_elements"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness",
-            "name": "ServerHarness",
-            "summary": "Curl\u002Dbased\u0020HTTP\u0020smoke\u002Dtest\u0020helper\u0020for\u0020ClearView.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003Aat\u0028\u0029",
-            "name": "at",
-            "summary": "Create\u0020a\u0020harness\u0020pointed\u0020at\u0020a\u0020base\u0020URL.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_at"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AdetectCurl\u0028\u0029",
-            "name": "detectCurl",
-            "summary": "Detect\u0020available\u0020curl\u0020transport.\u0020\u0020Throws\u0020on\u0020complete\u0020absence.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_detectCurl"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AwithHeader\u0028\u0029",
-            "name": "withHeader",
-            "summary": "Add\u0020a\u0020default\u0020header\u0020sent\u0020with\u0020every\u0020request.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_withHeader"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AasHtmx\u0028\u0029",
-            "name": "asHtmx",
-            "summary": "Mark\u0020every\u0020request\u0020as\u0020an\u0020HTMX\u0020request\u0020\u0028sets\u0020HX\u002DRequest\u003A\u0020true\u0029.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_asHtmx"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AwithTimeout\u0028\u0029",
-            "name": "withTimeout",
-            "summary": "Override\u0020the\u0020default\u002030\u002Dsecond\u0020timeout.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_withTimeout"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_get"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003Apost\u0028\u0029",
-            "name": "post",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_post"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003Aput\u0028\u0029",
-            "name": "put",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_put"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003Adelete\u0028\u0029",
-            "name": "delete",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_delete"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003ApostMosaic\u0028\u0029",
-            "name": "postMosaic",
-            "summary": "POST\u0020with\u0020Mosaic\u002Dencoded\u0020form\u0020keys.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_postMosaic"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003Arequest\u0028\u0029",
-            "name": "request",
-            "summary": "Execute\u0020a\u0020single\u0020HTTP\u0020request.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_request"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AphpCurlRequest\u0028\u0029",
-            "name": "phpCurlRequest",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_phpCurlRequest"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AshellCurlRequest\u0028\u0029",
-            "name": "shellCurlRequest",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_shellCurlRequest"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AbuildHeaderLines\u0028\u0029",
-            "name": "buildHeaderLines",
-            "summary": "Build\u0020the\u0020HTTP\u0020header\u0020lines\u0020array\u0020for\u0020php\u002Dcurl.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_buildHeaderLines"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AparseHttpResponse\u0028\u0029",
-            "name": "parseHttpResponse",
-            "summary": "Parse\u0020a\u0020raw\u0020HTTP\u0020response\u0020\u0028headers\u0020\u002B\u0020body\u0029\u0020into\u0020a\u0020TestResponse.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_parseHttpResponse"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003AparseStatusLine\u0028\u0029",
-            "name": "parseStatusLine",
-            "summary": "Extract\u0020the\u0020status\u0020code\u0020from\u0020an\u0020HTTP\u0020status\u0020line\u0020like\u0020\u0022HTTP\/1.1\u0020200\u0020OK\u0022.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#method_parseStatusLine"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003A\u0024baseUrl",
-            "name": "baseUrl",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#property_baseUrl"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003A\u0024timeout",
-            "name": "timeout",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#property_timeout"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003A\u0024defaultHeaders",
-            "name": "defaultHeaders",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#property_defaultHeaders"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\ServerHarness\u003A\u003A\u0024usePhpCurl",
-            "name": "usePhpCurl",
-            "summary": "True\u0020when\u0020the\u0020PHP\u0020curl\u0020extension\u0020is\u0020loaded.",
-            "url": "classes/ClearView-Test-Harness-ServerHarness.html#property_usePhpCurl"
-        },                {
-            "fqsen": "\\ClearView\\Test\\TestHarnessException",
-            "name": "TestHarnessException",
-            "summary": "Exception\u0020thrown\u0020when\u0020the\u0020test\u0020harness\u0020encounters\u0020a\u0020fatal\u0020error\u003A\nmissing\u0020curl,\u0020unreachable\u0020server,\u0020invalid\u0020configuration,\u0020etc.",
-            "url": "classes/ClearView-Test-TestHarnessException.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\TestResponse",
-            "name": "TestResponse",
-            "summary": "Wraps\u0020the\u0020raw\u0020result\u0020of\u0020a\u0020curl\u0020request\u0020made\u0020by\u0020ServerHarness.",
-            "url": "classes/ClearView-Test-Harness-TestResponse.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\TestResponse\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-TestResponse.html#method___construct"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\TestResponse\u003A\u003A\u0024status",
-            "name": "status",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-TestResponse.html#property_status"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\TestResponse\u003A\u003A\u0024body",
-            "name": "body",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-TestResponse.html#property_body"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\TestResponse\u003A\u003A\u0024headers",
-            "name": "headers",
-            "summary": "",
-            "url": "classes/ClearView-Test-Harness-TestResponse.html#property_headers"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\TestResponse\u003A\u003Aheader\u0028\u0029",
-            "name": "header",
-            "summary": "Single\u0020header\u0020value,\u0020or\u0020null\u0020if\u0020not\u0020present.",
-            "url": "classes/ClearView-Test-Harness-TestResponse.html#method_header"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness\\TestResponse\u003A\u003Ajson\u0028\u0029",
-            "name": "json",
-            "summary": "Decode\u0020the\u0020body\u0020as\u0020JSON.",
-            "url": "classes/ClearView-Test-Harness-TestResponse.html#method_json"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest",
-            "name": "ExampleTest",
-            "summary": "Example\u0020test\u0020verifying\u0020the\u0020testing\u0020infrastructure\u0020end\u002Dto\u002Dend\u003A\nbootstrap\u0020\u2192\u0020autoloader\u0020\u2192\u0020ViewBuilder\u0020\u2192\u0020PaneKeyHelper.",
-            "url": "classes/ClearView-Test-ExampleTest.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest\u003A\u003AtestViewBuilderSetsPaneName\u0028\u0029",
-            "name": "testViewBuilderSetsPaneName",
-            "summary": "ViewBuilder\u003A\u003Anew\u0028\u0029\u0020initialises\u0020Mosaic\u0020and\u0020sets\u0020Pane\u003A\u003Aname.",
-            "url": "classes/ClearView-Test-ExampleTest.html#method_testViewBuilderSetsPaneName"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest\u003A\u003AtestViewBuilderSetsPageUrl\u0028\u0029",
-            "name": "testViewBuilderSetsPageUrl",
-            "summary": "ViewBuilder\u003A\u003Anew\u0028\u0029\u0020sets\u0020Page\u003A\u003Aurl\u0020so\u0020templates\u0020resolve.",
-            "url": "classes/ClearView-Test-ExampleTest.html#method_testViewBuilderSetsPageUrl"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest\u003A\u003AtestViewBuilderCreatesElement\u0028\u0029",
-            "name": "testViewBuilderCreatesElement",
-            "summary": "ViewBuilder\u003A\u003AwithElement\u0028\u0029\u0020creates\u0020a\u0020glyph\u0020Element\u0020that\ncan\u0020be\u0020retrieved\u0020via\u0020getElement\u0028\u0029.",
-            "url": "classes/ClearView-Test-ExampleTest.html#method_testViewBuilderCreatesElement"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest\u003A\u003AtestGetMissingElementThrows\u0028\u0029",
-            "name": "testGetMissingElementThrows",
-            "summary": "Missing\u0020element\u0020throws\u0020TestFixtureException.",
-            "url": "classes/ClearView-Test-ExampleTest.html#method_testGetMissingElementThrows"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest\u003A\u003AtestPaneKeyHelperSeedsMatchingTokens\u0028\u0029",
-            "name": "testPaneKeyHelperSeedsMatchingTokens",
-            "summary": "PaneKeyHelper\u003A\u003Aseed\u0028\u0029\u0020produces\u0020a\u0020matching\u0020token\u0020pair\naccessible\u0020via\u0020Mosaic\u003A\u003AgetVar\u0028\u0029.",
-            "url": "classes/ClearView-Test-ExampleTest.html#method_testPaneKeyHelperSeedsMatchingTokens"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest\u003A\u003AtestFixtureExceptionIsThrowable\u0028\u0029",
-            "name": "testFixtureExceptionIsThrowable",
-            "summary": "TestFixtureException\u0020is\u0020throwable.",
-            "url": "classes/ClearView-Test-ExampleTest.html#method_testFixtureExceptionIsThrowable"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ExampleTest\u003A\u003AtestHarnessExceptionIsThrowable\u0028\u0029",
-            "name": "testHarnessExceptionIsThrowable",
-            "summary": "TestHarnessException\u0020is\u0020throwable\u0020\u0028already\u0020exists\u0029.",
-            "url": "classes/ClearView-Test-ExampleTest.html#method_testHarnessExceptionIsThrowable"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\InlayStubEndToEndTest",
-            "name": "InlayStubEndToEndTest",
-            "summary": "End\u002Dto\u002Dend\u0020test\u003A\u0020register\u0020InlayStub,\u0020build\u0020a\u0020ViewBuilder,\nrender\u0020it,\u0020and\u0020assert\u0020the\u0020stub\u0020data\u0020appears\u0020in\u0020output.",
-            "url": "classes/ClearView-Test-Unit-InlayStubEndToEndTest.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\InlayStubEndToEndTest\u003A\u003AsetUp\u0028\u0029",
-            "name": "setUp",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-InlayStubEndToEndTest.html#method_setUp"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\InlayStubEndToEndTest\u003A\u003AtearDown\u0028\u0029",
-            "name": "tearDown",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-InlayStubEndToEndTest.html#method_tearDown"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\InlayStubEndToEndTest\u003A\u003AstubDataAppearsInRenderedOutput\u0028\u0029",
-            "name": "stubDataAppearsInRenderedOutput",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-InlayStubEndToEndTest.html#method_stubDataAppearsInRenderedOutput"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\InlayStubEndToEndTest\u003A\u003AelementCaptureSeamReturnsHtml\u0028\u0029",
-            "name": "elementCaptureSeamReturnsHtml",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-InlayStubEndToEndTest.html#method_elementCaptureSeamReturnsHtml"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\InlayStubEndToEndTest\u003A\u003AviewBuilderInlayStubIntegrationRendersStubData\u0028\u0029",
-            "name": "viewBuilderInlayStubIntegrationRendersStubData",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-InlayStubEndToEndTest.html#method_viewBuilderInlayStubIntegrationRendersStubData"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\InlayStubEndToEndTest\u003A\u003AviewBuilderResetClearsPreviousState\u0028\u0029",
-            "name": "viewBuilderResetClearsPreviousState",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-InlayStubEndToEndTest.html#method_viewBuilderResetClearsPreviousState"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest",
-            "name": "ViewBuilderTest",
-            "summary": "Acceptance\u0020tests\u0020for\u0020ViewBuilder.",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestButtonEmitsExpectedAttributesAndText\u0028\u0029",
-            "name": "testButtonEmitsExpectedAttributesAndText",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testButtonEmitsExpectedAttributesAndText"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestSpanPreservesExplicitHxAttributes\u0028\u0029",
-            "name": "testSpanPreservesExplicitHxAttributes",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testSpanPreservesExplicitHxAttributes"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestDuplicateIdThrowsException\u0028\u0029",
-            "name": "testDuplicateIdThrowsException",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testDuplicateIdThrowsException"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestRenderMissingShardThrowsException\u0028\u0029",
-            "name": "testRenderMissingShardThrowsException",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testRenderMissingShardThrowsException"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestRenderAllReturnsAllRegisteredElements\u0028\u0029",
-            "name": "testRenderAllReturnsAllRegisteredElements",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testRenderAllReturnsAllRegisteredElements"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestWithShardCreatesPlainShard\u0028\u0029",
-            "name": "testWithShardCreatesPlainShard",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testWithShardCreatesPlainShard"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestWithChildAttachesChildToParent\u0028\u0029",
-            "name": "testWithChildAttachesChildToParent",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testWithChildAttachesChildToParent"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestWithChildMissingParentThrows\u0028\u0029",
-            "name": "testWithChildMissingParentThrows",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testWithChildMissingParentThrows"
-        },                {
-            "fqsen": "\\ClearView\\Test\\ViewBuilderTest\u003A\u003AtestResetPreventsCrossTestPollution\u0028\u0029",
-            "name": "testResetPreventsCrossTestPollution",
-            "summary": "",
-            "url": "classes/ClearView-Test-ViewBuilderTest.html#method_testResetPreventsCrossTestPollution"
-        },                {
-            "fqsen": "\\ClearView\\Test\\PaneKeyHelper",
-            "name": "PaneKeyHelper",
-            "summary": "Helper\u0020that\u0020sets\u0020up\u0020matching\u0020Pane\u003A\u003AKey\u0020\/\u0020Session\u003A\u003APaneKey\u0020tokens\nso\u0020that\u0020Pane\u003A\u003AhandleCommand\u0028\u0029\u0020CSRF\u0020checks\u0020pass\u0020in\u0020tests.",
-            "url": "classes/ClearView-Test-PaneKeyHelper.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\PaneKeyHelper\u003A\u003Aseed\u0028\u0029",
-            "name": "seed",
-            "summary": "Generate\u0020and\u0020inject\u0020matching\u0020Pane\u003A\u003AKey\u0020\/\u0020Session\u003A\u003APaneKey\u0020tokens\nfor\u0020the\u0020given\u0020panename.",
-            "url": "classes/ClearView-Test-PaneKeyHelper.html#method_seed"
-        },                {
-            "fqsen": "\\ClearView\\Test\\PaneKeyHelper\u003A\u003AseedAndKey\u0028\u0029",
-            "name": "seedAndKey",
-            "summary": "Convenience\u003A\u0020seed\u0020a\u0020key\u0020and\u0020return\u0020it\u0020as\u0020a\u0020Mosaic\u002Dform\u0020key\nsuitable\u0020for\u0020passing\u0020as\u0020an\u0020input\u0020parameter.",
-            "url": "classes/ClearView-Test-PaneKeyHelper.html#method_seedAndKey"
-        },                {
-            "fqsen": "\\ProcessWire\\wire\u0028\u0029",
-            "name": "wire",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_wire"
-        },                {
-            "fqsen": "\\ProcessWire\\input\u0028\u0029",
-            "name": "input",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_input"
-        },                {
-            "fqsen": "\\ProcessWire\\session\u0028\u0029",
-            "name": "session",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_session"
-        },                {
-            "fqsen": "\\ProcessWire\\config\u0028\u0029",
-            "name": "config",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_config"
-        },                {
-            "fqsen": "\\ProcessWire\\modules\u0028\u0029",
-            "name": "modules",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_modules"
-        },                {
-            "fqsen": "\\ProcessWire\\pages\u0028\u0029",
-            "name": "pages",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_pages"
-        },                {
-            "fqsen": "\\ProcessWire\\page\u0028\u0029",
-            "name": "page",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_page"
-        },                {
-            "fqsen": "\\ProcessWire\\user\u0028\u0029",
-            "name": "user",
-            "summary": "",
-            "url": "namespaces/processwire.html#function_user"
-        },                {
-            "fqsen": "\\ProcessWire\\WireException",
-            "name": "WireException",
-            "summary": "",
-            "url": "classes/ProcessWire-WireException.html"
-        },                {
-            "fqsen": "\\ProcessWire\\Wire",
-            "name": "Wire",
-            "summary": "",
-            "url": "classes/ProcessWire-Wire.html"
-        },                {
-            "fqsen": "\\ProcessWire\\Wire\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "",
-            "url": "classes/ProcessWire-Wire.html#method_get"
-        },                {
-            "fqsen": "\\ProcessWire\\Wire\u003A\u003Aset\u0028\u0029",
-            "name": "set",
-            "summary": "",
-            "url": "classes/ProcessWire-Wire.html#method_set"
-        },                {
-            "fqsen": "\\ProcessWire\\Wire\u003A\u003A\u0024data",
-            "name": "data",
-            "summary": "",
-            "url": "classes/ProcessWire-Wire.html#property_data"
-        },                {
-            "fqsen": "\\ProcessWire\\WireInputData",
-            "name": "WireInputData",
-            "summary": "",
-            "url": "classes/ProcessWire-WireInputData.html"
-        },                {
-            "fqsen": "\\ProcessWire\\WireInputData\u003A\u003ArequestMethod\u0028\u0029",
-            "name": "requestMethod",
-            "summary": "",
-            "url": "classes/ProcessWire-WireInputData.html#method_requestMethod"
-        },                {
-            "fqsen": "\\ProcessWire\\Sanitizer",
-            "name": "Sanitizer",
-            "summary": "",
-            "url": "classes/ProcessWire-Sanitizer.html"
-        },                {
-            "fqsen": "\\ProcessWire\\SessionCSRF",
-            "name": "SessionCSRF",
-            "summary": "",
-            "url": "classes/ProcessWire-SessionCSRF.html"
-        },                {
-            "fqsen": "\\ProcessWire\\SessionCSRF\u003A\u003AhasToken\u0028\u0029",
-            "name": "hasToken",
-            "summary": "",
-            "url": "classes/ProcessWire-SessionCSRF.html#method_hasToken"
-        },                {
-            "fqsen": "\\ProcessWire\\SessionCSRF\u003A\u003AcreateToken\u0028\u0029",
-            "name": "createToken",
-            "summary": "",
-            "url": "classes/ProcessWire-SessionCSRF.html#method_createToken"
-        },                {
-            "fqsen": "\\ProcessWire\\SessionCSRF\u003A\u003AgetTokenValue\u0028\u0029",
-            "name": "getTokenValue",
-            "summary": "",
-            "url": "classes/ProcessWire-SessionCSRF.html#method_getTokenValue"
-        },                {
-            "fqsen": "\\ProcessWire\\SessionCSRF\u003A\u003A\u0024tokens",
-            "name": "tokens",
-            "summary": "",
-            "url": "classes/ProcessWire-SessionCSRF.html#property_tokens"
-        },                {
-            "fqsen": "\\ProcessWire\\Session",
-            "name": "Session",
-            "summary": "",
-            "url": "classes/ProcessWire-Session.html"
-        },                {
-            "fqsen": "\\ProcessWire\\Session\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/ProcessWire-Session.html#method___construct"
-        },                {
-            "fqsen": "\\ProcessWire\\Session\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "",
-            "url": "classes/ProcessWire-Session.html#method_get"
-        },                {
-            "fqsen": "\\ProcessWire\\Session\u003A\u003A\u0024CSRF",
-            "name": "CSRF",
-            "summary": "",
-            "url": "classes/ProcessWire-Session.html#property_CSRF"
-        },                {
-            "fqsen": "\\ProcessWire\\Page",
-            "name": "Page",
-            "summary": "",
-            "url": "classes/ProcessWire-Page.html"
-        },                {
-            "fqsen": "\\ProcessWire\\Page\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/ProcessWire-Page.html#method___construct"
-        },                {
-            "fqsen": "\\ProcessWire\\Page\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "",
-            "url": "classes/ProcessWire-Page.html#method_get"
-        },                {
-            "fqsen": "\\ProcessWire\\Page\u003A\u003A\u0024id",
-            "name": "id",
-            "summary": "",
-            "url": "classes/ProcessWire-Page.html#property_id"
-        },                {
-            "fqsen": "\\ProcessWire\\Page\u003A\u003A\u0024parent",
-            "name": "parent",
-            "summary": "",
-            "url": "classes/ProcessWire-Page.html#property_parent"
-        },                {
-            "fqsen": "\\ProcessWire\\Page\u003A\u003A\u0024fields",
-            "name": "fields",
-            "summary": "",
-            "url": "classes/ProcessWire-Page.html#property_fields"
-        },                {
-            "fqsen": "\\ProcessWire\\PageArray",
-            "name": "PageArray",
-            "summary": "",
-            "url": "classes/ProcessWire-PageArray.html"
-        },                {
-            "fqsen": "\\ProcessWire\\PageArray\u003A\u003AgetIterator\u0028\u0029",
-            "name": "getIterator",
-            "summary": "",
-            "url": "classes/ProcessWire-PageArray.html#method_getIterator"
-        },                {
-            "fqsen": "\\ProcessWire\\PageArray\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "",
-            "url": "classes/ProcessWire-PageArray.html#method_get"
-        },                {
-            "fqsen": "\\ProcessWire\\PageArray\u003A\u003A\u0024pages",
-            "name": "pages",
-            "summary": "",
-            "url": "classes/ProcessWire-PageArray.html#property_pages"
-        },                {
-            "fqsen": "\\ProcessWire\\Modules",
-            "name": "Modules",
-            "summary": "",
-            "url": "classes/ProcessWire-Modules.html"
-        },                {
-            "fqsen": "\\ProcessWire\\Modules\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "",
-            "url": "classes/ProcessWire-Modules.html#method_get"
-        },                {
-            "fqsen": "\\ProcessWire\\Modules\u003A\u003AisInstalled\u0028\u0029",
-            "name": "isInstalled",
-            "summary": "",
-            "url": "classes/ProcessWire-Modules.html#method_isInstalled"
-        },                {
-            "fqsen": "\\ProcessWire\\Config",
-            "name": "Config",
-            "summary": "",
-            "url": "classes/ProcessWire-Config.html"
-        },                {
-            "fqsen": "\\ProcessWire\\Config\u003A\u003A\u0024debug",
-            "name": "debug",
-            "summary": "",
-            "url": "classes/ProcessWire-Config.html#property_debug"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest",
-            "name": "ServerHarnessSmokeTest",
-            "summary": "Smoke\u0020test\u0020for\u0020the\u0020curl\u002Dbased\u0020ServerHarness.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method___construct"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003ArunAll\u0028\u0029",
-            "name": "runAll",
-            "summary": "Run\u0020all\u0020smoke\u0020tests.\u0020\u0020Call\u0020this\u0020from\u0020a\u0020PHPUnit\u0020testCase\u0020or\u0020a\nstandalone\u0020CLI\u0020entry\u0020point.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_runAll"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003AtestMethods\u0028\u0029",
-            "name": "testMethods",
-            "summary": "Discover\u0020test\u0020methods\u0020\u0028any\u0020method\u0020starting\u0020with\u0020\u0022test\u0022\u0029.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_testMethods"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003AtestFormLoginOpenReturns200AndContainsForm\u0028\u0029",
-            "name": "testFormLoginOpenReturns200AndContainsForm",
-            "summary": "Acceptance\u003A\u0020GET\u0020\/form\/login\/open\/\u0020returns\u0020200\u0020and\u0020contains\u0020\u003Cform.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_testFormLoginOpenReturns200AndContainsForm"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003AtestHtmxHeaderIsSent\u0028\u0029",
-            "name": "testHtmxHeaderIsSent",
-            "summary": "Verifies\u0020that\u0020asHtmx\u0028\u0029\u0020sets\u0020the\u0020HX\u002DRequest\u0020header.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_testHtmxHeaderIsSent"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003AtestPostSendsFormData\u0028\u0029",
-            "name": "testPostSendsFormData",
-            "summary": "Verifies\u0020post\u0028\u0029\u0020sends\u0020form\u002Dencoded\u0020data.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_testPostSendsFormData"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003AtestPostMosaicSendsMosaicKeys\u0028\u0029",
-            "name": "testPostMosaicSendsMosaicKeys",
-            "summary": "Verifies\u0020postMosaic\u0028\u0029\u0020sends\u0020Mosaic\u002Dencoded\u0020keys.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_testPostMosaicSendsMosaicKeys"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003AtestUnreachableServerReturnsStatusZero\u0028\u0029",
-            "name": "testUnreachableServerReturnsStatusZero",
-            "summary": "Verifies\u0020network\u0020errors\u0020are\u0020captured\u0020with\u0020status\u00200.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_testUnreachableServerReturnsStatusZero"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003AtestJsonParsing\u0028\u0029",
-            "name": "testJsonParsing",
-            "summary": "Verifies\u0020json\u0028\u0029\u0020parses\u0020a\u0020JSON\u0020response\u0020body.",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#method_testJsonParsing"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke\\ServerHarnessSmokeTest\u003A\u003A\u0024baseUrl",
-            "name": "baseUrl",
-            "summary": "",
-            "url": "classes/ClearView-Test-Smoke-ServerHarnessSmokeTest.html#property_baseUrl"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\ElementCaptureTest",
-            "name": "ElementCaptureTest",
-            "summary": "Unit\u0020test\u0020for\u0020the\u0020Element\u003A\u003Arender\u0028\u0024capture\u0029\u0020seam.",
-            "url": "classes/ClearView-Test-Unit-ElementCaptureTest.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\ElementCaptureTest\u003A\u003AbuttonRenderCaptureReturnsHtmlString\u0028\u0029",
-            "name": "buttonRenderCaptureReturnsHtmlString",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-ElementCaptureTest.html#method_buttonRenderCaptureReturnsHtmlString"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\ElementCaptureTest\u003A\u003AspanRenderCaptureContainsExplicitAttributes\u0028\u0029",
-            "name": "spanRenderCaptureContainsExplicitAttributes",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-ElementCaptureTest.html#method_spanRenderCaptureContainsExplicitAttributes"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit\\ElementCaptureTest\u003A\u003AinputElementCapturesValue\u0028\u0029",
-            "name": "inputElementCapturesValue",
-            "summary": "",
-            "url": "classes/ClearView-Test-Unit-ElementCaptureTest.html#method_inputElementCapturesValue"
-        },                {
-            "fqsen": "\\InlayStubTest",
-            "name": "InlayStubTest",
-            "summary": "Acceptance\u0020criteria\u0020from\u0020design\u0020doc\u003A\n\u0020\u0020A\u0020PHPUnit\u0020test\u0020can\u0020register\u0020a\u0020stub\u0020for\u0020OrderPane\/OrderList,\n\u0020\u0020create\u0020a\u0020ViewBuilder\u0020for\u0020that\u0020pane\/inlay,\u0020and\u0020assert\u0020the\n\u0020\u0020rendered\u0020output\u0020contains\u0020the\u0020stub\u0020data.",
-            "url": "classes/InlayStubTest.html"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AsetUp\u0028\u0029",
-            "name": "setUp",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_setUp"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AtearDown\u0028\u0029",
-            "name": "tearDown",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_tearDown"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AloadInlayReturnsStubClassWhenRegistered\u0028\u0029",
-            "name": "loadInlayReturnsStubClassWhenRegistered",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_loadInlayReturnsStubClassWhenRegistered"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AloadInlayFallsThroughWhenNoStubRegistered\u0028\u0029",
-            "name": "loadInlayFallsThroughWhenNoStubRegistered",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_loadInlayFallsThroughWhenNoStubRegistered"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AstubPaneRenderEmitsStubData\u0028\u0029",
-            "name": "stubPaneRenderEmitsStubData",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_stubPaneRenderEmitsStubData"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AreturnsCallableStubRendersResult\u0028\u0029",
-            "name": "returnsCallableStubRendersResult",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_returnsCallableStubRendersResult"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AregisterWithoutPayloadThrows\u0028\u0029",
-            "name": "registerWithoutPayloadThrows",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_registerWithoutPayloadThrows"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AhasStubReturnsFalseWhenNotRegistered\u0028\u0029",
-            "name": "hasStubReturnsFalseWhenNotRegistered",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_hasStubReturnsFalseWhenNotRegistered"
-        },                {
-            "fqsen": "\\InlayStubTest\u003A\u003AresetClearsAllStubs\u0028\u0029",
-            "name": "resetClearsAllStubs",
-            "summary": "",
-            "url": "classes/InlayStubTest.html#method_resetClearsAllStubs"
         },                {
             "fqsen": "\\ClearView\\AnsiColors",
             "name": "AnsiColors",
@@ -3240,11 +2285,6 @@ Search.appendIndex(
             "name": "color",
             "summary": "Returns\u0020the\u0020ANSI\u0020color\u0020code\u0020for\u0020a\u0020given\u0020tag.",
             "url": "classes/ClearView-AnsiColors.html#method_color"
-        },                {
-            "fqsen": "\\ClearView\\AnsiColors\u003A\u003A\u0024colors",
-            "name": "colors",
-            "summary": "",
-            "url": "classes/ClearView-AnsiColors.html#property_colors"
         },                {
             "fqsen": "\\CLEARVIEW_TEST_ROOT",
             "name": "CLEARVIEW_TEST_ROOT",
@@ -3276,26 +2316,6 @@ Search.appendIndex(
             "summary": "Converts\u0020an\u0020HTML\u0020string\u0020to\u0020a\u0020JSON\u0020array.",
             "url": "classes/ClearView-jsonmangler.html#method_fromhtml"
         },                {
-            "fqsen": "\\ClearView\\jsonmangler\u003A\u003AprocessNode\u0028\u0029",
-            "name": "processNode",
-            "summary": "Recursively\u0020processes\u0020a\u0020DOM\u0020node\u0020into\u0020a\u0020JSON\u002Dcompatible\u0020array.",
-            "url": "classes/ClearView-jsonmangler.html#method_processNode"
-        },                {
-            "fqsen": "\\ClearView\\jsonmangler\u003A\u003AVOID_ELEMENTS",
-            "name": "VOID_ELEMENTS",
-            "summary": "HTML\u0020void\u0020\u0028self\u002Dclosing\u0029\u0020elements\u0020that\u0020never\u0020load\u0020default\u0020views.",
-            "url": "classes/ClearView-jsonmangler.html#constant_VOID_ELEMENTS"
-        },                {
-            "fqsen": "\\ClearView\\jsonmangler\u003A\u003A\u0024encode_map",
-            "name": "encode_map",
-            "summary": "",
-            "url": "classes/ClearView-jsonmangler.html#property_encode_map"
-        },                {
-            "fqsen": "\\ClearView\\jsonmangler\u003A\u003A\u0024decode_map",
-            "name": "decode_map",
-            "summary": "",
-            "url": "classes/ClearView-jsonmangler.html#property_decode_map"
-        },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",
@@ -3320,25 +2340,5 @@ Search.appendIndex(
             "name": "Test",
             "summary": "",
             "url": "namespaces/clearview-test.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Harness",
-            "name": "Harness",
-            "summary": "",
-            "url": "namespaces/clearview-test-harness.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Unit",
-            "name": "Unit",
-            "summary": "",
-            "url": "namespaces/clearview-test-unit.html"
-        },                {
-            "fqsen": "\\ProcessWire",
-            "name": "ProcessWire",
-            "summary": "",
-            "url": "namespaces/processwire.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Smoke",
-            "name": "Smoke",
-            "summary": "",
-            "url": "namespaces/clearview-test-smoke.html"
         }            ]
 );

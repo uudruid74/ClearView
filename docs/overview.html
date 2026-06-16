@@ -1,6 +1,6 @@
-<p><img alt="ClearView Logo" src="assets/Clearview-Icon-CIR-256.png" /></p>
-<h1>ClearView Architecture Overview</h1>
-<p>Authoritative current-state entry point for the ClearView framework.
+<!DOCTYPE html><html><head><meta charset="utf-8"><title><a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a> System Overview</title><link rel="stylesheet" href="phpdoc/css/normalize.css"><link rel="stylesheet" href="phpdoc/css/template.css"></head><body><p><img alt="ClearView Logo" src="assets/Clearview-Icon-CIR-256.png" /></p>
+<h1><a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a> Architecture Overview</h1>
+<p>Authoritative current-state entry point for the <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a> framework.
 Last updated: 2026-06-16. This document describes what is <strong>implemented and working now</strong>.
 For proposed changes not yet built, see §8 (Architecture Status).</p>
 <blockquote>
@@ -8,8 +8,8 @@ For proposed changes not yet built, see §8 (Architecture Status).</p>
 This file is a stable repo-bundled summary that tracks the wiki.</p>
 </blockquote>
 <hr />
-<h2>1. What Is ClearView?</h2>
-<p>ClearView is a server-side PHP framework for building dynamic web applications
+<h2>1. What Is <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>?</h2>
+<p><a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a> is a server-side PHP framework for building dynamic web applications
 without a build step. It layers on top of ProcessWire CMS and uses HTMX for
 AJAX, Surreal for encapsulated CSS/JS, and PicoCSS for styling. All application
 logic lives on the server — the browser is a dumb display device.</p>
@@ -18,7 +18,7 @@ logic lives on the server — the browser is a dumb display device.</p>
 - <strong>URLs are the message bus.</strong> Every interaction is a GET or POST to a
   <code>/pane/inlay/method/</code> URL. HTMX attributes are generated server-side.
 - <strong>ProcessWire is the backend.</strong> Auth, routing, database, and admin UI are all
-  ProcessWire. ClearView wraps ProcessWire APIs as "Crystals".
+  ProcessWire. <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a> wraps ProcessWire APIs as "Crystals".
 - <strong>Shards carry state.</strong> Temporary per-request state lives in the <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a>, a
   server-side key-value store deflated to hidden inputs on the client.</p>
 <hr />
@@ -27,7 +27,7 @@ logic lives on the server — the browser is a dumb display device.</p>
                        │
                   _init.php / _main.php
                        │
-            ClearView::init($template)
+            <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>::init($template)
                        │
             loadInlay(panename, inlayname)
                        │
@@ -37,10 +37,10 @@ logic lives on the server — the browser is a dumb display device.</p>
 </code></pre>
 <h3>Class hierarchy</h3>
 <pre><code>ClearView\Shard
-  └── ClearView\<a href="phpdoc/classes/ClearView-Element.html">Element</a>
-        ├── ClearView\<a href="phpdoc/classes/ClearView-Pane.html">Pane</a>
-        │     └── ClearView\<a href="phpdoc/classes/ClearView-Inlay.html">Inlay</a>
-        └── ClearView\<a href="phpdoc/classes/ClearView-Main.html">Main</a>
+  └── <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>\<a href="phpdoc/classes/ClearView-Element.html">Element</a>
+        ├── <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>\<a href="phpdoc/classes/ClearView-Pane.html">Pane</a>
+        │     └── <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>\<a href="phpdoc/classes/ClearView-Inlay.html">Inlay</a>
+        └── <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>\<a href="phpdoc/classes/ClearView-Main.html">Main</a>
 </code></pre>
 <p>Core concepts:</p>
 <table>
@@ -53,7 +53,7 @@ logic lives on the server — the browser is a dumb display device.</p>
 <tbody>
 <tr>
 <td><strong><a href="phpdoc/classes/ClearView-Pane.html">Pane</a></strong></td>
-<td>A self-contained UI namespace with its own URL prefix and Mosaic. Subclass of <a href="phpdoc/classes/ClearView-Element.html">Element</a>.</td>
+<td>A self-contained UI namespace with its own URL prefix and <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a>. Subclass of <a href="phpdoc/classes/ClearView-Element.html">Element</a>.</td>
 </tr>
 <tr>
 <td><strong><a href="phpdoc/classes/ClearView-Inlay.html">Inlay</a></strong></td>
@@ -73,14 +73,14 @@ logic lives on the server — the browser is a dumb display device.</p>
 </tr>
 <tr>
 <td><strong><a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a></strong></td>
-<td>Singleton Shard wrapping a ProcessWire API (Page, User, <a href="phpdoc/classes/ClearView-Session.html">Session</a>, etc.).</td>
+<td>Singleton <a href="phpdoc/classes/ClearView-Shard.html">Shard</a> wrapping a ProcessWire API (<a href="phpdoc/classes/ClearView-Page.html">Page</a>, <a href="phpdoc/classes/ClearView-User.html">User</a>, <a href="phpdoc/classes/ClearView-Session.html">Session</a>, etc.).</td>
 </tr>
 <tr>
 <td><strong>Glyph</strong></td>
 <td>An <a href="phpdoc/classes/ClearView-Element.html">Element</a> subclass that renders a specific HTML tag with custom behavior.</td>
 </tr>
 <tr>
-<td><strong><a href="phpdoc/classes/ClearView-Element-reference.html">Reference</a></strong></td>
+<td><strong>Reference</strong></td>
 <td>Proxy glyph — named children live once in <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a>; tree slots hold References.</td>
 </tr>
 </tbody>
@@ -112,7 +112,7 @@ logic lives on the server — the browser is a dumb display device.</p>
 </tr>
 <tr>
 <td><code>modules/vendor/</code></td>
-<td>Pristine ClearView code, last fallback</td>
+<td>Pristine <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a> code, last fallback</td>
 </tr>
 </tbody>
 </table>
@@ -151,7 +151,7 @@ available as Crystal singletons via <code>{{CrystalName::field}}</code> expressi
 <li>Base: <code>panes/&lt;lowerpanename&gt;s/&lt;Inlayname&gt;.php</code></li>
 <li>Base: <code>panes/&lt;Panename&gt;.php</code></li>
 </ol>
-<p>The Pane <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a> is wired to the correct ProcessWire page so that
+<p>The <a href="phpdoc/classes/ClearView-Pane.html">Pane</a> <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a> is wired to the correct ProcessWire page so that
 <code>Pane::name</code>, <code>Pane::title</code>, etc. resolve from the page's fields.</p>
 <h3>3.6 Dispatch</h3>
 <p><code>Pane::handleCommand($command)</code>:
@@ -192,24 +192,24 @@ layout changes. Receivers filter by the sending pane name in the JSON payload
 </tbody>
 </table>
 <hr />
-<h2>4. Component <a href="phpdoc/classes/ClearView-Element-reference.html">Reference</a></h2>
+<h2>4. Component Reference</h2>
 <h3>4.1 <a href="phpdoc/classes/ClearView-Shard.html">Shard</a></h3>
 <pre><code>ClearView\Shard
 ├── implements Stringable, ArrayAccess, JsonSerializable, Iterator
 ├── $data[]       — field storage (glyph, value, children, name, id…)
 ├── $primaryField — default field returned on string cast (usually 'value')
 ├── $address      — &quot;inlay-id&quot; key in <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a>
-├── $childType    — StringArray|<a href="phpdoc/classes/ClearView-Shard.html">ShardArray</a>|PageArray|ChildArray|UndefinedArray
+├── $childType    — StringArray|ShardArray|PageArray|ChildArray|UndefinedArray
 └── $canonicalId  — true when id=&quot;#&quot; (expands to pane-inlay-name on read)
 </code></pre>
 <p>Key methods:
 - <code>loadShard($obj, id, inlay, glyph, from)</code> — Factory: parses input (HTML, JSON, mangled, view),
   creates the correct glyph class, calls <code>canonicalizeChildren()</code>.
 - <code>canonicalizeChildren()</code> — Recursively stores named children in Mosaic and replaces
-  their tree slots with <a href="phpdoc/classes/ClearView-Element-reference.html">Reference</a> glyphs. Unnamed children are left inline.
+  their tree slots with Reference glyphs. Unnamed children are left inline.
 - <code>getField($name)</code> — Returns a single field. Supports search operators (<code>name=Evan</code>).
 - <code>getVar($expression)</code> — Delegates to <code>Mosaic::getVar()</code>.</p>
-<h3>4.2 <a href="phpdoc/classes/ClearView-Element.html">Element</a> (Shard subclass)</h3>
+<h3>4.2 <a href="phpdoc/classes/ClearView-Element.html">Element</a> (<a href="phpdoc/classes/ClearView-Shard.html">Shard</a> subclass)</h3>
 <pre><code>ClearView\Element extends Shard
 ├── HTMX attribute generation (hx-post, hx-swap, hx-target, hx-trigger)
 ├── CSS variable injection (css::varname)
@@ -219,7 +219,7 @@ layout changes. Receivers filter by the sending pane name in the JSON payload
 <p>Every HTML tag rendered by ClearView is an Element. Glyph subclasses (in <code>glyphs/</code>)
 override <code>init()</code>, <code>render()</code>, or <code>html()</code> to customize behavior. Examples:
 <code>main</code>, <code>button</code>, <code>input</code>, <code>formheader</code>, <code>layout</code>, <code>pane</code>, <code>reference</code>.</p>
-<h3>4.3 Pane (<a href="phpdoc/classes/ClearView-Element.html">Element</a> subclass)</h3>
+<h3>4.3 <a href="phpdoc/classes/ClearView-Pane.html">Pane</a> (<a href="phpdoc/classes/ClearView-Element.html">Element</a> subclass)</h3>
 <pre><code>ClearView\Pane extends Element
 ├── Constructor registers $this as CurrentPane
 ├── handleCommand($command) — CSRF validation + method dispatch
@@ -230,12 +230,12 @@ override <code>init()</code>, <code>render()</code>, or <code>html()</code> to c
 </code></pre>
 <p>The <a href="phpdoc/classes/ClearView-Pane.html">Pane</a> is the top-level rendering context for a URL namespace.
 All inlay classes extend <a href="phpdoc/classes/ClearView-Pane.html">Pane</a>.</p>
-<h3>4.4 <a href="phpdoc/classes/ClearView-Inlay.html">Inlay</a> (Pane subclass)</h3>
+<h3>4.4 <a href="phpdoc/classes/ClearView-Inlay.html">Inlay</a> (<a href="phpdoc/classes/ClearView-Pane.html">Pane</a> subclass)</h3>
 <p><code>ClearView\Inlay</code> is the base class for inlay URL handlers. It extends Pane.
 The default <code>html()</code> method returns <code>Page::body</code> for the pane's ProcessWire page.
 Inlay classes live under <code>panes/&lt;panename&gt;/&lt;inlayname&gt;.php</code> and are loaded
 by <code>ClearView::loadInlay()</code>.</p>
-<h3>4.5 Main (<a href="phpdoc/classes/ClearView-Pane.html">Pane</a> subclass)</h3>
+<h3>4.5 <a href="phpdoc/classes/ClearView-Main.html">Main</a> (<a href="phpdoc/classes/ClearView-Pane.html">Pane</a> subclass)</h3>
 <p><code>ClearView\Main</code> (formerly <code>Default.php</code>) is the default route handler for URLs
 without their own pane. It renders the full <code>&lt;html&gt;</code> document and delegates
 content to the <code>&lt;main&gt;</code> glyph.</p>
@@ -265,7 +265,7 @@ on each request.</p>
 - <strong>Recording</strong>: <code>-&gt;record()</code> captures output to string.
 - <strong>Conditionals</strong>: <code>match:</code> and <code>unless:</code> arrays gate output.
 - <strong>onClose callbacks</strong>: Registered methods execute on tag close.</p>
-<h3>4.8 <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a> (Page subclass)</h3>
+<h3>4.8 <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a> (<a href="phpdoc/classes/ClearView-Page.html">Page</a> subclass)</h3>
 <p>Abstract base wrapping ProcessWire objects. <code>plugAllCrystals()</code> auto-instantiates
 all concrete subclasses in <code>crystals/</code> and registers them under the <code>'ClearView'</code>
 inlay.</p>
@@ -281,14 +281,14 @@ inlay.</p>
 | <code>Find</code> | <code>$pages-&gt;find()</code> | <code>Find::template=basic-page</code> |
 | <code>View</code> | View file loading | <code>View::filename</code> |
 | <code>Sanitizer</code> | ProcessWire sanitizers | <code>{{text20\Sanitizer::variablename}}</code> |</p>
-<h3>4.9 Pane <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a> (crystals/Pane.php)</h3>
+<h3>4.9 <a href="phpdoc/classes/ClearView-Pane.html">Pane</a> <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a> (crystals/Pane.php)</h3>
 <p>Wraps the ProcessWire page identified by the current pane name.
 <code>Pane::name</code>, <code>Pane::title</code>, and other field accesses delegate to
 the ProcessWire page. Falls back to <strong>raw <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a> shards</strong> under the
 <code>'Pane'</code> inlay for transient values (e.g., <code>Pane::Key</code> as a CSRF token
 stored via URL parameters before the <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a> is opened).</p>
-<h3>4.10 <a href="phpdoc/classes/ClearView-Element-reference.html">Reference</a> Glyph (glyphs/reference.php)</h3>
-<p>A proxy <a href="phpdoc/classes/ClearView-Element.html">Element</a> that forwards all access to a named Shard stored in Mosaic.
+<h3>4.10 Reference Glyph (glyphs/reference.php)</h3>
+<p>A proxy <a href="phpdoc/classes/ClearView-Element.html">Element</a> that forwards all access to a named <a href="phpdoc/classes/ClearView-Shard.html">Shard</a> stored in <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a>.
 References live at the <strong>anonymous inlay</strong> (<code>__anonymous</code>) so they never
 register in <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a> themselves — that would overwrite the target.</p>
 <pre><code>Tree before canonicalization:           Tree after:
@@ -324,7 +324,7 @@ and other page chrome in sync during SPA-style navigation.</p>
 <p>Example: if <code>/foo/bar</code> has <code>modules = "barmodule"</code> and <code>/foo/bar/baz</code> has
 <code>modules = "bazmodule"</code>, the stack is <code>["bazmodule", "barmodule", "vendor"]</code>.</p>
 <p>Both <code>loadInlay()</code> and <code>loadGlyph()</code> search the module stack before falling
-back to ClearView's base directories.</p>
+back to <a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>'s base directories.</p>
 <p>Directory layout:</p>
 <pre><code>ClearView/
 ├── modules/
@@ -360,11 +360,11 @@ module's <code>head.php</code> rather than replacing it.</p>
 <tbody>
 <tr>
 <td><code>Pane::</code></td>
-<td><strong>Pane <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a></strong> — ProcessWire page fields for the pane URL</td>
+<td><strong><a href="phpdoc/classes/ClearView-Pane.html">Pane</a> <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a></strong> — ProcessWire page fields for the pane URL</td>
 </tr>
 <tr>
 <td><code>Page::</code></td>
-<td><strong>Page <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a></strong> — ProcessWire page associated with the request</td>
+<td><strong><a href="phpdoc/classes/ClearView-Page.html">Page</a> <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a></strong> — ProcessWire page associated with the request</td>
 </tr>
 <tr>
 <td><code>Shared::</code></td>
@@ -376,7 +376,7 @@ module's <code>head.php</code> rather than replacing it.</p>
 </tr>
 <tr>
 <td><code>Config::</code></td>
-<td>ClearView config constants</td>
+<td><a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a> config constants</td>
 </tr>
 <tr>
 <td><code>Session::</code></td>
@@ -397,7 +397,7 @@ module's <code>head.php</code> rather than replacing it.</p>
 </tbody>
 </table>
 <p>Key distinction: <code>Pane::</code> was historically an ambiguous Mosaic shared namespace.
-It is now a <strong><a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a></strong> wrapping the ProcessWire page. Mosaic shared state uses
+It is now a <strong><a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a></strong> wrapping the ProcessWire page. <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a> shared state uses
 <code>Shared::</code> instead (e.g., <code>Shared::lastInlay</code>).</p>
 <hr />
 <h2>8. Dispatch Defaults</h2>
@@ -437,7 +437,7 @@ overrides to <code>html</code> for hx-boosted navigation regardless of request m
 <code>hx-boost</code> requests from <code>&lt;article&gt;</code> are still dispatched normally; it is the
 <code>&lt;article&gt;</code> that boosts, not <code>&lt;main&gt;</code>.</p>
 <hr />
-<h2>9. <a href="phpdoc/classes/ClearView-QueryParser.html">QueryParser</a> Extensions</h2>
+<h2>9. <a href="phpdoc/classes/<a href="phpdoc/classes/ClearView-ClearView.html">ClearView</a>-QueryParser.html">QueryParser</a> Extensions</h2>
 <p>The template expression parser (<code>{{}}</code>) supports these extensions beyond basic field access:</p>
 <table>
 <thead>
@@ -518,7 +518,7 @@ overrides to <code>html</code> for hx-boosted navigation regardless of request m
 </tr>
 <tr>
 <td><code>crystals/Pane.php</code></td>
-<td>Pane <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a>: ProcessWire page for pane URL</td>
+<td><a href="phpdoc/classes/ClearView-Pane.html">Pane</a> <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a>: ProcessWire page for pane URL</td>
 </tr>
 <tr>
 <td><code>crystals/Config.php</code></td>
@@ -530,7 +530,7 @@ overrides to <code>html</code> for hx-boosted navigation regardless of request m
 </tr>
 <tr>
 <td><code>glyphs/reference.php</code></td>
-<td><a href="phpdoc/classes/ClearView-Element-reference.html">Reference</a> proxy glyph</td>
+<td>Reference proxy glyph</td>
 </tr>
 <tr>
 <td><code>Page.php</code></td>
@@ -610,7 +610,7 @@ They are listed here for historical reference:</p>
 <td><strong>Planned</strong></td>
 </tr>
 <tr>
-<td>Children type coercion (StringArray ↔ <a href="phpdoc/classes/ClearView-Shard.html">ShardArray</a> merging)</td>
+<td>Children type coercion (StringArray ↔ ShardArray merging)</td>
 <td><strong>Planned</strong></td>
 </tr>
 <tr>
@@ -667,7 +667,7 @@ They are listed here for historical reference:</p>
 </tr>
 <tr>
 <td><strong>reference</strong></td>
-<td>Proxy <a href="phpdoc/classes/ClearView-Element.html">Element</a> — forwards all access to a named Shard in Mosaic</td>
+<td>Proxy <a href="phpdoc/classes/ClearView-Element.html">Element</a> — forwards all access to a named <a href="phpdoc/classes/ClearView-Shard.html">Shard</a> in <a href="phpdoc/classes/ClearView-Mosaic.html">Mosaic</a></td>
 </tr>
 <tr>
 <td><strong>input</strong></td>
@@ -692,4 +692,4 @@ They are listed here for historical reference:</p>
 <hr />
 <p><em>This document supersedes <code>overview.txt</code> and <code>docs/OVERVIEW.md</code> as the
 authoritative current-state architecture reference. See the wiki at
-<code>/home/ekl/vault/wiki/entities/clearview/_index.md</code> for the master spec.</em></p>
+<code>/home/ekl/vault/wiki/entities/clearview/_index.md</code> for the master spec.</em></p></body></html>
