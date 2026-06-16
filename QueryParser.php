@@ -411,7 +411,7 @@ class QueryParser
         $replaced = true;
         do {
             $replaced = false;
-            $string = preg_replace_callback('/{{((?:[^{}]*|(?R))*)}}/', function ($matches) use (&$replaced, $locals, $inlay, $forceFacet) {
+            $string = preg_replace_callback('/{{((?:[^{}]*|(?R))*)}}(\s)?/', function ($matches) use (&$replaced, $locals, $inlay, $forceFacet) {
                 // The expression is in $matches[1]
                 $expression = trim($matches[1]);
                 $value = self::parseAndResolve($expression, locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
@@ -421,12 +421,20 @@ class QueryParser
                     $value = implode(' ', $value);
                 }
 
+                // Null values eat one trailing space: "{{null}} {{value}}" -> "value"
+                $isNull = $value === null || $value === '' || $value === false;
+                if ($isNull) {
+                    $replaced = true;
+                    return '';
+                }
+
                 // If a replacement occurred, set the flag to continue the loop
                 if ($value !== $matches[0]) {
                     $replaced = true;
                 }
 
-                return $value ?? '';
+                // Preserve trailing space for non-null values
+                return $value . ($matches[2] ?? '');
             }, $string);
         } while ($replaced);
 
@@ -462,16 +470,6 @@ class QueryParser
             $shard = Mosaic::index($inlay ?? ClearView::inlay(),$var);
             if ($shard) {
                 return $field ? ($shard->getField($field) ?? null) : $shard;
-            }
-            // Page-field fallback: when no raw shard exists under the target
-            // inlay, resolve through the Crystal registered at ClearView::$inlay.
-            // This enables Pane::handleCommand()'s URL-dispatch intent — when a
-            // command doesn't match a method, we try it as a ProcessWire page
-            // field (e.g. "title", "content") and echo it directly.
-            $crystal = Mosaic::index('ClearView', $inlay);
-            if ($crystal instanceof Page) {
-                $value = $crystal->getVar($var);
-                return isset($field) ? ((is_object($value) && method_exists($value, 'getField')) ? $value->getField($field) : null) : $value;
             }
         }
         return null;
