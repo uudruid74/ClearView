@@ -68,7 +68,7 @@ class login extends Form
                 ’forminfo’    => ’Welcome back<br>{{text20\\User::displayname}}!’,
                 ’login’       => ’Success!’
             ]);
-            $this->triggerevent(’userchange’);
+            $this->triggerevent(’userchange’)
                  ->close();            // close the form
         } else {
             $this->setVars([           // Login failed

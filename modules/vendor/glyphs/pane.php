@@ -13,7 +13,7 @@ class pane extends Element
         $this->initFields([
             'element'       => 'div',
             'hx-get'        => "/{{name}}/$inlay/open/",
-            'hx-trigger'    => "load"
+            'hx-trigger'    => "load",
             'hx-indicator'  => 'this',
             'hx-target'     => 'this',
             'hx-swap'       => 'outerHTML',

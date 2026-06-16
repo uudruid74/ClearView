@@ -2,7 +2,7 @@
 namespace ClearView;
 use ClearView\Pane;
 
-class Default extends Pane
+class DefaultPane extends Pane
 {
     public $__loadExternal = "View::Default";
 

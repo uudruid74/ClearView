@@ -3,8 +3,11 @@
 # ClearView Architecture Overview
 
 Authoritative current-state entry point for the ClearView framework.
-Last updated: 2026-06-10. This document describes what is **implemented and working now**.
-For proposed changes not yet built, see §8 (Refactor In Progress) and `changes.txt`.
+Last updated: 2026-06-16. This document describes what is **implemented and working now**.
+For proposed changes not yet built, see §8 (Architecture Status).
+
+> **Source of truth:** the [ClearView wiki](/home/ekl/vault/wiki/entities/clearview/_index.md) is the master spec.
+> This file is a stable repo-bundled summary that tracks the wiki.
 
 ---
 
@@ -42,6 +45,16 @@ Nginx → PHP-FPM → ProcessWire → ClearView
             Facet rendering → HTML output
 ```
 
+### Class hierarchy
+
+```
+ClearView\Shard
+  └── ClearView\Element
+        ├── ClearView\Pane
+        │     └── ClearView\Inlay
+        └── ClearView\Main
+```
+
 Core concepts:
 
 | Concept  | Role |
@@ -54,6 +67,18 @@ Core concepts:
 | **Crystal** | Singleton Shard wrapping a ProcessWire API (Page, User, Session, etc.). |
 | **Glyph** | An Element subclass that renders a specific HTML tag with custom behavior. |
 | **Reference** | Proxy glyph — named children live once in Mosaic; tree slots hold References. |
+
+### Module layout
+
+| Path | Purpose |
+|------|---------|
+| `modules/<module>/glyphs/<name>.php` | Element subclasses |
+| `modules/<module>/views/<name>.php` | Fragment/layout views |
+| `modules/<module>/panes/<pane>/<inlay>.php` | Inlay subclasses |
+| `modules/site/` | Site-specific overrides, tried before vendor |
+| `modules/vendor/` | Pristine ClearView code, last fallback |
+
+Activated modules (including site/vendor) are listed in `Config::modules-list` and tried in order.
 
 ---
 
@@ -72,14 +97,20 @@ Core concepts:
 - **All other templates**: The page URL is split on `/` to extract `panename`, `inlayname`, and `command`.
   Example: `/form/login/` → pane=`form`, inlay=`login`, command=``.
 
-### 3.3 Command Resolution
+### 3.3 Crystal Registration
+
+`Crystal::plugAllCrystals()` auto-instantiates all concrete Crystal subclasses in `crystals/`
+and registers them under the `'ClearView'` inlay. This makes ProcessWire APIs (Page, User, Session, etc.)
+available as Crystal singletons via `{{CrystalName::field}}` expressions.
+
+### 3.4 Command Resolution
 
 - If this is an **hx-boosted** request (from `<main>` navigation): command is forced to `'html'`.
 - If the URL had no command segment: `ClearView::defaultMethod()` maps
   `GET→open`, `POST→html`, `PUT→put`, `DELETE→delete`.
 - Otherwise the URL command is used directly.
 
-### 3.4 Pane Loading
+### 3.5 Pane Loading
 
 `ClearView::loadInlay(panename, inlayname)` searches for the class file:
 
@@ -91,7 +122,7 @@ Core concepts:
 The Pane Crystal is wired to the correct ProcessWire page so that
 `Pane::name`, `Pane::title`, etc. resolve from the page's fields.
 
-### 3.5 Dispatch
+### 3.6 Dispatch
 
 `Pane::handleCommand($command)`:
 1. Loads Mosaic data from `Input::all` (slurps client-side state).
@@ -100,6 +131,19 @@ The Pane Crystal is wired to the correct ProcessWire page so that
 4. Executes the method via Facet forwarding.
 5. Falls back to **ProcessWire page field** lookup if no method exists.
 6. Dumps buffered OOB data and scripts.
+
+### 3.7 Lifecycle Events
+
+One polymorphic `inlaychange` event is fired whenever the active inlay or main
+layout changes. Receivers filter by the sending pane name in the JSON payload
+(`{pane: 'loginform', ...}`).
+
+| Transition | Trigger |
+|------------|---------|
+| `paneopen` | Pane::open() completes |
+| `closepane` | Pane::close() called |
+| `inlaychange` | Form tab changes (`Shared::prevInlay` != current inlay) |
+| `inlaychange` | Main layout changes (`Shared::mainLayout` != requested view) |
 
 ---
 
@@ -154,7 +198,20 @@ ClearView\Pane extends Element
 The Pane is the top-level rendering context for a URL namespace.
 All inlay classes extend Pane.
 
-### 4.4 Mosaic
+### 4.4 Inlay (Pane subclass)
+
+`ClearView\Inlay` is the base class for inlay URL handlers. It extends Pane.
+The default `html()` method returns `Page::body` for the pane's ProcessWire page.
+Inlay classes live under `panes/<panename>/<inlayname>.php` and are loaded
+by `ClearView::loadInlay()`.
+
+### 4.5 Main (Pane subclass)
+
+`ClearView\Main` (formerly `Default.php`) is the default route handler for URLs
+without their own pane. It renders the full `<html>` document and delegates
+content to the `<main>` glyph.
+
+### 4.6 Mosaic
 
 Singleton key-value store. Shards are stored at address `"inlay-id"`.
 Client-side state is deflated into hidden `<input>` fields and re-inflated
@@ -169,7 +226,7 @@ Key operations:
 - `index($inlay, $id)` — Direct Shard retrieval by address.
 - `dumpVars()` — Outputs hidden inputs for changed Shards.
 
-### 4.5 Facet
+### 4.7 Facet
 
 Rendering engine with a static tag stack. Methods chain:
 ```
@@ -187,7 +244,7 @@ Key features:
 - **Conditionals**: `match:` and `unless:` arrays gate output.
 - **onClose callbacks**: Registered methods execute on tag close.
 
-### 4.6 Crystal (Page subclass)
+### 4.8 Crystal (Page subclass)
 
 Abstract base wrapping ProcessWire objects. `plugAllCrystals()` auto-instantiates
 all concrete subclasses in `crystals/` and registers them under the `'ClearView'`
@@ -198,7 +255,7 @@ Active crystals:
 |---------|-------|---------|
 | `Config` | Static config array | `{{Config::layername_clearview}}` |
 | `Page` | ProcessWire `$page` | `{{Page::title}}` |
-| **Pane** | ProcessWire page for pane URL | `Pane::name` (page name), `Pane::title` |
+| `Pane` | ProcessWire page for pane URL | `Pane::name` (page name), `Pane::title` |
 | `User` | Current ProcessWire user | `{{User::displayname}}` |
 | `Session` | ProcessWire `$session` | Login state, CSRF tokens |
 | `Input` | `$input` (GET/POST) | `{{Input::requestMethod}}` |
@@ -206,7 +263,7 @@ Active crystals:
 | `View` | View file loading | `View::filename` |
 | `Sanitizer` | ProcessWire sanitizers | `{{text20\Sanitizer::variablename}}` |
 
-### 4.7 Pane Crystal (crystals/Pane.php)
+### 4.9 Pane Crystal (crystals/Pane.php)
 
 Wraps the ProcessWire page identified by the current pane name.
 `Pane::name`, `Pane::title`, and other field accesses delegate to
@@ -214,7 +271,7 @@ the ProcessWire page. Falls back to **raw Mosaic shards** under the
 `'Pane'` inlay for transient values (e.g., `Pane::Key` as a CSRF token
 stored via URL parameters before the Mosaic is opened).
 
-### 4.8 Reference Glyph (glyphs/reference.php)
+### 4.10 Reference Glyph (glyphs/reference.php)
 
 A proxy Element that forwards all access to a named Shard stored in Mosaic.
 References live at the **anonymous inlay** (`__anonymous`) so they never
@@ -237,7 +294,7 @@ Tree before canonicalization:           Tree after:
 This replaces the legacy `__unnamedXXXX` system. Named elements exist exactly
 once — in the Mosaic. The DOM tree holds cheap references.
 
-### 4.9 <main> Glyph (glyphs/main.php)
+### 4.11 `<main>` Glyph (glyphs/main.php)
 
 The `<main>` element is the default content area for ProcessWire pages.
 Its `init()` method sets:
@@ -284,7 +341,18 @@ module's `head.php` rather than replacing it.
 
 ---
 
-## 6. Namespace Conventions
+## 6. Views and Fragments
+
+- Views are PHP files under `modules/<module>/views/<name>.php`.
+- `jsonmangler::fromhtml()` converts captured HTML/fields into Shard trees.
+- Self-closing tags (`<hr/>`, `<img/>`) never load default views.
+- Default views can nest: `<head>` may load `views/head/<child>.php`.
+- View names may contain folders: `<fragment view="icons/*"/>` loads all matching files as siblings.
+- `view=""` on an element overrides its children with the loaded view fragment.
+
+---
+
+## 7. Namespace Conventions
 
 | Prefix    | Resolves To |
 |-----------|------------|
@@ -304,7 +372,7 @@ It is now a **Crystal** wrapping the ProcessWire page. Mosaic shared state uses
 
 ---
 
-## 7. Dispatch Defaults
+## 8. Dispatch Defaults
 
 `ClearView::defaultMethod()` is the single source of truth:
 
@@ -318,39 +386,35 @@ It is now a **Crystal** wrapping the ProcessWire page. Mosaic shared state uses
 
 These apply when the URL has no explicit command segment. The `<main>` element
 overrides to `html` for hx-boosted navigation regardless of request method.
+`hx-boost` requests from `<article>` are still dispatched normally; it is the
+`<article>` that boosts, not `<main>`.
 
 ---
 
-## 8. Refactor In Progress
+## 9. QueryParser Extensions
 
-The following changes are described in `changes.txt` and have **not yet been
-implemented** (as of 2026-06-10). They are listed here so readers can
-distinguish current behavior from future plans.
+The template expression parser (`{{}}`) supports these extensions beyond basic field access:
 
-| Item | Status |
-|------|--------|
-|| Move panes & inlays under `glyphs/` directory | **Done** — Pane.php → glyphs/pane.php, Form.php merged into Pane |
-| Drop `s` suffix on inlay directories | **Planned** — `panes/forms/` → `panes/form/` |
-| `<pane>` tag creates embedded pane with `hx-trigger="load"` | **Planned** — CSRF token created by `<pane>` and `<button>` tags |
-| Layerstack as `<layerstack>` glyph with `addLayer()` | **Planned** — replaces ad-hoc dialog management |
-| Boolean function operators in templates (`\|\|`, `&&`) | **Planned** — `{{User::isLoggedIn()\|\|"Please log in"}}` |
-| Children type coercion (StringArray ↔ ShardArray merging) | **Planned** |
-| `Reference` glyph fully replaces `__unnamed` | **Done** — canonicalizeChildren() is implemented |
-| Module search path stacking (`buildModuleStack()`) | **Done** |
-| `Pane::` → Pane Crystal, `Shared::` → Mosaic shared namespace | **Done** |
-| `<main>` hx-boost with OOB field updates | **Done** |
-| `defaultMethod()` request→method mapping | **Done** |
-| Two-tier glyph/module loader replacing legacy `panes/<name>s/` | **Done** |
-| Field content loaded from `Page::contents` instead of `json_template` | **Done** |
+| Syntax | Behavior |
+|--------|----------|
+| `Pane::field` | Resolves fields from the ProcessWire page represented by the pane URL |
+| `Inlay::method` | Calls methods on the current inlay instance |
+| `Glyph::method` | Calls methods on the current element |
+| `CrystalName::field` | General method dispatch for any crystal matching the inlay name |
+| `^^` (XOR) | `{{A}}^^ {{B}}` returns the non-null one; error if both non-null |
+
+Null values eat one trailing space in template strings: `{{null}} value` → `"value"`.
 
 ---
 
-## 9. Key Files
+## 10. Key Files
 
 | File | Role |
 |------|------|
 | `ClearView.php` | Singleton controller: init(), loadInlay(), loadGlyph(), buildModuleStack(), defaultMethod() |
 | `Pane.php` | Base Pane class: constructor, handleCommand(), event/redirect helpers |
+| `Inlay.php` | Base Inlay class for inlay URL handlers |
+| `Main.php` | Default route handler for URLs without their own pane |
 | `Shard.php` | Core data unit: loadShard(), canonicalizeChildren(), field access |
 | `Element.php` | HTML rendering: HTMX attributes, CSS vars, event handlers |
 | `Mosaic.php` | Shard store: loadMosaic(), getVar(), setVar(), index(), dumpVars() |
@@ -364,6 +428,65 @@ distinguish current behavior from future plans.
 
 ---
 
+## 11. Architecture Status
+
+The following items have been implemented and are now **current behavior**.
+They are listed here for historical reference:
+
+| Item | Status |
+|------|--------|
+| Pane.php → glyphs/pane.php, Form.php merged into Pane | **Done** |
+| `Reference` glyph fully replaces `__unnamed` | **Done** |
+| Module search path stacking (`buildModuleStack()`) | **Done** |
+| `Pane::` → Pane Crystal, `Shared::` → Mosaic shared namespace | **Done** |
+| `<main>` hx-boost with OOB field updates | **Done** |
+| `defaultMethod()` request→method mapping | **Done** |
+| Two-tier glyph/module loader replacing legacy `panes/<name>s/` | **Done** |
+| Field content loaded from `Page::contents` instead of `json_template` | **Done** |
+
+### Planned (not yet implemented)
+
+| Item | Status |
+|------|--------|
+| Drop `s` suffix on inlay directories (`panes/forms/` → `panes/form/`) | **Planned** |
+| `<pane>` tag creates embedded pane with `hx-trigger="load"` | **Planned** |
+| Layerstack as `<layerstack>` glyph with `addLayer()` | **Planned** |
+| Boolean function operators in templates (\|\|, &&) | **Planned** |
+| Children type coercion (StringArray ↔ ShardArray merging) | **Planned** |
+| Testing framework per design docs | **Planned** |
+
+---
+
+## 12. Key Glyphs
+
+| Glyph | Role |
+|-------|------|
+| **main** | No self-boost; renders the Mosaic inside itself; layout driven by `Shared::mainLayout` |
+| **article** | hx-boost target; `inlay=` sets initial `Shared::prevInlay` |
+| **attr** | Surreal script tag; copies/modifies parent attrs; `view="newlayout"` triggers layout change |
+| **pane** | Pane loader `<div>` with hx-get, hx-target=self, hx-swap=outerHTML |
+| **aside** | Registers `name` in `Shared::updateFields`; OOB-updated on inlay/layout change |
+| **layout** | Loads a view and replaces itself with the rendered fragment |
+| **tabbar** | Renders tabs that fetch inlay URLs into the nearest article |
+| **button** | Action button with login/logout/submit modes |
+| **closebutton** | Listens for `closepane` event and closes parent pane |
+| **reference** | Proxy Element — forwards all access to a named Shard in Mosaic |
+| **input** | Form input with Mosaic-backed value and validation |
+| **form** | Form container with CSRF and Mosaic integration |
+
+---
+
+## 13. Hazards
+
+- This overview is a **reference snapshot**. The wiki is the master spec.
+- `setlocalmethod()` is removed from `Element.php` and from all docs.
+- `Form.php` is removed; its behavior merges into `Pane.php` and `glyphs/pane.php`.
+- Anonymous Shards use `__anonymous` inlay and are never sent to the client.
+- Canonical ids (`id="#"`) expand to `<panename>-<inlay>-<name>` via `Element::getField('id')`.
+- The generated phpdoc `docs/` directory should be deleted; docs are built from this wiki.
+
+---
+
 *This document supersedes `overview.txt` and `docs/OVERVIEW.md` as the
-authoritative current-state architecture reference. See `changes.txt` for
-the detailed refactor proposal that drives ongoing development.*
+authoritative current-state architecture reference. See the wiki at
+`/home/ekl/vault/wiki/entities/clearview/_index.md` for the master spec.*

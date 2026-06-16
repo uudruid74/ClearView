@@ -22,7 +22,7 @@ class InlayStub
     private string $panename;
     private string $inlayname;
     private mixed $payload = null;
-    private ?callable $callable = null;
+    private $callable = null;
 
     /**
      * @param string $panename  Target pane.
