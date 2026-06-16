@@ -200,4 +200,4 @@ php utility/clearview-test.php --smoke --base-url http://localhost/
 
 Unit and integration tests should run headlessly without a live ProcessWire install.
 
-See [framework-architecture](framework-architecture.md) for the full runner architecture and module list.
+See [framework-design](framework-design.md) for the consolidated design, acceptance criteria, and validation plan.  See [framework-architecture](framework-architecture.md) for the full runner architecture and module list.

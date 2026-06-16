@@ -44,7 +44,8 @@ namespace {
         '/ClearView.php',
         '/Element.php',
         '/Pane.php',
-        // Test fixtures
+        // Test fixtures — load Fixture\TestFixtureException first (parent class)
+        '/Test/Fixture/TestFixtureException.php',
         '/Test/TestFixtureException.php',
         '/Test/InlayRegistry.php',
         '/Test/StubPane.php',

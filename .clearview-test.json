@@ -1,0 +1,6 @@
+{
+  "smokeBaseUrl": "http://clearview.local",
+  "ciOutput": false,
+  "skip": [],
+  "inlayStubNamespaces": ["ClearView\\Test\\Fixture"]
+}

@@ -98,14 +98,29 @@ class Element extends Shard
      *
      * Why: Delegates rendering to Facet for consistent HTML output.
      */
-    public function render()
+    /**
+     * Render the element to output, or capture to string when $capture is true.
+     *
+     * @param bool $capture When true, return rendered HTML instead of echoing.
+     * @return string|null  Rendered HTML when $capture is true; null otherwise.
+     */
+    public function render(bool $capture = false): ?string
     {
+        if ($capture) {
+            ob_start();
+        }
+
         if (isset($this['glyph'])) {
             (new Facet($this))
                 ->open("<{{glyph}} {{id=id}} {{hx}}>{{value}}");
         } else {
             echo parent::render();
         }
+
+        if ($capture) {
+            return ob_get_clean();
+        }
+        return null;
     }
 
     /**

@@ -240,3 +240,4 @@ CI pipeline should supply `CLEARVIEW_BASE_URL` for smoke tests; if absent, smoke
 - Requirements fabric entry: `vault/fabric/wintermute-research-wintermute-requirements-clearview-testin-85d7.md`
 - Fixture/harness design: `vault/wiki/entities/clearview/design-testing-fixtures-and-harness.md`
 - Test catalog: `ClearView/docs/testing/test-catalog.md`
+- Consolidated design: `vault/wiki/entities/clearview/design-clearview-testing-framework.md`
