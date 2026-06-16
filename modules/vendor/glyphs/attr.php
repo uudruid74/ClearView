@@ -4,220 +4,193 @@ namespace ClearView\Element;
 
 use ClearView\Element;
 use ClearView\Facet;
-use ClearView\Mosaic;
 use ClearView\Pane;
-use ClearView\Exception;
+use ClearView\Shared;
 
 /**
- * Outputs a Surreal-powered <script> tag that modifies the parent element.
+ * attr glyph — outputs a Surreal-powered <script> tag that modifies the
+ * parent element, or triggers a layout change when {@code view} is set.
  *
- * Supports attribute modifiers, content tags, and view-based layout changes.
- * Used inside ProcessWire page fields (e.g., Page::body) so the field can
- * directly manipulate the enclosing DOM element.
+ * <p>Supports attribute modifiers ({@code +add -remove ^toggle %takeClass}),
+ * content tag semantics ({@code -tag +tag %tag}), and view-based layout
+ * retargeting via {@link Pane::retargetResult()}.</p>
  *
- * Fields are iterated in order with Element::iterateFields(). Each field name
- * is an attribute to modify on the parent. Values may be comma-separated lists
- * with prefix modifiers:
- *   +  Add to list
- *   -  Remove from list
- *   ^  Toggle in list
- *   %  Take class (htmx.takeClass)
- *
- * Content tags (field name 'content' or 'contents'):
- *   -tag  Delete child elements with data-tag="tag" from parent
- *   +tag  Insert inner contents with data-tag="tag"
- *   %tag  Delete old then insert new with data-tag="tag"
- *
- * Layout switching:
- * When 'view' is set and differs from Shared::mainLayout, loads a new layout
- * view, updates Shared::mainLayout, and calls Pane::retargetResult('main') to
- * redirect the HTMX swap from the boosted <article> to the <main> element.
- *
- * @see ClearView\Element
- * @see ClearView\Facet
- * @see ClearView\Pane
+ * @see Glyph-attr
+ * @see Runtime-Pane
  */
 class attr extends Element
 {
     /**
-     * Render the <attr> element.
+     * Renders the attr glyph.
      *
-     * Behavior branches on the 'view' field:
-     * 1. view differs from Shared::mainLayout → layout switch: load new view,
-     *    update Shared::mainLayout, call Pane::retargetResult('main').
-     * 2. view matches Shared::mainLayout → render children normally.
-     * 3. Other fields → generate Surreal JavaScript that applies them to me()
-     *    (the parent element) after swap.
+     * <p>Three branches:</p>
+     * <ol>
+     *   <li><b>view</b> set and differs from {@link Shared::$mainLayout} —
+     *       load the view file, retarget to {@code main}, fire inlaychange.</li>
+     *   <li><b>view</b> set and matches — render children normally.</li>
+     *   <li>No view — generate a Surreal {@code <script>} tag that applies
+     *       attribute modifiers and content tags to the parent element in
+     *       an {@code afterSwap} handler.</li>
+     * </ol>
      *
      * @return void
      */
     public function render(): void
     {
         $view = $this->getField('view');
-        $currentLayout = Mosaic::getVar('Shared::mainLayout');
 
-        // Layout switching: view differs from current layout
-        if ($view !== null && $view !== $currentLayout) {
-            Mosaic::setVar('mainLayout', $view, 'Shared');
+        // Branch 1: view-based layout change
+        if ($view !== null && $view !== Shared::$mainLayout) {
+            Shared::$mainLayout = $view;
 
-            // Load the new layout view
-            $viewFile = Mosaic::getVar("ClearView::rootPath") . "/modules/vendor/views/{$view}.php";
+            $viewFile = __DIR__ . "/../../views/{$view}.php";
+            if (file_exists($viewFile)) {
+                include $viewFile;
+            }
 
-            // Render the loaded view, replacing the current children
-            (new Facet($this))
-                ->open("<div>")
-                ->load($viewFile)
-                ->close();
-
-            // Retarget the HTMX swap to <main> instead of the boosted <article>
             Pane::retargetResult('main');
-
+            Pane::triggerevent('inlaychange');
             return;
         }
 
-        // View matches or no view — generate attribute modifier script
-        $fields = $this->getFields();
-        $script = $this->buildSurrealScript($fields);
-
-        if (!empty($script)) {
-            // Open a script tag with the Surreal content
-            (new Facet($this))
-                ->open('<script type="text/surreal">')
-                ->out($script)
-                ->close();
+        // Branch 2: view matches current layout — render children normally
+        if ($view !== null) {
+            $this->html();
+            return;
         }
 
-        // Render captured children even when emitting modifiers
-        // (children are template-processed through the normal pipeline)
+        // Branch 3: generate Surreal JavaScript for attribute/content modifiers
+        $script = $this->buildSurrealScript();
+        if ($script !== '') {
+            (new Facet($this))->out($script);
+        }
     }
 
     /**
-     * Build a Surreal script that applies attribute modifiers to the parent element.
+     * Builds the Surreal <script> tag that modifies the parent element.
      *
-     * Iterates over all fields (excluding 'view' which is handled separately),
-     * generating me().setAttribute() calls for simple values and me().classList
-     * operations for prefixed class modifiers.
+     * <p>Iterates all fields via {@link Shard::iterateFields()}, collecting
+     * modifier operations and content-tag instructions. Returns an empty
+     * string when there is nothing to emit.</p>
      *
-     * @param array $fields The element's field values.
-     * @return string The Surreal JavaScript code.
+     * @return string The complete <script> block, or empty string.
      */
-    private function buildSurrealScript(array $fields): string
+    private function buildSurrealScript(): string
     {
-        $lines = [];
+        $ops        = [];  // afterSwap attribute-modifier statements
+        $removeOps  = [];  // pre-swap content-tag removals
+        $hasContentInsert = false;
+        $childrenHTML = '';
 
-        foreach ($fields as $name => $value) {
-            // Skip view (handled separately), id, and name (handled by framework)
-            if ($name === 'view' || $name === 'id' || $name === 'name') {
-                continue;
+        $this->iterateFields(function ($value, $key) use (&$ops, &$removeOps, &$hasContentInsert, &$childrenHTML) {
+            // Skip structural and already-handled fields
+            if ($key === 'view' || $key === 'children') {
+                return null;
             }
-            if ($value === null || $value === '') {
-                continue;
-            }
 
-            // Content tags
-            if ($name === 'content' || $name === 'contents') {
-                $tags = explode(',', (string)$value);
-                foreach ($tags as $tagExpr) {
-                    $tagExpr = trim($tagExpr);
-                    if (empty($tagExpr)) continue;
+            // ── content / contents field ──
+            if ($key === 'content' || $key === 'contents') {
+                $tags = array_map('trim', explode(',', (string)$value));
+                foreach ($tags as $tag) {
+                    if ($tag === '') {
+                        continue;
+                    }
+                    $prefix  = $tag[0];
+                    $name    = substr($tag, 1);
+                    $escaped = addslashes($name);
 
-                    $prefix = $tagExpr[0];
-                    $tag = substr($tagExpr, 1);
-
-                    switch ($prefix) {
-                        case '-':
-                            $lines[] = "me().querySelectorAll('[data-tag=\"{$tag}\"]').forEach(el => el.remove());";
-                            break;
-                        case '+':
-                            $lines[] = "me().insertAdjacentHTML('beforeend', `<span data-tag=\"{$tag}\">{$this->getValue()}</span>`);";
-                            break;
-                        case '%':
-                            $escapedTag = addslashes($tag);
-                            $lines[] = "me().querySelectorAll('[data-tag=\"{$tag}\"]').forEach(el => el.remove());";
-                            $lines[] = "me().insertAdjacentHTML('beforeend', `<span data-tag=\"{$tag}\">{$this->getValue()}</span>`);";
-                            break;
+                    if ($prefix === '-') {
+                        // Delete tagged children from parent after swap
+                        $removeOps[] = "me().find('[data-tag=\"{$escaped}\"]').remove();";
+                    } elseif ($prefix === '+') {
+                        // Insert children with data-tag (output below script)
+                        $hasContentInsert = true;
+                    } elseif ($prefix === '%') {
+                        // Delete old, then insert new
+                        $removeOps[] = "me().find('[data-tag=\"{$escaped}\"]').remove();";
+                        $hasContentInsert = true;
                     }
                 }
-                continue;
+                return null;
             }
 
-            // Check for comma-separated values with modifiers (for class etc.)
-            if (str_contains((string)$value, ',')) {
-                $parts = array_map('trim', explode(',', (string)$value));
-                foreach ($parts as $part) {
-                    if (empty($part)) continue;
-                    $prefix = $part[0];
-                    $modValue = substr($part, 1);
-
-                    if (in_array($prefix, ['+', '-', '^', '%'], true)) {
-                        $lines[] = $this->modifierLine($name, $prefix, $modValue);
-                    } else {
-                        $lines[] = "me().setAttribute('{$name}', '{$part}');";
-                    }
+            // ── attribute modifiers ──
+            $values = array_map('trim', explode(',', (string)$value));
+            foreach ($values as $val) {
+                if ($val === '') {
+                    continue;
                 }
-            } else {
-                $prefix = $value[0] ?? '';
-                if (in_array($prefix, ['+', '-', '^', '%'], true)) {
-                    $modValue = substr((string)$value, 1);
-                    $lines[] = $this->modifierLine($name, $prefix, $modValue);
+
+                $prefix = $val[0];
+
+                // Check for modifier prefix
+                if ($prefix === '+' || $prefix === '-' || $prefix === '^' || $prefix === '%') {
+                    $name    = substr($val, 1);
+                    $escaped = addslashes($name);
+
+                    if ($key === 'class') {
+                        switch ($prefix) {
+                            case '+': $ops[] = "me().classAdd('{$escaped}');"; break;
+                            case '-': $ops[] = "me().classRemove('{$escaped}');"; break;
+                            case '^': $ops[] = "me().classToggle('{$escaped}');"; break;
+                            case '%': $ops[] = "me().takeClass('{$escaped}');"; break;
+                        }
+                    }
+                    // For non-class attributes with modifiers — skip (modifiers are class-specific)
                 } else {
-                    $escapedValue = addslashes((string)$value);
-                    $lines[] = "me().setAttribute('{$name}', '{$escapedValue}');";
+                    // No modifier — set as plain attribute on parent
+                    $escapedKey = addslashes((string)$key);
+                    $escapedVal = addslashes($val);
+                    if ($key === 'class') {
+                        $ops[] = "me().classAdd('{$escapedVal}');";
+                    } elseif ($val !== '') {
+                        $ops[] = "me().attribute('{$escapedKey}', '{$escapedVal}');";
+                    } else {
+                        // Boolean attribute (e.g., hidden="")
+                        $ops[] = "me().attribute('{$escapedKey}', '');";
+                    }
                 }
             }
+
+            return null;
+        });
+
+        // ── Render content-insert children if needed ──
+        if ($hasContentInsert) {
+            ob_start();
+            $this->html();
+            $childrenHTML = ob_get_clean();
         }
 
-        return implode("\n", $lines);
-    }
-
-    /**
-     * Generate a Surreal modifier line for a class-list operation.
-     *
-     * @param string $attr The attribute name (e.g., 'class').
-     * @param string $prefix The modifier prefix (+, -, ^, %).
-     * @param string $value The value to apply.
-     * @return string The Surreal JavaScript line.
-     */
-    private function modifierLine(string $attr, string $prefix, string $value): string
-    {
-        $escapedValue = addslashes($value);
-
-        if ($attr === 'class') {
-            return match ($prefix) {
-                '+' => "me().classList.add('{$escapedValue}');",
-                '-' => "me().classList.remove('{$escapedValue}');",
-                '^' => "me().classList.toggle('{$escapedValue}');",
-                '%' => "htmx.takeClass(me(), '{$escapedValue}');",
-                default => "me().classList.add('{$escapedValue}');",
-            };
+        // ── Nothing to emit ──
+        if (empty($ops) && empty($removeOps) && !$hasContentInsert) {
+            return '';
         }
 
-        // Non-class attributes with modifiers
-        return match ($prefix) {
-            '+' => "me().setAttribute('{$attr}', (me().getAttribute('{$attr}')||'') + ' {$escapedValue}');",
-            '-' => "me().removeAttribute('{$attr}');",
-            default => "me().setAttribute('{$attr}', '{$escapedValue}');",
-        };
-    }
+        // ── Build the script ──
+        $jsLines = [];
 
-    /**
-     * Get the inner value/content of the <attr> element.
-     *
-     * @return string The inner content.
-     */
-    private function getValue(): string
-    {
-        return $this->getField('value') ?? '';
-    }
+        // Content-tag removals run BEFORE swap (synchronous) to avoid
+        // removing the newly-inserted tagged content.
+        if (!empty($removeOps)) {
+            $removeJS = implode("\n", $removeOps);
+            $jsLines[] = $removeJS;
+        }
 
-    /**
-     * Get all fields set on this element.
-     *
-     * @return array
-     */
-    private function getFields(): array
-    {
-        return $this->getFieldData() ?? [];
+        // Attribute modifiers and non-content operations run afterSwap
+        if (!empty($ops)) {
+            $opsJS = implode("\n  ", $ops);
+            $jsLines[] = "me().afterSwap(function() {\n  {$opsJS}\n});";
+        }
+
+        $scriptBody = implode("\n", $jsLines);
+        $script = "<script>\n{$scriptBody}\n</script>";
+
+        // Append wrapped children for content-insert tags
+        if ($hasContentInsert && $childrenHTML !== '') {
+            $script .= "\n" . $childrenHTML;
+        }
+
+        return $script;
     }
 }
-// end of class
