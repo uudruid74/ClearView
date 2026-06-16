@@ -1,141 +1,6 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub",
-            "name": "InlayStub",
-            "summary": "Synthetic\u0020data\u0020source\u0020for\u0020inlays\u0020under\u0020test.",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method___construct"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003Afor\u0028\u0029",
-            "name": "for",
-            "summary": "Target\u0020a\u0020specific\u0020pane\/inlay\u0020pair.",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_for"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003Areturns\u0028\u0029",
-            "name": "returns",
-            "summary": "Provide\u0020the\u0020payload\u0020the\u0020inlay\u0020would\u0020normally\u0020fetch.",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_returns"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003AreturnsCallable\u0028\u0029",
-            "name": "returnsCallable",
-            "summary": "Provide\u0020a\u0020callable\u0020that\u0020receives\u0020\u0028panename,\u0020inlayname,\u0020context\u0029\nand\u0020returns\u0020the\u0020payload.",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_returnsCallable"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003Aregister\u0028\u0029",
-            "name": "register",
-            "summary": "Register\u0020the\u0020stub\u0020in\u0020the\u0020central\u0020InlayRegistry.",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_register"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024panename",
-            "name": "panename",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_panename"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024inlayname",
-            "name": "inlayname",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_inlayname"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024payload",
-            "name": "payload",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_payload"
-        },                {
-            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024callable",
-            "name": "callable",
-            "summary": "",
-            "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_callable"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry",
-            "name": "InlayRegistry",
-            "summary": "Central\u0020registry\u0020for\u0020InlayStub\u0020fixtures.",
-            "url": "classes/ClearView-Test-InlayRegistry.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003AhasStub\u0028\u0029",
-            "name": "hasStub",
-            "summary": "Check\u0020whether\u0020a\u0020stub\u0020is\u0020registered\u0020for\u0020the\u0020given\u0020pane\/inlay.",
-            "url": "classes/ClearView-Test-InlayRegistry.html#method_hasStub"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003AgetClass\u0028\u0029",
-            "name": "getClass",
-            "summary": "Return\u0020the\u0020class\u0020name\u0020to\u0020instantiate\u0020for\u0020the\u0020given\u0020pane\/inlay.",
-            "url": "classes/ClearView-Test-InlayRegistry.html#method_getClass"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003Aregister\u0028\u0029",
-            "name": "register",
-            "summary": "Register\u0020an\u0020InlayStub\u0020for\u0020a\u0020given\u0020pane\/inlay\u0020pair.",
-            "url": "classes/ClearView-Test-InlayRegistry.html#method_register"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003AgetStub\u0028\u0029",
-            "name": "getStub",
-            "summary": "Retrieve\u0020stub\u0020data\u0020for\u0020a\u0020pane\/inlay\u0020pair.",
-            "url": "classes/ClearView-Test-InlayRegistry.html#method_getStub"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003Aunregister\u0028\u0029",
-            "name": "unregister",
-            "summary": "Remove\u0020a\u0020registered\u0020stub\u0020\u0028for\u0020test\u0020teardown\u0029.",
-            "url": "classes/ClearView-Test-InlayRegistry.html#method_unregister"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003Areset\u0028\u0029",
-            "name": "reset",
-            "summary": "Reset\u0020all\u0020registered\u0020stubs\u0020\u0028called\u0020between\u0020tests\u0029.",
-            "url": "classes/ClearView-Test-InlayRegistry.html#method_reset"
-        },                {
-            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003A\u0024stubs",
-            "name": "stubs",
-            "summary": "",
-            "url": "classes/ClearView-Test-InlayRegistry.html#property_stubs"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane",
-            "name": "StubPane",
-            "summary": "Base\u0020class\u0020for\u0020dynamically\u002Dgenerated\u0020stub\u0020panes.",
-            "url": "classes/ClearView-Test-StubPane.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Initializes\u0020the\u0020pane.",
-            "url": "classes/ClearView-Test-StubPane.html#method___construct"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003AresolveData\u0028\u0029",
-            "name": "resolveData",
-            "summary": "Resolve\u0020the\u0020stub\u0020data,\u0020invoking\u0020a\u0020callable\u0020if\u0020needed.",
-            "url": "classes/ClearView-Test-StubPane.html#method_resolveData"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003Arender\u0028\u0029",
-            "name": "render",
-            "summary": "Render\u0020the\u0020stub\u0020data\u0020as\u0020an\u0020HTML\u0020fragment.",
-            "url": "classes/ClearView-Test-StubPane.html#method_render"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003Aopen\u0028\u0029",
-            "name": "open",
-            "summary": "Delegate\u0020open\u0028\u0029\u0020to\u0020render\u0028\u0029\u0020so\u0020dialog\u002Dstyle\u0020tests\u0020see\u0020stub\u0020data.",
-            "url": "classes/ClearView-Test-StubPane.html#method_open"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A\u0024panename",
-            "name": "panename",
-            "summary": "",
-            "url": "classes/ClearView-Test-StubPane.html#property_panename"
-        },                {
-            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A\u0024inlayname",
-            "name": "inlayname",
-            "summary": "",
-            "url": "classes/ClearView-Test-StubPane.html#property_inlayname"
-        },                {
-            "fqsen": "\\ClearView\\Test\\TestFixtureException",
-            "name": "TestFixtureException",
-            "summary": "Exception\u0020thrown\u0020when\u0020a\u0020test\u0020fixture\u0020encounters\u0020invalid\u0020or\ninconsistent\u0020state\u003A\u0020duplicate\u0020shard\u0020ids,\u0020missing\u0020named\u0020shards,\ninvalid\u0020stub\u0020data,\u0020etc.",
-            "url": "classes/ClearView-Test-TestFixtureException.html"
-        },                {
-            "fqsen": "\\ClearView\\Test\\TestFixtureException\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Constructor\u0020that\u0020processes\u0020templates\u0020and\u0020passes\u0020the\u0020message\u0020to\u0020error\u0028\u0029.",
-            "url": "classes/ClearView-Test-TestFixtureException.html#method___construct"
-        },                {
             "fqsen": "\\ClearView\\ClearView",
             "name": "ClearView",
             "summary": "Singleton\u0020controller\u0020for\u0020the\u0020ClearView\u0020framework.",
@@ -1271,6 +1136,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/ClearView-Element-closebutton.html#property_script"
         },                {
+            "fqsen": "\\ClearView\\DefaultPane",
+            "name": "DefaultPane",
+            "summary": "Represents\u0020an\u0020HTML\u0020element\u0020with\u0020dynamic\u0020rendering\u0020capabilities\u0020in\u0020ClearView.",
+            "url": "classes/ClearView-DefaultPane.html"
+        },                {
+            "fqsen": "\\ClearView\\DefaultPane\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
+            "url": "classes/ClearView-DefaultPane.html#method_render"
+        },                {
+            "fqsen": "\\ClearView\\DefaultPane\u003A\u003A\u0024__loadExternal",
+            "name": "__loadExternal",
+            "summary": "",
+            "url": "classes/ClearView-DefaultPane.html#property___loadExternal"
+        },                {
             "fqsen": "\\ClearView\\Element\\fetch",
             "name": "fetch",
             "summary": "Represents\u0020an\u0020HTML\u0020element\u0020with\u0020dynamic\u0020rendering\u0020capabilities\u0020in\u0020ClearView.",
@@ -1500,6 +1380,21 @@ Search.appendIndex(
             "name": "render",
             "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
             "url": "classes/ClearView-Element-meta.html#method_render"
+        },                {
+            "fqsen": "\\ClearView\\Element\\pane",
+            "name": "pane",
+            "summary": "Represents\u0020an\u0020HTML\u0020element\u0020with\u0020dynamic\u0020rendering\u0020capabilities\u0020in\u0020ClearView.",
+            "url": "classes/ClearView-Element-pane.html"
+        },                {
+            "fqsen": "\\ClearView\\Element\\pane\u003A\u003Ainit\u0028\u0029",
+            "name": "init",
+            "summary": "Initializes\u0020the\u0020Shard.",
+            "url": "classes/ClearView-Element-pane.html#method_init"
+        },                {
+            "fqsen": "\\ClearView\\Element\\pane\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
+            "url": "classes/ClearView-Element-pane.html#method_render"
         },                {
             "fqsen": "\\ClearView\\Element\\redirect",
             "name": "redirect",
@@ -2511,10 +2406,50 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/ClearView-Shared.html#property_prevInlay"
         },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub",
+            "name": "InlayStub",
+            "summary": "Synthetic\u0020data\u0020source\u0020for\u0020inlays\u0020under\u0020test.",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html"
+        },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003Afor\u0028\u0029",
+            "name": "for",
+            "summary": "Target\u0020a\u0020specific\u0020pane\/inlay\u0020pair.",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_for"
+        },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003Areturns\u0028\u0029",
+            "name": "returns",
+            "summary": "Provide\u0020the\u0020payload\u0020the\u0020inlay\u0020would\u0020normally\u0020fetch.",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_returns"
+        },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003AreturnsCallable\u0028\u0029",
+            "name": "returnsCallable",
+            "summary": "Provide\u0020a\u0020callable\u0020that\u0020receives\u0020\u0028panename,\u0020inlayname,\u0020context\u0029\nand\u0020returns\u0020the\u0020payload.",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_returnsCallable"
+        },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020the\u0020stub\u0020in\u0020the\u0020central\u0020InlayRegistry.",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html#method_register"
+        },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024panename",
+            "name": "panename",
+            "summary": "",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_panename"
+        },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024inlayname",
+            "name": "inlayname",
+            "summary": "",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_inlayname"
+        },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024data",
             "name": "data",
             "summary": "",
             "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_data"
+        },                {
+            "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024callable",
+            "name": "callable",
+            "summary": "",
+            "url": "classes/ClearView-Test-Fixture-InlayStub.html#property_callable"
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub\u003A\u003A\u0024paneClass",
             "name": "paneClass",
@@ -2591,10 +2526,55 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/ClearView-Test-Fixture-ViewBuilder.html#property_registered"
         },                {
+            "fqsen": "\\ClearView\\Test\\InlayRegistry",
+            "name": "InlayRegistry",
+            "summary": "Central\u0020registry\u0020for\u0020InlayStub\u0020fixtures.",
+            "url": "classes/ClearView-Test-InlayRegistry.html"
+        },                {
+            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020an\u0020InlayStub\u0020for\u0020a\u0020given\u0020pane\/inlay\u0020pair.",
+            "url": "classes/ClearView-Test-InlayRegistry.html#method_register"
+        },                {
+            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003AhasStub\u0028\u0029",
+            "name": "hasStub",
+            "summary": "Check\u0020whether\u0020a\u0020stub\u0020is\u0020registered\u0020for\u0020the\u0020given\u0020pane\/inlay.",
+            "url": "classes/ClearView-Test-InlayRegistry.html#method_hasStub"
+        },                {
+            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003AgetClass\u0028\u0029",
+            "name": "getClass",
+            "summary": "Return\u0020the\u0020class\u0020name\u0020to\u0020instantiate\u0020for\u0020the\u0020given\u0020pane\/inlay.",
+            "url": "classes/ClearView-Test-InlayRegistry.html#method_getClass"
+        },                {
+            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003Areset\u0028\u0029",
+            "name": "reset",
+            "summary": "Reset\u0020all\u0020registered\u0020stubs\u0020\u0028called\u0020between\u0020tests\u0029.",
+            "url": "classes/ClearView-Test-InlayRegistry.html#method_reset"
+        },                {
+            "fqsen": "\\ClearView\\Test\\InlayRegistry\u003A\u003A\u0024stubs",
+            "name": "stubs",
+            "summary": "",
+            "url": "classes/ClearView-Test-InlayRegistry.html#property_stubs"
+        },                {
+            "fqsen": "\\ClearView\\Test\\StubPane",
+            "name": "StubPane",
+            "summary": "Base\u0020class\u0020for\u0020dynamically\u002Dgenerated\u0020stub\u0020panes.",
+            "url": "classes/ClearView-Test-StubPane.html"
+        },                {
+            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Initializes\u0020the\u0020pane.",
+            "url": "classes/ClearView-Test-StubPane.html#method___construct"
+        },                {
             "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003AgetStubData\u0028\u0029",
             "name": "getStubData",
             "summary": "Subclasses\u0020override\u0020this\u0020to\u0020return\u0020the\u0020stub\u0020payload.",
             "url": "classes/ClearView-Test-StubPane.html#method_getStubData"
+        },                {
+            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Render\u0020the\u0020stub\u0020data\u0020as\u0020an\u0020HTML\u0020fragment.",
+            "url": "classes/ClearView-Test-StubPane.html#method_render"
         },                {
             "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003ArenderArray\u0028\u0029",
             "name": "renderArray",
@@ -2605,6 +2585,21 @@ Search.appendIndex(
             "name": "callables",
             "summary": "",
             "url": "classes/ClearView-Test-StubPane.html#property_callables"
+        },                {
+            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A\u0024panename",
+            "name": "panename",
+            "summary": "",
+            "url": "classes/ClearView-Test-StubPane.html#property_panename"
+        },                {
+            "fqsen": "\\ClearView\\Test\\StubPane\u003A\u003A\u0024inlayname",
+            "name": "inlayname",
+            "summary": "",
+            "url": "classes/ClearView-Test-StubPane.html#property_inlayname"
+        },                {
+            "fqsen": "\\ClearView\\Test\\TestFixtureException",
+            "name": "TestFixtureException",
+            "summary": "Exception\u0020thrown\u0020when\u0020a\u0020test\u0020fixture\u0020encounters\u0020invalid\u0020or\ninconsistent\u0020state\u003A\u0020duplicate\u0020shard\u0020ids,\u0020missing\u0020named\u0020shards,\ninvalid\u0020stub\u0020data,\u0020etc.",
+            "url": "classes/ClearView-Test-TestFixtureException.html"
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\ViewBuilder\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
@@ -3311,6 +3306,11 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/clearview.html"
         },                {
+            "fqsen": "\\ClearView\\Element",
+            "name": "Element",
+            "summary": "",
+            "url": "namespaces/clearview-element.html"
+        },                {
             "fqsen": "\\ClearView\\Test\\Fixture",
             "name": "Fixture",
             "summary": "",
@@ -3320,11 +3320,6 @@ Search.appendIndex(
             "name": "Test",
             "summary": "",
             "url": "namespaces/clearview-test.html"
-        },                {
-            "fqsen": "\\ClearView\\Element",
-            "name": "Element",
-            "summary": "",
-            "url": "namespaces/clearview-element.html"
         },                {
             "fqsen": "\\ClearView\\Test\\Harness",
             "name": "Harness",

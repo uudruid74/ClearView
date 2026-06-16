@@ -103,15 +103,14 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/clearview.html">ClearView</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/clearview-element.html">Element</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    li
+    DefaultPane
 
         <span class="phpdocumentor-element__extends">
-        extends <a href="classes/ClearView-Element.html"><abbr title="\ClearView\Element">Element</abbr></a>
+        extends <a href="classes/ClearView-Pane.html"><abbr title="\ClearView\Pane">Pane</abbr></a>
     </span>
     
             <div class="phpdocumentor-element__package">
@@ -130,9 +129,9 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/glyphs/li.php"><a href="files/modules-vendor-glyphs-li.html"><abbr title="modules/vendor/glyphs/li.php">li.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/glyphs/Default.php"><a href="files/modules-vendor-glyphs-default.html"><abbr title="modules/vendor/glyphs/Default.php">Default.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">8</span>
+    <span class="phpdocumentor-element-found-in__line">5</span>
 
     </aside>
 
@@ -165,7 +164,7 @@ ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</c
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/ClearView-Element-li.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/ClearView-DefaultPane.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -177,7 +176,7 @@ ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</c
 
 <h4 id="toc-constants">
     Constants
-    <a href="classes/ClearView-Element-li.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/ClearView-DefaultPane.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -249,10 +248,16 @@ ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</c
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/ClearView-Element-li.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/ClearView-DefaultPane.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/ClearView-DefaultPane.html#property___loadExternal">$__loadExternal</a>
+    <span>
+                        &nbsp;: mixed            </span>
+</dt>
+
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a class="" href="classes/ClearView-Shard.html#property_address">$address</a>
     <span>
@@ -287,23 +292,23 @@ ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</c
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/ClearView-Element-li.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/ClearView-DefaultPane.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Element.html#method___call">__call()</a>
+    <a class="" href="classes/ClearView-Pane.html#method___call">__call()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Forwards unknown method calls to client-side JavaScript.</dd>
+<dd>Catch unknown method calls for consistency</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Element.html#method___construct">__construct()</a>
+    <a class="" href="classes/ClearView-Pane.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Initializes the element with properties from the provided object.</dd>
+<dd>Initializes the pane.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method___set">__set()</a>
@@ -350,6 +355,13 @@ and replaces their tree slots with References. Unnamed children
 (without id=&quot;#&quot;) are left as-is (never stored in Mosaic).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_close">close()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Triggers closepane event with optional delay.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_createid">createid()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -364,11 +376,11 @@ and replaces their tree slots with References. Unnamed children
 <dd>Returns the current iterator item.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Element.html#method_debug">debug()</a>
+    <a class="" href="classes/ClearView-Pane.html#method_debug">debug()</a>
     <span>
-                                &nbsp;: self    </span>
+                                &nbsp;: $this    </span>
 </dt>
-<dd>Logs a debug message with the GLYPH tag.</dd>
+<dd>Wrapper around Exception::debug() for inlays</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_deflate">deflate()</a>
@@ -404,6 +416,13 @@ and replaces their tree slots with References. Unnamed children
                                 &nbsp;: void    </span>
 </dt>
 <dd>Deletes multiple Mosaic variables.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_doesNotUnderstand">doesNotUnderstand()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Handles unknown commands.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_getChildren">getChildren()</a>
@@ -469,6 +488,13 @@ and replaces their tree slots with References. Unnamed children
 <dd>Gets multiple Mosaic variables.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_handleCommand">handleCommand()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Dispatches commands based on URL segments.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_hasChanged">hasChanged()</a>
     <span>
                                 &nbsp;: mixed    </span>
@@ -490,11 +516,12 @@ and replaces their tree slots with References. Unnamed children
 <dd>Checks if a field exists.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Shard.html#method_html">html()</a>
+    <a class="" href="classes/ClearView-Pane.html#method_html">html()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Renders the Shard as HTML.</dd>
+<dd>Default HTML method. Renders Pane::body. Detects inlay changes
+by comparing against Shared::$prevInlay and fires inlaychange.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_id">id()</a>
@@ -581,6 +608,13 @@ and replaces their tree slots with References. Unnamed children
 <dd>Returns the current iterator key.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_launcher">launcher()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Renders the launcher element (e.g., a button that opens the pane).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_loadShard">loadShard()</a>
     <span>
                                 &nbsp;: <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>    </span>
@@ -630,6 +664,14 @@ and replaces their tree slots with References. Unnamed children
 <dd>Unsets a field.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_open">open()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Default full-page render. Opens the container tag, renders element
+contents, outputs the body template, and closes. Fires paneopen event.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_rawJson">rawJson()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
@@ -637,7 +679,21 @@ and replaces their tree slots with References. Unnamed children
 <dd>Returns raw JSON without templating.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Element-li.html#method_render">render()</a>
+    <a class="" href="classes/ClearView-Pane.html#method_redirect">redirect()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Redirects to a URL.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_reloadPage">reloadPage()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Reloads the page.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-DefaultPane.html#method_render">render()</a>
     <span>
                                 &nbsp;: string|null    </span>
 </dt>
@@ -649,6 +705,14 @@ and replaces their tree slots with References. Unnamed children
                                 &nbsp;: void    </span>
 </dt>
 <dd>Renders the children of the Shard.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_retargetResult">retargetResult()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Sets the HX-Retarget header to redirect an HTMX response to a
+different target element than the one that triggered the request.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_rewind">rewind()</a>
@@ -777,6 +841,13 @@ and replaces their tree slots with References. Unnamed children
 <dd>Toggles a CSS class in the element’s class field.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_triggerevent">triggerevent()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Triggers an htmx event. Pane name is always included in the JSON payload.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_valid">valid()</a>
     <span>
                                 &nbsp;: bool    </span>
@@ -819,7 +890,7 @@ and replaces their tree slots with References. Unnamed children
     <section class="phpdocumentor-constants">
         <h3 class="phpdocumentor-elements__header" id="constants">
             Constants
-            <a href="classes/ClearView-Element-li.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/ClearView-DefaultPane.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
@@ -1107,9 +1178,46 @@ and replaces their tree slots with References. Unnamed children
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/ClearView-Element-li.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/ClearView-DefaultPane.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property___loadExternal">
+        $__loadExternal
+        <a href="classes/ClearView-DefaultPane.html#property___loadExternal" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/glyphs/Default.php"><a href="files/modules-vendor-glyphs-default.html"><abbr title="modules/vendor/glyphs/Default.php">Default.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">7</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$__loadExternal</span>
+     = <span class="phpdocumentor-signature__default-value">&quot;View::Default&quot;</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
                     <article
         class="
             phpdocumentor-element
@@ -1311,7 +1419,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/ClearView-Element-li.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/ClearView-DefaultPane.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -1322,36 +1430,31 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method___call">
         __call()
-        <a href="classes/ClearView-Element.html#method___call" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Pane.html#method___call" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Element.php"><a href="files/element.html">Element.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">506</span>
+    <span class="phpdocumentor-element-found-in__line">204</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Forwards unknown method calls to client-side JavaScript.</p>
+        <p class="phpdocumentor-summary">Catch unknown method calls for consistency</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$arguments</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__call</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$arguments</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used to handle undefined method calls by generating JavaScript that invokes a function with the same
-name on the element (via its ID) using HTMX’s <code class="prettyprint">me()</code> utility. Arguments are JSON-encoded or escaped as
-needed.</p>
-<p>Why: Enables dynamic JavaScript interactions without server-side method definitions.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$name</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The JavaScript function name to call.</p>
@@ -1360,7 +1463,7 @@ needed.</p>
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$arguments</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The arguments to pass to the function.</p>
@@ -1383,64 +1486,39 @@ needed.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/ClearView-Element.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Pane.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Element.php"><a href="files/element.html">Element.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initializes the element with properties from the provided object.</p>
+        <p class="phpdocumentor-summary">Initializes the pane.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$obj</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$primaryField</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$named</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$contentsType</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$panename</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlayname</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'Default'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Called to create a new Element instance, setting up properties from a scalar value or array via the
-parent Shard constructor. Automatically registers a change notification trigger if a <code class="prettyprint">name</code> field is
-defined and a corresponding method exists on the ClearView creator.</p>
-<p>Why: Sets up the element’s initial state and integrates with ClearView’s change notification system.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$obj</span>
+                <span class="phpdocumentor-argument-list__argument__name">$panename</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+                            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Scalar value (e.g., element name) or array of properties (e.g., ['id' =&gt; 'btn', 'class' =&gt; 'active']).</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$primaryField</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Primary field name (e.g., 'value').</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$named</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Optional name for the Shard.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$contentsType</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$inlayname</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">'Default'</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1777,6 +1855,53 @@ __unnamed system.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_close">
+        close()
+        <a href="classes/ClearView-Pane.html#method_close" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">55</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Triggers closepane event with optional delay.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">close</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$delay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$delay</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Optional delay value for the event payload.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_createid">
         createid()
         <a href="classes/ClearView-Shard.html#method_createid" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1881,35 +2006,31 @@ can be stored and addressed in Mosaic.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_debug">
         debug()
-        <a href="classes/ClearView-Element.html#method_debug" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Pane.html#method_debug" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Element.php"><a href="files/element.html">Element.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">90</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Logs a debug message with the GLYPH tag.</p>
+        <p class="phpdocumentor-summary">Wrapper around Exception::debug() for inlays</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">debug</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$msg</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$depth</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">2</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">debug</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$msg</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$depth</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">2</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used to output a debug message to the ClearView exception logger, tagged as <code class="prettyprint">GLYPH</code> for element-specific
-tracing. Includes a configurable stack trace depth for context.</p>
-<p>Why: Facilitates debugging of element rendering and interactions.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$msg</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The debug message to log.</p>
@@ -1918,7 +2039,7 @@ tracing. Includes a configurable stack trace depth for context.</p>
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$depth</span>
-                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">2</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The stack trace depth (default: 2).</p>
@@ -1933,9 +2054,9 @@ tracing. Includes a configurable stack trace depth for context.</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
+        <span class="phpdocumentor-signature__response_type">$this</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>For method chaining.</p>
+                <section class="phpdocumentor-description"><p>for chaining</p>
 </section>
 
             </section>
@@ -2188,6 +2309,51 @@ to remove the class via HTMX.</p>
 <p>Why: Supports bulk variable removal for cleanup.</p>
 </section>
 
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_doesNotUnderstand">
+        doesNotUnderstand()
+        <a href="classes/ClearView-Pane.html#method_doesNotUnderstand" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">195</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Handles unknown commands.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">doesNotUnderstand</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$name</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
             </dd>
             </dl>
 
@@ -2666,6 +2832,53 @@ Shard’s <code class="prettyprint">iterateFields</code> and formats them via Fa
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_handleCommand">
+        handleCommand()
+        <a href="classes/ClearView-Pane.html#method_handleCommand" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">146</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Dispatches commands based on URL segments.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">handleCommand</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$command</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'_doesNotUnderstand'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$command</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">'_doesNotUnderstand'</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The command to execute.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_hasChanged">
         hasChanged()
         <a href="classes/ClearView-Shard.html#method_hasChanged" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2835,29 +3048,40 @@ Shard’s <code class="prettyprint">iterateFields</code> and formats them via Fa
 >
     <h4 class="phpdocumentor-element__name" id="method_html">
         html()
-        <a href="classes/ClearView-Shard.html#method_html" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Pane.html#method_html" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">245</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Renders the Shard as HTML.</p>
+        <p class="phpdocumentor-summary">Default HTML method. Renders Pane::body. Detects inlay changes
+by comparing against Shared::$prevInlay and fires inlaychange.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">html</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">html</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$template</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Delegates rendering to Facet for consistent HTML output.</p>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$template</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Optional template to render instead of Pane::body.</p>
 </section>
 
-    
+            </dd>
+            </dl>
+
     
 
         
@@ -3491,6 +3715,44 @@ Shard’s <code class="prettyprint">iterateFields</code> and formats them via Fa
         class="phpdocumentor-element
             -method
             -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_launcher">
+        launcher()
+        <a href="classes/ClearView-Pane.html#method_launcher" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">44</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Renders the launcher element (e.g., a button that opens the pane).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">launcher</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Reads Pane::launcher field. Sets hx-target to #layerstack,
+hx-swap to beforeend, and method to open.</p>
+</section>
+
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_loadShard">
@@ -3912,6 +4174,42 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_open">
+        open()
+        <a href="classes/ClearView-Pane.html#method_open" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">29</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Default full-page render. Opens the container tag, renders element
+contents, outputs the body template, and closes. Fires paneopen event.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">open</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_rawJson">
         rawJson()
         <a href="classes/ClearView-Shard.html#method_rawJson" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3966,17 +4264,99 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_redirect">
+        redirect()
+        <a href="classes/ClearView-Pane.html#method_redirect" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">84</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Redirects to a URL.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">redirect</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The URL.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_reloadPage">
+        reloadPage()
+        <a href="classes/ClearView-Pane.html#method_reloadPage" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">93</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Reloads the page.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">reloadPage</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_render">
         render()
-        <a href="classes/ClearView-Element-li.html#method_render" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-DefaultPane.html#method_render" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/glyphs/li.php"><a href="files/modules-vendor-glyphs-li.html"><abbr title="modules/vendor/glyphs/li.php">li.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/glyphs/Default.php"><a href="files/modules-vendor-glyphs-default.html"><abbr title="modules/vendor/glyphs/Default.php">Default.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">10</span>
+    <span class="phpdocumentor-element-found-in__line">9</span>
 
     </aside>
 
@@ -4036,6 +4416,57 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
 </section>
 
     
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_retargetResult">
+        retargetResult()
+        <a href="classes/ClearView-Pane.html#method_retargetResult" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">127</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sets the HX-Retarget header to redirect an HTMX response to a
+different target element than the one that triggered the request.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">retargetResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Used by <attr view="..."> when a layout change requires the response
+to swap the outer <main> element instead of the inner <article>.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$target</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>CSS selector for the new swap target.</p>
+</section>
+
+            </dd>
+            </dl>
+
     
 
         
@@ -5056,6 +5487,66 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_triggerevent">
+        triggerevent()
+        <a href="classes/ClearView-Pane.html#method_triggerevent" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">103</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Triggers an htmx event. Pane name is always included in the JSON payload.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">triggerevent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$event</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event to trigger.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Optional event parameters.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_valid">
         valid()
         <a href="classes/ClearView-Shard.html#method_valid" class="headerlink"><i class="fas fa-link"></i></a>
@@ -5353,9 +5844,9 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                        <li><a href="classes/ClearView-Element-li.html#toc-constants">Constants</a></li>
-                                                            <li><a href="classes/ClearView-Element-li.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/ClearView-Element-li.html#toc-methods">Methods</a></li>
+                                        <li><a href="classes/ClearView-DefaultPane.html#toc-constants">Constants</a></li>
+                                                            <li><a href="classes/ClearView-DefaultPane.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/ClearView-DefaultPane.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
@@ -5376,6 +5867,7 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/ClearView-DefaultPane.html#property___loadExternal">$__loadExternal</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_address">$address</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_canonicalId">$canonicalId</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_childType">$childType</a></li>
@@ -5387,22 +5879,24 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/ClearView-Element.html#method___call">__call()</a></li>
-                                            <li class=""><a href="classes/ClearView-Element.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method___set">__set()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method___toString">__toString()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_addChildren">addChildren()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_addClass">addClass()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_addtrigger">addtrigger()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_canonicalizeChildren">canonicalizeChildren()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_close">close()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_createid">createid()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_current">current()</a></li>
-                                            <li class=""><a href="classes/ClearView-Element.html#method_debug">debug()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_debug">debug()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_deflate">deflate()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_delClass">delClass()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_delField">delField()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_delVar">delVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_delVars">delVars()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_doesNotUnderstand">doesNotUnderstand()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_getChildren">getChildren()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_getChildType">getChildType()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_getField">getField()</a></li>
@@ -5412,10 +5906,11 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
                                             <li class=""><a href="classes/ClearView-Element.html#method_getHxVals">getHxVals()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_getVar">getVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_getVars">getVars()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_handleCommand">handleCommand()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_hasChanged">hasChanged()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_hasClass">hasClass()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_hasField">hasField()</a></li>
-                                            <li class=""><a href="classes/ClearView-Shard.html#method_html">html()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_html">html()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_id">id()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_inflate">inflate()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_init">init()</a></li>
@@ -5428,6 +5923,7 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_json">json()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_jsonSerialize">jsonSerialize()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_key">key()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_launcher">launcher()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_loadShard">loadShard()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_missingField">missingField()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_next">next()</a></li>
@@ -5435,9 +5931,13 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_offsetGet">offsetGet()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_offsetSet">offsetSet()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_offsetUnset">offsetUnset()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_open">open()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_rawJson">rawJson()</a></li>
-                                            <li class=""><a href="classes/ClearView-Element-li.html#method_render">render()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_redirect">redirect()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_reloadPage">reloadPage()</a></li>
+                                            <li class=""><a href="classes/ClearView-DefaultPane.html#method_render">render()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_renderChildren">renderChildren()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_retargetResult">retargetResult()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_rewind">rewind()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_script">script()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_setChildType">setChildType()</a></li>
@@ -5456,6 +5956,7 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
                                             <li class=""><a href="classes/ClearView-Element.html#method_style">style()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_takeClass">takeClass()</a></li>
                                             <li class=""><a href="classes/ClearView-Element.html#method_toggleClass">toggleClass()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_triggerevent">triggerevent()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_valid">valid()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_initRawField">initRawField()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_searchChildren">searchChildren()</a></li>
@@ -5480,7 +5981,7 @@ the field and injects client-side JavaScript to toggle the class via HTMX.</p>
     </section>
 </section>
         </div>
-        <a href="classes/ClearView-Element-li.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/ClearView-DefaultPane.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
