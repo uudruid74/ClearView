@@ -410,12 +410,12 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 // Replace the tree slot with a Reference.
                 // Reference is stored with anon inlay so it never
                 // registers in Mosaic (would overwrite the target).
-                // The real inlay is tucked into __refInlay for resolution.
+                // The real inlay is tucked into _refInlay for resolution.
                 $this->data['children'][$i] = [
                     'glyph' => 'reference',
                     'name' => $child['name'],
                     'inlay' => Config::SHARD_ANONINLAY,
-                    '__refInlay' => $childShard->inlay(),
+                    '_refInlay' => $childShard->inlay(),
                 ];
             } elseif (!empty($child['children'])) {
                 // Unnamed child with nested children — recurse inline
@@ -451,7 +451,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                     'glyph' => 'reference',
                     'name' => $child['name'],
                     'inlay' => Config::SHARD_ANONINLAY,
-                    '__refInlay' => $childShard->inlay(),
+                    '_refInlay' => $childShard->inlay(),
                 ];
             } elseif (!empty($child['children'])) {
                 $this->canonicalizeInline($child['children'], $inlay);

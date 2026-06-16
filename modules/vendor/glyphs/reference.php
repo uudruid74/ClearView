@@ -26,7 +26,7 @@ class reference extends Element
      * Constructs a Reference, forcing anonymous inlay so it never
      * registers in Mosaic (which would overwrite the target Shard).
      *
-     * Captures the real inlay as __refInlay for Mosaic resolution.
+     * Captures the real inlay as _refInlay for Mosaic resolution.
      */
     public function __construct($obj = null, ?string $primaryField = null, ?string $named = null, ?string $childType = null)
     {
@@ -35,9 +35,9 @@ class reference extends Element
             // On round-trip through Mosaic::loadMosaic, loadShard sets
             // $obj['inlay'] to the current inlay — save it so resolve()
             // can find the target.  When canonicalizeChildren() already
-            // provided __refInlay, keep it.
-            if (!isset($obj['__refInlay']) && isset($obj['inlay']) && $obj['inlay'] !== Config::SHARD_ANONINLAY) {
-                $obj['__refInlay'] = $obj['inlay'];
+            // provided _refInlay, keep it.
+            if (!isset($obj['_refInlay']) && isset($obj['inlay']) && $obj['inlay'] !== Config::SHARD_ANONINLAY) {
+                $obj['_refInlay'] = $obj['inlay'];
             }
             $obj['inlay'] = Config::SHARD_ANONINLAY;
         }
@@ -55,11 +55,10 @@ class reference extends Element
             return null;
         }
         // References are transient (anon inlay) — the real inlay for
-        // Mosaic resolution is stored in __refInlay to avoid overwriting
-        // the target Shard's Mosaic entry.  After a Mosaic round-trip
-        // __refInlay is stripped by jsonmangler, so fall back to the
-        // current pane inlay (where canonicalizeChildren stored the target).
-        $inlay = $this->data['__refInlay']
+        // Mosaic resolution is stored in _refInlay to avoid overwriting
+        // the target Shard's Mosaic entry.  _refInlay survives jsonmangler
+        // round-trips (single-underscore prefix is not stripped).
+        $inlay = $this->data['_refInlay']
               ?? ClearView::inlay();
         return Mosaic::index($inlay, $name);
     }

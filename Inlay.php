@@ -30,7 +30,7 @@ class Inlay extends Pane
      */
     public function html(): void
     {
-        $inlayName = $this->getVar('inlay') ?? ClearView::inlay();
+        $inlayName = ClearView::inlay();
 
         // Fire inlaychange if the inlay changed
         if (Shared::$prevInlay !== null && Shared::$prevInlay !== $inlayName) {

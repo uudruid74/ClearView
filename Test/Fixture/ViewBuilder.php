@@ -189,7 +189,7 @@ class ViewBuilder
             'glyph'      => 'reference',
             'name'       => $childId,
             'inlay'      => $this->inlayname,
-            '__refInlay' => $this->inlayname,
+            '_refInlay' => $this->inlayname,
         ];
         $parent->setField('children', $children);
 
@@ -206,6 +206,22 @@ class ViewBuilder
     {
         Mosaic::setVar($expression, $value);
         return $this;
+    }
+
+    /**
+     * Get a registered element by ID from Mosaic.
+     *
+     * @param string $id Element ID
+     * @return \ClearView\Element
+     * @throws TestFixtureException if element not found
+     */
+    public function getElement(string $id): \ClearView\Element
+    {
+        $shard = Mosaic::index($this->inlayname, $id);
+        if (!$shard || !($shard instanceof \ClearView\Element)) {
+            throw new TestFixtureException("Named element '{$id}' not found in inlay '{$this->inlayname}'");
+        }
+        return $shard;
     }
 
     /**

@@ -341,7 +341,9 @@ class jsonmangler
                     $globChildren = [];
                     foreach ($files as $file) {
                         if (is_file($file)) {
-                            $subData = self::fromhtml(file_get_contents($file), $context);
+                            // Load glob fragments standalone — no parent context so nested
+                            // default-view lookups don't bleed into sibling fragments.
+                            $subData = self::fromhtml(file_get_contents($file));
                             if (!empty($subData)) {
                                 if (isset($subData['glyph'])) {
                                     $globChildren[] = $subData;

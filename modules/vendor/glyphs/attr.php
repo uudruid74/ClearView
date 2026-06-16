@@ -49,7 +49,7 @@ class attr extends Element
             }
 
             Pane::retargetResult('main');
-            Pane::triggerevent('inlaychange');
+            ClearView::CurrentPane()->triggerevent('inlaychange');
             return;
         }
 

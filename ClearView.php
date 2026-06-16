@@ -122,7 +122,19 @@ class ClearView
             // to the old modules/vendor/glyphs/Default.php).
             $PaneClass = '\\ClearView\\Main';
         } else {
-            list (self::$instance->panename,self::$instance->inlayname,self::$instance->command) = explode ('/', \ProcessWire\page()->url);
+            // Trim slashes, filter empty segments, assign up to 3 segments.
+            $segments = array_values(array_filter(explode('/', trim(\ProcessWire\page()->url, '/')), 'strlen'));
+            $count = count($segments);
+            if ($count >= 1) self::$instance->panename  = $segments[0];
+            if ($count >= 2) self::$instance->inlayname  = $segments[1];
+            if ($count >= 3) self::$instance->command    = $segments[2];
+            // Enforce at least panename; everything else falls through to defaults.
+            if (empty(self::$instance->panename)) {
+                self::$instance->panename = 'Default';
+            }
+            if (empty(self::$instance->inlayname)) {
+                self::$instance->inlayname = 'ClearView';
+            }
             $PaneClass = self::loadInlay(self::$instance->panename,self::$instance->inlayname);
         }
 
@@ -146,7 +158,19 @@ class ClearView
         // from the ProcessWire page.
         $pwPage = \ProcessWire\pages()->get('name=' . self::$instance->panename);
         if ($pwPage && $pwPage->id) {
-            new \ClearView\Pane($pwPage, 'Pane', 'ClearView');
+            // Handle both Crystal-Pane (__construct(pwObject, name, inlay))
+            // and Runtime-Pane (__construct(panename, inlayname)) — which
+            // class is loaded depends on require order from plugAllCrystals().
+            try {
+                $refl = new \ReflectionClass(\ClearView\Pane::class);
+                if ($refl->isSubclassOf(\ClearView\Page::class)) {
+                    // Crystal-Pane: wire with the correct PW page for field resolution.
+                    new \ClearView\Pane($pwPage, self::$instance->panename, 'Pane');
+                }
+            } catch (\Throwable $e) {
+                // Runtime-Pane class: don't create here — it's instantiated below
+                // by loadInlay() on the rendering path.
+            }
         }
         // Also store the name as a raw Mosaic variable for template
         // compatibility (legacy: some templates reference Pane::name
