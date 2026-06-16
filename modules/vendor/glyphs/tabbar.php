@@ -55,7 +55,7 @@ class tabbar extends Element
 
         foreach ($tabNames as $tabname) {
             $tabElement = [
-                '__dynid'       => "{{Config::id_form_tabprefix}}{$tabname}",
+                'id'           => "{{Config::id_form_tabprefix}}{$tabname}",
                 'hx-get'        => Facet::_("/{{Pane::name}}/{$tabname}/html/"),
                 'hx-trigger'    => 'click',
                 'glyph'         => 'li',

@@ -1,0 +1,106 @@
+[< **/** \> htm **x**](https://htmx.org/)
+
+[docs](https://htmx.org/docs/)
+
+[reference](https://htmx.org/reference/)
+
+[examples](https://htmx.org/examples/)
+
+[talk](https://htmx.org/talk/)
+
+[essays](https://htmx.org/essays/)
+
+Search
+
+[star](https://github.com/bigskysoftware/htmx) [48,206](https://github.com/bigskysoftware/htmx/stargazers)
+
+# htmx Idiomorph Extension
+
+[Idiomorph](https://github.com/bigskysoftware/idiomorph) is a DOM morphing algorithm created by the htmx creator. DOM
+morphing is a process where an existing DOM tree is “morphed” into the shape of another in a way that resuses as much of
+the existing DOM’s nodes as possible. By preserving nodes when changing from one tree to another you can present a
+much smoother transition between the two states.
+
+You can use the idiomorph morphing algorithm as a [swapping](https://htmx.org/extensions/idiomorph/@attributes/hx-swap) strategy by including the idiomorph
+extension.
+
+## Installing
+
+The fastest way to install `idiomorph` is to load it via a CDN. Remember to always include the core htmx library before the extension and [enable the extension](https://htmx.org/extensions/idiomorph/#usage).
+
+```html
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/idiomorph@0.7.4/dist/idiomorph-ext.min.js" integrity="sha384-SsScJKzATF/w6suEEdLbgYGsYFLzeKfOA6PY+/C5ZPxOSuA+ARquqtz/BZz9JWU8" crossorigin="anonymous"></script>
+</head>
+<body hx-ext="morph">
+```
+
+Unminified versions are also available at:
+[https://unpkg.com/idiomorph/dist/idiomorph-ext.js](https://unpkg.com/idiomorph/dist/idiomorph-ext.js)
+
+While the CDN approach is simple, you may want to consider [not using CDNs in production](https://blog.wesleyac.com/posts/why-not-javascript-cdn). The next easiest way to install `idiomorph` is to simply copy it into your project. Download idiomorph with htmx extension from `https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js`, add them to the appropriate directory in your project and include them where necessary with `<script>` tags.
+
+For npm-style build systems, you can install `idiomorph` via [npm](https://www.npmjs.com/):
+
+```shell
+npm install idiomorph
+```
+
+After installing, you’ll need to use appropriate tooling to bundle `node_modules/idiomorph/dist/idiomorph-ext.js` (or `node_modules/idiomorph/dist/idiomorph-ext.min.js`). For example, you might bundle the extension with htmx core from `node_modules/htmx.org/dist/htmx.js` and project-specific code.
+
+If you are using a bundler to manage your javascript (e.g. Webpack, Rollup):
+
+- Install `htmx.org` and `idiomorph` via npm
+- Import both packages to your `index.js`
+
+```js
+import `htmx.org`;
+import `idiomorph/htmx`;
+```
+
+## Usage
+
+Once you have referenced the idiomorph extension, you can register it with the name `morph` on the body and then begin
+using `morph`, `morph:outerHTML` or `morph:innerHTML` as swap strategies.
+
+- `morph` & `morph:outerHTML` will morph the target element as well as it’s children
+- `morph:innerHTML` will morph only the inner children of an element, leaving the target untouched
+
+```html
+<body hx-ext="morph">
+  <button hx-get="/example" hx-swap="morph">
+    Morph My Outer HTML
+  </button>
+
+  <button hx-get="/example" hx-swap="morph:outerHTML">
+    Morph My Outer HTML
+  </button>
+
+  <button hx-get="/example" hx-swap="morph:innerHTML">
+    Morph My Inner HTML
+  </button>
+</body>
+```
+
+## haiku
+
+_javascript fatigue:_
+
+_longing for a hypertext_
+
+_already in hand_
+
+[docs](https://htmx.org/docs/)
+
+[reference](https://htmx.org/reference/)
+
+[examples](https://htmx.org/examples/)
+
+[talk](https://htmx.org/talk/)
+
+[essays](https://htmx.org/essays/)
+
+[@htmx\_org](https://twitter.com/htmx_org)
+
+![](https://htmx.org/img/bss_bars.png)

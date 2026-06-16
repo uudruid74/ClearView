@@ -10,10 +10,14 @@ namespace ClearView;
  * them through Mosaic or the ProcessWire object graph.
  *
  * Currently tracks the active main layout so the `<attr>` glyph
- * can detect and prevent redundant view-based layout changes.
+ * can detect and prevent redundant view-based layout changes,
+ * and the previous inlay for inlaychange detection.
  */
 class Shared
 {
     /** @var string|null The current main layout name (e.g. 'dashboard') */
     public static ?string $mainLayout = null;
+
+    /** @var string|null The previously active inlay name; used to detect inlay changes */
+    public static ?string $prevInlay = null;
 }

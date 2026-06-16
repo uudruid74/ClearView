@@ -157,11 +157,12 @@ class ClearView
     }
 
     /**
-     * Build a module search stack from the current ProcessWire page hierarchy.
+     * Build a module search stack: Config::MODULES_LIST base + ProcessWire page hierarchy modules.
      *
-     * Walks up the page tree collecting `modules` field values from each page
-     * (child-first), then appends "vendor" as the terminal fallback. Returns
-     * an array like ["bazmodule", "barmodule", "vendor"].
+     * Starts with the base module list from Config::MODULES_LIST (site, vendor),
+     * then walks up the ProcessWire page tree collecting `modules` field values.
+     * Page modules are inserted after 'site' so site always has priority.
+     * 'vendor' is always the terminal fallback.
      *
      * @return array<string>
      */
@@ -170,40 +171,42 @@ class ClearView
         if (self::$moduleStackCache !== null) {
             return self::$moduleStackCache;
         }
-        $stack = [];
+        $stack = Config::MODULES_LIST;
         try {
             $panename = Mosaic::getVar("Pane::name");
-            if (!$panename) {
-                return self::$moduleStackCache = ['vendor'];
-            }
-            $page = \ProcessWire\pages()->get("name={$panename}");
-            while ($page && $page->id) {
-                if (!empty($page->modules)) {
-                    $modules = is_array($page->modules) ? $page->modules : [$page->modules];
-                    foreach ($modules as $m) {
-                        if ($m && !in_array($m, $stack, true)) {
-                            $stack[] = $m;
+            if ($panename) {
+                $page = \ProcessWire\pages()->get("name={$panename}");
+                while ($page && $page->id) {
+                    if (!empty($page->modules)) {
+                        $modules = is_array($page->modules) ? $page->modules : [$page->modules];
+                        // Insert page modules after 'site', before 'vendor'
+                        foreach (array_reverse($modules) as $m) {
+                            if ($m && !in_array($m, $stack, true)) {
+                                $vendorIdx = array_search('vendor', $stack);
+                                if ($vendorIdx !== false) {
+                                    array_splice($stack, $vendorIdx, 0, $m);
+                                } else {
+                                    $stack[] = $m;
+                                }
+                            }
                         }
                     }
+                    $page = $page->parent;
                 }
-                $page = $page->parent;
             }
         } catch (\Throwable $e) {
-            // Gracefully degrade to vendor-only on any page-walking error
+            // Gracefully degrade to base module list on any page-walking error
         }
-        if (!in_array('vendor', $stack, true)) {
-            $stack[] = 'vendor';
-        }
-        return self::$moduleStackCache = $stack;
+        return self::$moduleStackCache = array_values(array_unique($stack));
     }
 
     /**
      * Load Inlay by panename and inlayname.
      *
-     * Uses module stack search first (modules/<module>/glyphs/...),
-     * then falls back to the base vendor glyphs:
-     * modules/vendor/glyphs/<panename>/<Inlayname>.php → \ClearView\<Panename>\<Inlayname>,
-     * or modules/vendor/glyphs/<Panename>.php → \ClearView\<Panename>.
+     * When no inlay is specified (or 'Pane'), returns Pane class directly.
+     * With an inlay, searches the module stack for
+     * modules/<module>/panes/<panename>/<inlayname>.php
+     * and returns ClearView\<panename>_<inlayname>.
      *
      * @param string $panename
      * @param string $inlayname
@@ -212,36 +215,24 @@ class ClearView
      */
     public static function loadInlay(string $panename, string $inlayname): string
     {
-        $lower = strtolower($panename);
-        $uc = ucfirst($panename);
+        // 0. Test harness: if InlayRegistry has a stub, return the stub class.
+        if (self::inTesting() && \ClearView\Test\InlayRegistry::hasStub($panename, $inlayname)) {
+            return \ClearView\Test\InlayRegistry::getClass($panename, $inlayname);
+        }
 
-        // 1. Module stack: modules/<module>/glyphs/<lower>/<Inlayname>.php
+        // 1. No inlay → load Pane directly
+        if (empty($inlayname) || $inlayname === 'Pane') {
+            return '\\ClearView\\Pane';
+        }
+
+        // 2. Inlay → search modules/<module>/panes/<panename>/<inlayname>.php
+        $className = "{$panename}_{$inlayname}";
         foreach (self::buildModuleStack() as $module) {
-            $path = __DIR__ . "/modules/{$module}/glyphs/{$lower}/{$inlayname}.php";
+            $path = __DIR__ . "/modules/{$module}/panes/{$panename}/{$inlayname}.php";
             if (file_exists($path)) {
                 require_once($path);
-                return "\\ClearView\\{$uc}\\{$inlayname}";
+                return "\\ClearView\\{$className}";
             }
-        }
-        // 2. Module stack: modules/<module>/glyphs/<Panename>.php
-        foreach (self::buildModuleStack() as $module) {
-            $path = __DIR__ . "/modules/{$module}/glyphs/{$panename}.php";
-            if (file_exists($path)) {
-                require_once($path);
-                return "\\ClearView\\{$panename}";
-            }
-        }
-        // 3. Base: modules/vendor/glyphs/<lower>/<Inlayname>.php
-        $path = __DIR__ . "/modules/vendor/glyphs/{$lower}/{$inlayname}.php";
-        if (file_exists($path)) {
-            require_once($path);
-            return "\\ClearView\\{$uc}\\{$inlayname}";
-        }
-        // 4. Base: modules/vendor/glyphs/<Panename>.php
-        $path = __DIR__ . "/modules/vendor/glyphs/{$panename}.php";
-        if (file_exists($path)) {
-            require_once($path);
-            return "\\ClearView\\{$panename}";
         }
         throw new Exception("Cannot load inlay: {$panename}/{$inlayname}");
     }
@@ -612,7 +603,7 @@ class ClearView
     }
 
     /**
-     * Checks if a method exists in a class, searching module stack then base dirs.
+     * Checks if a method exists in a class, searching the module stack for panes/.
      *
      * @param string $method The method name to check.
      * @param string $classname The class name (without namespace).
@@ -621,36 +612,20 @@ class ClearView
     public static function methodExists($method, $classname): bool
     {
         $panename = Mosaic::getVar("Pane::name");
-        $lower = strtolower($panename);
-        $uc = ucfirst($panename);
 
-        // 1. Module stack: modules/<module>/glyphs/<lower>/<classname>.php
+        // 1. No inlay class → check Pane directly
+        if (empty($classname) || $classname === 'Pane') {
+            return method_exists('\\ClearView\\Pane', $method);
+        }
+
+        // 2. Search modules/<module>/panes/<panename>/<classname>.php
+        $fullClass = "{$panename}_{$classname}";
         foreach (self::buildModuleStack() as $module) {
-            $path = __DIR__ . "/modules/{$module}/glyphs/{$lower}/{$classname}.php";
+            $path = __DIR__ . "/modules/{$module}/panes/{$panename}/{$classname}.php";
             if (file_exists($path)) {
                 require_once($path);
-                return method_exists("\\ClearView\\{$uc}\\{$classname}", $method);
+                return method_exists("\\ClearView\\{$fullClass}", $method);
             }
-        }
-        // 2. Module stack: modules/<module>/glyphs/<classname>.php
-        foreach (self::buildModuleStack() as $module) {
-            $path = __DIR__ . "/modules/{$module}/glyphs/{$classname}.php";
-            if (file_exists($path)) {
-                require_once($path);
-                return method_exists("\\ClearView\\{$classname}", $method);
-            }
-        }
-        // 3. Base: modules/vendor/glyphs/<lower>/<classname>.php
-        $path = __DIR__ . "/modules/vendor/glyphs/{$lower}/{$classname}.php";
-        if (file_exists($path)) {
-            require_once($path);
-            return method_exists("\\ClearView\\{$uc}\\{$classname}", $method);
-        }
-        // 4. Base: modules/vendor/glyphs/<classname>.php
-        $path = __DIR__ . "/modules/vendor/glyphs/{$classname}.php";
-        if (file_exists($path)) {
-            require_once($path);
-            return method_exists("\\ClearView\\{$classname}", $method);
         }
         return false;
     }

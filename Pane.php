@@ -23,38 +23,57 @@ class Pane extends Element
     }
 
     /**
-     * Add the default render() for <pane> elements here, including the Session Token creation
-     * A <pane> render just outputs a div with the same class and other attributes as the pane
-     * but with an on-load parameter that loads the pane into the div.  The <pane> element
-     * is for embedded panes, <dialog> for full screen dynamic panes.  The pane itself just
-     * inserts into the given container.
-     *
-     * Change all ids to #name-container, #name-pane for the main element, #name-mos for the mosaic,
-     * #name-debug for the debug layer, #name-script for the javascript layer.
-     *
-     * In the new scheme, Panes are elements, so the Form.php pane should have a render() that
-     * outputs the <form> tag like an element.  The open() call creates a <dialog> element and
-     * then outputs that element OOB to the end of the layerstack.  I think
-     *   public function open(): void
-     *   {
-     *      (new Facet($this))->newLayer('dialog');
-     *   }
-     * should be implemented.  It would just output the dialog, render $this to a string,
-     * output the string, then close the dialog, all OOB.  We'll add more types later.
-     * This should also output the debug layer.  We'll put the javascript container after
-     * the mosaic.  Outputting the mosaic outputs the javascript container.
-     *
-     * Facet builds the OOB string directly, like Mosaic does.
-     *
-     */
-
-    /**
-     * Override this in your subclasses
+     * Default full-page render. Opens the container tag, renders element
+     * contents, outputs the body template, and closes. Fires paneopen event.
      */
     public function open(): void
     {
         (new Facet($this))
-            ->html()
+            ->open("{{Pane::open}}")
+            ->render()
+            ->html("{{Pane::body^^View::" . $this->name . "}}")
+            ->close();
+        $this->triggerevent('paneopen');
+    }
+
+    /**
+     * Renders the launcher element (e.g., a button that opens the pane).
+     * Reads Pane::launcher field. Sets hx-target to #layerstack,
+     * hx-swap to beforeend, and method to open.
+     */
+    public function launcher(): void
+    {
+        (new Facet($this))
+            ->open("{{Pane::launcher}}", null, null, null, false, true)
+            ->close();
+    }
+
+    /**
+     * Triggers closepane event with optional delay.
+     * @param mixed $delay Optional delay value for the event payload.
+     */
+    public function close($delay = null): void
+    {
+        $this->triggerevent('closepane', $delay);
+    }
+
+    /**
+     * Default HTML method. Renders Pane::body. Detects inlay changes
+     * by comparing against Shared::$prevInlay and fires inlaychange.
+     * @param string|null $template Optional template to render instead of Pane::body.
+     */
+    public function html(?string $template = null): void
+    {
+        $currentInlay = $this->inlay();
+        if (Shared::$prevInlay !== null && Shared::$prevInlay !== $currentInlay) {
+            $this->triggerevent('inlaychange', ['inlay' => $currentInlay]);
+        }
+        Shared::$prevInlay = $currentInlay;
+
+        $body = $template ?? "{{Pane::body}}";
+        (new Facet($this))
+            ->open($body)
+            ->render()
             ->close();
     }
 
@@ -77,20 +96,23 @@ class Pane extends Element
     }
 
     /**
-     * Triggers an htmx event.
+     * Triggers an htmx event. Pane name is always included in the JSON payload.
      * @param string $event The event to trigger.
      * @param mixed $params Optional event parameters.
      */
-    public static function triggerevent($event, $params = null): void
+    public function triggerevent($event, $params = null): self
     {
         Exception::debug('EVENT', "Triggering {$event}");
+        $paneName = $this->getField('name') ?? 'unknown';
         if (isset($params)) {
-            header('HX-Trigger: ' .json_encode([
-                $event => $params
-            ]));
+            $payload = is_array($params)
+                ? array_merge(['pane' => $paneName], $params)
+                : ['pane' => $paneName, 'value' => $params];
+            header('HX-Trigger: ' . json_encode([$event => $payload]));
         } else {
-            header("HX-Trigger: {$event}");
+            header('HX-Trigger: ' . json_encode([$event => ['pane' => $paneName]]));
         }
+        return $this;
     }
 
     /**
@@ -119,7 +141,7 @@ class Pane extends Element
 
     /**
      * Dispatches commands based on URL segments.
-     * @param array $urlsegments The URL segments.
+     * @param string|null $command The command to execute.
      */
     public function handleCommand(?string $command = '_doesNotUnderstand'): void
     {
@@ -148,7 +170,7 @@ class Pane extends Element
             }
 
             // Execute the method if all checks pass.
-            Exception::debug('EVENT', "Executing {$command} from {{uppercase\Input::requestMethod}} {{Input::url}}");
+            Exception::debug('EVENT', "Executing {$command} from {{uppercase\\Input::requestMethod}} {{Input::url}}");
             (new Facet($this))
                 ->forward($command) // the command to be executed
 //                ->dumpEverything()  // Dump entire Mosaic

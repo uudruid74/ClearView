@@ -215,6 +215,17 @@ class Config extends Crystal
     public const STACK_LIMIT = 255;
 
     /**
+     * Ordered list of active module directories.
+     * Modules are tried in order for glyph/views/pane lookups. 'site' is tried
+     * first (user overrides), 'vendor' last (pristine ClearView code).
+     * ProcessWire page 'modules' fields are layered between site and vendor at runtime.
+     *
+     * @see ClearView::buildModuleStack()
+     * @var array<int, string>
+     */
+    public const MODULES_LIST = ['site', 'vendor'];
+
+    /**
      * Lost the list of these - check Exception.php
      * You can change "Config::tracemode" in your PHP code to debug specific sections of code.
      * You can also change this in a Facet for auto-restore on tag-close.
@@ -231,6 +242,7 @@ class Config extends Crystal
      * @var array<string, mixed>
      */
     public static array $config = [
+        'modules_list' => self::MODULES_LIST,
         'layername_clearview' => self::LAYERNAME_CLEARVIEW,
         'title_prefix' => self::TITLE_PREFIX,
         'shard_anoninlay' => self::SHARD_ANONINLAY,

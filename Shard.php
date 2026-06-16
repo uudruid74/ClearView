@@ -195,9 +195,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (isset($object['id']) && $object['id'] !== '#') {
             return $object['id'];
         }
-        if (isset($object['__dynid'])) {
-            return Facet::_($object['__dynid']);
-        }
         // Use explicit name as the id when available
         if (!empty($object['name'])) {
             return $object['name'];

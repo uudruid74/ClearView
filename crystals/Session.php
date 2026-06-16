@@ -65,7 +65,7 @@ class Session extends Crystal
         if (!$session->CSRF->hasToken($panename)) {
             $session->CSRF->createToken($panename);
         }
-        return $session->CSRF->getTokenValue($panename));
+        return $session->CSRF->getTokenValue($panename);
     }
 
     /**

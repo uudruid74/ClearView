@@ -209,23 +209,6 @@ class Element extends Shard
     }
 
     /**
-     * Sets the HTMX post URL to a local element method.
-     *
-     * Used to configure the `hx-post` attribute to point to a local method on the element, using the element’s
-     * glyph and method name in the URL.
-     *
-     * Why: Enables local method calls for HTMX-driven interactions.
-     *
-     * @param string $methodname The local method name to include in the URL.
-     * @return self For method chaining.
-     */
-    public function setlocalmethod(string $methodname): self
-    {
-        $this->setField('hx-post', Facet::_("/{{Pane::name}}/{{glyph}}/{$methodname}/"));
-        return $this;
-    }
-
-    /**
      * Sets the HTMX swap type for the element.
      *
      * Used to configure the `hx-swap` attribute, which determines how HTMX replaces content after a request

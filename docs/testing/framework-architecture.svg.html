@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearView Testing Framework Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #020617;
+      color: #e2e8f0;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2rem;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 0 0 rgba(52,211,153,0.7);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(52,211,153,0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(52,211,153,0); }
+      100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+    }
+    h1 { font-size: 1.25rem; font-weight: 700; }
+    .subtitle { color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 1rem;
+      overflow: auto;
+    }
+    .summary {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .info-card {
+      background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 0.75rem;
+    }
+    .info-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .info-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .cyan { background: #22d3ee; }
+    .green { background: #34d399; }
+    .purple { background: #a78bfa; }
+    .info-card h3 { font-size: 0.85rem; margin-bottom: 0.25rem; }
+    .info-card ul { list-style: none; font-size: 0.75rem; color: #94a3b8; }
+    .info-card li { margin: 0.25rem 0; }
+    .footer { margin-top: 1.5rem; color: #64748b; font-size: 0.7rem; }
+    text { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="dot"></div>
+    <h1>ClearView Testing Framework Architecture</h1>
+  </div>
+  <div class="subtitle">Runner lifecycle, CLI surface, and integration seams</div>
+
+  <div class="card">
+    <svg viewBox="0 0 900 460" width="100%" preserveAspectRatio="xMidYMid meet">
+      <!-- grid -->
+      <defs>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+        </pattern>
+        <marker id="arrow-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+        </marker>
+        <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa"/>
+        </marker>
+      </defs>
+      <rect width="900" height="460" fill="url(#grid)"/>
+
+      <!-- top cli -->
+      <rect x="300" y="15" width="300" height="50" rx="6" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+      <rect x="300" y="15" width="300" height="50" rx="6" fill="rgba(8,51,68,0.4)"/>
+      <text x="450" y="35" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="700">utility/clearview-test.php</text>
+      <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="8">CLI entry point: filter, suite, CI mode, base URL</text>
+
+      <!-- phpunit -->
+      <rect x="300" y="100" width="300" height="50" rx="6" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+      <rect x="300" y="100" width="300" height="50" rx="6" fill="rgba(8,51,68,0.4)"/>
+      <text x="450" y="120" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="700">PHPUnit 10.x engine</text>
+      <text x="450" y="137" text-anchor="middle" fill="#94a3b8" font-size="8">Reads phpunit.xml.dist; executes test cases; reports results</text>
+
+      <!-- arrows down -->
+      <line x1="450" y1="65" x2="450" y2="100" stroke="#22d3ee" stroke-width="1.2" marker-end="url(#arrow-cyan)"/>
+
+      <!-- lifecycle box -->
+      <rect x="330" y="180" width="240" height="70" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <rect x="330" y="180" width="240" height="70" rx="6" fill="rgba(6,78,59,0.4)"/>
+      <text x="450" y="200" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Runner lifecycle</text>
+      <text x="450" y="220" text-anchor="middle" fill="#e2e8f0" font-size="9">Discovery → Setup → Execution</text>
+      <text x="450" y="235" text-anchor="middle" fill="#e2e8f0" font-size="9">Reporting → Teardown</text>
+
+      <line x1="450" y1="150" x2="450" y2="180" stroke="#34d399" stroke-width="1.2" marker-end="url(#arrow-green)"/>
+
+      <!-- three columns -->
+      <!-- unit/integration -->
+      <rect x="15" y="290" width="220" height="120" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>
+      <rect x="15" y="290" width="220" height="120" rx="6" fill="rgba(6,78,59,0.4)"/>
+      <text x="125" y="310" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Headless unit / integration</text>
+      <text x="30" y="335" fill="#e2e8f0" font-size="8">• ViewBuilder</text>
+      <text x="30" y="350" fill="#e2e8f0" font-size="8">• InlayStub / InlayRegistry</text>
+      <text x="30" y="365" fill="#e2e8f0" font-size="8">• tests/bootstrap.php</text>
+      <text x="30" y="380" fill="#e2e8f0" font-size="8">• ProcessWire stubs</text>
+
+      <!-- singletons -->
+      <rect x="325" y="290" width="250" height="120" rx="6" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
+      <rect x="325" y="290" width="250" height="120" rx="6" fill="rgba(76,29,149,0.4)"/>
+      <text x="450" y="310" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">ClearView singleton seams</text>
+      <text x="340" y="335" fill="#e2e8f0" font-size="8">• ClearView::inTesting()</text>
+      <text x="340" y="350" fill="#e2e8f0" font-size="8">• ClearView::loadInlay() → InlayRegistry</text>
+      <text x="340" y="365" fill="#e2e8f0" font-size="8">• Mosaic reset</text>
+      <text x="340" y="380" fill="#e2e8f0" font-size="8">• Facet static reset</text>
+
+      <!-- smoke -->
+      <rect x="620" y="290" width="260" height="120" rx="6" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+      <rect x="620" y="290" width="260" height="120" rx="6" fill="rgba(120,53,15,0.3)"/>
+      <text x="750" y="310" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">Smoke / end-to-end</text>
+      <text x="635" y="335" fill="#e2e8f0" font-size="8">• ServerHarness (curl)</text>
+      <text x="635" y="350" fill="#e2e8f0" font-size="8">• TestResponse</text>
+      <text x="635" y="365" fill="#e2e8f0" font-size="8">• utility/dumpurl.php</text>
+      <text x="635" y="380" fill="#e2e8f0" font-size="8">• running ClearView/ProcessWire server</text>
+
+      <!-- arrows from lifecycle to columns -->
+      <line x1="390" y1="250" x2="125" y2="290" stroke="#34d399" stroke-width="1.2" marker-end="url(#arrow-green)"/>
+      <line x1="450" y1="250" x2="450" y2="290" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#arrow-purple)"/>
+      <line x1="510" y1="250" x2="750" y2="290" stroke="#fbbf24" stroke-width="1.2" marker-end="url(#arrow-purple)"/>
+
+      <!-- config box -->
+      <rect x="15" y="100" width="190" height="120" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+      <rect x="15" y="100" width="190" height="120" rx="6" fill="rgba(30,41,59,0.5)"/>
+      <text x="110" y="120" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">Configuration</text>
+      <text x="28" y="145" fill="#e2e8f0" font-size="8">• phpunit.xml.dist</text>
+      <text x="28" y="160" fill="#e2e8f0" font-size="8">• .clearview-test.json</text>
+      <text x="28" y="175" fill="#e2e8f0" font-size="8">• tests/bootstrap.php</text>
+      <text x="28" y="190" fill="#e2e8f0" font-size="8">• CLEARVIEW_BASE_URL env</text>
+
+      <!-- arrow from config to phpunit -->
+      <line x1="205" y1="150" x2="300" y2="130" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arrow-cyan)"/>
+
+      <!-- reporting -->
+      <rect x="620" y="100" width="260" height="120" rx="6" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5"/>
+      <rect x="620" y="100" width="260" height="120" rx="6" fill="rgba(30,41,59,0.5)"/>
+      <text x="750" y="120" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="700">Reporting</text>
+      <text x="635" y="145" fill="#e2e8f0" font-size="8">• PHPUnit default (local)</text>
+      <text x="635" y="160" fill="#e2e8f0" font-size="8">• one-line-per-test (CI)</text>
+      <text x="635" y="175" fill="#e2e8f0" font-size="8">• exit codes 0/1/2/3</text>
+      <text x="635" y="190" fill="#e2e8f0" font-size="8">• normalized HTML diffs</text>
+
+      <!-- arrow from phpunit to reporting -->
+      <line x1="600" y1="125" x2="620" y2="130" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arrow-cyan)"/>
+    </svg>
+  </div>
+
+  <div class="summary">
+    <div class="info-card">
+      <div class="info-header">
+        <div class="info-dot cyan"></div>
+        <h3>CLI Surface</h3>
+      </div>
+      <ul>
+        <li>• Single entry point: utility/clearview-test.php</li>
+        <li>• Reuses phpunit.phar engine under the hood</li>
+        <li>• Supports --filter, --suite, --ci, --base-url</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-header">
+        <div class="info-dot green"></div>
+        <h3>Test Layers</h3>
+      </div>
+      <ul>
+        <li>• Unit: Element / Shard / Mosaic isolation</li>
+        <li>• Integration: ViewBuilder + InlayStub dispatch</li>
+        <li>• Smoke: ServerHarness against live server</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <div class="info-header">
+        <div class="info-dot purple"></div>
+        <h3>Safety Rules</h3>
+      </div>
+      <ul>
+        <li>• Reset singletons between tests, never remove them</li>
+        <li>• InlayRegistry consulted only when inTesting()</li>
+        <li>• Smoke tests self-skip when no base URL</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    Open docs/testing/framework-architecture.svg.html in a browser to view. Diagram generated for Kanban task t_f138dcba.
+  </div>
+</body>
+</html>

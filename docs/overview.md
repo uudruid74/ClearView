@@ -152,7 +152,7 @@ ClearView\Pane extends Element
 ```
 
 The Pane is the top-level rendering context for a URL namespace.
-All inlay classes extend Pane (or Form, which extends Pane).
+All inlay classes extend Pane.
 
 ### 4.4 Mosaic
 
@@ -329,7 +329,7 @@ distinguish current behavior from future plans.
 
 | Item | Status |
 |------|--------|
-| Move panes & inlays under `glyphs/` directory | **Planned** — Pane.php → glyphs/pane.php, Form.php → glyphs/form.php |
+|| Move panes & inlays under `glyphs/` directory | **Done** — Pane.php → glyphs/pane.php, Form.php merged into Pane |
 | Drop `s` suffix on inlay directories | **Planned** — `panes/forms/` → `panes/form/` |
 | `<pane>` tag creates embedded pane with `hx-trigger="load"` | **Planned** — CSRF token created by `<pane>` and `<button>` tags |
 | Layerstack as `<layerstack>` glyph with `addLayer()` | **Planned** — replaces ad-hoc dialog management |

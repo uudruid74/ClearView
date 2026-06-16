@@ -2,11 +2,11 @@
 <head> </head>
 <body class="container">
 <header class="cramped glass vertical container-fluid">
-    <layout class="horizontal">
-        <icon src="/pics/Clearview-Icon-CIR-256.png"> </icon>
+    <layout view="formheader">
+        <aside name="icon"><icon src="/pics/Clearview-Icon-CIR-256.png"> </icon></aside>
         <hgroup class="centered rows" style="margin-top:0.25rem; margin-bottom:0;">
-            <h2 id="headline" class="formtitle">{{Page::headline}}</h2>
-            <div id="summary" class="forminfo">{{Page::summary}}</div>
+            <aside name="headline"><h2 id="headline">{{Page::headline}}</h2></aside>
+            <aside name="summary"><div id="summary">{{Page::summary}}</div></aside>
         </hgroup>
     </layout>
 </header>
