@@ -8,6 +8,15 @@ use ClearView\Mosaic;
 class jsonmangler
 {
     /**
+     * HTML void (self-closing) elements that never load default views.
+     * @var array<string>
+     */
+    private const VOID_ELEMENTS = [
+        'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
+        'link', 'meta', 'param', 'source', 'track', 'wbr',
+    ];
+
+    /**
      * @var array<string,string> Mapping of special characters to encoded values for mangling JSON.
      */
     private static $encode_map = [
@@ -252,6 +261,16 @@ class jsonmangler
 
     /**
      * Recursively processes a DOM node into a JSON-compatible array.
+     *
+     * Rules:
+     * - Void/self-closing elements (br, hr, img, input, etc.) never load default views.
+     * - Default views can nest: e.g. <head> loads views/head.php whose children may
+     *   reference views/head/<child>.php.
+     * - view="name" on any element overrides its children with the loaded view fragment,
+     *   including on self-closing tags.
+     * - Folder globs in view names (e.g. view="icons/*") load all matching views/<pane>/icons/*.php
+     *   as sibling fragments.
+     *
      * @param \DOMNode $node The DOM node to process.
      * @return array The JSON-compatible array for the node.
      */
@@ -268,48 +287,82 @@ class jsonmangler
             $glyph = $node->nodeName;
             $element = [ 'glyph' => $glyph ];
 
-            // See if there is an autoload View file
-            $pane = ClearView::id();
-            $filePath = __DIR__ . "/../modules/vendor/views/{$pane}/{$glyph}.php";
-            if (file_exists($filePath)) {
-                $element['__loadExternal'] = "View::$glyph";
-            } elseif ($pane != 'Default') {
-                $filePath = __DIR__ . "/../modules/vendor/views/Default/{$glyph}.php";
-                if (file_exists($filePath)) {
-                    $element['__loadExternal'] = "View::$glyph";
-                }
-            }
-
+            // Collect attributes first (needed for view= check)
             if ($node->hasAttributes()) {
                 foreach ($node->attributes as $attr) {
                     $element[$attr->name] = $attr->value;
                 }
             }
 
-            $children = [];
-            foreach ($node->childNodes as $child) {
-                $processedChild = self::processNode($child);
-                if (!empty($processedChild)) {
-                    $children[] = $processedChild;
+            $hasView = !empty($element['view']);
+
+            // Default view lookup — skip for void (self-closing) elements
+            // and skip when an explicit view= attribute is present.
+            if (!$hasView && !in_array($glyph, self::VOID_ELEMENTS, true)) {
+                $pane = ClearView::id();
+                $filePath = __DIR__ . "/../modules/vendor/views/{$pane}/{$glyph}.php";
+                if (file_exists($filePath)) {
+                    $element['__loadExternal'] = "View::$glyph";
+                } elseif ($pane != 'Default') {
+                    $filePath = __DIR__ . "/../modules/vendor/views/Default/{$glyph}.php";
+                    if (file_exists($filePath)) {
+                        $element['__loadExternal'] = "View::$glyph";
+                    }
                 }
             }
 
-            if ($node->childNodes->length === 1 && $node->firstChild instanceof \DOMText) {
-                $trimmedValue = trim($node->firstChild->nodeValue);
-                if ($trimmedValue !== '') {
-                    $element['children'] = [ $trimmedValue ];
-                }
-            } elseif (!empty($children)) {
-                $element['children'] = $children;
-            }
-
-            if (!empty($element['view'])) {
-                if (str_contains($element['view'],'::')) {
-                    $element['__loadExternal'] = $element['view'];
+            if ($hasView) {
+                // view="name" overrides element children.
+                // Handle folder globs: load all matching files as sibling fragments.
+                if (str_contains($element['view'], '*')) {
+                    $pane = ClearView::id();
+                    $globPattern = __DIR__ . "/../modules/vendor/views/{$pane}/{$element['view']}";
+                    $files = glob($globPattern);
+                    $globChildren = [];
+                    foreach ($files as $file) {
+                        if (is_file($file)) {
+                            $subData = self::fromhtml(file_get_contents($file));
+                            if (!empty($subData)) {
+                                if (isset($subData['glyph'])) {
+                                    $globChildren[] = $subData;
+                                } elseif (isset($subData['children'])) {
+                                    $globChildren = array_merge($globChildren, $subData['children']);
+                                }
+                            }
+                        }
+                    }
+                    if (!empty($globChildren)) {
+                        $element['children'] = $globChildren;
+                    }
+                    // No __loadExternal for globs — already expanded inline.
                 } else {
-                    $element['__loadExternal'] = "View::".$element['view'];
+                    // Normal view reference
+                    if (str_contains($element['view'], '::')) {
+                        $element['__loadExternal'] = $element['view'];
+                    } else {
+                        $element['__loadExternal'] = "View::{$element['view']}";
+                    }
+                }
+            } else {
+                // No view override — process children normally.
+                $children = [];
+                foreach ($node->childNodes as $child) {
+                    $processedChild = self::processNode($child);
+                    if (!empty($processedChild)) {
+                        $children[] = $processedChild;
+                    }
+                }
+
+                if ($node->childNodes->length === 1 && $node->firstChild instanceof \DOMText) {
+                    $trimmedValue = trim($node->firstChild->nodeValue);
+                    if ($trimmedValue !== '') {
+                        $element['children'] = [ $trimmedValue ];
+                    }
+                } elseif (!empty($children)) {
+                    $element['children'] = $children;
                 }
             }
+
             return $element;
         }
 

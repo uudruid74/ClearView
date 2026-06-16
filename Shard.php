@@ -161,12 +161,22 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         $this->init();
     }
 
+    /**
+     * Converts a Shard or scalar value to an array for Mosaic merging.
+     *
+     * Shards return their field data directly. Scalar values are parsed
+     * through fromhtml() without any wrapper element — fragments and
+     * other glyphs are rendered as-is, not mangled into <article> tags.
+     *
+     * @param mixed $shard Shard instance or scalar value.
+     * @return array The field data or parsed array.
+     */
     private static function toArray ($shard)
     {
         if ($shard instanceof Shard) {
             return $shard->getFieldData() ?? [];
         } else {
-            return jsonmangler::fromhtml("<article>$shard</article>");
+            return jsonmangler::fromhtml((string)$shard);
         }
     }
 
