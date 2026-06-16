@@ -39,6 +39,18 @@ class QueryParser
         // Process templates first
         $expression = self::processTemplate($expression, $locals, $inlay, $forceFacet);
 
+        // ^^ XOR evaluation: returns non-null operand, throws if both non-null.
+        if (strpos($expression, '^^') !== false) {
+            [$left, $right] = explode('^^', $expression, 2);
+            $leftVal = self::parseAndResolve(trim($left), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+            $rightVal = self::parseAndResolve(trim($right), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+            $leftOk = $leftVal !== null && $leftVal !== false && $leftVal !== '' && !(is_array($leftVal) && count($leftVal) === 0);
+            $rightOk = $rightVal !== null && $rightVal !== false && $rightVal !== '' && !(is_array($rightVal) && count($rightVal) === 0);
+            if ($leftOk && $rightOk) {
+                throw new Exception("XOR conflict: both operands are non-null");
+            }
+            return $leftOk ? $leftVal : $rightVal;
+        }
         // || and && short-circuit evaluation
         // Operates on the resolved string, splitting on the first occurrence.
         if (strpos($expression, '||') !== false) {
