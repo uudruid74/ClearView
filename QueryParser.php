@@ -22,15 +22,16 @@ class QueryParser
      * The main entry point for parsing and resolving a single template expression.
      *
      * This method is responsible for taking a raw expression string (e.g., 'count++' or
-     * 'Inlay::method()') and returning its resolved value. It handles special cases like
-     * increment/decrement operators and array indexing before delegating to a more
-     * general parser and resolver. It also applies any specified sanitizers.
+     * 'Inlay::method()') and returning its resolved value. Handles short-circuit operators
+     * (^^ XOR, ||, &&), increment/decrement, array indexing, template expansion, and
+     * sanitizer pipelines.
      *
      * @param string $expression The template expression to resolve.
      * @param array|null $locals Local variables for variable lookup (optional).
      * @param string|null $inlay The inlay name to resolve against (optional).
-     * @param mixed|null $forceFacet A named flag to force resolution through the given object first.
+     * @param mixed $forceFacet A named flag to force resolution through the given object first.
      * @return mixed The resolved value (string or array).
+     * @throws Exception When ^^ XOR has both operands non-null.
      */
     public static function parseAndResolve(string $expression, ?array $locals = null, ?string $inlay=null, mixed $forceFacet = null)
     {
@@ -148,9 +149,11 @@ class QueryParser
      * Parses a template expression string into its component parts.
      *
      * Analyzes expressions and categorizes them as method calls, CSS definitions, HTML attributes,
-     * inlay queries, or variables. It is the core parsing engine for the query language.
+     * inlay queries, or variables. Pane:: prefix routes to inlay field queries (no method dispatch).
+     * Inlay::, Glyph::, and other Crystal:: prefixes route to method dispatch.
      *
      * @param string $expression The full variable expression string.
+     * @param string|null $inlay The current inlay name for context.
      * @return array An associative array containing the parsed components.
      */
     public static function parse(string $expression, ?string $inlay=null): array
