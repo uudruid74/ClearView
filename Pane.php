@@ -104,7 +104,7 @@ class Pane extends Element
      */
     public static function retargetResult(string $target): void
     {
-        header("HX-Retarget: {$target}");
+        header("HX-Retarget: #{$target}");
     }
 
     /**
