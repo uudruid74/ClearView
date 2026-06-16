@@ -3,6 +3,7 @@ namespace ClearView;
 use ClearView\Pane;
 use ClearView\Facet;
 use ClearView\Mosaic;
+use ClearView\Shared;
 
 /**
  * Subclass of Pane used when the URL includes an inlay segment.

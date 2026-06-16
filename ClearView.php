@@ -153,24 +153,16 @@ class ClearView
             Exception::outputComment("The Panename is " . json_decode(self::$instance->panename));
         }
         // Wire up the Pane Crystal with the correct ProcessWire page.
-        // plugAllCrystals() auto-created it with null; replace it now that
-        // we know the panename so Pane::name, Pane::title, etc. resolve
-        // from the ProcessWire page.
+        // plugAllCrystals() auto-created PaneCrystal with null; replace it
+        // now that we know the panename so Pane::name, Pane::title, etc.
+        // resolve from the ProcessWire page.
         $pwPage = \ProcessWire\pages()->get('name=' . self::$instance->panename);
         if ($pwPage && $pwPage->id) {
-            // Handle both Crystal-Pane (__construct(pwObject, name, inlay))
-            // and Runtime-Pane (__construct(panename, inlayname)) — which
-            // class is loaded depends on require order from plugAllCrystals().
-            try {
-                $refl = new \ReflectionClass(\ClearView\Pane::class);
-                if ($refl->isSubclassOf(\ClearView\Page::class)) {
-                    // Crystal-Pane: wire with the correct PW page for field resolution.
-                    new \ClearView\Pane($pwPage, self::$instance->panename, 'Pane');
-                }
-            } catch (\Throwable $e) {
-                // Runtime-Pane class: don't create here — it's instantiated below
-                // by loadInlay() on the rendering path.
-            }
+            // PaneCrystal wraps the ProcessWire page for field resolution
+            // (Pane::name, Pane::title, etc.).  This is separate from the
+            // Runtime-Pane (ClearView\Pane) which handles the rendering
+            // lifecycle.  The two classes no longer share a name.
+            new \ClearView\PaneCrystal($pwPage, self::$instance->panename, 'Pane');
         }
         // Also store the name as a raw Mosaic variable for template
         // compatibility (legacy: some templates reference Pane::name

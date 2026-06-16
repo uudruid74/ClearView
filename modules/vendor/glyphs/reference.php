@@ -130,6 +130,9 @@ class reference extends Element
         return jsonmangler::mangle([
             'glyph' => 'reference',
             'name' => $this->data['name'] ?? '',
+            '_refInlay' => $this->data['_refInlay'] 
+                        ?? $this->data['inlay'] 
+                        ?? ClearView::inlay(),
         ]);
     }
 }

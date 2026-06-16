@@ -22,7 +22,7 @@ use ProcessWire;
  * @see \ClearView\Crystal
  * @see \ClearView\Page
  */
-class Pane extends Crystal
+class PaneCrystal extends Crystal
 {
     /**
      * Initializes the Pane Crystal with a ProcessWire page.

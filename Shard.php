@@ -396,6 +396,13 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             if (!is_array($child)) {
                 continue;
             }
+            // Skip already-canonicalized references — they carry their own
+            // _refInlay.  Re-processing them would lose _refInlay when the
+            // 'inlay' key was stripped by jsonmangler during a
+            // deflate/inflate round-trip through Mosaic.
+            if (($child['glyph'] ?? null) === 'reference') {
+                continue;
+            }
             $hasName = !empty($child['name']);
             $isAutoId = ($child['id'] ?? null) === '#';
             if ($hasName || $isAutoId) {
@@ -437,6 +444,11 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     {
         foreach ($children as $i => &$child) {
             if (!is_array($child)) {
+                continue;
+            }
+            // Skip already-canonicalized references (same reason as
+            // canonicalizeChildren — prevents _refInlay loss on round-trip).
+            if (($child['glyph'] ?? null) === 'reference') {
                 continue;
             }
             $hasName = !empty($child['name']);

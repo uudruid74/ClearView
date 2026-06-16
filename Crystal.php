@@ -54,10 +54,17 @@ abstract class Crystal extends Page
             require_once $file;
         }
 
+        // Short-name overrides: crystals whose class name differs from
+        // the Mosaic inlay name they should be registered under.
+        $nameOverrides = [
+            'ClearView\\PaneCrystal' => 'Pane',
+        ];
+
         $classes = get_declared_classes();
         foreach ($classes as $class) {
             if (is_subclass_of($class, self::class) && (new ReflectionClass($class))->isInstantiable()) {
-                $shortName = ($pos = strrpos($class, '\\')) !== false ? substr($class, $pos + 1) : $class;
+                $shortName = $nameOverrides[$class] 
+                          ?? (($pos = strrpos($class, '\\')) !== false ? substr($class, $pos + 1) : $class);
                 new $class(null,$shortName,'ClearView');
             }
         }
