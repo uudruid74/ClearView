@@ -39,8 +39,8 @@ class loginform_resetpassword extends Inlay
 
             if (isset($email) && $this->isValidEmail($email) === false) {
                 $this->setVars([
-                    'formtitle' => 'Invalid Email',
-                    'forminfo'  => "Sorry, {$email} doesn't look right!"
+                    'headline' => 'Invalid Email',
+                    'summary'  => "Sorry, {$email} doesn't look right!"
                 ]);
                 return null;
             }

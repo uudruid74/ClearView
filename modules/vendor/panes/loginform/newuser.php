@@ -22,8 +22,8 @@ class loginform_newuser extends Inlay
         $email = $this->getVar('email\email');
         if ($this->isValidEmail($email) === false) {
             $this->setVars([
-                'formtitle' => "Invalid Email",
-                'forminfo' => "Sorry, {{email}} doesn't look right!"
+                'headline' => "Invalid Email",
+                'summary' => "Sorry, {{email}} doesn't look right!"
             ]);
             return;
         }
@@ -47,8 +47,8 @@ class loginform_newuser extends Inlay
         [$em1,$em2] = explode("@", $email);
         $emailurl = urlencode($em1) . "/" . urlencode($em2);  // Displayed in this format so you can see that @=>/
         $this->setVars([
-            'formtitle' => "Sending Mail!",
-            'forminfo' => $info
+            'headline' => "Sending Mail!",
+            'summary' => $info
         ]);
         ClearView::sendPost("{$post}{$emailurl}/", [ "email" => "$email" ]);      // Sends email!
     }

@@ -31,10 +31,10 @@ class loginform_newaccount extends Inlay
                 return $email;
             }
             if (isset($email) && strlen($email) < 10) {
-                $this->setVar('forminfo', "Sorry, {$email} doesn't look right");
+                $this->setVar('summary', "Sorry, {$email} doesn't look right");
             }
         }
-        $this->setVar('formtitle', "Invalid Email");
+        $this->setVar('headline', "Invalid Email");
         return null;
     }
 
@@ -54,23 +54,23 @@ class loginform_newaccount extends Inlay
         $username = $this->getVar('username') ?? '';
         if (strlen($username) < ($this->getVar('min_user_len') ?? 3)) {
             $this->setVars([
-                'formtitle' => "Error",
-                'forminfo'  => "Use a longer username"
+                'headline' => "Error",
+                'summary'  => "Use a longer username"
             ]);
             return;
         }
 	$existingUser = $this->getVar("User::name=$username");
         if ($existingMail->id !== 0) {
             $this->setVars([
-                'formtitle' => "Error",
-                'forminfo'  => "Email Exists"
+                'headline' => "Error",
+                'summary'  => "Email Exists"
             ]);
             return;
         }
         if ($existingUser->id !== 0) {
             $this->setVars([
-                'formtitle' => "Error",
-                'forminfo'  => "Username Exists"
+                'headline' => "Error",
+                'summary'  => "Username Exists"
             ]);
             return;
         }
@@ -78,8 +78,8 @@ class loginform_newaccount extends Inlay
         $displayname = $this->getVar('text30\displayname') ?? ucfirst($username);
         if (strlen($password) < 7) {
             $this->setVars([
-                'formtitle' => "Error",
-                'forminfo'  => "Password is too small"
+                'headline' => "Error",
+                'summary'  => "Password is too small"
             ]);
             return;
         }
