@@ -79,7 +79,7 @@ class Pane extends Element
     /**
      * Triggers an htmx event.
      * @param string $event The event to trigger.
-     * @return $this for chaining
+     * @param mixed $params Optional event parameters.
      */
     public static function triggerevent($event, $params = null): void
     {
@@ -91,7 +91,20 @@ class Pane extends Element
         } else {
             header("HX-Trigger: {$event}");
         }
-        return $this;
+    }
+
+    /**
+     * Sets the HX-Retarget header to redirect an HTMX response to a
+     * different target element than the one that triggered the request.
+     *
+     * Used by <attr view="..."> when a layout change requires the response
+     * to swap the outer <main> element instead of the inner <article>.
+     *
+     * @param string $target CSS selector for the new swap target.
+     */
+    public static function retargetResult(string $target): void
+    {
+        header("HX-Retarget: {$target}");
     }
 
     /**
@@ -176,4 +189,3 @@ class Pane extends Element
         }
     }
 }
-
