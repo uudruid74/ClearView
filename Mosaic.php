@@ -433,7 +433,7 @@ class Mosaic
     {
         Exception::debug('VAR', 'Starting outputMosaic');
         $facet = (new Facet())
-            ->open("<div id=\"{{Pane::name}}" . Config::LAYER_SUFFIX_MOSAIC . "\" class=\"{{Config::class_mosaic}}\">");
+            ->open("<div id=\"{{Pane::name}}" . Config::LAYER_SUFFIX_MOSAIC . "\" class=\"{{Config::class_mosaic}}\" hx-preserve=\"true\">");
         foreach (array_keys(self::$instance->checkList) as $address) {
             if (!str_starts_with($address,'ClearView') && !str_starts_with($address,'__')) {
                 self::storeShard(self::$instance->mosaic[$address], $facet);
