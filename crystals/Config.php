@@ -117,6 +117,13 @@ class Config extends Crystal
     public const LAYER_SUFFIX_SCRIPT = '-script';
 
     /**
+     * ID for the layer stack container.
+     * Used as the target for dynamically added panes and dialogs
+     * appended to the end of the document body.
+     */
+    public const LAYERSTACKID = self::CLEARVIEW_PREFIX . 'layerstack';
+
+    /**
      * ID for the main form element.
      * Unique identifier for the primary form, prefixed with `CLEARVIEW_PREFIX`.
      */
@@ -208,6 +215,13 @@ class Config extends Crystal
     public const STACK_LIMIT = 255;
 
     /**
+     * ID for the layerstack container element.
+     * Used as the target for HX-Retarget when layout changes swap <main> content
+     * from a boosted <article> to the full <main> element.
+     */
+    public const LAYERSTACKID = self::CLEARVIEW_PREFIX . 'layerstack';
+
+    /**
      * Lost the list of these - check Exception.php
      * You can change "Config::tracemode" in your PHP code to debug specific sections of code.
      * You can also change this in a Facet for auto-restore on tag-close.
@@ -236,6 +250,7 @@ class Config extends Crystal
         'layer_suffix_mosaic' => self::LAYER_SUFFIX_MOSAIC,
         'layer_suffix_debug' => self::LAYER_SUFFIX_DEBUG,
         'layer_suffix_script' => self::LAYER_SUFFIX_SCRIPT,
+        'layerstackid' => self::LAYERSTACKID,
         'sani_page_save' => self::SANI_PAGE_SAVE,
         'id_main_form' => self::ID_MAIN_FORM,
         'id_main_body' => self::ID_MAIN_BODY,
@@ -253,6 +268,7 @@ class Config extends Crystal
         'fail_mode' => self::FAIL_MODE,
         'stack_limit' => self::STACK_LIMIT,
         'tracemode' => self::TRACEMODE, // Debug trace flags (e.g., ['ALL'], ['FACET'])
+        'layerstackid' => self::LAYERSTACKID,
     ];
 
     /**
