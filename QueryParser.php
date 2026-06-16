@@ -171,7 +171,17 @@ class QueryParser
             $expression = trim(substr($expression, $sanitizerPos + 1));
         }
 
-        // Method call: Pane::method(), Glyph::method(), or Crystal::method()
+        // Pane:: prefix resolves fields only (no method dispatch).
+        // Strip any trailing () and route as inlay field query.
+        if (str_starts_with($expression, 'Pane::')) {
+            $expressionNoParens = rtrim($expression, '()');
+            [$newinlay, $query] = explode('::', $expressionNoParens, 2);
+            $result['type'] = 'inlay';
+            $result['inlay'] = trim($newinlay);
+            $result['base'] = trim($query);
+            return $result;
+        }
+        // Method call: Inlay::method(), Glyph::method(), or Crystal::method()
         if (preg_match('/^(\w+)::(\w+)\(\)$/', $expression, $matches)) {
             $result['type'] = 'method';
             $result['inlay'] = $matches[1] ?? $inlay;
@@ -213,10 +223,14 @@ class QueryParser
     /**
      * Resolves a method call expression.
      *
-     * Handles `{{Pane::method()}}`, `{{Glyph::method()}}` or `{{Crystal::method()}}` by dispatching
-     * to the appropriate object.
+     * Handles {{Inlay::method()}}, {{Glyph::method()}} or {{Crystal::method()}} by dispatching
+     * to the appropriate object. Inlay dispatches to the current Inlay Crystal instance;
+     * Glyph dispatches to the current Facet Element; any other prefix dispatches to the
+     * Crystal whose inlay name matches.
      *
      * @param array $parsed Parsed expression components (inlay, method).
+     * @param array|null $locals Local variables for scope.
+     * @param mixed $forceFacet A named flag to force resolution through the given object.
      * @return string The result of the method call, or empty string if not found.
      */
     private static function resolveMethodCall($parsed,$locals,$forceFacet)
@@ -226,15 +240,19 @@ class QueryParser
 
         switch ($inlay) {
             case 'Inlay':
-                $creator = ClearView::CurrentPane();
-                return method_exists($creator, $method) ? $creator->$method() : '';
+                // Dispatch to current Inlay instance (Crystal registered for current inlay name)
+                $inlayCrystal = Mosaic::getVar("ClearView::" . ClearView::inlay());
+                if ($inlayCrystal instanceof Crystal && method_exists($inlayCrystal, $method)) {
+                    return $inlayCrystal->$method();
+                }
+                return '';
             case 'Glyph':
                 $elem = Facet::me();
                 return method_exists($elem, $method) ? $elem->$method() : '';
             case 'Facet':
                 return method_exists(Facet::class, $method) ? Facet::$method() : '';
             default:
-                // Assume it's a Crystal method call
+                // Generalized crystal dispatch: any Crystal whose inlay name matches the prefix
                 $crystal = Mosaic::getVar("ClearView::{$inlay}");
                 if ($crystal instanceof Crystal && method_exists($crystal, $method)) {
                     return $crystal->$method();
