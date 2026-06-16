@@ -18,8 +18,8 @@
             <article id="{{Config::id_main_body}}" class="glass container-fluid">
                 {{Page::body}}
             </article>
+	    <aside id="sidebar" style="width:50%;" class="landscape vertical sidebar glass container-fluid"> {{Page::sidebar}} </aside>
         </main>
-        <layout id="sidebar" style="width:50%;" class="landscape vertical sidebar glass container-fluid"> {{Page::sidebar}} </layout>
     </layout>
 </layout>
 

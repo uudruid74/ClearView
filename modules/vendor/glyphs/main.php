@@ -55,14 +55,8 @@ class main extends Element
         // Update fields that live outside <main> (headline, summary, sidebar).
         $this->pushWatchedFieldOOB();
 
-        $view = $this->getField('view');
-        if ($view) {
-            // Load and render the view file.
-            $facet->renderChildren();
-        } else {
-            // No view set — render captured children directly.
-            $facet->renderChildren();
-        }
+        // Render captured children (article, aside, etc. from the view).
+        $facet->renderChildren();
     }
 
     /**

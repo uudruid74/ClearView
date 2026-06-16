@@ -215,13 +215,6 @@ class Config extends Crystal
     public const STACK_LIMIT = 255;
 
     /**
-     * ID for the layerstack container element.
-     * Used as the target for HX-Retarget when layout changes swap <main> content
-     * from a boosted <article> to the full <main> element.
-     */
-    public const LAYERSTACKID = self::CLEARVIEW_PREFIX . 'layerstack';
-
-    /**
      * Lost the list of these - check Exception.php
      * You can change "Config::tracemode" in your PHP code to debug specific sections of code.
      * You can also change this in a Facet for auto-restore on tag-close.
@@ -268,7 +261,6 @@ class Config extends Crystal
         'fail_mode' => self::FAIL_MODE,
         'stack_limit' => self::STACK_LIMIT,
         'tracemode' => self::TRACEMODE, // Debug trace flags (e.g., ['ALL'], ['FACET'])
-        'layerstackid' => self::LAYERSTACKID,
     ];
 
     /**
