@@ -113,10 +113,13 @@ class ClearView
         if ($template == 'Default') {
             self::$instance->panename = $template;
             self::$instance->inlayname = 'Pane';
+            // Default route now uses ClearView\Main (the renamed successor
+            // to the old modules/vendor/glyphs/Default.php).
+            $PaneClass = '\\ClearView\\Main';
         } else {
             list (self::$instance->panename,self::$instance->inlayname,self::$instance->command) = explode ('/', \ProcessWire\page()->url);
+            $PaneClass = self::loadInlay(self::$instance->panename,self::$instance->inlayname);
         }
-        $PaneClass = self::loadInlay(self::$instance->panename,self::$instance->inlayname);
 
         // The <main> element integrates ProcessWire content via hx-boost, and only allows the html() method
         // To call other methods or elements, they must be placed in a Pane
@@ -578,14 +581,16 @@ class ClearView
     }
 
     /**
-     * Loads a view, captures its output, and returns it as a Shard object with a prefixed inlay.
+     * Loads a view file, captures its output, and returns it as a Shard object.
      *
-     * This function uses a Facet object to record the output of the specified view,
-     * then passes that output to Shard::loadShard() to create a structured Shard object.
-     * ensuring it remains local to the page generation process. It is used to represent
-     * the view's content in a format that can be manipulated or rendered within the ClearView framework.
+     * Renders the PHP view through Facet::record(), parses the captured HTML with
+     * jsonmangler::fromhtml(), and wraps the result in a Shard.  The view name is
+     * passed as $context to fromhtml() enabling nested default-view resolution:
+     * when <head> loads views/head.php, child elements inside that view may
+     * auto-resolve to views/<pane>/head/<child>.php.
      *
      * @param string $view The name of the view file (without .php extension).
+     * @param string|null $from Source marker (Shard::VIEW for view-loaded Shards).
      * @return Shard The Shard object representing the view's content.
      * @throws Exception If the view file is not found.
      */
@@ -595,7 +600,8 @@ class ClearView
             (new Facet())
                     ->record()
                     ->loadPHPView($view)
-                    ->close()
+                    ->close(),
+            $view  // context: enables nested default-view resolution
         );
         unset($data['__loadExternal']);
         return Shard::loadShard(

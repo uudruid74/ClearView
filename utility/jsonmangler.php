@@ -233,10 +233,14 @@ class jsonmangler
 
     /**
      * Converts an HTML string to a JSON array.
+     *
      * @param string $html The raw HTML string to parse.
+     * @param string|null $context Optional parent view name for nested view resolution.
+     *                             When set, default view lookups also check
+     *                             views/{pane}/{context}/{glyph}.php.
      * @return array The JSON-compatible array representing the HTML structure.
      */
-    public static function fromhtml(string $html): array
+    public static function fromhtml(string $html, ?string $context = null): array
     {
         libxml_use_internal_errors(true);
         $doc = new \DOMDocument();
@@ -247,7 +251,7 @@ class jsonmangler
         foreach ($doc->childNodes as $node) {
             // Ensure we only process the root HTML element, or body if it exists
             if ($node->nodeType === XML_ELEMENT_NODE) {
-                $processedNode = self::processNode($node);
+                $processedNode = self::processNode($node, $context);
                 if (!empty($processedNode)) {
                     $result[] = $processedNode;
                 }
@@ -272,9 +276,10 @@ class jsonmangler
      *   as sibling fragments.
      *
      * @param \DOMNode $node The DOM node to process.
+     * @param string|null $context Optional parent view name for nested default-view lookup.
      * @return array The JSON-compatible array for the node.
      */
-    private static function processNode(\DOMNode $node): array
+    private static function processNode(\DOMNode $node, ?string $context = null): array
     {
         // Handle Text Nodes
         if ($node instanceof \DOMText) {
@@ -300,10 +305,25 @@ class jsonmangler
             // and skip when an explicit view= attribute is present.
             if (!$hasView && !in_array($glyph, self::VOID_ELEMENTS, true)) {
                 $pane = ClearView::id();
-                $filePath = __DIR__ . "/../modules/vendor/views/{$pane}/{$glyph}.php";
-                if (file_exists($filePath)) {
-                    $element['__loadExternal'] = "View::$glyph";
-                } elseif ($pane != 'Default') {
+
+                // 1. Nested context: views/{pane}/{context}/{glyph}.php
+                if ($context !== null) {
+                    $ctxPath = __DIR__ . "/../modules/vendor/views/{$pane}/{$context}/{$glyph}.php";
+                    if (file_exists($ctxPath)) {
+                        $element['__loadExternal'] = "View::{$context}/{$glyph}";
+                    }
+                }
+
+                // 2. Top-level: views/{pane}/{glyph}.php
+                if (empty($element['__loadExternal'])) {
+                    $filePath = __DIR__ . "/../modules/vendor/views/{$pane}/{$glyph}.php";
+                    if (file_exists($filePath)) {
+                        $element['__loadExternal'] = "View::$glyph";
+                    }
+                }
+
+                // 3. Default fallback: views/Default/{glyph}.php
+                if (empty($element['__loadExternal']) && $pane != 'Default') {
                     $filePath = __DIR__ . "/../modules/vendor/views/Default/{$glyph}.php";
                     if (file_exists($filePath)) {
                         $element['__loadExternal'] = "View::$glyph";
@@ -321,7 +341,7 @@ class jsonmangler
                     $globChildren = [];
                     foreach ($files as $file) {
                         if (is_file($file)) {
-                            $subData = self::fromhtml(file_get_contents($file));
+                            $subData = self::fromhtml(file_get_contents($file), $context);
                             if (!empty($subData)) {
                                 if (isset($subData['glyph'])) {
                                     $globChildren[] = $subData;
@@ -347,7 +367,7 @@ class jsonmangler
                 // No view override — process children normally.
                 $children = [];
                 foreach ($node->childNodes as $child) {
-                    $processedChild = self::processNode($child);
+                    $processedChild = self::processNode($child, $context);
                     if (!empty($processedChild)) {
                         $children[] = $processedChild;
                     }
