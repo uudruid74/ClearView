@@ -21,7 +21,7 @@ class closebutton extends Element
             ->initFields([
                 'dest'          => Facet::_("#{{Config::layername_modal}} dialog"),
                 'class'         => Config::CLASS_CLOSE_BUTTON,
-                'hx-trigger'    => 'closepane from:body',
+                'hx-on:closepane' => "me('{{dest}}').fadeOut()",
                 'hx-on:click'   => "halt(event); me('{{dest}}').fadeOut()",
             ]);
     }

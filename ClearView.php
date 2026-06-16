@@ -9,12 +9,17 @@ use ClearView\Exception;
 use ProcessWire;
 
 /**
- * ClearView is a simple utility class that picks up various odds and ends
- * Mostly old stuff that hasn't been migrated to some place better
+ * Singleton controller for the ClearView framework.
+ *
+ * Created by ClearView::Init($template) once per request. Owns the
+ * JavaScript/async/OOB/debug buffers, resolves URL components, loads
+ * Pane/Inlay classes from the module stack, and exposes static helpers
+ * for scripts, HTMX detection, and cross-inlay dispatch.
  *
  * @see \ClearView\Mosaic
  * @see \ClearView\Facet
  * @see \ClearView\Crystal
+ * @see \ClearView\Inlay
  */
 class ClearView
 {
