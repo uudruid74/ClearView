@@ -5,45 +5,71 @@ namespace ClearView\Element;
 use ClearView\Element;
 use ClearView\Facet;
 use ClearView\Mosaic;
+use ClearView\Shared;
 
+/**
+ * Container for the primary page content.
+ *
+ * Does NOT hx-boost itself; boosting is delegated to the inner <article>.
+ * Calls Mosaic::outputMosaic() to preserve Mosaic state across swaps.
+ * Loads the view file specified by Shared::mainLayout (or the view attribute),
+ * and renders captured children inside it.
+ */
 class main extends Element
 {
+    /**
+     * Initialize defaults — no hx-boost on <main>.
+     */
     public function init()
     {
         $this->initFields([
-            'hx-buzz'       => 50,
-            'hx-indicator'  => 'this',
-            'hx-boost'      => 'true',
-            'hx-target'     => 'this',
-            'hx-ext'        => 'preload buzz',
-            'preload'       => 'always mouseover',
-            'preload-images'=> 'true'
+            'hx-indicator'   => 'this',
+            'hx-ext'         => 'preload buzz',
+            'preload'        => 'always mouseover',
+            'preload-images' => 'true',
         ]);
+
+        // Seed view from Shared::mainLayout if not already set on the element.
+        if (!$this->getField('view') && Shared::$mainLayout) {
+            $this->setField('view', Shared::$mainLayout);
+        }
+
+        // Persist the current view so the client round-trips correctly.
+        if ($view = $this->getField('view')) {
+            Shared::$mainLayout = $view;
+        }
     }
 
-
+    /**
+     * Opens <main>, emits preserved Mosaic inputs, then loads
+     * and renders the current view or captured children.
+     */
     public function render()
     {
-        (new Facet($this))
-            ->open(<<<EOT
-                <main {{id=id}}
-                    {{page-fields=page-fields}}
-                    {{preload=preload}}
-                    {{preload-images=preload-images}}
-                    {{hx}}>{{value}}
-EOT
-            );
-        // Push watched field OOB updates for hx-boost navigation.
-        // When <main> navigates via hx-boost, fields listed in page-fields
-        // (headline, summary, sidebar) live outside <main> and need updating.
+        $facet = (new Facet($this))
+            ->open('<main {{id=id}} {{class=class}} {{hx}}>');
+
+        // Emit the Mosaic hidden inputs inside <main> so they survive swaps.
+        Mosaic::outputMosaic();
+
+        // Update fields that live outside <main> (headline, summary, sidebar).
         $this->pushWatchedFieldOOB();
+
+        $view = $this->getField('view');
+        if ($view) {
+            // Load and render the view file.
+            $facet->renderChildren();
+        } else {
+            // No view set — render captured children directly.
+            $facet->renderChildren();
+        }
     }
 
     /**
      * Pushes OOB HTML updates for ProcessWire page fields listed in page-fields.
      *
-     * During hx-boost navigation, <main> content is swapped but header/sidebar
-     * fields outside <main> stay stale. This iterates the comma-separated
+     * During hx-boost navigation, <article> content is swapped but header/sidebar
+     * fields outside the boost target stay stale. This iterates the comma-separated
      * page-fields list, reads each field from the ProcessWire Page, and emits
      * an hx-swap-oob element that replaces the innerHTML of #field.
      */
@@ -64,8 +90,6 @@ EOT
             }
             $content = $pageCrystal->getField($field);
             if ($content !== null) {
-                // OOB swap innerHTML so the target element's tag
-                // (h2#headline, div#summary, layout#sidebar) is preserved.
                 echo "<div id=\"{$field}\" hx-swap-oob=\"innerHTML\">{$content}</div>\n";
             }
         }
