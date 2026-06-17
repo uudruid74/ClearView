@@ -3,6 +3,7 @@
 namespace ClearView;
 
 use ClearView\Crystal;
+use ClearView\Element;
 use ProcessWire;
 
 /**
@@ -23,6 +24,6 @@ class View extends Crystal
      */
     public function getVar($key = null)
     {
-        return ClearView::loadView($key);
+        return Element::loadView($key);
     }
 }

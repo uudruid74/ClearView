@@ -38,7 +38,7 @@ class Dark extends Crystal
     {
         $stem = $pwObject ?? new Stem($this);
         parent::__construct($stem);
-        Mosaic::setVars([
+        Mosaic::fill([
             'Dark::Skeksi' 	=> $stem->controller(),
             'Dark::socket' 	=> $stem->socket(),
             'Dark::connection'  => $stem->connection(),

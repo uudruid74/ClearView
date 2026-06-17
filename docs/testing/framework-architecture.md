@@ -192,7 +192,7 @@ Exit codes match Section 3.4.
 | `Test/Harness/ServerHarness.php` | Curl-based smoke helper |
 | `Test/Harness/TestResponse.php` | HTTP response wrapper |
 | `Test/Harness/TestHarnessException.php` | Harness errors |
-| `Test/PaneKeyHelper.php` | Generate matching pane-key tokens |
+| `Test/PaneKeyHelper.php` | REMOVED — replaced by Pane::validateCsrf() |
 | `docs/testing/framework-architecture.md` | This document |
 | `docs/testing/framework-architecture.svg.html` | Architecture diagram |
 

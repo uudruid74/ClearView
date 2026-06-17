@@ -127,7 +127,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 
     </aside>
 
@@ -191,6 +191,13 @@ with class names like ClearView&lt;panename&gt;_<inlayname>.</p>
 </dt>
 <dd>Default HTML response for an inlay.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Inlay.html#method_load">load()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Load Inlay by panename and inlayname.</dd>
+
     </dl>
 
 
@@ -219,7 +226,7 @@ with class names like ClearView&lt;panename&gt;_<inlayname>.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -244,6 +251,87 @@ differs from the current inlay name.</p>
     
     
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_load">
+        load()
+        <a href="classes/ClearView-Inlay.html#method_load" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">37</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Load Inlay by panename and inlayname.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">load</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$panename</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlayname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>When no inlay is specified (or 'Pane'), returns Pane class directly.
+With an inlay, searches the module stack for
+modules/<module>/panes/<panename>/<inlayname>.php
+and returns ClearView&lt;panename&gt;_<inlayname>.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$panename</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$inlayname</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_load_tags">
+        Tags
+        <a href="classes/ClearView-Inlay.html#method_load_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
+                                                                                        <section class="phpdocumentor-description"><p>if no matching file is found</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>class name that was loaded</p>
+</section>
+
+            </section>
+
+</article>
             </section>
 
         
@@ -267,6 +355,7 @@ differs from the current inlay name.</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/ClearView-Inlay.html#method_html">html()</a></li>
+                                            <li class=""><a href="classes/ClearView-Inlay.html#method_load">load()</a></li>
                                     </ul>
             </li>
                     </ul>

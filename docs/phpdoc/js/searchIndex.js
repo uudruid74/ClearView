@@ -3,53 +3,13 @@ Search.appendIndex(
                 {
             "fqsen": "\\ClearView\\ClearView",
             "name": "ClearView",
-            "summary": "Singleton\u0020controller\u0020for\u0020the\u0020ClearView\u0020framework.",
+            "summary": "Crystal\u0020that\u0020holds\u0020request\u002Dscoped\u0020output\u0020behavior.",
             "url": "classes/ClearView-ClearView.html"
         },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A__wakeup\u0028\u0029",
-            "name": "__wakeup",
-            "summary": "Prevents\u0020unserialization\u0020of\u0020the\u0020singleton\u0020instance.",
-            "url": "classes/ClearView-ClearView.html#method___wakeup"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AdefaultMethod\u0028\u0029",
-            "name": "defaultMethod",
-            "summary": "Returns\u0020the\u0020default\u0020method\u0020name\u0020for\u0020a\u0020given\u0020request\u0020method.",
-            "url": "classes/ClearView-ClearView.html#method_defaultMethod"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003Ainit\u0028\u0029",
-            "name": "init",
-            "summary": "",
-            "url": "classes/ClearView-ClearView.html#method_init"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AloadInlay\u0028\u0029",
-            "name": "loadInlay",
-            "summary": "Load\u0020Inlay\u0020by\u0020panename\u0020and\u0020inlayname.",
-            "url": "classes/ClearView-ClearView.html#method_loadInlay"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AinTesting\u0028\u0029",
-            "name": "inTesting",
-            "summary": "Check\u0020if\u0020we\u0027re\u0020running\u0020in\u0020a\u0020test\u0020environment",
-            "url": "classes/ClearView-ClearView.html#method_inTesting"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003ACurrentPane\u0028\u0029",
-            "name": "CurrentPane",
-            "summary": "Get\/Set\u0020the\u0020current\u0020Pane\u0020handling\u0020this\u0020request.\u0020Set\u0020by\u0020the\u0020Pane\nUsed\u0020to\u0020retrieve\u0020the\u0020current\u0020rendering\u0020context\u0020for\u0020accessing\u0020inlay,\u0020methods,\u0020or\u0020data\u0020during\u0020processing.",
-            "url": "classes/ClearView-ClearView.html#method_CurrentPane"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003Aid\u0028\u0029",
-            "name": "id",
-            "summary": "Gets\u0020the\u0020current\u0020Panename\u0020handling\u0020this\u0020request\nWhy\u003A\u0020Provides\u0020access\u0020to\u0020the\u0020requests\u0020initial\u0020panename",
-            "url": "classes/ClearView-ClearView.html#method_id"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003Ainlay\u0028\u0029",
-            "name": "inlay",
-            "summary": "Gets\u0020the\u0020original\u0020Inlayname\u0020of\u0020the\u0020request",
-            "url": "classes/ClearView-ClearView.html#method_inlay"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003Amethod\u0028\u0029",
-            "name": "method",
-            "summary": "Gets\u0020the\u0020original\u0020Method\u0020name\u0020of\u0020the\u0020request",
-            "url": "classes/ClearView-ClearView.html#method_method"
+            "fqsen": "\\ClearView\\ClearView\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Initializes\u0020buffers.",
+            "url": "classes/ClearView-ClearView.html#method___construct"
         },                {
             "fqsen": "\\ClearView\\ClearView\u003A\u003Ajavascript\u0028\u0029",
             "name": "javascript",
@@ -61,16 +21,6 @@ Search.appendIndex(
             "summary": "Sends\u0020asynchronous\u0020JavaScript\u0020to\u0020be\u0020executed\u0020on\u0020the\u0020client.",
             "url": "classes/ClearView-ClearView.html#method_asyncjs"
         },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003Ais_htmx_request\u0028\u0029",
-            "name": "is_htmx_request",
-            "summary": "Check\u0020if\u0020the\u0020request\u0020is\u0020made\u0020via\u0020HTMX",
-            "url": "classes/ClearView-ClearView.html#method_is_htmx_request"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003Ais_htmx_boosted\u0028\u0029",
-            "name": "is_htmx_boosted",
-            "summary": "Check\u0020if\u0020the\u0020request\u0020is\u0020from\u0020a\u0020boosted\u0020link",
-            "url": "classes/ClearView-ClearView.html#method_is_htmx_boosted"
-        },                {
             "fqsen": "\\ClearView\\ClearView\u003A\u003AsendOOB\u0028\u0029",
             "name": "sendOOB",
             "summary": "Sends\u0020an\u0020out\u002Dof\u002Dband\u0020\u0028OOB\u0029\u0020element.",
@@ -80,6 +30,11 @@ Search.appendIndex(
             "name": "debugLayer",
             "summary": "Appends\u0020a\u0020message\u0020to\u0020the\u0020pane\u002Dscoped\u0020debug\u0020layer\u0020buffer.",
             "url": "classes/ClearView-ClearView.html#method_debugLayer"
+        },                {
+            "fqsen": "\\ClearView\\ClearView\u003A\u003AbufferTriggerEvent\u0028\u0029",
+            "name": "bufferTriggerEvent",
+            "summary": "Buffers\u0020an\u0020HX\u002DTrigger\u0020header\u0020to\u0020be\u0020emitted\u0020before\u0020body\u0020output.",
+            "url": "classes/ClearView-ClearView.html#method_bufferTriggerEvent"
         },                {
             "fqsen": "\\ClearView\\ClearView\u003A\u003AdumpOOBdata\u0028\u0029",
             "name": "dumpOOBdata",
@@ -96,56 +51,6 @@ Search.appendIndex(
             "summary": "Gets\u0020rendered\u0020Hanna\u0020code.",
             "url": "classes/ClearView-ClearView.html#method_hanna"
         },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AsendMsgTo\u0028\u0029",
-            "name": "sendMsgTo",
-            "summary": "Sends\u0020a\u0020message\u0020to\u0020another\u0020inlay.",
-            "url": "classes/ClearView-ClearView.html#method_sendMsgTo"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AsendPost\u0028\u0029",
-            "name": "sendPost",
-            "summary": "Sends\u0020a\u0020POST\u0020request.",
-            "url": "classes/ClearView-ClearView.html#method_sendPost"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AloadPHPView\u0028\u0029",
-            "name": "loadPHPView",
-            "summary": "Includes\u0020a\u0020PHP\u0020view\u0020file\u0020from\u0020the\u0020module\u0020stack,\u0020then\u0020the\u0020vendor\u0020\/views\/\u0020directory.",
-            "url": "classes/ClearView-ClearView.html#method_loadPHPView"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AloadGlyph\u0028\u0029",
-            "name": "loadGlyph",
-            "summary": "Loads\u0020a\u0020glyph\u0020view\u0020file\u0020from\u0020the\u0020module\u0020stack,\u0020then\u0020base\u0020vendor\u0020glyphs.",
-            "url": "classes/ClearView-ClearView.html#method_loadGlyph"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AloadView\u0028\u0029",
-            "name": "loadView",
-            "summary": "Loads\u0020a\u0020view\u0020file,\u0020captures\u0020its\u0020output,\u0020and\u0020returns\u0020it\u0020as\u0020a\u0020Shard\u0020object.",
-            "url": "classes/ClearView-ClearView.html#method_loadView"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AmethodExists\u0028\u0029",
-            "name": "methodExists",
-            "summary": "Checks\u0020if\u0020a\u0020method\u0020exists\u0020in\u0020a\u0020class,\u0020searching\u0020the\u0020module\u0020stack\u0020for\u0020panes\/.",
-            "url": "classes/ClearView-ClearView.html#method_methodExists"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AwriteTo\u0028\u0029",
-            "name": "writeTo",
-            "summary": "Writes\u0020HTML\u0020to\u0020an\u0020element.",
-            "url": "classes/ClearView-ClearView.html#method_writeTo"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AappendTo\u0028\u0029",
-            "name": "appendTo",
-            "summary": "Appends\u0020HTML\u0020to\u0020an\u0020element.",
-            "url": "classes/ClearView-ClearView.html#method_appendTo"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003AcallMethod\u0028\u0029",
-            "name": "callMethod",
-            "summary": "Calls\u0020a\u0020method\u0020with\u0020an\u0020HTMX\u0020trigger.",
-            "url": "classes/ClearView-ClearView.html#method_callMethod"
-        },                {
-            "fqsen": "\\ClearView\\ClearView\u003A\u003A__callStatic\u0028\u0029",
-            "name": "__callStatic",
-            "summary": "This\u0020__callStatic\u0020wrapper\u0020returns\u0020Crystals\u0020statically\u0020for\u0020ClearView\u003A\u003ACrystalname\u0028\u0029",
-            "url": "classes/ClearView-ClearView.html#method___callStatic"
-        },                {
             "fqsen": "\\ClearView\\Crystal",
             "name": "Crystal",
             "summary": "Abstract\u0020base\u0020class\u0020for\u0020Crystals,\u0020managing\u0020ProcessWire\u0020objects.",
@@ -160,6 +65,11 @@ Search.appendIndex(
             "name": "plugAllCrystals",
             "summary": "Initializes\u0020all\u0020Crystal\u0020subclasses\u0020and\u0020registers\u0020them\u0020in\u0020Mosaic.",
             "url": "classes/ClearView-Crystal.html#method_plugAllCrystals"
+        },                {
+            "fqsen": "\\ClearView\\Crystal\u003A\u003AloadAll\u0028\u0029",
+            "name": "loadAll",
+            "summary": "Initializes\u0020all\u0020Crystal\u0020subclasses\u0020and\u0020registers\u0020them\u0020in\u0020Mosaic.",
+            "url": "classes/ClearView-Crystal.html#method_loadAll"
         },                {
             "fqsen": "\\ClearView\\Config",
             "name": "Config",
@@ -235,6 +145,21 @@ Search.appendIndex(
             "name": "LAYER_SUFFIX_DEBUG",
             "summary": "Layer\u0020suffix\u0020for\u0020the\u0020pane\u002Dscoped\u0020debug\u0020output\u0020layer.",
             "url": "classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUG"
+        },                {
+            "fqsen": "\\ClearView\\Config\u003A\u003ALAYER_SUFFIX_DEBUGCONSOLE",
+            "name": "LAYER_SUFFIX_DEBUGCONSOLE",
+            "summary": "Layer\u0020suffix\u0020for\u0020the\u0020pane\u002Dscoped\u0020debug\u0020console\u0020dialog.",
+            "url": "classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUGCONSOLE"
+        },                {
+            "fqsen": "\\ClearView\\Config\u003A\u003ACLASS_DEBUGCONSOLE",
+            "name": "CLASS_DEBUGCONSOLE",
+            "summary": "CSS\u0020class\u0020for\u0020the\u0020debug\u0020console\u0020dialog\u0020element.",
+            "url": "classes/ClearView-Config.html#constant_CLASS_DEBUGCONSOLE"
+        },                {
+            "fqsen": "\\ClearView\\Config\u003A\u003ADEBUG_CONSOLE",
+            "name": "DEBUG_CONSOLE",
+            "summary": "Enable\u0020the\u0020per\u002Dpane\u0020debug\u0020console\u0020dialog.",
+            "url": "classes/ClearView-Config.html#constant_DEBUG_CONSOLE"
         },                {
             "fqsen": "\\ClearView\\Config\u003A\u003ALAYER_SUFFIX_SCRIPT",
             "name": "LAYER_SUFFIX_SCRIPT",
@@ -633,12 +558,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ClearView\\Element\u003A\u003AdelClass\u0028\u0029",
             "name": "delClass",
-            "summary": "Removes\u0020a\u0020CSS\u0020class\u0020from\u0020the\u0020element\u2019s\u0020class\u0020field.",
+            "summary": "Removes\u0020a\u0020CSS\u0020class\u0020from\u0020the\u0020element\u0027s\u0020class\u0020field.",
             "url": "classes/ClearView-Element.html#method_delClass"
         },                {
             "fqsen": "\\ClearView\\Element\u003A\u003AtoggleClass\u0028\u0029",
             "name": "toggleClass",
-            "summary": "Toggles\u0020a\u0020CSS\u0020class\u0020in\u0020the\u0020element\u2019s\u0020class\u0020field.",
+            "summary": "Toggles\u0020a\u0020CSS\u0020class\u0020in\u0020the\u0020element\u0027s\u0020class\u0020field.",
             "url": "classes/ClearView-Element.html#method_toggleClass"
         },                {
             "fqsen": "\\ClearView\\Element\u003A\u003AtakeClass\u0028\u0029",
@@ -655,6 +580,21 @@ Search.appendIndex(
             "name": "__call",
             "summary": "Forwards\u0020unknown\u0020method\u0020calls\u0020to\u0020client\u002Dside\u0020JavaScript.",
             "url": "classes/ClearView-Element.html#method___call"
+        },                {
+            "fqsen": "\\ClearView\\Element\u003A\u003AloadPHPView\u0028\u0029",
+            "name": "loadPHPView",
+            "summary": "Includes\u0020a\u0020PHP\u0020view\u0020file\u0020from\u0020the\u0020module\u0020stack,\u0020then\u0020the\u0020vendor\u0020\/views\/\u0020directory.",
+            "url": "classes/ClearView-Element.html#method_loadPHPView"
+        },                {
+            "fqsen": "\\ClearView\\Element\u003A\u003AloadGlyph\u0028\u0029",
+            "name": "loadGlyph",
+            "summary": "Loads\u0020a\u0020glyph\u0020view\u0020file\u0020from\u0020the\u0020module\u0020stack,\u0020then\u0020base\u0020vendor\u0020glyphs.",
+            "url": "classes/ClearView-Element.html#method_loadGlyph"
+        },                {
+            "fqsen": "\\ClearView\\Element\u003A\u003AloadView\u0028\u0029",
+            "name": "loadView",
+            "summary": "Loads\u0020a\u0020view\u0020file,\u0020captures\u0020its\u0020output,\u0020and\u0020returns\u0020it\u0020as\u0020a\u0020Shard\u0020object.",
+            "url": "classes/ClearView-Element.html#method_loadView"
         },                {
             "fqsen": "\\ClearView\\Element\u003A\u003AgetField\u0028\u0029",
             "name": "getField",
@@ -871,15 +811,20 @@ Search.appendIndex(
             "summary": "Call\u0020\u002D\u003Estop\u0028\u0029\u0020instead\u0020of\u0020\u002D\u003Eclose\u0028\u0029\u0020to\u0020prevent\u0020rendering\u0020children",
             "url": "classes/ClearView-Facet.html#method_stop"
         },                {
-            "fqsen": "\\ClearView\\Facet\u003A\u003AdumpVars\u0028\u0029",
-            "name": "dumpVars",
-            "summary": "Outputs\u0020Mosaic\u0020variables\u0020based\u0020on\u0020the\u0020current\u0020command.",
-            "url": "classes/ClearView-Facet.html#method_dumpVars"
-        },                {
             "fqsen": "\\ClearView\\Facet\u003A\u003Aclose\u0028\u0029",
             "name": "close",
-            "summary": "Closes\u0020tags\u0020back\u0020to\u0020the\u0020instance\u2019s\u0020position.",
+            "summary": "Closes\u0020tags\u0020back\u0020to\u0020the\u0020instance\u0027s\u0020position.",
             "url": "classes/ClearView-Facet.html#method_close"
+        },                {
+            "fqsen": "\\ClearView\\Facet\u003A\u003Adebug\u0028\u0029",
+            "name": "debug",
+            "summary": "Buffer\u0020a\u0020debug\u0020trace\u0020message\u0020for\u0020the\u0020current\u0020pane.",
+            "url": "classes/ClearView-Facet.html#method_debug"
+        },                {
+            "fqsen": "\\ClearView\\Facet\u003A\u003Adebug_break\u0028\u0029",
+            "name": "debug_break",
+            "summary": "Buffer\u0020a\u0020debug\u0020breakpoint\u0020message\u0020for\u0020the\u0020current\u0020pane.",
+            "url": "classes/ClearView-Facet.html#method_debug_break"
         },                {
             "fqsen": "\\ClearView\\Facet\u003A\u003A__call\u0028\u0029",
             "name": "__call",
@@ -890,6 +835,11 @@ Search.appendIndex(
             "name": "Inlay",
             "summary": "Subclass\u0020of\u0020Pane\u0020used\u0020when\u0020the\u0020URL\u0020includes\u0020an\u0020inlay\u0020segment.",
             "url": "classes/ClearView-Inlay.html"
+        },                {
+            "fqsen": "\\ClearView\\Inlay\u003A\u003Aload\u0028\u0029",
+            "name": "load",
+            "summary": "Load\u0020Inlay\u0020by\u0020panename\u0020and\u0020inlayname.",
+            "url": "classes/ClearView-Inlay.html#method_load"
         },                {
             "fqsen": "\\ClearView\\Inlay\u003A\u003Ahtml\u0028\u0029",
             "name": "html",
@@ -1008,12 +958,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ClearView\\DefaultPane",
             "name": "DefaultPane",
-            "summary": "Represents\u0020an\u0020HTML\u0020element\u0020with\u0020dynamic\u0020rendering\u0020capabilities\u0020in\u0020ClearView.",
+            "summary": "",
             "url": "classes/ClearView-DefaultPane.html"
         },                {
             "fqsen": "\\ClearView\\DefaultPane\u003A\u003Arender\u0028\u0029",
             "name": "render",
-            "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
+            "summary": "",
             "url": "classes/ClearView-DefaultPane.html#method_render"
         },                {
             "fqsen": "\\ClearView\\DefaultPane\u003A\u003A\u0024__loadExternal",
@@ -1236,6 +1186,16 @@ Search.appendIndex(
             "summary": "Render\u0020the\u0020element\u0020to\u0020output,\u0020or\u0020capture\u0020to\u0020string\u0020when\u0020\u0024capture\u0020is\u0020true.",
             "url": "classes/ClearView-Element-meta.html#method_render"
         },                {
+            "fqsen": "\\ClearView\\Element\\Mosaic",
+            "name": "Mosaic",
+            "summary": "Mosaic\u0020glyph\u0020\u2014\u0020renders\u0020hidden\u0020Mosaic\u0020state\u0020inputs\u0020for\u0020client\u002Dside\u0020synchronization.",
+            "url": "classes/ClearView-Element-Mosaic.html"
+        },                {
+            "fqsen": "\\ClearView\\Element\\Mosaic\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Renders\u0020Mosaic\u0020state\u0020as\u0020hidden\u0020inputs\u0020or\u0020OOB\u0020patches.",
+            "url": "classes/ClearView-Element-Mosaic.html#method_render"
+        },                {
             "fqsen": "\\ClearView\\Element\\pane",
             "name": "pane",
             "summary": "Represents\u0020an\u0020HTML\u0020element\u0020with\u0020dynamic\u0020rendering\u0020capabilities\u0020in\u0020ClearView.",
@@ -1403,7 +1363,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ClearView\\loginform_newaccount\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Initializes\u0020the\u0020Shard.",
+            "summary": "Initializes\u0020the\u0020ClearView\u0020framework\u0020from\u0020the\u0020request.",
             "url": "classes/ClearView-loginform-newaccount.html#method_init"
         },                {
             "fqsen": "\\ClearView\\loginform_newuser",
@@ -1448,12 +1408,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ClearView\\loginform_resetpassword\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "Initializes\u0020the\u0020Shard.",
+            "summary": "Initializes\u0020the\u0020ClearView\u0020framework\u0020from\u0020the\u0020request.",
             "url": "classes/ClearView-loginform-resetpassword.html#method_init"
         },                {
             "fqsen": "\\ClearView\\Mosaic",
             "name": "Mosaic",
-            "summary": "Manages\u0020a\u0020collection\u0020of\u0020Shards,\u0020handling\u0020storage,\u0020retrieval,\u0020and\u0020manipulation\u0020of\u0020variables\u0020and\u0020elements.",
+            "summary": "Request\u002Dscoped\u0020store\u0020for\u0020Shards,\u0020owned\u0020by\u0020the\u0020current\u0020Pane.",
             "url": "classes/ClearView-Mosaic.html"
         },                {
             "fqsen": "\\ClearView\\Mosaic\u003A\u003A__clone\u0028\u0029",
@@ -1511,14 +1471,34 @@ Search.appendIndex(
             "summary": "Sets\u0020a\u0020variable\u0020in\u0020the\u0020mosaic,\u0020handling\u0020template\u0020expansion\u0020and\u0020field\u0020specifications.",
             "url": "classes/ClearView-Mosaic.html#method_setVar"
         },                {
-            "fqsen": "\\ClearView\\Mosaic\u003A\u003AsetVars\u0028\u0029",
-            "name": "setVars",
-            "summary": "Sets\u0020multiple\u0020variables\u0020in\u0020the\u0020mosaic.",
-            "url": "classes/ClearView-Mosaic.html#method_setVars"
+            "fqsen": "\\ClearView\\Mosaic\u003A\u003Afill\u0028\u0029",
+            "name": "fill",
+            "summary": "Bulk\u0020write\u0020to\u0020Mosaic\u0020variables.",
+            "url": "classes/ClearView-Mosaic.html#method_fill"
+        },                {
+            "fqsen": "\\ClearView\\Mosaic\u003A\u003AoffsetGet\u0028\u0029",
+            "name": "offsetGet",
+            "summary": "Gets\u0020a\u0020Mosaic\u0020variable\u0020via\u0020array\u0020access.",
+            "url": "classes/ClearView-Mosaic.html#method_offsetGet"
+        },                {
+            "fqsen": "\\ClearView\\Mosaic\u003A\u003AoffsetSet\u0028\u0029",
+            "name": "offsetSet",
+            "summary": "Sets\u0020a\u0020Mosaic\u0020variable\u0020via\u0020array\u0020access.",
+            "url": "classes/ClearView-Mosaic.html#method_offsetSet"
+        },                {
+            "fqsen": "\\ClearView\\Mosaic\u003A\u003AoffsetExists\u0028\u0029",
+            "name": "offsetExists",
+            "summary": "Checks\u0020if\u0020a\u0020variable\u0020exists\u0020in\u0020the\u0020Mosaic.",
+            "url": "classes/ClearView-Mosaic.html#method_offsetExists"
+        },                {
+            "fqsen": "\\ClearView\\Mosaic\u003A\u003AoffsetUnset\u0028\u0029",
+            "name": "offsetUnset",
+            "summary": "Deletes\u0020a\u0020Mosaic\u0020variable\u0020via\u0020array\u0020access.",
+            "url": "classes/ClearView-Mosaic.html#method_offsetUnset"
         },                {
             "fqsen": "\\ClearView\\Mosaic\u003A\u003AinitVar\u0028\u0029",
             "name": "initVar",
-            "summary": "Initializes\u0020a\u0020variable\u0020if\u0020it\u0020doesn\u2019t\u0020exist,\u0020handling\u0020template\u0020expansion\u0020and\u0020field\u0020specifications.",
+            "summary": "Initializes\u0020a\u0020variable\u0020if\u0020it\u0020doesn\u0027t\u0020exist,\u0020handling\u0020template\u0020expansion\u0020and\u0020field\u0020specifications.",
             "url": "classes/ClearView-Mosaic.html#method_initVar"
         },                {
             "fqsen": "\\ClearView\\Mosaic\u003A\u003AinitArray\u0028\u0029",
@@ -1681,20 +1661,100 @@ Search.appendIndex(
             "summary": "Renders\u0020the\u0020children\u0020of\u0020the\u0020Shard.",
             "url": "classes/ClearView-Page.html#method_renderChildren"
         },                {
+            "fqsen": "\\ClearView\\Page\u003A\u003AbuildModuleStack\u0028\u0029",
+            "name": "buildModuleStack",
+            "summary": "Build\u0020a\u0020module\u0020search\u0020stack\u003A\u0020Config\u003A\u003AMODULES_LIST\u0020base\u0020\u002B\u0020ProcessWire\u0020page\u0020hierarchy\u0020modules.",
+            "url": "classes/ClearView-Page.html#method_buildModuleStack"
+        },                {
             "fqsen": "\\ClearView\\Page\u003A\u003A__call\u0028\u0029",
             "name": "__call",
-            "summary": "Handles\u0020calls\u0020to\u0020undefined\u0020methods",
+            "summary": "",
             "url": "classes/ClearView-Page.html#method___call"
         },                {
             "fqsen": "\\ClearView\\Pane",
             "name": "Pane",
-            "summary": "Represents\u0020an\u0020HTML\u0020element\u0020with\u0020dynamic\u0020rendering\u0020capabilities\u0020in\u0020ClearView.",
+            "summary": "",
             "url": "classes/ClearView-Pane.html"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003ACurrentPane\u0028\u0029",
+            "name": "CurrentPane",
+            "summary": "Get\/Set\u0020the\u0020current\u0020Pane\u0020handling\u0020this\u0020request.",
+            "url": "classes/ClearView-Pane.html#method_CurrentPane"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003AdefaultMethod\u0028\u0029",
+            "name": "defaultMethod",
+            "summary": "Returns\u0020the\u0020default\u0020method\u0020name\u0020for\u0020a\u0020given\u0020request\u0020method.",
+            "url": "classes/ClearView-Pane.html#method_defaultMethod"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003AinTesting\u0028\u0029",
+            "name": "inTesting",
+            "summary": "Check\u0020if\u0020we\u0027re\u0020running\u0020in\u0020a\u0020test\u0020environment.",
+            "url": "classes/ClearView-Pane.html#method_inTesting"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003Ais_htmx_request\u0028\u0029",
+            "name": "is_htmx_request",
+            "summary": "Check\u0020if\u0020the\u0020request\u0020is\u0020made\u0020via\u0020HTMX.",
+            "url": "classes/ClearView-Pane.html#method_is_htmx_request"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003Ais_htmx_boosted\u0028\u0029",
+            "name": "is_htmx_boosted",
+            "summary": "Check\u0020if\u0020the\u0020request\u0020is\u0020from\u0020a\u0020boosted\u0020link.",
+            "url": "classes/ClearView-Pane.html#method_is_htmx_boosted"
         },                {
             "fqsen": "\\ClearView\\Pane\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Initializes\u0020the\u0020pane.",
             "url": "classes/ClearView-Pane.html#method___construct"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003Abody\u0028\u0029",
+            "name": "body",
+            "summary": "Returns\u0020the\u0020body\u0020Element,\u0020created\u0020from\u0020the\u0020ProcessWire\u0020body\u0020field.",
+            "url": "classes/ClearView-Pane.html#method_body"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003Afill\u0028\u0029",
+            "name": "fill",
+            "summary": "Fills\u0020the\u0020Mosaic\u0020with\u0020an\u0020array\u0020of\u0020values.",
+            "url": "classes/ClearView-Pane.html#method_fill"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003AgetVar\u0028\u0029",
+            "name": "getVar",
+            "summary": "Gets\u0020a\u0020Mosaic\u0020variable.",
+            "url": "classes/ClearView-Pane.html#method_getVar"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003Ainlay\u0028\u0029",
+            "name": "inlay",
+            "summary": "Gets\u0020the\u0020inlay\u0020name\u0020for\u0020this\u0020pane.",
+            "url": "classes/ClearView-Pane.html#method_inlay"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003Aid\u0028\u0029",
+            "name": "id",
+            "summary": "Gets\u0020the\u0020id\u0020for\u0020this\u0020pane\u0020\u0028used\u0020by\u0020Facet\u003A\u003Ame\u0028\u0029\u0020fallback\u0029.",
+            "url": "classes/ClearView-Pane.html#method_id"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003AoffsetGet\u0028\u0029",
+            "name": "offsetGet",
+            "summary": "",
+            "url": "classes/ClearView-Pane.html#method_offsetGet"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003AoffsetSet\u0028\u0029",
+            "name": "offsetSet",
+            "summary": "",
+            "url": "classes/ClearView-Pane.html#method_offsetSet"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003AoffsetExists\u0028\u0029",
+            "name": "offsetExists",
+            "summary": "",
+            "url": "classes/ClearView-Pane.html#method_offsetExists"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003AoffsetUnset\u0028\u0029",
+            "name": "offsetUnset",
+            "summary": "",
+            "url": "classes/ClearView-Pane.html#method_offsetUnset"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003Ainit\u0028\u0029",
+            "name": "init",
+            "summary": "Initializes\u0020the\u0020ClearView\u0020framework\u0020from\u0020the\u0020request.",
+            "url": "classes/ClearView-Pane.html#method_init"
         },                {
             "fqsen": "\\ClearView\\Pane\u003A\u003Aopen\u0028\u0029",
             "name": "open",
@@ -1755,6 +1815,11 @@ Search.appendIndex(
             "name": "__call",
             "summary": "Catch\u0020unknown\u0020method\u0020calls\u0020for\u0020consistency",
             "url": "classes/ClearView-Pane.html#method___call"
+        },                {
+            "fqsen": "\\ClearView\\Pane\u003A\u003A\u0024command",
+            "name": "command",
+            "summary": "",
+            "url": "classes/ClearView-Pane.html#property_command"
         },                {
             "fqsen": "\\ClearView\\QueryParser",
             "name": "QueryParser",
@@ -1991,10 +2056,10 @@ Search.appendIndex(
             "summary": "Initializes\u0020multiple\u0020fields\u0020if\u0020unset.",
             "url": "classes/ClearView-Shard.html#method_initFields"
         },                {
-            "fqsen": "\\ClearView\\Shard\u003A\u003AsetVars\u0028\u0029",
-            "name": "setVars",
-            "summary": "Sets\u0020multiple\u0020Mosaic\u0020variables.",
-            "url": "classes/ClearView-Shard.html#method_setVars"
+            "fqsen": "\\ClearView\\Shard\u003A\u003Afill\u0028\u0029",
+            "name": "fill",
+            "summary": "Bulk\u0020write\u0020to\u0020Mosaic\u0020variables.",
+            "url": "classes/ClearView-Shard.html#method_fill"
         },                {
             "fqsen": "\\ClearView\\Shard\u003A\u003AdelVars\u0028\u0029",
             "name": "delVars",
@@ -2116,6 +2181,11 @@ Search.appendIndex(
             "summary": "Shared\u0020global\u0020state\u0020container\u0020for\u0020the\u0020ClearView\u0020runtime.",
             "url": "classes/ClearView-Shared.html"
         },                {
+            "fqsen": "\\ClearView\\Shared\u003A\u003AisDebugConsole\u0028\u0029",
+            "name": "isDebugConsole",
+            "summary": "Check\u0020if\u0020debug\u0020console\u0020is\u0020enabled\u0020for\u0020the\u0020current\u0020pane.",
+            "url": "classes/ClearView-Shared.html#method_isDebugConsole"
+        },                {
             "fqsen": "\\ClearView\\Shared\u003A\u003A\u0024mainLayout",
             "name": "mainLayout",
             "summary": "",
@@ -2125,6 +2195,11 @@ Search.appendIndex(
             "name": "prevInlay",
             "summary": "",
             "url": "classes/ClearView-Shared.html#property_prevInlay"
+        },                {
+            "fqsen": "\\ClearView\\Shared\u003A\u003A\u0024debugflags",
+            "name": "debugflags",
+            "summary": "",
+            "url": "classes/ClearView-Shared.html#property_debugflags"
         },                {
             "fqsen": "\\ClearView\\Test\\Fixture\\InlayStub",
             "name": "InlayStub",

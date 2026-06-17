@@ -105,6 +105,9 @@
         <h2 class="phpdocumentor-content__title">
     ClearView
 
+        <span class="phpdocumentor-element__extends">
+        extends <a href="classes/ClearView-Crystal.html"><abbr title="\ClearView\Crystal">Crystal</abbr></a>
+    </span>
     
             <div class="phpdocumentor-element__package">
             in package
@@ -124,17 +127,19 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Singleton controller for the ClearView framework.</p>
+            <p class="phpdocumentor-summary">Crystal that holds request-scoped output behavior.</p>
 
 
-    <section class="phpdocumentor-description"><p>Created by ClearView::Init($template) once per request. Owns the
-JavaScript/async/OOB/debug buffers, resolves URL components, loads
-Pane/Inlay classes from the module stack, and exposes static helpers
-for scripts, HTMX detection, and cross-inlay dispatch.</p>
+    <section class="phpdocumentor-description"><p>Owns the OOB HTML buffer, script/async JS buffers, pane-scoped debug
+output, and HTMX detection helpers. Instantiated by Crystal::loadAll()
+and accessed via $this['ClearView'] on Pane/Shard instances.</p>
+<p>ClearView is no longer a singleton controller. Routing, pane/inlay
+loading, view loading, and module-stack walking moved to Pane, Inlay,
+Element, and Page.</p>
 </section>
 
 
@@ -148,19 +153,15 @@ for scripts, HTMX detection, and cross-inlay dispatch.</p>
                 <span class="phpdocumentor-tag__name">see</span>
             </dt>
                             <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span>
-                                                                
-                                    </dd>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Facet.html"><abbr title="\ClearView\Facet">Facet</abbr></a></span>
-                                                                
-                                    </dd>
-                            <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Crystal.html"><abbr title="\ClearView\Crystal">Crystal</abbr></a></span>
                                                                 
                                     </dd>
                             <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Inlay.html"><abbr title="\ClearView\Inlay">Inlay</abbr></a></span>
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span>
+                                                                
+                                    </dd>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Pane.html"><abbr title="\ClearView\Pane">Pane</abbr></a></span>
                                                                 
                                     </dd>
                         </dl>
@@ -189,25 +190,11 @@ for scripts, HTMX detection, and cross-inlay dispatch.</p>
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method___callStatic">__callStatic()</a>
+    <a class="" href="classes/ClearView-ClearView.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>This __callStatic wrapper returns Crystals statically for ClearView::Crystalname()</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method___wakeup">__wakeup()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Prevents unserialization of the singleton instance.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_appendTo">appendTo()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Appends HTML to an element.</dd>
+<dd>Initializes buffers.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-ClearView.html#method_asyncjs">asyncjs()</a>
@@ -217,19 +204,11 @@ for scripts, HTMX detection, and cross-inlay dispatch.</p>
 <dd>Sends asynchronous JavaScript to be executed on the client.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_callMethod">callMethod()</a>
+    <a class="" href="classes/ClearView-ClearView.html#method_bufferTriggerEvent">bufferTriggerEvent()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Calls a method with an HTMX trigger.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_CurrentPane">CurrentPane()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Get/Set the current Pane handling this request. Set by the Pane
-Used to retrieve the current rendering context for accessing inlay, methods, or data during processing.</dd>
+<dd>Buffers an HX-Trigger header to be emitted before body output.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-ClearView.html#method_debugLayer">debugLayer()</a>
@@ -237,13 +216,6 @@ Used to retrieve the current rendering context for accessing inlay, methods, or 
                                 &nbsp;: void    </span>
 </dt>
 <dd>Appends a message to the pane-scoped debug layer buffer.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_defaultMethod">defaultMethod()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Returns the default method name for a given request method.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-ClearView.html#method_dumpOOBdata">dumpOOBdata()</a>
@@ -260,95 +232,11 @@ Used to retrieve the current rendering context for accessing inlay, methods, or 
 <dd>Gets rendered Hanna code.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_id">id()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Gets the current Panename handling this request
-Why: Provides access to the requests initial panename</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_init">init()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_inlay">inlay()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Gets the original Inlayname of the request</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_inTesting">inTesting()</a>
-    <span>
-                                &nbsp;: bool    </span>
-</dt>
-<dd>Check if we&#039;re running in a test environment</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_is_htmx_boosted">is_htmx_boosted()</a>
-    <span>
-                                &nbsp;: bool    </span>
-</dt>
-<dd>Check if the request is from a boosted link</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_is_htmx_request">is_htmx_request()</a>
-    <span>
-                                &nbsp;: bool    </span>
-</dt>
-<dd>Check if the request is made via HTMX</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-ClearView.html#method_javascript">javascript()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Adds JavaScript to be executed on the client.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_loadGlyph">loadGlyph()</a>
-    <span>
-                                &nbsp;: string|null    </span>
-</dt>
-<dd>Loads a glyph view file from the module stack, then base vendor glyphs.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_loadInlay">loadInlay()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Load Inlay by panename and inlayname.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_loadPHPView">loadPHPView()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Includes a PHP view file from the module stack, then the vendor /views/ directory.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_loadView">loadView()</a>
-    <span>
-                                &nbsp;: <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>    </span>
-</dt>
-<dd>Loads a view file, captures its output, and returns it as a Shard object.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_method">method()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Gets the original Method name of the request</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_methodExists">methodExists()</a>
-    <span>
-                                &nbsp;: bool    </span>
-</dt>
-<dd>Checks if a method exists in a class, searching the module stack for panes/.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-ClearView.html#method_preloadImage">preloadImage()</a>
@@ -358,32 +246,11 @@ Why: Provides access to the requests initial panename</dd>
 <dd>Preloads an image.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_sendMsgTo">sendMsgTo()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Sends a message to another inlay.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-ClearView.html#method_sendOOB">sendOOB()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Sends an out-of-band (OOB) element.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_sendPost">sendPost()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Sends a POST request.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-ClearView.html#method_writeTo">writeTo()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Writes HTML to an element.</dd>
 
     </dl>
 
@@ -403,25 +270,25 @@ Why: Provides access to the requests initial panename</dd>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method___callStatic">
-        __callStatic()
-        <a href="classes/ClearView-ClearView.html#method___callStatic" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/ClearView-ClearView.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">729</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">This __callStatic wrapper returns Crystals statically for ClearView::Crystalname()</p>
+        <p class="phpdocumentor-summary">Initializes buffers.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">__callStatic</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pwObject</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'ClearView'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -430,15 +297,69 @@ Why: Provides access to the requests initial panename</dd>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$method</span>
+                <span class="phpdocumentor-argument-list__argument__name">$pwObject</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The ProcessWire object to wrap.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$name</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$args</span>
+                <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">'ClearView'</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_asyncjs">
+        asyncjs()
+        <a href="classes/ClearView-ClearView.html#method_asyncjs" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">69</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sends asynchronous JavaScript to be executed on the client.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">asyncjs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$string</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$string</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -457,86 +378,39 @@ Why: Provides access to the requests initial panename</dd>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method___wakeup">
-        __wakeup()
-        <a href="classes/ClearView-ClearView.html#method___wakeup" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_bufferTriggerEvent">
+        bufferTriggerEvent()
+        <a href="classes/ClearView-ClearView.html#method_bufferTriggerEvent" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">101</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Prevents unserialization of the singleton instance.</p>
+        <p class="phpdocumentor-summary">Buffers an HX-Trigger header to be emitted before body output.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__wakeup</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">bufferTriggerEvent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$header</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used to enforce the singleton pattern, preventing restoration from serialized data.</p>
-<p>Why: Ensures the ClearView instance is created fresh via init() to avoid stale state.</p>
-</section>
-
-    
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_appendTo">
-        appendTo()
-        <a href="classes/ClearView-ClearView.html#method_appendTo" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">681</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Appends HTML to an element.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">appendTo</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$elem</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to append HTML content to a specific DOM element via OOB swapping, adding to its existing content.</p>
-<p>Why: Enables incremental DOM updates for dynamic rendering via HTMX.</p>
+        <section class="phpdocumentor-description"><p>Calls to triggerevent() are deferred here; dumpOOBdata()
+sends the headers first, then outputs the body.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$id</span>
+                <span class="phpdocumentor-argument-list__argument__name">$header</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The DOM element ID to append to.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$elem</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The HTML content to append.</p>
+                    <section class="phpdocumentor-description"><p>Full HX-Trigger header line (e.g. 'HX-Trigger: {...}').</p>
 </section>
 
             </dd>
@@ -552,184 +426,7 @@ Why: Provides access to the requests initial panename</dd>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_asyncjs">
-        asyncjs()
-        <a href="classes/ClearView-ClearView.html#method_asyncjs" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">368</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sends asynchronous JavaScript to be executed on the client.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">asyncjs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$string</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to wrap JavaScript code in an async IIFE (Immediately Invoked Function Expression) and append it to
-the async scripts buffer.  Each async line is sent separately.</p>
-<p>Why: Supports asynchronous client-side operations, such as fetching data or updating DOM elements.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$string</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The JavaScript code to execute asynchronously.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_callMethod">
-        callMethod()
-        <a href="classes/ClearView-ClearView.html#method_callMethod" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">700</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Calls a method with an HTMX trigger.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">callMethod</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$on</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">"load"</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to generate a hidden input field that triggers a POST request to a method on a specified event
-(e.g., 'load'), including the current Mosaic pane’s data.  Can be used to connect any given event
-to a ClearView method callback</p>
-<p>Why: Enables event-driven method invocation for dynamic interactions via HTMX.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$method</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The method name to call.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$on</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">"load"</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The event to trigger on (default: 'load').</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$url</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The URL for the POST request (defaults to page URL with method and inlay).</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_CurrentPane">
-        CurrentPane()
-        <a href="classes/ClearView-ClearView.html#method_CurrentPane" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">279</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get/Set the current Pane handling this request. Set by the Pane
-Used to retrieve the current rendering context for accessing inlay, methods, or data during processing.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">CurrentPane</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$newCreator</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Why: Provides access to the active rendering object for Facet and Mosaic operations.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$newCreator</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The creator Pane object or to retrieve</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_debugLayer">
         debugLayer()
@@ -739,7 +436,7 @@ Used to retrieve the current rendering context for accessing inlay, methods, or 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">417</span>
+    <span class="phpdocumentor-element-found-in__line">85</span>
 
     </aside>
 
@@ -747,17 +444,12 @@ Used to retrieve the current rendering context for accessing inlay, methods, or 
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">debugLayer</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$msg</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">debugLayer</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$msg</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used instead of global console.log. Each message is wrapped in a</p>
-<div> and appended to the pane's #<name>-debug element at dump time.
-<p>Why: Moves debug output from the browser console to pane-scoped DOM
-layers, so each pane owns its diagnostic output.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -765,9 +457,7 @@ layers, so each pane owns its diagnostic output.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The debug message (already formatted).</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -781,65 +471,7 @@ layers, so each pane owns its diagnostic output.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_defaultMethod">
-        defaultMethod()
-        <a href="classes/ClearView-ClearView.html#method_defaultMethod" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">102</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Returns the default method name for a given request method.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">defaultMethod</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used as fallback when no explicit command is present in the URL.
-Single source of truth for the GET→open, POST→html, PUT→put, DELETE→delete mapping.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$method</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Request method (defaults to current request method)</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Default method name</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_dumpOOBdata">
         dumpOOBdata()
@@ -849,7 +481,7 @@ Single source of truth for the GET→open, POST→html, PUT→put, DELETE→dele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">437</span>
+    <span class="phpdocumentor-element-found-in__line">109</span>
 
     </aside>
 
@@ -857,18 +489,12 @@ Single source of truth for the GET→open, POST→html, PUT→put, DELETE→dele
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">dumpOOBdata</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">dumpOOBdata</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used to output the OOB buffer and trigger Mosaic's OOB variable dump, then clear the OOB buffer and
-render scripts via dumpScripts(). Debug and script output now targets pane-scoped
-#<panename>-debug and #<panename>-script layers instead of global elements.</p>
-<p>Why: Synchronizes client-side state with server-side changes via HTMX,
-using pane-scoped layer addresses.</p>
-</section>
-
+    
     
     
 
@@ -890,7 +516,7 @@ using pane-scoped layer addresses.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">477</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 
     </aside>
 
@@ -898,26 +524,20 @@ using pane-scoped layer addresses.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">hanna</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hannacode</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">hanna</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hannacode</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used to process Hanna code (a ProcessWire feature for embedding dynamic content) through the
-TextformatterHannaCode module, with template expansion via Facet.</p>
-<p>Why: Integrates ProcessWire’s dynamic content capabilities into ClearView templates.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$hannacode</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The Hanna code to render.</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -928,10 +548,6 @@ TextformatterHannaCode module, with template expansion via Facet.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The rendered HTML output.</p>
-</section>
-
             </section>
 
 </article>
@@ -939,68 +555,25 @@ TextformatterHannaCode module, with template expansion via Facet.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_id">
-        id()
-        <a href="classes/ClearView-ClearView.html#method_id" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_javascript">
+        javascript()
+        <a href="classes/ClearView-ClearView.html#method_javascript" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">293</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the current Panename handling this request
-Why: Provides access to the requests initial panename</p>
+        <p class="phpdocumentor-summary">Adds JavaScript to be executed on the client.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">id</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>pane name</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_init">
-        init()
-        <a href="classes/ClearView-ClearView.html#method_init" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">108</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">init</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$template</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">javascript</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$string</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1009,7 +582,52 @@ Why: Provides access to the requests initial panename</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$template</span>
+                <span class="phpdocumentor-argument-list__argument__name">$string</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_preloadImage">
+        preloadImage()
+        <a href="classes/ClearView-ClearView.html#method_preloadImage" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">155</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Preloads an image.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">preloadImage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$src</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$src</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -1027,749 +645,7 @@ Why: Provides access to the requests initial panename</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_inlay">
-        inlay()
-        <a href="classes/ClearView-ClearView.html#method_inlay" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">303</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Gets the original Inlayname of the request</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">inlay</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>inlayname</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_inTesting">
-        inTesting()
-        <a href="classes/ClearView-ClearView.html#method_inTesting" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">266</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Check if we&#039;re running in a test environment</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">inTesting</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>true if we're in a test/cli environment</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_is_htmx_boosted">
-        is_htmx_boosted()
-        <a href="classes/ClearView-ClearView.html#method_is_htmx_boosted" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">384</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Check if the request is from a boosted link</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">is_htmx_boosted</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_is_htmx_request">
-        is_htmx_request()
-        <a href="classes/ClearView-ClearView.html#method_is_htmx_request" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">376</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Check if the request is made via HTMX</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">is_htmx_request</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_javascript">
-        javascript()
-        <a href="classes/ClearView-ClearView.html#method_javascript" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">352</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Adds JavaScript to be executed on the client.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">javascript</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$string</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to append JavaScript code to the scripts buffer, which is later rendered in a &lt;script> tag. The code
-is processed through Facet for template expansion.</p>
-<p>Why: Enables dynamic client-side scripting for interactivity or updates.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$string</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The JavaScript code to add.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_loadGlyph">
-        loadGlyph()
-        <a href="classes/ClearView-ClearView.html#method_loadGlyph" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">577</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Loads a glyph view file from the module stack, then base vendor glyphs.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadGlyph</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$viewName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Searches modules/<module>/glyphs/&lt;viewName&gt;.php through the module stack
-first, then falls back to the modules/vendor/glyphs/ directory.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$viewName</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The name of the glyph (without .php extension).</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string|null</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>the loaded class path or null if not found</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_loadInlay">
-        loadInlay()
-        <a href="classes/ClearView-ClearView.html#method_loadInlay" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">237</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Load Inlay by panename and inlayname.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadInlay</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$panename</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlayname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>When no inlay is specified (or 'Pane'), returns Pane class directly.
-With an inlay, searches the module stack for
-modules/<module>/panes/<panename>/<inlayname>.php
-and returns ClearView&lt;panename&gt;_<inlayname>.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$panename</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$inlayname</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="method_loadInlay_tags">
-        Tags
-        <a href="classes/ClearView-ClearView.html#method_loadInlay_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>if no matching file is found</p>
-</section>
-
-                                    </dd>
-                        </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>class name that was loaded</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_loadPHPView">
-        loadPHPView()
-        <a href="classes/ClearView-ClearView.html#method_loadPHPView" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">536</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Includes a PHP view file from the module stack, then the vendor /views/ directory.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadPHPView</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$viewName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Tries modules/<module>/views/&lt;viewName&gt;.php through the module stack first,
-then falls back to the base vendor views:
-modules/vendor/views/{{Page::name}}/&lt;viewName&gt;.php and
-modules/vendor/views/Default/&lt;viewName&gt;.php.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$viewName</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The name of the view file (without .php extension).</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="method_loadPHPView_tags">
-        Tags
-        <a href="classes/ClearView-ClearView.html#method_loadPHPView_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>If the view file is not found.</p>
-</section>
-
-                                    </dd>
-                        </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_loadView">
-        loadView()
-        <a href="classes/ClearView-ClearView.html#method_loadView" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">609</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Loads a view file, captures its output, and returns it as a Shard object.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadView</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$view</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$from</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Renders the PHP view through Facet::record(), parses the captured HTML with
-jsonmangler::fromhtml(), and wraps the result in a Shard.  The view name is
-passed as $context to fromhtml() enabling nested default-view resolution:
-when <head> loads views/head.php, child elements inside that view may
-auto-resolve to views/<pane>/head/<child>.php.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$view</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The name of the view file (without .php extension).</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$from</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Source marker (Shard::VIEW for view-loaded Shards).</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="method_loadView_tags">
-        Tags
-        <a href="classes/ClearView-ClearView.html#method_loadView_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>If the view file is not found.</p>
-</section>
-
-                                    </dd>
-                        </dl>
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The Shard object representing the view's content.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_method">
-        method()
-        <a href="classes/ClearView-ClearView.html#method_method" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">313</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Gets the original Method name of the request</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">method</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>method name</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_methodExists">
-        methodExists()
-        <a href="classes/ClearView-ClearView.html#method_methodExists" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">633</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Checks if a method exists in a class, searching the module stack for panes/.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">methodExists</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$classname</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$method</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The method name to check.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$classname</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The class name (without namespace).</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>True if the method exists, false otherwise.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_preloadImage">
-        preloadImage()
-        <a href="classes/ClearView-ClearView.html#method_preloadImage" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">460</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Preloads an image.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">preloadImage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$src</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to send a Link header to preload an image, improving page load performance.</p>
-<p>Why: Optimizes client-side rendering by prioritizing image loading.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$src</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The image source URL.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_sendMsgTo">
-        sendMsgTo()
-        <a href="classes/ClearView-ClearView.html#method_sendMsgTo" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">495</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sends a message to another inlay.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">sendMsgTo</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$command</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to trigger a command in a different inlay by sending a POST request to a constructed URL. Currently
-marked as untested and outdated (FIXME).</p>
-<p>Why: Supports cross-inlay communication for dynamic interactions (e.g., updating another Pane).</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$command</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The command to send.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The target inlay name.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$args</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The arguments to include in the POST request.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The response from the POST request, or false on failure.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_sendOOB">
         sendOOB()
@@ -1779,7 +655,7 @@ marked as untested and outdated (FIXME).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">400</span>
+    <span class="phpdocumentor-element-found-in__line">77</span>
 
     </aside>
 
@@ -1787,145 +663,20 @@ marked as untested and outdated (FIXME).</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">sendOOB</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$elem</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">sendOOB</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$elem</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used to append HTML elements to the OOB buffer for later rendering, typically for HTMX-driven updates
-outside the main response. The element is processed through Facet for template expansion.</p>
-<p>Why: Enables dynamic updates to non-target DOM elements via HTMX OOB swapping.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$elem</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The HTML element to send as OOB.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_sendPost">
-        sendPost()
-        <a href="classes/ClearView-ClearView.html#method_sendPost" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">519</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sends a POST request.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">sendPost</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to perform an HTTP POST request via ProcessWire’s WireHttp, typically for triggering server-side
-actions or cross-inlay communication.</p>
-<p>Why: Enables server-side interactions for dynamic updates or messaging.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$url</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The URL to send the POST request to.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$args</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The data to include in the POST request.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_writeTo">
-        writeTo()
-        <a href="classes/ClearView-ClearView.html#method_writeTo" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="ClearView.php"><a href="files/clearview.html">ClearView.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">665</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Writes HTML to an element.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">writeTo</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Used to output HTML content to a specific DOM element via OOB swapping, replacing its inner content.</p>
-<p>Why: Supports targeted DOM updates for dynamic rendering via HTMX.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$id</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The DOM element ID to write to.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$text</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The HTML content to write.</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -1957,34 +708,15 @@ actions or cross-inlay communication.</p>
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method___callStatic">__callStatic()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method___wakeup">__wakeup()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_appendTo">appendTo()</a></li>
+                                            <li class=""><a href="classes/ClearView-ClearView.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/ClearView-ClearView.html#method_asyncjs">asyncjs()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_callMethod">callMethod()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_CurrentPane">CurrentPane()</a></li>
+                                            <li class=""><a href="classes/ClearView-ClearView.html#method_bufferTriggerEvent">bufferTriggerEvent()</a></li>
                                             <li class=""><a href="classes/ClearView-ClearView.html#method_debugLayer">debugLayer()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_defaultMethod">defaultMethod()</a></li>
                                             <li class=""><a href="classes/ClearView-ClearView.html#method_dumpOOBdata">dumpOOBdata()</a></li>
                                             <li class=""><a href="classes/ClearView-ClearView.html#method_hanna">hanna()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_id">id()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_init">init()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_inlay">inlay()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_inTesting">inTesting()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_is_htmx_boosted">is_htmx_boosted()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_is_htmx_request">is_htmx_request()</a></li>
                                             <li class=""><a href="classes/ClearView-ClearView.html#method_javascript">javascript()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_loadGlyph">loadGlyph()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_loadInlay">loadInlay()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_loadPHPView">loadPHPView()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_loadView">loadView()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_method">method()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_methodExists">methodExists()</a></li>
                                             <li class=""><a href="classes/ClearView-ClearView.html#method_preloadImage">preloadImage()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_sendMsgTo">sendMsgTo()</a></li>
                                             <li class=""><a href="classes/ClearView-ClearView.html#method_sendOOB">sendOOB()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_sendPost">sendPost()</a></li>
-                                            <li class=""><a href="classes/ClearView-ClearView.html#method_writeTo">writeTo()</a></li>
                                     </ul>
             </li>
                     </ul>

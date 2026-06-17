@@ -6,6 +6,8 @@ use ClearView\Exception;
 use ClearView\Mosaic;
 use ClearView\Facet;
 use ClearView\ClearView;
+use ClearView\Pane;
+use ClearView\Element;
 
 /**
  * Core data object representing a node in the ClearView hierarchy.
@@ -130,7 +132,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (array_key_exists('text',$obj) && array_key_exists('__pF', $obj) && $obj['__pF'] == 'text') {
             $obj['inlay'] = Config::SHARD_ANONINLAY;
         } else {
-            $obj['inlay'] = $obj['inlay'] ?? $this->inlay ?? Facet::me()->inlay() ?? ClearView::inlay();
+            $obj['inlay'] = $obj['inlay'] ?? $this->inlay ?? Facet::me()->inlay() ?? Mosaic::getVar("Input::inlayname");
             // If id="#" → expand to canonical form on output.
             // Store the name as the Mosaic key so References can
             // resolve via Mosaic::index($inlay, $name).
@@ -329,7 +331,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
         if (is_object($obj)) {
             if ($obj instanceof Pane) {
-                if ($obj->id() === ClearView::CurrentPane()->id()) {
+                if ($obj->id() === Pane::CurrentPane()->id()) {
                     return $obj;
                 }
                 throw new Exception("Cannot load a different Pane via loadShard. Use ClearView::sendPost()");
@@ -357,11 +359,11 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         }
 
         if ($determinedGlyph) {
-            $classPath = ClearView::loadGlyph($determinedGlyph);
+            $classPath = Element::loadGlyph($determinedGlyph);
             if (!$classPath) {
                 // Use the default 'glyph' class for unknown elements
                 $determinedGlyph = 'glyph';
-                $classPath = ClearView::loadGlyph($determinedGlyph);
+                $classPath = Element::loadGlyph($determinedGlyph);
             }
             Exception::debug('GLYPH',"Creating classPath $classPath");
             $shard = new $classPath($obj, primaryField: $primaryField);
@@ -390,7 +392,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!$children || !is_array($children)) {
             return;
         }
-        $inlay = $this->data['inlay'] ?? ClearView::inlay();
+        $inlay = $this->data['inlay'] ?? Facet::inlay();
 
         foreach ($children as $i => &$child) {
             if (!is_array($child)) {
@@ -779,7 +781,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function inlay(): string
     {
-        return $this->data['inlay'] ?? ClearView::inlay();
+        return $this->data['inlay'] ?? Facet::inlay();
     }
 
     /**
@@ -1037,14 +1039,16 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     }
 
     /**
-     * Sets multiple Mosaic variables.
+     * Bulk write to Mosaic variables.
+     *
+     * Replaces the old setVars(). Delegates to Mosaic::fill().
      *
      * @param array $arr Variable-value pairs.
      * @param string|null $inlay Inlay context.
      *
-     * Why: Supports bulk variable setting for Mosaic integration.
+     * Why: Supports bulk variable setting via Mosaic.
      */
-    public function setVars(array $arr, ?string $inlay = null): void
+    public function fill(array $arr, ?string $inlay = null): void
     {
         foreach ($arr as $key => $value) {
             if ($key === 'children') {

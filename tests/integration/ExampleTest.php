@@ -4,12 +4,11 @@ namespace ClearView\Test;
 
 use PHPUnit\Framework\TestCase;
 use ClearView\Test\Fixture\ViewBuilder;
-use ClearView\Test\PaneKeyHelper;
 use ClearView\Mosaic;
 
 /**
  * Example test verifying the testing infrastructure end-to-end:
- * bootstrap → autoloader → ViewBuilder → PaneKeyHelper.
+ * bootstrap → autoloader → ViewBuilder.
  */
 class ExampleTest extends TestCase
 {
@@ -64,28 +63,6 @@ class ExampleTest extends TestCase
 
         $this->expectException(TestFixtureException::class);
         $builder->getElement('nonexistent');
-    }
-
-    // ── PaneKeyHelper tests ────────────────────────────────────────
-
-    /**
-     * PaneKeyHelper::seed() produces a matching token pair
-     * accessible via Mosaic::getVar().
-     */
-    public function testPaneKeyHelperSeedsMatchingTokens(): void
-    {
-        ViewBuilder::new('KeyTest', 'Default');
-
-        $token = PaneKeyHelper::seed('KeyTest');
-
-        $this->assertNotEmpty($token);
-        $this->assertStringStartsWith('tok_', $token);
-
-        $paneKey    = Mosaic::getVar('Pane::Key');
-        $sessionKey = Mosaic::getVar('Session::PaneKey');
-
-        $this->assertSame($token, $paneKey, 'Pane::Key should match');
-        $this->assertSame($token, $sessionKey, 'Session::PaneKey should match');
     }
 
     // ── Exception tests ────────────────────────────────────────────

@@ -40,14 +40,25 @@ abstract class Crystal extends Page
     /**
      * Initializes all Crystal subclasses and registers them in Mosaic.
      *
-     * Called during system startup to instantiate all concrete Crystal subclasses and register them as Shards in
-     * Mosaic under the 'ClearView' inlay.
-     *
-     * Why: Sets up ProcessWire objects as Shards for access via Mosaic::getVar() or setVar().
+     * Legacy alias — calls loadAll().
      *
      * @return void
      */
     public static function plugAllCrystals(): void
+    {
+        self::loadAll();
+    }
+
+    /**
+     * Initializes all Crystal subclasses and registers them in Mosaic.
+     *
+     * Called during system startup to instantiate all concrete Crystal subclasses
+     * and register them as Shards in Mosaic. Also instantiates the ClearView
+     * crystal explicitly.
+     *
+     * @return void
+     */
+    public static function loadAll(): void
     {
         // Load all Crystal subclass files from the Crystals/ directory
         foreach (glob(__DIR__ . '/crystals/*.php') as $file) {
@@ -63,12 +74,18 @@ abstract class Crystal extends Page
         $classes = get_declared_classes();
         foreach ($classes as $class) {
             if (is_subclass_of($class, self::class) && (new ReflectionClass($class))->isInstantiable()) {
-                $shortName = $nameOverrides[$class] 
+                $shortName = $nameOverrides[$class]
                           ?? (($pos = strrpos($class, '\\')) !== false ? substr($class, $pos + 1) : $class);
-                new $class(null,$shortName,'ClearView');
+                new $class(null, $shortName, 'ClearView');
             }
         }
-        new Page(\ProcessWire\page(),'Page','ClearView');
+        new Page(\ProcessWire\page(), 'Page', 'ClearView');
+
+        // Instantiate ClearView crystal — it lives in the root namespace,
+        // not under crystals/, so it's handled explicitly.
+        if (class_exists('ClearView\\ClearView')) {
+            new \ClearView\ClearView(null, 'ClearView', 'ClearView');
+        }
     }
 
 }

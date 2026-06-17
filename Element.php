@@ -7,6 +7,8 @@ use ClearView\Mosaic;
 use ClearView\Facet;
 use ClearView\Shard;
 use ClearView\Exception;
+use ClearView\Page;
+use ClearView\Pane;
 
 /**
  * Represents an HTML element with dynamic rendering capabilities in ClearView.
@@ -52,7 +54,7 @@ class Element extends Shard
     {
         parent::__construct(...func_get_args());
         // Set up automatic change notification
-        if (method_exists(ClearView::CurrentPane(), $this->getField('name') ?? 'change')) {
+        if (method_exists(Pane::CurrentPane(), $this->getField('name') ?? 'change')) {
             $this->addtrigger('change');
         }
     }
@@ -71,7 +73,7 @@ class Element extends Shard
      */
     public function setCSSVar(string $varname, string $value): self
     {
-        ClearView::javascript("me('#{{id}}').style.setProperty('--{$varname}', '{$value}');");
+        $this['ClearView']->javascript("me('#{{id}}').style.setProperty('--{$varname}', '{$value}');");
         return $this;
     }
 
@@ -367,12 +369,12 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $newClasses);
-        ClearView::javascript("htmx.addClass(me(\"#{{id}}\"), '$cssclass');");
+        $this['ClearView']->javascript("htmx.addClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
     /**
-     * Removes a CSS class from the element’s class field.
+     * Removes a CSS class from the element's class field.
      *
      * Used to remove a CSS class from the `class` field. Updates the field and injects client-side JavaScript
      * to remove the class via HTMX.
@@ -401,12 +403,12 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $newClasses);
-        ClearView::javascript("htmx.removeClass(me(\"#{{id}}\"), '$cssclass');");
+        $this['ClearView']->javascript("htmx.removeClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
     /**
-     * Toggles a CSS class in the element’s class field.
+     * Toggles a CSS class in the element's class field.
      *
      * Used to toggle a CSS class in the `class` field, adding it if absent or removing it if present. Updates
      * the field and injects client-side JavaScript to toggle the class via HTMX.
@@ -437,7 +439,7 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $newClasses);
-        ClearView::javascript("htmx.toggleClass(me(\"#{{id}}\"), '$cssclass');");
+        $this['ClearView']->javascript("htmx.toggleClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
@@ -464,7 +466,7 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $cssclass);
-        ClearView::javascript("htmx.takeClass(me(\"#{{id}}\"), '$cssclass');");
+        $this['ClearView']->javascript("htmx.takeClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
@@ -506,7 +508,97 @@ class Element extends Shard
     public function __call(string $name, array $arguments): void
     {
         $args = array_map(fn ($arg) => is_string($arg) ? "'" . addslashes($arg) . "'" : json_encode($arg), $arguments);
-        ClearView::javascript("me('#{{id}}').{$name}(" . implode(',', $args) . ");");
+        $this['ClearView']->javascript("me('#{{id}}').{$name}(" . implode(',', $args) . ");");
+    }
+
+    /**
+     * Includes a PHP view file from the module stack, then the vendor /views/ directory.
+     *
+     * Tries modules/<module>/views/<viewName>.php through the module stack first,
+     * then falls back to the base vendor views.
+     *
+     * @param string $viewName The name of the view file (without .php extension).
+     * @throws Exception If the view file is not found.
+     */
+    public static function loadPHPView(string $viewName): void
+    {
+        // 1. Module stack: modules/<module>/views/<viewName>.php
+        foreach (Page::buildModuleStack() as $module) {
+            $path = __DIR__ . "/modules/{$module}/views/{$viewName}.php";
+            if (file_exists($path)) {
+                if (!(include $path)) {
+                    throw new Exception("Can't load the PHP View {$path}");
+                }
+                Exception::debug('TRACE', "Loaded $path as View");
+                return;
+            }
+        }
+        // 2. Base: modules/vendor/views/{{Page::name}}/<viewName>.php
+        $filePath = __DIR__ . "/modules/vendor/views/{{Page::name}}/{$viewName}.php";
+        if (!file_exists($filePath)) {
+            if (Mosaic::getVar("Pane::name") !== 'Default') {
+                $filePath = __DIR__ . "/modules/vendor/views/Default/{$viewName}.php";
+                if (!file_exists($filePath)) {
+                    throw new Exception("View file $filePath not found: {$filePath}");
+                }
+            } else {
+                throw new Exception("View filke $filePath not found: {$filePath}");
+            }
+            Exception::error("View file not found: {$filePath}");
+        }
+        if (!(include $filePath)) {
+            throw new Exception("Can't load the PHP View {$filePath} ");
+        }
+        Exception::debug('TRACE', "Loaded $filePath as View");
+    }
+
+    /**
+     * Loads a glyph view file from the module stack, then base vendor glyphs.
+     *
+     * @param string $viewName The name of the glyph (without .php extension).
+     * @return string|null the loaded class path or null if not found
+     */
+    public static function loadGlyph(string $viewName): ?string
+    {
+        foreach (Page::buildModuleStack() as $module) {
+            $path = __DIR__ . "/modules/{$module}/glyphs/{$viewName}.php";
+            if (file_exists($path)) {
+                require_once($path);
+                return "\\ClearView\\Element\\$viewName";
+            }
+        }
+        $filePath = __DIR__ . "/modules/vendor/glyphs/{$viewName}.php";
+        if (!file_exists($filePath)) {
+            Exception::debug("Glyph file not found: {$filePath}");
+            return null;
+        }
+        require_once($filePath);
+        return "\\ClearView\\Element\\$viewName";
+    }
+
+    /**
+     * Loads a view file, captures its output, and returns it as a Shard object.
+     *
+     * @param string $view The name of the view file (without .php extension).
+     * @param string|null $from Source marker (Shard::VIEW for view-loaded Shards).
+     * @return Shard The Shard object representing the view's content.
+     * @throws Exception If the view file is not found.
+     */
+    public static function loadView(string $view, ?string $from = null): Shard
+    {
+        $data = jsonmangler::fromhtml(
+            (new Facet())
+                    ->record()
+                    ->loadPHPView($view)
+                    ->close(),
+            $view  // context: enables nested default-view resolution
+        );
+        unset($data['__loadExternal']);
+        return Shard::loadShard(
+            $data,
+            inlay: "__$view",
+            from: ($from === Shard::VIEW) ? Shard::VIEW : Shard::HTML,
+        );
     }
 
     /**

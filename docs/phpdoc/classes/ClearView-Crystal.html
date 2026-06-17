@@ -197,6 +197,13 @@ ProcessWire contexts, such as input, sessions, or pages.</p>
 <dd>Initializes the Crystal with a ProcessWire object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Crystal.html#method_loadAll">loadAll()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Initializes all Crystal subclasses and registers them in Mosaic.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Crystal.html#method_plugAllCrystals">plugAllCrystals()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -288,6 +295,45 @@ to provide default objects if none is provided.</p>
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_loadAll">
+        loadAll()
+        <a href="classes/ClearView-Crystal.html#method_loadAll" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">61</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Initializes all Crystal subclasses and registers them in Mosaic.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadAll</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Called during system startup to instantiate all concrete Crystal subclasses
+and register them as Shards in Mosaic. Also instantiates the ClearView
+crystal explicitly.</p>
+</section>
+
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_plugAllCrystals">
         plugAllCrystals()
         <a href="classes/ClearView-Crystal.html#method_plugAllCrystals" class="headerlink"><i class="fas fa-link"></i></a>
@@ -296,7 +342,7 @@ to provide default objects if none is provided.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -309,9 +355,7 @@ to provide default objects if none is provided.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Called during system startup to instantiate all concrete Crystal subclasses and register them as Shards in
-Mosaic under the 'ClearView' inlay.</p>
-<p>Why: Sets up ProcessWire objects as Shards for access via Mosaic::getVar() or setVar().</p>
+        <section class="phpdocumentor-description"><p>Legacy alias — calls loadAll().</p>
 </section>
 
     
@@ -344,6 +388,7 @@ Mosaic under the 'ClearView' inlay.</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/ClearView-Crystal.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/ClearView-Crystal.html#method_loadAll">loadAll()</a></li>
                                             <li class=""><a href="classes/ClearView-Crystal.html#method_plugAllCrystals">plugAllCrystals()</a></li>
                                     </ul>
             </li>

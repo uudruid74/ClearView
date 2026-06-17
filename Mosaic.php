@@ -9,20 +9,22 @@ use ClearView\QueryParser;
 use ProcessWire;
 
 /**
- * Manages a collection of Shards, handling storage, retrieval, and manipulation of variables and elements.
+ * Request-scoped store for Shards, owned by the current Pane.
  *
- * The Mosaic class is a singleton that serves as the central storage for Shards in ClearView, organizing them
- * by inlay and ID to form a structured data model. It provides methods for adding, retrieving, updating, and
- * deleting Shards, as well as searching and rendering them as HTML inputs for client-side synchronization via
- * HTMX. Mosaic interacts with Facet for template expansion, Shard for data encapsulation, and Crystal for
- * ProcessWire API access. It supports variable watching, sanitizers, and field searches, and tracks changes for
- * efficient updates.
+ * Shards are indexed by inlay-id, deflated into hidden inputs on the client,
+ * and re-inflated on every request. The Mosaic instance represents the current
+ * request's single client Mosaic — not a global aggregate of all panes.
  *
- * @see \ClearView\Shard
- * @see \ClearView\Facet
- * @see \ClearView\Crystal
+ * Primary access is through ArrayAccess ($mosaic['varname']) and fill() for
+ * bulk writes. getVar()/setVar() remain as internal helpers for QueryParser
+ * and Crystal resolution.
+ *
+ * @see \\ClearView\\Shard
+ * @see \\ClearView\\Facet
+ * @see \\ClearView\\Crystal
+ * @see \\ClearView\\Pane
  */
-class Mosaic
+class Mosaic implements \ArrayAccess
 {
     /** @var array Main storage array for mosaic data, indexed by shard addresses (inlay-id) */
     private $mosaic = [];
@@ -65,7 +67,7 @@ class Mosaic
     public static function init()
     {
         if (self::$instance) {
-            throw new Exception("Mosaic reinitialized!");
+            return self::$instance;
         }
         return self::$instance = new static();
     }
@@ -92,7 +94,7 @@ class Mosaic
     {
         Exception::debug('VAR',"Slurping input data: " . Facet::_($input));
         Exception::debug('VAR','    ****    Slurping Up STORED Variables    ****');
-        $currentInlay = self::getVar("Input::inlayname") ?? ClearView::inlay();
+        $currentInlay = self::getVar('Input::inlayname') ?? Facet::inlay() ?? 'ClearView';
 
         if (!is_null($input)) {
             foreach ($input as $key => $value) {
@@ -276,33 +278,70 @@ class Mosaic
     }
 
     /**
-     * Sets multiple variables in the mosaic.
-     * Used to store multiple values at once, applying setVar() to each key-value pair.
-     * Now supports setVars('somearray', [...]) to set somearray.children directly.
-     * Why: Simplifies batch updates to Mosaic data.
-     * @param array $array Key-value pairs to set, with keys possibly using ".field" syntax.
-     * @param string|null $inlay The inlay name to store in (defaults to current Facet inlay).
+     * Bulk write to Mosaic variables.
+     *
+     * Replaces the old setVars() method. Each key-value pair is passed to setVar().
+     *
+     * @param array $values Key-value pairs to set.
+     * @param string|null $inlay Inlay context (defaults to current Facet inlay).
      * @return void
      */
-    public static function setVars($vars, $value = null): void
+    public static function fill(array $values, ?string $inlay = null): void
     {
-        if (is_string($vars) && is_array($value)) {
-            // Special case: setVars('somearray', [...]) sets somearray.children
-            $shard = self::getVar($vars) ?? new Shard(['id' => $vars, 'inlay' => Facet::inlay()]);
-            $shard->setField('children', $value);
-            self::setVar($vars, $shard);
-        } else {
-            // Existing logic: treat $vars as key-value pairs
-            foreach ((array)$vars as $varname => $val) {
-                if ($val !== null) {
-                    self::setVar($varname, (string)$val);
-                }
+        foreach ($values as $varname => $val) {
+            if ($val !== null) {
+                self::setVar($varname, (string)$val, $inlay);
             }
         }
     }
 
+    // ─── ArrayAccess implementation ───────────────────────────────────────
+
     /**
-     * Initializes a variable if it doesn’t exist, handling template expansion and field specifications.
+     * Gets a Mosaic variable via array access.
+     *
+     * @param mixed $key Variable name (string).
+     * @return mixed The resolved value, or null.
+     */
+    public function offsetGet($key): mixed
+    {
+        return self::getVar((string)$key);
+    }
+
+    /**
+     * Sets a Mosaic variable via array access.
+     *
+     * @param mixed $key Variable name.
+     * @param mixed $value Value to set.
+     */
+    public function offsetSet($key, $value): void
+    {
+        self::setVar((string)$key, $value);
+    }
+
+    /**
+     * Checks if a variable exists in the Mosaic.
+     *
+     * @param mixed $key Variable name.
+     * @return bool True if the variable resolves to a non-null value.
+     */
+    public function offsetExists($key): bool
+    {
+        return self::getVar((string)$key) !== null;
+    }
+
+    /**
+     * Deletes a Mosaic variable via array access.
+     *
+     * @param mixed $key Variable name.
+     */
+    public function offsetUnset($key): void
+    {
+        self::delVar((string)$key);
+    }
+
+    /**
+     * Initializes a variable if it doesn't exist, handling template expansion and field specifications.
      * Used to set a variable only if it’s not already present in the Mosaic, preventing overwrites.
      * @param string $var The variable name, possibly with ".field".
      * @param string $value The value to set (converts Shards to strings via __toString()).
@@ -311,7 +350,7 @@ class Mosaic
      */
     public static function initVar(string $var, string $value, ?string $inlay = null): void
     {
-        $inlay = $inlay ?? ClearView::inlay();
+        $inlay = $inlay ?? Facet::inlay();
 
         if (!self::exists($inlay, $var)) {
             self::setVar($var, $value, $inlay);
@@ -546,7 +585,7 @@ class Mosaic
     public static function addShard($json, ?string $id = null, ?string $inlay = null): void
     {
         if (empty($json->address)) {
-            $inlay = $inlay ?? ClearView::inlay();
+            $inlay = $inlay ?? Facet::inlay();
             $id = $id ?? uniqid('__array_');
             $json->address = self::makeAddress(['id'=>$id, 'inlay'=>$inlay]);
         }

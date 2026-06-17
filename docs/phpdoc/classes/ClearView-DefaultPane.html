@@ -131,28 +131,8 @@
 
     </aside>
 
-            <p class="phpdocumentor-summary">Represents an HTML element with dynamic rendering capabilities in ClearView.</p>
+        
 
-
-    <section class="phpdocumentor-description"><p>Element extends Shard to provide functionality for rendering HTML elements with HTMX attributes, CSS
-variables, inline styles, scripts, and event handlers. It integrates with Facet for template processing,
-Mosaic for variable management, and ClearView for JavaScript injection and creator interactions. Elements
-support dynamic field access (e.g., <code class="prettyprint">hx-</code> attributes, <code class="prettyprint">class</code>, <code class="prettyprint">data</code>) and special field handling via <code class="prettyprint">::</code>
-syntax (e.g., <code class="prettyprint">css::var</code>, <code class="prettyprint">class::add</code>). The class manages client-side interactions through HTMX triggers,
-swaps, and targets, and supports out-of-band (OOB) updates via Facet’s OOB mechanism. It is designed for
-use in ProcessWire-based applications, leveraging Mosaic for data synchronization and ClearView for
-rendering orchestration.</p>
-<p>Key features:</p>
-<ul>
-<li>Generates HTMX attributes (<code class="prettyprint">hx-post</code>, <code class="prettyprint">hx-swap</code>, <code class="prettyprint">hx-target</code>, <code class="prettyprint">hx-trigger</code>) for dynamic updates.</li>
-<li>Manages CSS classes, inline styles, scripts, and data attributes with specialized methods.</li>
-<li>Supports event handlers via <code class="prettyprint">on</code> field and JavaScript injection.</li>
-<li>Provides field access with special handling for <code class="prettyprint">id</code>, <code class="prettyprint">hx</code>, <code class="prettyprint">hx-swap-oob</code>, <code class="prettyprint">data</code>, and <code class="prettyprint">interact</code>.</li>
-<li>Integrates with Facet for template expansion and Mosaic for variable resolution.</li>
-</ul>
-<p>Dependencies: Requires <code class="prettyprint">jsonmangler</code> for Shard data mangling, HTMX for client-side interactions, and
-ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</code>).</p>
-</section>
 
 
 
@@ -195,9 +175,8 @@ ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</c
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-DefaultPane.html#method_render">render()</a>
     <span>
-                                &nbsp;: string|null    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Render the element to output, or capture to string when $capture is true.</dd>
 
     </dl>
 
@@ -275,11 +254,10 @@ ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</c
 
     </aside>
 
-        <p class="phpdocumentor-summary">Render the element to output, or capture to string when $capture is true.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">render</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+                    <span class="phpdocumentor-signature__name">render</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -290,15 +268,7 @@ ProcessWire for URL resolution (e.g., <code class="prettyprint">{{Page::url}}</c
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string|null</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Rendered HTML when $capture is true; null otherwise.</p>
-</section>
-
-            </section>
-
+    
 </article>
             </section>
 

@@ -7,6 +7,8 @@ require_once("utility/AnsiColors.php");
 use ClearView\AnsiColors as Ansi;
 use ClearView\Facet;
 use ClearView\Exception;
+use ClearView\Mosaic;
+use ClearView\Pane;
 use ProcessWire;
 use ProcessWire\WireException;
 
@@ -58,7 +60,7 @@ class Exception extends WireException
             $msg = $tag;
             $tag = "TRACE";
         }
-        if (ClearView::inTesting()) {
+        if (Pane::inTesting()) {
             fwrite(STDERR, $msg . "\n");
             return;
         }
@@ -75,7 +77,7 @@ class Exception extends WireException
      */
     public static function error($msg, ?self $e = null): self
     {
-        if (ClearView::inTesting()) {
+        if (Pane::inTesting()) {
             fwrite(STDERR, $msg . "\n$e\n\n");
         }
         $logMsg = Facet::_($msg);
@@ -105,11 +107,11 @@ class Exception extends WireException
      */
     public static function outputComment($msg): void
     {
-        if (ClearView::inTesting()) {
+        if (Pane::inTesting()) {
             fwrite(STDERR, $msg . "\n");
             return;
         }
-        ClearView::debugLayer($msg);
+        Mosaic::index('ClearView', 'ClearView')?->debugLayer($msg);
     }
 
     /**
@@ -126,8 +128,8 @@ class Exception extends WireException
         $url  = Mosaic::getVar("Input::url");
         $name = Mosaic::getVar("Page::name");
         $date = ProcessWire\datetime()->date('Y/m/d h:i:s');
-        ClearView::debugLayer("========");
-        ClearView::debugLayer("-- {$date}: {$url} [ template: $template, inlay: {$name}]");
+        Mosaic::index('ClearView', 'ClearView')?->debugLayer("========");
+        Mosaic::index('ClearView', 'ClearView')?->debugLayer("-- {$date}: {$url} [ template: $template, inlay: {$name}]");
     }
 
     /**
@@ -187,7 +189,7 @@ class Exception extends WireException
                 $msg = "{$color}{$bold}{$tagfmt}{$off} {$className}:{$color}{$functionName}{$off} " .
                         "{$color}{$msg}{$off}";
             } else {
-                ClearView::dumpScripts();
+                Mosaic::index('ClearView', 'ClearView')?->dumpOOBdata();
                 self::backtrace();
                 Mosaic::dumpEverything();
                 die("Recursion Detected: Exceeded Config::STACK_LIMIT");
@@ -202,7 +204,7 @@ class Exception extends WireException
         if (Config::FAIL_MODE) {
             self::outputComment($msg);
         } else {
-            ClearView::debugLayer($msg);
+            Mosaic::index('ClearView', 'ClearView')?->debugLayer($msg);
         }
     }
 

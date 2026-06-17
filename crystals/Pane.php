@@ -95,7 +95,7 @@ class PaneCrystal extends Crystal
         if ($pwObject instanceof \ProcessWire\Page) {
             $pwObject->set(
                 $key,
-                ClearView::Sanitizer()->sanitize($value, Config::SANI_PAGE_SAVE)
+                Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
             );
         }
     }

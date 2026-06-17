@@ -123,7 +123,7 @@ logic lives on the server — the browser is a dumb display device.</p>
 <ol>
 <li>ProcessWire receives the HTTP request and matches it to a template file.</li>
 <li><code>_init.php</code> and <code>_main.php</code> bootstrap ProcessWire in delayed-output mode.</li>
-<li><code>ClearView::init($template)</code> is called with the template name.</li>
+<li><code>Crystal::loadAll()</code> initializes all crystals; pane bootstrap is triggered by routing.</li>
 </ol>
 <h3>3.2 URL Parsing</h3>
 <ul>
@@ -219,8 +219,9 @@ layout changes. Receivers filter by the sending pane name in the JSON payload
 <p>Every HTML tag rendered by ClearView is an Element. Glyph subclasses (in <code>glyphs/</code>)
 override <code>init()</code>, <code>render()</code>, or <code>html()</code> to customize behavior. Examples:
 <code>main</code>, <code>button</code>, <code>input</code>, <code>formheader</code>, <code>layout</code>, <code>pane</code>, <code>reference</code>.</p>
-<h3>4.3 <a href="phpdoc/classes/ClearView-Pane.html">Pane</a> (<a href="phpdoc/classes/ClearView-Element.html">Element</a> subclass)</h3>
-<pre><code>ClearView\Pane extends Element
+<h3>4.3 <a href="phpdoc/classes/ClearView-Pane.html">Pane</a> (standalone base class)</h3>
+<pre><code>ClearView\Pane
+├── implements ArrayAccess
 ├── Constructor registers $this as CurrentPane
 ├── handleCommand($command) — CSRF validation + method dispatch
 ├── open() — renders pane HTML via <a href="phpdoc/classes/ClearView-Facet.html">Facet</a>
@@ -250,7 +251,7 @@ on each request.</p>
   expressions, including <a href="phpdoc/classes/ClearView-Crystal.html">Crystal</a> lookups.
 - <code>setVar($varname, $val)</code> — Stores a value, creating a Shard if needed.
 - <code>index($inlay, $id)</code> — Direct Shard retrieval by address.
-- <code>dumpVars()</code> — Outputs hidden inputs for changed Shards.</p>
+- Deflates changed Shards to hidden inputs via the Mosaic glyph.</p>
 <h3>4.7 <a href="phpdoc/classes/ClearView-Facet.html">Facet</a></h3>
 <p>Rendering engine with a static tag stack. Methods chain:</p>
 <pre><code>(new Facet($this))
@@ -506,7 +507,7 @@ overrides to <code>html</code> for hx-boosted navigation regardless of request m
 </tr>
 <tr>
 <td><code>Mosaic.php</code></td>
-<td><a href="phpdoc/classes/ClearView-Shard.html">Shard</a> store: loadMosaic(), getVar(), setVar(), index(), dumpVars()</td>
+<td><a href="phpdoc/classes/ClearView-Shard.html">Shard</a> store: loadMosaic(), getVar(), setVar(), index(), ArrayAccess</td>
 </tr>
 <tr>
 <td><code>Facet.php</code></td>

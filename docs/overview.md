@@ -36,9 +36,9 @@ Nginx → PHP-FPM → ProcessWire → ClearView
                        │
                   _init.php / _main.php
                        │
-            ClearView::init($template)
+            Pane boot (Crystal::loadAll)
                        │
-            loadInlay(panename, inlayname)
+            Pane::loadInlay(panename, inlayname)
                        │
             Pane::handleCommand($method)
                        │
@@ -50,19 +50,28 @@ Nginx → PHP-FPM → ProcessWire → ClearView
 ```
 ClearView\Shard
   └── ClearView\Element
-        ├── ClearView\Pane
-        │     └── ClearView\Inlay
-        └── ClearView\Main
+        ├── ClearView\Main
+        ├── ClearView\Inlay
+        └── (glyphs)
+
+ClearView\Pane (standalone, implements ArrayAccess)
+  └── ClearView\Inlay
+  └── ClearView\Main
+
+ClearView\Crystal extends Page
+  └── ClearView
+  └── Config
+  └── (other crystals)
 ```
 
 Core concepts:
 
 | Concept  | Role |
 |----------|------|
-| **Pane** | A self-contained UI namespace with its own URL prefix and Mosaic. Subclass of Element. |
+| **Pane** | A self-contained UI namespace with its own URL prefix and Mosaic. Standalone base class (implements ArrayAccess). |
 | **Inlay** | A PHP class loaded into a Pane that handles a portion of the UI (e.g., a form tab). |
 | **Shard** | The basic data unit — like a mini-cookie stored in the page, not the browser. |
-| **Mosaic** | Singleton key-value store of Shards, indexed by `inlay-id`, deflated to hidden inputs. |
+| **Mosaic** | Request-scoped key-value store of Shards, indexed by `inlay-id`, deflated to hidden inputs. Owned by the current Pane. |
 | **Facet** | Rendering engine with tag stack, template expansion (`{{}}`), and OOB output. |
 | **Crystal** | Singleton Shard wrapping a ProcessWire API (Page, User, Session, etc.). |
 | **Glyph** | An Element subclass that renders a specific HTML tag with custom behavior. |
@@ -88,7 +97,7 @@ Activated modules (including site/vendor) are listed in `Config::modules-list` a
 
 1. ProcessWire receives the HTTP request and matches it to a template file.
 2. `_init.php` and `_main.php` bootstrap ProcessWire in delayed-output mode.
-3. `ClearView::init($template)` is called with the template name.
+3. `Crystal::loadAll()` initializes all crystals. The Pane bootstrap is triggered by the module stack and URL routing.
 
 ### 3.2 URL Parsing
 
@@ -112,7 +121,7 @@ available as Crystal singletons via `{{CrystalName::field}}` expressions.
 
 ### 3.5 Pane Loading
 
-`ClearView::loadInlay(panename, inlayname)` searches for the class file:
+`Pane::loadInlay(panename, inlayname)` (delegated to Element for glyph/inlay resolution) searches for the class file:
 
 1. Module stack: `modules/<module>/panes/<lowerpanename>s/<Inlayname>.php`
 2. Module stack: `modules/<module>/panes/<Panename>.php`
@@ -183,10 +192,11 @@ Every HTML tag rendered by ClearView is an Element. Glyph subclasses (in `glyphs
 override `init()`, `render()`, or `html()` to customize behavior. Examples:
 `main`, `button`, `input`, `formheader`, `layout`, `pane`, `reference`.
 
-### 4.3 Pane (Element subclass)
+### 4.3 Pane (standalone base class)
 
 ```
-ClearView\Pane extends Element
+ClearView\Pane
+├── implements ArrayAccess
 ├── Constructor registers $this as CurrentPane
 ├── handleCommand($command) — CSRF validation + method dispatch
 ├── open() — renders pane HTML via Facet
@@ -196,14 +206,15 @@ ClearView\Pane extends Element
 ```
 
 The Pane is the top-level rendering context for a URL namespace.
-All inlay classes extend Pane.
+It does not extend Element; it owns a Mosaic and renders through
+its body Element. All inlay classes extend Pane.
 
 ### 4.4 Inlay (Pane subclass)
 
 `ClearView\Inlay` is the base class for inlay URL handlers. It extends Pane.
 The default `html()` method returns `Page::body` for the pane's ProcessWire page.
 Inlay classes live under `panes/<panename>/<inlayname>.php` and are loaded
-by `ClearView::loadInlay()`.
+by `Pane::loadInlay()`.
 
 ### 4.5 Main (Pane subclass)
 
@@ -213,7 +224,7 @@ content to the `<main>` glyph.
 
 ### 4.6 Mosaic
 
-Singleton key-value store. Shards are stored at address `"inlay-id"`.
+Request-scoped key-value store owned by the current Pane. Shards are stored at address `"inlay-id"`.
 Client-side state is deflated into hidden `<input>` fields and re-inflated
 on each request.
 
@@ -224,7 +235,7 @@ Key operations:
   expressions, including Crystal lookups.
 - `setVar($varname, $val)` — Stores a value, creating a Shard if needed.
 - `index($inlay, $id)` — Direct Shard retrieval by address.
-- `dumpVars()` — Outputs hidden inputs for changed Shards.
+- Deflates changed Shards to hidden inputs via the Mosaic glyph.
 
 ### 4.7 Facet
 
@@ -244,9 +255,9 @@ Key features:
 - **Conditionals**: `match:` and `unless:` arrays gate output.
 - **onClose callbacks**: Registered methods execute on tag close.
 
-### 4.8 Crystal (Page subclass)
+### 4.8 Crystal
 
-Abstract base wrapping ProcessWire objects. `plugAllCrystals()` auto-instantiates
+Abstract base extending Page. `plugAllCrystals()` auto-instantiates
 all concrete subclasses in `crystals/` and registers them under the `'ClearView'`
 inlay.
 
@@ -314,7 +325,7 @@ and other page chrome in sync during SPA-style navigation.
 
 ## 5. Module System
 
-`ClearView::buildModuleStack()` walks the ProcessWire page hierarchy collecting
+`Page::buildModuleStack()` walks the ProcessWire page hierarchy collecting
 `modules` field values (child-first), always appending `"vendor"` last.
 
 Example: if `/foo/bar` has `modules = "barmodule"` and `/foo/bar/baz` has
@@ -374,7 +385,7 @@ It is now a **Crystal** wrapping the ProcessWire page. Mosaic shared state uses
 
 ## 8. Dispatch Defaults
 
-`ClearView::defaultMethod()` is the single source of truth:
+`Pane::defaultMethod()` is the single source of truth:
 
 | Request Method | Default Method |
 |---------------|----------------|
@@ -411,13 +422,13 @@ Null values eat one trailing space in template strings: `{{null}} value` → `"v
 
 | File | Role |
 |------|------|
-| `ClearView.php` | Singleton controller: init(), loadInlay(), loadGlyph(), buildModuleStack(), defaultMethod() |
-| `Pane.php` | Base Pane class: constructor, handleCommand(), event/redirect helpers |
+| `ClearView.php` | Crystal: OOB buffer, script/async JS, debug output, HTMX helpers |
+| `Pane.php` | Base Pane class: constructor, handleCommand(), defaultMethod(), event/redirect helpers |
 | `Inlay.php` | Base Inlay class for inlay URL handlers |
-| `Main.php` | Default route handler for URLs without their own pane |
+| `Main.php` | Default route handler (extends Pane) |
 | `Shard.php` | Core data unit: loadShard(), canonicalizeChildren(), field access |
 | `Element.php` | HTML rendering: HTMX attributes, CSS vars, event handlers |
-| `Mosaic.php` | Shard store: loadMosaic(), getVar(), setVar(), index(), dumpVars() |
+| `Mosaic.php` | Shard store: loadMosaic(), getVar(), setVar(), index(), ArrayAccess |
 | `Facet.php` | Rendering engine: tag stack, template expansion, OOB, recording |
 | `Crystal.php` | Abstract ProcessWire wrapper: plugAllCrystals() |
 | `crystals/Pane.php` | Pane Crystal: ProcessWire page for pane URL |
@@ -483,7 +494,7 @@ They are listed here for historical reference:
 - `Form.php` is removed; its behavior merges into `Pane.php` and `glyphs/pane.php`.
 - Anonymous Shards use `__anonymous` inlay and are never sent to the client.
 - Canonical ids (`id="#"`) expand to `<panename>-<inlay>-<name>` via `Element::getField('id')`.
-- The generated phpdoc `docs/` directory should be deleted; docs are built from this wiki.
+- The generated phpdoc in `docs/phpdoc/` is auto-generated via `phpDocumentor` (configured in `phpdoc.dist.xml`). Do not edit it by hand.
 
 ---
 

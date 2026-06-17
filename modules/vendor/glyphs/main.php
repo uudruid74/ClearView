@@ -50,7 +50,7 @@ class main extends Element
             ->open('<main {{id=id}} {{class=class}} {{hx}}>');
 
         // Emit the Mosaic hidden inputs inside <main> so they survive swaps.
-        Mosaic::outputMosaic();
+        $facet->create(new \ClearView\Element\Mosaic());
 
         // Update fields that live outside <main> (headline, summary, sidebar).
         $this->pushWatchedFieldOOB();

@@ -53,7 +53,7 @@ class loginform_newaccount extends Inlay
         $existingMail = $this->getVar("User::email=$email");
         $username = $this->getVar('username') ?? '';
         if (strlen($username) < ($this->getVar('min_user_len') ?? 3)) {
-            $this->setVars([
+            $this->fill([
                 'headline' => "Error",
                 'summary'  => "Use a longer username"
             ]);
@@ -61,14 +61,14 @@ class loginform_newaccount extends Inlay
         }
 	$existingUser = $this->getVar("User::name=$username");
         if ($existingMail->id !== 0) {
-            $this->setVars([
+            $this->fill([
                 'headline' => "Error",
                 'summary'  => "Email Exists"
             ]);
             return;
         }
         if ($existingUser->id !== 0) {
-            $this->setVars([
+            $this->fill([
                 'headline' => "Error",
                 'summary'  => "Username Exists"
             ]);
@@ -77,7 +77,7 @@ class loginform_newaccount extends Inlay
         $password = $this->getVar('removeWhitespace30\password') ?? '';
         $displayname = $this->getVar('text30\displayname') ?? ucfirst($username);
         if (strlen($password) < 7) {
-            $this->setVars([
+            $this->fill([
                 'headline' => "Error",
                 'summary'  => "Password is too small"
             ]);
@@ -89,7 +89,7 @@ class loginform_newaccount extends Inlay
         $user = $this->getVar("ClearView::User")->add($username);
         $user->pass = $password;
         $user->addRole("apprentice");
-	$user->setVars([
+	$user->fill([
 		"email" => $email,
 		"displayname" => $displayname
 	]);
@@ -106,14 +106,14 @@ class loginform_newaccount extends Inlay
         if (isset($email)) {
             list($username, $domain) = explode("@", $email);
             $this->debug("Email address is {$username}@{$domain}");
-            $this->setVars([
+            $this->fill([
                 'email'          => $mail,
                 'email.disabled' => true,
                 'username'       => $username,
                 'displayname'    => ucfirst($username)
             ]);
         } else {
-            $this->setVars([
+            $this->fill([
                 'title' => "Error",
                 'info'  => "Invalid Link!"
             ]);

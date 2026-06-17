@@ -4,6 +4,7 @@ namespace ClearView;
 
 use ClearView\Crystal;
 use ClearView\Exception;
+use ClearView\Pane;
 use ProcessWire;
 use ProcessWire\HookEvent;
 use ReflectionClass;
@@ -251,7 +252,7 @@ class Sanitizer extends Crystal
      */
     public function validate($value = null, $sanitizers = null)
     {
-        $value = $value ?? ClearView::getCurrentPane();
+        $value = $value ?? Pane::CurrentPane();
         $sanitizerList = self::getSanitizerList($sanitizers);
         if (empty($sanitizerList)) {
             throw new Exception("No sanitizers specified for validation.");

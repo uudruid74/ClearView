@@ -3,6 +3,7 @@
 namespace ClearView;
 
 use ClearView\Crystal;
+use ClearView\Pane;
 use ProcessWire;
 
 /**
@@ -40,7 +41,7 @@ class Input extends Crystal
 
         Exception::debug("Input->getVar('$key') called");
         $pw = $this->data[Config::PAGE_PWOBJECT];
-        if (ClearView::inTesting()) {
+        if (Pane::inTesting()) {
             return $GLOBALS['cliUrlSegments'][$key] ?? null;
         }
         if ($key === null || $key === '') {

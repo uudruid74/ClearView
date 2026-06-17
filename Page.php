@@ -3,6 +3,7 @@
 namespace ClearView;
 use ClearView\Shard;
 use ClearView\Config;
+use ClearView\Mosaic;
 use ProcessWire;
 
 /**
@@ -119,7 +120,7 @@ class Page extends Shard
     {
         $this->data[Config::PAGE_PWOBJECT]->set(
             $key,
-            ClearView::Sanitizer()->sanitize($value,CONFIG::SANI_PAGE_SAVE)
+            Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
         );
     }
 
@@ -133,7 +134,7 @@ class Page extends Shard
     {
         $this->data[Config::PAGE_PWOBJECT]->set(
             $key,
-            ClearView::Sanitizer()->sanitize($value,CONFIG::SANI_PAGE_SAVE)
+            Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
         );
     }
 
@@ -286,6 +287,53 @@ class Page extends Shard
      * @return mixed The result of the method.
      * @throws Exception If the method does not exist.
      */
+    /** @var array<string>|null Cached module search stack for the current request */
+    private static $moduleStackCache = null;
+
+    /**
+     * Build a module search stack: Config::MODULES_LIST base + ProcessWire page hierarchy modules.
+     *
+     * Starts with the base module list from Config::MODULES_LIST (site, vendor),
+     * then walks up the ProcessWire page tree collecting `modules` field values.
+     * Page modules are inserted after 'site' so site always has priority.
+     * 'vendor' is always the terminal fallback.
+     *
+     * @return array<string>
+     */
+    public static function buildModuleStack(): array
+    {
+        if (self::$moduleStackCache !== null) {
+            return self::$moduleStackCache;
+        }
+        $stack = Config::MODULES_LIST;
+        try {
+            $panename = Mosaic::getVar("Pane::name");
+            if ($panename) {
+                $page = \ProcessWire\pages()->get("name={$panename}");
+                while ($page && $page->id) {
+                    if (!empty($page->modules)) {
+                        $modules = is_array($page->modules) ? $page->modules : [$page->modules];
+                        // Insert page modules after 'site', before 'vendor'
+                        foreach (array_reverse($modules) as $m) {
+                            if ($m && !in_array($m, $stack, true)) {
+                                $vendorIdx = array_search('vendor', $stack);
+                                if ($vendorIdx !== false) {
+                                    array_splice($stack, $vendorIdx, 0, $m);
+                                } else {
+                                    $stack[] = $m;
+                                }
+                            }
+                        }
+                    }
+                    $page = $page->parent;
+                }
+            }
+        } catch (\Throwable $e) {
+            // Gracefully degrade to base module list on any page-walking error
+        }
+        return self::$moduleStackCache = array_values(array_unique($stack));
+    }
+
     public function __call($name, $arguments)
     {
         Exception::debug("Page " . self::class . " __call $name");

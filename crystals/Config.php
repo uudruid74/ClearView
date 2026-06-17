@@ -111,6 +111,23 @@ class Config extends Crystal
     public const LAYER_SUFFIX_DEBUG = '-debug';
 
     /**
+     * Layer suffix for the pane-scoped debug console dialog.
+     * Appended to the pane name to form the debug console ID (e.g., 'Default-debugconsole').
+     */
+    public const LAYER_SUFFIX_DEBUGCONSOLE = '-debugconsole';
+
+    /**
+     * CSS class for the debug console dialog element.
+     */
+    public const CLASS_DEBUGCONSOLE = 'debugconsole';
+
+    /**
+     * Enable the per-pane debug console dialog.
+     * When true, dumpOOBdata() emits a <dialog class="debugconsole"> with buffered messages.
+     */
+    public const DEBUG_CONSOLE = false;
+
+    /**
      * Layer suffix for the pane-scoped script layer.
      * Appended to the pane name to form the script ID (e.g., 'Default-script').
      */
@@ -254,6 +271,7 @@ class Config extends Crystal
         'layer_suffix_pane' => self::LAYER_SUFFIX_PANE,
         'layer_suffix_mosaic' => self::LAYER_SUFFIX_MOSAIC,
         'layer_suffix_debug' => self::LAYER_SUFFIX_DEBUG,
+        'layer_suffix_debugconsole' => self::LAYER_SUFFIX_DEBUGCONSOLE,
         'layer_suffix_script' => self::LAYER_SUFFIX_SCRIPT,
         'layerstackid' => self::LAYERSTACKID,
         'sani_page_save' => self::SANI_PAGE_SAVE,
@@ -267,10 +285,12 @@ class Config extends Crystal
         'class_tabbar' => self::CLASS_TABBAR,
         'class_tabbody' => self::CLASS_TABBODY,
         'class_mosaic' => self::CLASS_MOSAIC,
+        'class_debugconsole' => self::CLASS_DEBUGCONSOLE,
         'id_close_button' => self::ID_CLOSE_BUTTON,
         'user_haptic-strength' => 1, // Default multiplier for haptic feedback
         'form_close_delay' => self::FORM_CLOSE_DELAY,
         'fail_mode' => self::FAIL_MODE,
+        'debug_console' => self::DEBUG_CONSOLE,
         'stack_limit' => self::STACK_LIMIT,
         'tracemode' => self::TRACEMODE, // Debug trace flags (e.g., ['ALL'], ['FACET'])
     ];

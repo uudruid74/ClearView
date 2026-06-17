@@ -73,15 +73,11 @@
             </li>
             </ul>
 
-                                    <h4 class="phpdocumentor-sidebar__root-namespace">
-    <a href="namespaces/processwire.html" class="">ProcessWire</a>
-</h4>
-
                         </section>
                 <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
-    <a href="packages/Application.html" class="">Application</a>
+    <a href="packages/ClearView.html" class="">ClearView</a>
 </h4>
 
                         </section>
@@ -102,52 +98,168 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/clearview.html">ClearView</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/clearview-element.html">Element</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -file">
-        <h2 class="phpdocumentor-content__title">ExampleTest.php</h2>
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    Mosaic
 
-        
-        
-        
-        
+        <span class="phpdocumentor-element__extends">
+        extends <a href="classes/ClearView-Element.html"><abbr title="\ClearView\Element">Element</abbr></a>
+    </span>
+    
+            <div class="phpdocumentor-element__package">
+            in package
+            <ul class="phpdocumentor-breadcrumbs">
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/ClearView.html">ClearView</a></li>
+                            </ul>
+        </div>
+    
+    
+    </h2>
+
+<div class="phpdocumentor-label-line">
 
 
-        
+</div>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/glyphs/Mosaic.php"><a href="files/modules-vendor-glyphs-mosaic.html"><abbr title="modules/vendor/glyphs/Mosaic.php">Mosaic.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">23</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">Mosaic glyph — renders hidden Mosaic state inputs for client-side synchronization.</p>
+
+
+    <section class="phpdocumentor-description"><p>On initial page load, outputs all Shards as hidden <input> fields inside a
+preserved <div>. On HTMX updates, produces OOB hidden-input patches for
+inserted, updated, or removed Shards.</p>
+<p>Replaces the old Facet::dumpVars() / Mosaic::outputMosaic() / Mosaic::updateMosaic()
+call chain. Pane body templates now emit <mosaic /> to trigger this glyph.</p>
+</section>
+
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/ClearView-Element-Mosaic.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">see</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span>
+                                                                
+                                    </dd>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Facet.html"><abbr title="\ClearView\Facet">Facet</abbr></a></span>
+                                                                
+                                    </dd>
+                        </dl>
+
+    
+    
 <h3 id="toc">
     Table of Contents
-    <a href="files/tests-integration-exampletest.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/ClearView-Element-Mosaic.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
 
-    <h4 id="toc-classes">
-        Classes
-        <a href="files/tests-integration-exampletest.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+
+
+
+
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/ClearView-Element-Mosaic.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Element-Mosaic.html#method_render">render()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
+<dd>Renders Mosaic state as hidden inputs or OOB patches.</dd>
+
+    </dl>
+
+
+
+        
+
+        
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/ClearView-Element-Mosaic.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_render">
+        render()
+        <a href="classes/ClearView-Element-Mosaic.html#method_render" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
-    <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/ClearView-Test-ExampleTest.html"><abbr title="\ClearView\Test\ExampleTest">ExampleTest</abbr></a></dt><dd>Example test verifying the testing infrastructure end-to-end:
-bootstrap → autoloader → ViewBuilder → PaneKeyHelper.</dd>    </dl>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/glyphs/Mosaic.php"><a href="files/modules-vendor-glyphs-mosaic.html"><abbr title="modules/vendor/glyphs/Mosaic.php">Mosaic.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
+    </aside>
 
+        <p class="phpdocumentor-summary">Renders Mosaic state as hidden inputs or OOB patches.</p>
 
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">render</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Decision: if a Pane-name is present in the request (command execution),
+produce update/insert OOB patches. Otherwise produce the full initial
+Mosaic dump.</p>
+</section>
 
-
-
-
+    
+    
 
         
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Rendered HTML when $capture is true; null otherwise.</p>
+</section>
 
-        
+            </section>
+
+</article>
+            </section>
+
         
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
-                            
+                                
     <section class="phpdocumentor-on-this-page__content">
         <strong class="phpdocumentor-on-this-page__title">On this page</strong>
 
@@ -155,11 +267,17 @@ bootstrap → autoloader → ViewBuilder → PaneKeyHelper.</dd>    </dl>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                        <li><a href="files/tests-integration-exampletest.html#toc-classes">Classes</a></li>
-                                                                                                                    </ul>
+                                                                                <li><a href="classes/ClearView-Element-Mosaic.html#toc-methods">Methods</a></li>
+                                    </ul>
             </li>
-
             
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/ClearView-Element-Mosaic.html#method_render">render()</a></li>
+                                    </ul>
+            </li>
                     </ul>
     </section>
 
@@ -177,7 +295,7 @@ bootstrap → autoloader → ViewBuilder → PaneKeyHelper.</dd>    </dl>
     </section>
 </section>
         </div>
-        <a href="files/tests-integration-exampletest.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/ClearView-Element-Mosaic.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

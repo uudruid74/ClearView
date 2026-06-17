@@ -20,4 +20,16 @@ class Shared
 
     /** @var string|null The previously active inlay name; used to detect inlay changes */
     public static ?string $prevInlay = null;
+
+    /** @var array Debug flags controlling debug console and trace behavior */
+    public static array $debugflags = [];
+
+    /**
+     * Check if debug console is enabled for the current pane.
+     */
+    public static function isDebugConsole(): bool
+    {
+        return in_array('DEBUG_CONSOLE', self::$debugflags, true)
+            || in_array('ALL', self::$debugflags, true);
+    }
 }

@@ -38,7 +38,7 @@ class Main extends Pane
     public function render(): void
     {
         Exception::outputComment("Main Page Rendering - render");
-        (new Facet($this))
+        (new Facet($this->body()))
             ->out("<!DOCTYPE html>")
             ->open("<html {{lang=lang}} {{data-theme=data-theme}} {{manifest=manifest}} {{dir=dir}} {{xmlns=xmlns}}>")
             ->close();

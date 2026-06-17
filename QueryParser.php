@@ -29,22 +29,21 @@ class QueryParser
      * @param string $expression The template expression to resolve.
      * @param array|null $locals Local variables for variable lookup (optional).
      * @param string|null $inlay The inlay name to resolve against (optional).
-     * @param mixed $forceFacet A named flag to force resolution through the given object first.
      * @return mixed The resolved value (string or array).
      * @throws Exception When ^^ XOR has both operands non-null.
      */
-    public static function parseAndResolve(string $expression, ?array $locals = null, ?string $inlay=null, mixed $forceFacet = null)
+    public static function parseAndResolve(string $expression, ?array $locals = null, ?string $inlay=null)
     {
         $expression = trim($expression);
 
         // Process templates first
-        $expression = self::processTemplate($expression, $locals, $inlay, $forceFacet);
+        $expression = self::processTemplate($expression, $locals, $inlay);
 
         // ^^ XOR evaluation: returns non-null operand, throws if both non-null.
         if (strpos($expression, '^^') !== false) {
             [$left, $right] = explode('^^', $expression, 2);
-            $leftVal = self::parseAndResolve(trim($left), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
-            $rightVal = self::parseAndResolve(trim($right), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+            $leftVal = self::parseAndResolve(trim($left), locals: $locals, inlay: $inlay);
+            $rightVal = self::parseAndResolve(trim($right), locals: $locals, inlay: $inlay);
             $leftOk = $leftVal !== null && $leftVal !== false && $leftVal !== '' && !(is_array($leftVal) && count($leftVal) === 0);
             $rightOk = $rightVal !== null && $rightVal !== false && $rightVal !== '' && !(is_array($rightVal) && count($rightVal) === 0);
             if ($leftOk && $rightOk) {
@@ -56,21 +55,21 @@ class QueryParser
         // Operates on the resolved string, splitting on the first occurrence.
         if (strpos($expression, '||') !== false) {
             [$left, $right] = explode('||', $expression, 2);
-            $leftVal = self::parseAndResolve(trim($left), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+            $leftVal = self::parseAndResolve(trim($left), locals: $locals, inlay: $inlay);
             // Template truthy: not null, not false, not empty string, not empty array
             if ($leftVal !== null && $leftVal !== false && $leftVal !== '' && !(is_array($leftVal) && count($leftVal) === 0)) {
                 return $leftVal;
             }
-            return self::parseAndResolve(trim($right), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+            return self::parseAndResolve(trim($right), locals: $locals, inlay: $inlay);
         }
         if (strpos($expression, '&&') !== false) {
             [$left, $right] = explode('&&', $expression, 2);
-            $leftVal = self::parseAndResolve(trim($left), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+            $leftVal = self::parseAndResolve(trim($left), locals: $locals, inlay: $inlay);
             $isFalsy = $leftVal === null || $leftVal === false || $leftVal === '' || (is_array($leftVal) && count($leftVal) === 0);
             if ($isFalsy) {
                 return $leftVal;
             }
-            return self::parseAndResolve(trim($right), locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+            return self::parseAndResolve(trim($right), locals: $locals, inlay: $inlay);
         }
 
         // Pre-decrement: {{--count}}
@@ -93,8 +92,8 @@ class QueryParser
             $var = $matches[1];
             $indexExpr = $matches[2];
             // Recursively resolve the index expression
-            $index = self::parseAndResolve($indexExpr, locals: $locals, forceFacet: $forceFacet);
-            $shard = self::getVarValue($var, $inlay, $locals, $forceFacet);
+            $index = self::parseAndResolve($indexExpr, locals: $locals);
+            $shard = self::getVarValue($var, $inlay, $locals);
             $contents = $shard ? $shard->getField(Config::SHARD_ARRAYNAME) : null;
             return $contents[$index] ?? '';
         }
@@ -120,7 +119,7 @@ class QueryParser
         ];
 
         if (isset($callbacks[$type])) {
-            $value = call_user_func($callbacks[$type], $parsed, $locals, $forceFacet);
+            $value = call_user_func($callbacks[$type], $parsed, $locals);
 
             // Apply subfield (dot notation) if present
             if (!empty($parsed['subfield'])) {
@@ -137,7 +136,7 @@ class QueryParser
 
             // Apply sanitizers after resolution and subfield
             if (!empty($parsed['sanitizers'])) {
-                $value = ClearView::Sanitizer()->sanitize($value, $parsed['sanitizers']);
+                $value = Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, $parsed['sanitizers']);
             }
             return $value;
         }
@@ -162,7 +161,7 @@ class QueryParser
             'type' => 'variable',
             'base' => null,
             'sanitizers' => '',
-            'inlay' => $inlay ?? ClearView::inlay(),
+            'inlay' => $inlay ?? Facet::inlay(),
             'method' => null,
             'attr' => null,
             'property' => null,
@@ -234,10 +233,9 @@ class QueryParser
      *
      * @param array $parsed Parsed expression components (inlay, method).
      * @param array|null $locals Local variables for scope.
-     * @param mixed $forceFacet A named flag to force resolution through the given object.
      * @return string The result of the method call, or empty string if not found.
      */
-    private static function resolveMethodCall($parsed,$locals,$forceFacet)
+    private static function resolveMethodCall($parsed,$locals)
     {
         $inlay = $parsed['inlay'];
         $method = $parsed['method'];
@@ -245,7 +243,7 @@ class QueryParser
         switch ($inlay) {
             case 'Inlay':
                 // Dispatch to current Inlay instance (Crystal registered for current inlay name)
-                $inlayCrystal = Mosaic::getVar("ClearView::" . ClearView::inlay());
+                $inlayCrystal = Mosaic::getVar("ClearView::" . Facet::inlay());
                 if ($inlayCrystal instanceof Crystal && method_exists($inlayCrystal, $method)) {
                     return $inlayCrystal->$method();
                 }
@@ -274,9 +272,9 @@ class QueryParser
      * @param array $parsed Parsed expression components (property, base).
      * @return string The CSS property string, or empty string if no value.
      */
-    private static function resolveCSSDefinition($parsed,$locals,$forceFacet)
+    private static function resolveCSSDefinition($parsed,$locals)
     {
-        $value = self::getVarValue($parsed['base'], $parsed['inlay'],$locals,$forceFacet);
+        $value = self::getVarValue($parsed['base'], $parsed['inlay'],$locals);
 
         if ($value !== null) {
             $property = $parsed['property'];
@@ -294,9 +292,9 @@ class QueryParser
      * @param array $parsed Parsed expression components (attr, base).
      * @return string The attribute string, or empty string if no value.
      */
-    private static function resolveHTMLAttribute($parsed,$locals,$forceFacet)
+    private static function resolveHTMLAttribute($parsed,$locals)
     {
-        $value = self::getVarValue($parsed['base'], $parsed['inlay'],$locals,$forceFacet);
+        $value = self::getVarValue($parsed['base'], $parsed['inlay'],$locals);
 
         if ($value !== null) {
             $attr = $parsed['attr'];
@@ -315,7 +313,7 @@ class QueryParser
      * @param array|null $locals Local variables for lookup (optional).
      * @return mixed The resolved value.
      */
-    private static function resolveVariable($parsed, ?array $locals = null, mixed $forceFacet = null)
+    private static function resolveVariable($parsed, ?array $locals = null)
     {
         $base = $parsed['base'];
         $inlay = $parsed['inlay'];
@@ -326,10 +324,11 @@ class QueryParser
             $op = $matches[2];
             $expected = trim($matches[3]);
 
-            if ($forceFacet) {
-                $contents = $forceFacet->getField(Config::SHARD_ARRAYNAME) ?? [];
+            $elem = Facet::me();
+            if ($elem && is_object($elem) && method_exists($elem, 'getField')) {
+                $contents = $elem->getField(Config::SHARD_ARRAYNAME) ?? [];
                 $results = [];
-                $primaryField = $forceFacet->primaryField ?? 'value';
+                $primaryField = $elem->primaryField ?? 'value';
                 foreach ($contents as $item) {
                     if ($item instanceof Shard) {
                         $itemValue = $item->getField($field);
@@ -342,12 +341,13 @@ class QueryParser
                         }
                     }
                 }
-                return $results;
-            } else {
-                return Mosaic::findShards($field, $expected, $inlay, $op);
+                if (!empty($results)) {
+                    return $results;
+                }
             }
+            return Mosaic::findShards($field, $expected, $inlay, $op);
         }
-        return self::getVarValue($base, $inlay, $locals, $forceFacet);
+        return self::getVarValue($base, $inlay, $locals);
     }
 
     /**
@@ -358,7 +358,7 @@ class QueryParser
      * @param array $parsed Parsed expression components (inlay, base).
      * @return mixed The resolved value from Mosaic.
      */
-    private static function resolveInlayQuery($parsed,$locals,$forceFacet)
+    private static function resolveInlayQuery($parsed,$locals)
     {
         $base = $parsed['base'];
         $inlay = $parsed['inlay'];
@@ -374,10 +374,11 @@ class QueryParser
                 $query = $field . $op . $expected;
                 return $crystal->getVar($query);
             } else {
-                if ($forceFacet) {
-                    $contents = $forceFacet->getField(Config::SHARD_ARRAYNAME) ?? [];
+                $elem = Facet::me();
+                if ($elem && is_object($elem) && method_exists($elem, 'getField')) {
+                    $contents = $elem->getField(Config::SHARD_ARRAYNAME) ?? [];
                     $results = [];
-                    $primaryField = $forceFacet->primaryField ?? 'value';
+                    $primaryField = $elem->primaryField ?? 'value';
                     foreach ($contents as $item) {
                         if ($item instanceof Shard) {
                             $itemValue = $item->getField($field);
@@ -390,10 +391,11 @@ class QueryParser
                             }
                         }
                     }
-                    return $results;
-                } else {
-                    return Mosaic::findShards($field, $expected, $inlay, $op);
+                    if (!empty($results)) {
+                        return $results;
+                    }
                 }
+                return Mosaic::findShards($field, $expected, $inlay, $op);
             }
         }
 
@@ -410,15 +412,15 @@ class QueryParser
         return null;
     }
 
-    public static function processTemplate(string $string, ?array $locals = null, ?string $inlay = null, mixed $forceFacet = null): string
+    public static function processTemplate(string $string, ?array $locals = null, ?string $inlay = null): string
     {
         $replaced = true;
         do {
             $replaced = false;
-            $string = preg_replace_callback('/{{((?:[^{}]*|(?R))*)}}(\s)?/', function ($matches) use (&$replaced, $locals, $inlay, $forceFacet) {
+            $string = preg_replace_callback('/{{((?:[^{}]*|(?R))*)}}(\s)?/', function ($matches) use (&$replaced, $locals, $inlay) {
                 // The expression is in $matches[1]
                 $expression = trim($matches[1]);
-                $value = self::parseAndResolve($expression, locals: $locals, inlay: $inlay, forceFacet: $forceFacet);
+                $value = self::parseAndResolve($expression, locals: $locals, inlay: $inlay);
 
                 // If the value is an array, implode it
                 if (is_array($value)) {
@@ -448,12 +450,13 @@ class QueryParser
     /**
      * Gets a variable's value from the most specific scope outwards.
      *
+     * Priority: locals → current element (Facet::me()) → Mosaic.
+     *
      * @param string $var The variable name.
      * @param array|null $locals Local variables for lookup (optional).
-     * @param bool $forceFacet If true, forces resolution through Facet::me() first.
      * @return mixed The resolved value.
      */
-    private static function getVarValue(string $var, ?string $inlay = null, ?array $locals = null, mixed $forceFacet = null)
+    private static function getVarValue(string $var, ?string $inlay = null, ?array $locals = null)
     {
         // Handle subfield resolution (dot notation)
         $field = null;
@@ -467,14 +470,19 @@ class QueryParser
             return $field ? ($value->getField($field) ?? null) : $value;
         }
 
-        if ($forceFacet) {
-            $value = $forceFacet->getField($var);
-            return $field ? ($value->getField($field) ?? null) : $value;
-        } else {
-            $shard = Mosaic::index($inlay ?? ClearView::inlay(),$var);
-            if ($shard) {
-                return $field ? ($shard->getField($field) ?? null) : $shard;
+        // 2. Check current element via Facet::me()
+        $elem = Facet::me();
+        if ($elem && is_object($elem) && method_exists($elem, 'getField')) {
+            $value = $elem->getField($var);
+            if ($value !== null) {
+                return $field ? ($value->getField($field) ?? null) : $value;
             }
+        }
+
+        // 3. Fall back to Mosaic
+        $shard = Mosaic::index($inlay ?? Facet::inlay(), $var);
+        if ($shard) {
+            return $field ? ($shard->getField($field) ?? null) : $shard;
         }
         return null;
     }

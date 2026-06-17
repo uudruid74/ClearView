@@ -6,6 +6,7 @@ use ClearView\ClearView;
 use ClearView\Mosaic;
 use ClearView\Exception;
 use ClearView\Shard;
+use ClearView\Pane;
 
 /**
  * Manages HTML rendering and template processing for Shards in ClearView.
@@ -85,7 +86,7 @@ class Facet
     public static function me()
     {
         if (empty(self::$tagstack)) {
-            return ClearView::CurrentPane();
+            return Pane::CurrentPane();
         }
         $targetIdx = count(self::$tagstack) - 1;
         while ($targetIdx >= 0 && !is_object(self::$tagstack[$targetIdx])) {
@@ -95,7 +96,7 @@ class Facet
             return self::$tagstack[$targetIdx];
         }
         Exception::debug('FACET', "Facet::me() returning **Pane Creator!** (no object found)");
-        return ClearView::CurrentPane();
+        return Pane::CurrentPane();
     }
 
     /**
@@ -107,7 +108,7 @@ class Facet
      */
     public function id()
     {
-        return self::me()->id() ?? ClearView::id();
+        return self::me()->id() ?? Mosaic::getVar("Pane::name");
     }
 
     /**
@@ -119,7 +120,7 @@ class Facet
      */
     public static function inlay()
     {
-        return self::me()->inlay() ?? ClearView::inlay();
+        return self::me()->inlay() ?? Mosaic::getVar("Input::inlayname");
     }
 
     /**
@@ -145,7 +146,7 @@ class Facet
         $string = preg_replace('/\s+/', ' ', $string);
         // Process nested {{...}} pairs
         if (str_contains($string, '{{')) {
-            return QueryParser::processTemplate($string,$locals,self::me()->inlay(),self::me());
+            return QueryParser::processTemplate($string, $locals, self::me()->inlay());
         }
         return $string;
     }
@@ -541,7 +542,7 @@ class Facet
         $contents = ob_get_contents();
         ob_end_clean();
         self::$oobCount--;
-        ClearView::sendOOB($contents);
+        Mosaic::index('ClearView', 'ClearView')->sendOOB($contents);
         return $this;
     }
 
@@ -716,28 +717,7 @@ class Facet
     }
 
     /**
-     * Outputs Mosaic variables based on the current command.
-     *
-     * Triggers `Mosaic::outputMosaic()` for 'open' commands or `Mosaic::updateMosaic()` for updates, typically
-     * for hidden input fields in HTMX responses. Supports session data via `ClearView::Session;key`.
-     *
-     * @return $this for chaining
-     */
-    public function dumpVars()
-    {
-        $panename = ClearView::Input()->getVar("Pane-name");
-        if (empty($panename)) {
-            Exception::debug('VAR',"dumpVars - no panename, creating Mosaic");
-            Mosaic::outputMosaic();
-        } else {
-            Exception::debug('VAR',"dumpVars - Pane is $panename");
-            Mosaic::updateMosaic();
-        }
-        return $this;
-    }
-
-    /**
-     * Closes tags back to the instance’s position.
+     * Closes tags back to the instance's position.
      *
      * Restores the tag stack to the Facet instance’s initial position, processing closing tags and method
      * markers (e.g., `->stopOOB`) via `popto()`.
@@ -761,6 +741,29 @@ class Facet
     }
 
     /**
+     * Buffer a debug trace message for the current pane.
+     *
+     * @param string $msg The debug message.
+     * @return self For method chaining.
+     */
+    public function debug(string $msg): self
+    {
+        Exception::debug('DEBUG', $this->_p($msg));
+        return $this;
+    }
+
+    /**
+     * Buffer a debug breakpoint message for the current pane.
+     *
+     * @return self For method chaining.
+     */
+    public function debug_break(): self
+    {
+        Exception::debug('BREAK', $this->_p('Breakpoint'));
+        return $this;
+    }
+
+    /**
      * Forwards unknown method calls to the target element, ClearView, or Mosaic.
      *
      * Chains method calls to the current element (via `me()`), ClearView, or Mosaic, with debugging for
@@ -779,11 +782,14 @@ class Facet
             }
             Exception::debug($this->_p("Calling " . Mosaic::classname($target) . "->$name id: {{id}}"));
             $target->$name(...$arguments);
-        } elseif (method_exists('ClearView\ClearView', $name)) {
+        } elseif (method_exists('ClearView\\ClearView', $name)) {
             $args = empty($arguments) ? [] : $arguments;
-            Exception::debug($this->_p("Calling ClearView::$name"));
-            ClearView::$name(...$args);
-        } elseif (method_exists('ClearView\Mosaic', $name)) {
+            Exception::debug($this->_p("Calling ClearView->$name"));
+            $cv = Mosaic::index('ClearView', 'ClearView');
+            if ($cv) {
+                $cv->$name(...$args);
+            }
+        } elseif (method_exists('ClearView\\Mosaic', $name)) {
             $args = empty($arguments) ? [] : $arguments;
             Exception::debug($this->_p("Calling Mosaic::$name"));
             Mosaic::$name(...$args);

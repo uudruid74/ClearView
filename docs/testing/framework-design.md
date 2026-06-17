@@ -5,7 +5,7 @@ Consolidates requirements from `t_89d2d9be`, test catalog `t_86caf25d`, fixture/
 
 ## 1. High-level overview
 
-The ClearView Testing Framework turns the existing command-line utilities (`utility/dumpurl.php`, `utility/jsonmangler.php`) into a deliberate, local-and-CI-ready test system.  It keeps the render/inlay code path as the primary seam and layers curl smoke tests on top.  The framework reuses the bundled `phpunit.phar` engine and adds a thin CLI wrapper plus ClearView-specific fixtures.
+The ClearView Testing Framework turns the existing command-line utilities (`utility/dumpurl.php`, `utility/jsonmangler.php`) into a deliberate, local-and-CI-ready test system.  It keeps the render/inlay code path as the primary seam and layers curl smoke tests on top.
 
 ### P0–P3 capability summary
 
@@ -14,7 +14,7 @@ The ClearView Testing Framework turns the existing command-line utilities (`util
 | P0 | Fast, deterministic unit tests for `Element` render output | `Element::render()` / `Shard::getHtml()` |
 | P0 | Programmatic `View`/`Mosaic` assembly with assertion helpers | `ClearView\Test\Fixture\ViewBuilder` |
 | P1 | Injectable synthetic data source for inlays | `ClearView\Test\Fixture\InlayStub` + `InlayRegistry` |
-| P1 | Stable verification methods on `Pane` and `Element` subclasses | `Pane::handleCommand()` + `PaneKeyHelper` |
+| P1 | Stable verification methods on `Pane` and `Element` subclasses | `Pane::handleCommand()` + CSRF validation via `Pane::validateCsrf()` |
 | P2 | Curl-based smoke tests against a live server instance | `ClearView\Test\Harness\ServerHarness` |
 | P3 | CI-ready test runner with concise output and failure diffs | `utility/clearview-test.php` |
 
@@ -115,9 +115,12 @@ TestResponse::json(): ?array;
 
 Network errors are captured with status `0` and the cURL error message in the body.  `ServerHarness::at()` throws `TestHarnessException` if curl is unavailable.
 
-#### `PaneKeyHelper`
+#### `Pane::validateCsrf()`
 
-Generates pane-key and CSRF tokens that match `Session::PaneKey` so headless integration tests can exercise command dispatch through the real security gate without a browser.
+Pane-level CSRF validation replaces the need for a separate helper.
+`Pane::validateCsrf()` compares `Pane::Key` against `Session::PaneKey`
+and returns `true` when `Pane::inTesting()` is true. Integration tests
+exercise the real security gate without a separate token generator.
 
 ### 2.5 Inlay registry — `ClearView\Test\InlayRegistry`
 
@@ -133,10 +136,10 @@ if (self::inTesting() && InlayRegistry::hasStub($panename, $inlayname)) {
 
 ### 3.1 Pane-key validation in integration tests
 
-The fixture design generated a helper to create matching tokens; the architecture doc implied calling `Pane::handleCommand()` directly.  Resolution:
+Resolution:
 
-- **Unit tests** invoke handler logic directly or inject a known-good token.
-- **Integration tests** use `PaneKeyHelper` to generate valid tokens and exercise the real dispatch/security path.
+- **Unit tests** invoke handler logic directly, or `Pane::validateCsrf()` returns true when `inTesting()`.
+- **Integration tests** use `Pane::validateCsrf()` with real session data to exercise the real dispatch/security path.
 
 This gives both speed and fidelity without production seam changes.
 
@@ -156,7 +159,7 @@ Both parent docs agree: reuse `phpunit.phar`.  `utility/clearview-test.php` is a
 1. `php utility/clearview-test.php --suite unit` runs P0 unit tests without a live ProcessWire install.
 2. `ViewBuilder::new()->withElement(...)->render()` returns deterministic HTML for at least one existing glyph (`button`, `input`).
 3. `InlayStub::for(...)->returns(...)->register()` causes a pane render to use injected data instead of page fields.
-4. `PaneKeyHelper` produces tokens that pass `Pane::Key` / `Session::PaneKey` validation in a headless integration test.
+4. `Pane::validateCsrf()` returns true for matching tokens and throws on mismatch, confirmed via a headless integration test.
 5. `ServerHarness::at($baseUrl)->get('/')` returns a `TestResponse` with correct status and body for a running ClearView server.
 6. `--ci` emits one line per test/suite and returns exit code `1` on assertion failure, `0` on pass, `2` on bootstrap failure.
 7. The framework achieves ≥ 80% line coverage in `ClearView.php`, `Mosaic.php`, `Shard.php`, `Element.php`, `Facet.php`, `Pane.php`, and `QueryParser.php`.
@@ -165,14 +168,13 @@ Both parent docs agree: reuse `phpunit.phar`.  `utility/clearview-test.php` is a
 ## 5. Rollout plan
 
 ### Phase 1 — Seams and fixtures
-- Add/verify `ClearView\Test\InlayRegistry` hook in `ClearView::loadInlay()`.
+- Add/verify `ClearView\\Test\\InlayRegistry` hook in `ClearView::loadInlay()`.
 - Implement `ViewBuilder`, `InlayStub`, `TestFixtureException`.
-- Implement `PaneKeyHelper`.
 - Add round-trip helpers `Shard::toArray()` and `Mosaic::toArray()` if absent.
 
 ### Phase 2 — Unit and integration tests
 - Write unit tests for `Element`, `Shard`, `Mosaic`, `QueryParser`, `ClearView::defaultMethod()`.
-- Write integration tests for `ViewBuilder`, `Facet`, inlay stubs, and pane dispatch with `PaneKeyHelper`.
+- Write integration tests for `ViewBuilder`, `Facet`, inlay stubs, and pane dispatch with `Pane::validateCsrf()`.
 - Update `phpunit.xml.dist` with `tests/unit`, `tests/integration`, `tests/smoke` directories.
 
 ### Phase 3 — Smoke harness
@@ -233,7 +235,7 @@ Canonical suite configuration.  Directories: `tests/unit`, `tests/integration`, 
 | `Test/Harness/ServerHarness.php` | Curl smoke helper |
 | `Test/Harness/TestResponse.php` | HTTP response wrapper |
 | `Test/Harness/TestHarnessException.php` | Harness errors |
-| `Test/PaneKeyHelper.php` | Matching pane-key/CSRF token generator |
+| `Test/PaneKeyHelper.php` | REMOVED — replaced by Pane::validateCsrf() built into handleCommand() |
 | `docs/testing/framework-design.md` | This consolidated document |
 
 ### Files to modify
@@ -247,10 +249,9 @@ Canonical suite configuration.  Directories: `tests/unit`, `tests/integration`, 
 ### Retained existing tools
 
 | Path | Role |
-|---|---|
+|------|------|
 | `utility/dumpurl.php` | Full-URL render for integration smoke checks |
 | `utility/jsonmangler.php` | Utility class used by headless tests |
-| `phpunit.phar` | Underlying PHPUnit engine |
 
 ## 9. Local and CI invocation
 

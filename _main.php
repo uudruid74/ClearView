@@ -1,2 +1,2 @@
 <?php
-\ClearView\ClearView::init($page->template());
+\ClearView\Pane::init($page->template());

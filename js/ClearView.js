@@ -3,7 +3,7 @@ function parseMangledJson(string) {
   if (!string.startsWith('{') || !string.endsWith('}')) return {};
   string = string.slice(1, -1);
   const obj = {};
-  const regex = /([^:]+):([^,]+(?:\[[^\]]+\])?)(?:,|$)/g;
+  const regex = /([^:]+):([^,]+(?:\ [[^\]]+\])?)(?:,|$)/g;
   let match;
   while (match = regex.exec(string)) {
     const key = match[1].trim();
@@ -21,7 +21,7 @@ function serializeToMangledJson(obj) {
     .join(',')}}`;
 }
 
-function clearviewVarStorePlugin(element) {
+function clearviewPlugin(element) {
   let _pane = null;
   let _inlay = 'pane';
 
@@ -62,7 +62,7 @@ function clearviewVarStorePlugin(element) {
     return element;
   }
 
-  // Get a variable’s JSON object
+  // Get a variable's JSON object
   function getVar(element, variable) {
     return parseName(element, variable, (varstore, inlay, varname) => {
       const input = me(`input[name="${inlay}-${varname}"]`, varstore);
@@ -77,7 +77,7 @@ function clearviewVarStorePlugin(element) {
     });
   }
 
-  // Find the DOM element linked to a variable’s id
+  // Find the DOM element linked to a variable's id
   function element(element, variable) {
     return parseName(element, variable, (varstore, inlay, varname) => {
       const input = me(`input[name="${inlay}-${varname}"]`, varstore);
@@ -139,6 +139,23 @@ function clearviewVarStorePlugin(element) {
     return JSON.stringify(tree, null, 2);
   }
 
+  // --- Debug console handlers ---
+
+  // Toggle a debug console dialog open/closed
+  function toggleDebugConsole(dialog) {
+    if (!dialog) return;
+    if (dialog.open) {
+      dialog.close();
+    } else {
+      dialog.showModal();
+    }
+  }
+
+  // Close a debug console dialog
+  function closeDebugConsole(dialog) {
+    if (dialog?.open) dialog.close();
+  }
+
   // Sugar layer for chaining
   element.pane = paneName => pane(element, paneName);
   element.inlay = inlayName => inlay(element, inlayName);
@@ -149,4 +166,23 @@ function clearviewVarStorePlugin(element) {
   element.dump = paneName => dump(element, paneName);
 }
 
-surreal.plugins.push(clearviewVarStorePlugin);
+surreal.plugins.push(clearviewPlugin);
+
+// --- Global debug console keyboard shortcut ---
+document.addEventListener('keydown', function(e) {
+  // Ctrl+Shift+D toggles all debug console dialogs
+  if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+    e.preventDefault();
+    document.querySelectorAll('dialog.debugconsole').forEach(function(d) {
+      if (d.open) { d.close(); } else { d.showModal(); }
+    });
+  }
+});
+
+// Close debug console on Escape key (built-in <dialog> behavior, but ensure it)
+document.addEventListener('click', function(e) {
+  const dialog = e.target.closest('dialog.debugconsole');
+  if (dialog && e.target === dialog) {
+    dialog.close();
+  }
+});

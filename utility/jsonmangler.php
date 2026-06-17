@@ -304,7 +304,7 @@ class jsonmangler
             // Default view lookup — skip for void (self-closing) elements
             // and skip when an explicit view= attribute is present.
             if (!$hasView && !in_array($glyph, self::VOID_ELEMENTS, true)) {
-                $pane = ClearView::id();
+                $pane = Facet::me()->getField('name') ?? 'Default';
 
                 // 1. Nested context: views/{pane}/{context}/{glyph}.php
                 if ($context !== null) {
@@ -335,7 +335,7 @@ class jsonmangler
                 // view="name" overrides element children.
                 // Handle folder globs: load all matching files as sibling fragments.
                 if (str_contains($element['view'], '*')) {
-                    $pane = ClearView::id();
+                    $pane = Facet::me()->getField('name') ?? 'Default';
                     $globPattern = __DIR__ . "/../modules/vendor/views/{$pane}/{$element['view']}";
                     $files = glob($globPattern);
                     $globChildren = [];
