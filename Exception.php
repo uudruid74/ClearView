@@ -53,11 +53,8 @@ class Exception extends WireException
      *
      * @param string $tag The debug tag.
      * @param string|null $msg The debug message.
-     * @param int $depth Call depth for backtrace formatting.
-     * @param string $target Output target: 'auto' (debug buffer → legacy + dialog),
-     *                       'console' (JS console.log), 'both' (buffer + console).
      */
-    public static function debug($tag, $msg = null, $depth = 1, $target = 'auto'): void
+    public static function debug($tag, $msg = null, $depth = 1): void
     {
         if (!isset($msg)) {
             $msg = $tag;
@@ -68,18 +65,7 @@ class Exception extends WireException
             return;
         }
         $processedMsg = Facet::_($msg);
-
-        if ($target === 'console' || $target === 'both') {
-            $escaped = addslashes(strip_tags($processedMsg));
-            $cv = ClearView::Mosaic()->index('ClearView', 'ClearView');
-            if ($cv) {
-                $cv->javascript("console.log('[{$tag}] {$escaped}')");
-            }
-        }
-
-        if ($target === 'auto' || $target === 'both') {
-            self::output($processedMsg, $tag, $depth);
-        }
+        self::output($processedMsg, $tag, $depth);
     }
 
     /**
@@ -115,7 +101,7 @@ class Exception extends WireException
     }
 
     /**
-     * Outputs a debug comment to the pane-scoped debug layer.
+     * Outputs an HTML comment.
      *
      * @param string $msg The comment message.
      */
@@ -125,7 +111,7 @@ class Exception extends WireException
             fwrite(STDERR, $msg . "\n");
             return;
         }
-        ClearView::Mosaic()->index('ClearView', 'ClearView')?->debugLayer($msg);
+        echo "<!-- $msg -->\n";
     }
 
     /**
@@ -142,8 +128,13 @@ class Exception extends WireException
         $url  = ClearView::Mosaic()->getVar("Input::url");
         $name = ClearView::Mosaic()->getVar("Page::name");
         $date = ProcessWire\datetime()->date('Y/m/d h:i:s');
-        ClearView::Mosaic()->index('ClearView', 'ClearView')?->debugLayer("========");
-        ClearView::Mosaic()->index('ClearView', 'ClearView')?->debugLayer("-- {$date}: {$url} [ template: $template, inlay: {$name}]");
+        $err = Ansi::color('ERROR');
+        $pag = Ansi::color('JSON');
+        $inf = Ansi::color('INFO');
+        $bld = Ansi::color('bold');
+        $off = Ansi::color('off');
+        ClearView::javascript("console.log('$err$bld  ========');");
+        ClearView::javascript("console.log('$err$bld-- {$date}:{$off}{$inf}{$url} {$pag}[ template: $template, inlay: {$name}]$off');");
     }
 
     /**
@@ -203,9 +194,8 @@ class Exception extends WireException
                 $msg = "{$color}{$bold}{$tagfmt}{$off} {$className}:{$color}{$functionName}{$off} " .
                         "{$color}{$msg}{$off}";
             } else {
-                ClearView::Mosaic()->index('ClearView', 'ClearView')?->dumpOOBdata();
-                self::backtrace();
                 ClearView::Mosaic()->dumpEverything();
+                self::backtrace();
                 die("Recursion Detected: Exceeded Config::STACK_LIMIT");
             }
         } else {
@@ -218,7 +208,11 @@ class Exception extends WireException
         if (Config::FAIL_MODE) {
             self::outputComment($msg);
         } else {
-            ClearView::Mosaic()->index('ClearView', 'ClearView')?->debugLayer($msg);
+            if ($tag === 'ERROR') {
+                ClearView::javascript("console.error(\"{$msg}\");");
+            } else {
+                ClearView::javascript("console.log(\"{$msg}\");");
+            }
         }
     }
 

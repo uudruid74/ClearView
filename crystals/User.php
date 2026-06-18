@@ -25,9 +25,9 @@ class User extends Crystal
      *
      * @param mixed $pwObject The ProcessWire user object (defaults to WireUser via `user()`).
      */
-    public function __construct($pwObject=null,$panename=null,$inlayname=null)
+    public function __construct($pwObject=null,$panename=null,$inlayname=null,$mos)
     {
-        parent::__construct($pwObject ?? \ProcessWire\user(),$panename,$inlayname);
+        parent::__construct($pwObject ?? \ProcessWire\user(),$panename,$inlayname,$mos);
     }
 
 }

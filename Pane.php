@@ -89,8 +89,7 @@ class Pane implements \ArrayAccess
      */
     public function __construct(string $template)
     {
-        $this->mosaic = $mosaic = new Mosaic();
-        Crystal::loadAll();
+        $this->mosaic = Crystal::loadAll(new Mosaic());
 
         $panename = 'Default';
         $inlayname = 'ClearView';
@@ -125,7 +124,6 @@ class Pane implements \ArrayAccess
          * Consider the following variables to be off-limits to new code
          * They are provided for emergency use as transition, especially the bottom few!
          */
-        ClearView::Mosaic($mosaic);
         ClearView::panename($panename);
         ClearView::inlayname($inlayname);
         ClearView::method($command);

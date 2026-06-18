@@ -36,10 +36,7 @@ class Session extends Crystal
      */
     public function trylogin()
     {
-        $user = $this[Config::PAGE_PWOBJECT]->login(
-            ClearView::Mosaic()->getVar('name30\username'),
-            ClearView::Mosaic()->getVar('removeWhitespace30\password')
-        );
+        $user = $this[Config::PAGE_PWOBJECT]->login($this['name30\username'], $this['removeWhitespace30\password']);
         return $user ? new \ClearView\User($user) : null;
     }
 
@@ -78,7 +75,7 @@ class Session extends Crystal
     public function getVar($key = null)
     {
         if ($key === 'PaneKey') {
-            return $this->getPaneKey(ClearView::Mosaic()->getVar("Pane::name"));
+            return $this->getPaneKey($this["Pane::name"]);
         }
         if ($key === null || $key === '') {
             return $this[Config::PAGE_PWOBJECT];

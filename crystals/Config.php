@@ -229,7 +229,7 @@ class Config extends Crystal
      * Maximum stack depth to prevent recursion.
      * Limits the tag stack size to prevent infinite recursion in rendering operations.
      */
-    public const STACK_LIMIT = 255;
+    public const STACK_LIMIT = 127;
 
     /**
      * Ordered list of active module directories.
@@ -323,9 +323,5 @@ class Config extends Crystal
             return $this;
         }
         return static::$config[$varname] ?? null;
-    }
-    public function getField($varname = null)
-    {
-        return $this->getVar($varname);
     }
 }

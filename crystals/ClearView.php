@@ -43,9 +43,9 @@ class ClearView extends Crystal
 
     // ── Lifecycle ─────────────────────────────────────────────
 
-    public function __construct($pwObject = null, $name = null, $inlay = 'ClearView')
+    public function __construct($pwObject = null, $name = null, $inlay = 'ClearView',$mos)
     {
-        parent::__construct($pwObject, $name, $inlay);
+        parent::__construct($pwObject, $name, $inlay,$mos);
         self::$instance ??= $this;
         $this->scripts     = [];
         $this->async       = '';
@@ -107,12 +107,9 @@ class ClearView extends Crystal
      * Set the current Mosaic object.
      * @return Mosaic|null
      */
-    public static function Mosaic($value = null): ?Mosaic
+    public static function Mosaic(): ?Mosaic
     {
-        if ($value !== null) {
-            self::$instance->data['Mosaic'] = $value;
-        }
-        return $value;
+        return self::$instance->mosaic ?? null;
     }
 
     // ── Output helpers ────────────────────────────────────────

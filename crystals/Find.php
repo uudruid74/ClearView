@@ -25,9 +25,9 @@ class Find extends Crystal
      *
      * @param mixed $pwObject The ProcessWire pages object (defaults to Pages via `pages()`).
      */
-    public function __construct($pwObject = null,$panename=null,$inlayname=null)
+    public function __construct($pwObject = null,$panename=null,$inlayname=null,$mos)
     {
-        parent::__construct($pwObject ?? \ProcessWire\pages(),$panename,$inlayname);
+        parent::__construct($pwObject ?? \ProcessWire\pages(),$panename,$inlayname,$mos);
     }
 
     /**

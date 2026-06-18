@@ -38,9 +38,9 @@ class Sanitizer extends Crystal
      *
      * @param mixed $pwObject Array of sanitizer names (defaults to empty array).
      */
-    public function __construct($pwObject=null,$panename=null,$inlayname=null)
+    public function __construct($pwObject=null,$panename=null,$inlayname=null,$mos)
     {
-        parent::__construct(\ProcessWire\sanitizer(),$panename,$inlayname);
+        parent::__construct(\ProcessWire\sanitizer(),$panename,$inlayname,$mos);
         $this->initFields([
             'sanitizerList'         => self::getSanitizerList($pwObject),
             'isShardFormat'         => false,   /** @var bool Flag to indicate if the pwObject is key/value pairs */

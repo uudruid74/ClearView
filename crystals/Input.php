@@ -21,9 +21,9 @@ class Input extends Crystal
      *
      * @param mixed $pwObject The ProcessWire input object (defaults to WireInput via `input()`).
      */
-    public function __construct($pwObject = null,$panename=null,$inlayname=null)
+    public function __construct($pwObject = null,$panename=null,$inlayname=null,$mos)
     {
-        parent::__construct($pwObject ?? \ProcessWire\input(), $panename, $inlayname);
+        parent::__construct($pwObject ?? \ProcessWire\input(), $panename, $inlayname,$mos);
     }
 
     /**

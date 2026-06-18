@@ -20,8 +20,9 @@ use ReflectionClass;
  * @see \ClearView\Mosaic
  * @see \ClearView\Page
  */
-abstract class Crystal extends Page
+abstract class Crystal extends Page implements ArrayAccess
 {
+    protected $mosaic;
     /**
      * Initializes the Crystal with a ProcessWire object.
      *
@@ -32,21 +33,32 @@ abstract class Crystal extends Page
      *
      * @param mixed $pwObject The ProcessWire object to wrap.
      */
-    public function __construct($pwObject=null,$name=null,$inlay='ClearView')
+    public function __construct($pwObject=null,$name=null,$inlay='ClearView',$mos=null)
     {
-        parent::__construct($pwObject,$name,$inlay);
+        $this->mosaic = $mos;
+        parent::__construct($pwObject,$name,$inlay,$mos);
     }
 
-    /**
-     * Initializes all Crystal subclasses and registers them in Mosaic.
-     *
-     * Legacy alias — calls loadAll().
-     *
-     * @return void
-     */
-    public static function plugAllCrystals(): void
+    // ── ArrayAccess ──────────────────────────────────────────────
+
+    public function offsetGet($key): mixed
     {
-        self::loadAll();
+        return $this->mosaic->getVar($key);
+    }
+
+    public function offsetSet($key, $value): void
+    {
+        $this->mosaic->setVar($key, $value);
+    }
+
+    public function offsetExists($key): bool
+    {
+        return $this->mosaic->getVar($key) !== null;
+    }
+
+    public function offsetUnset($key): void
+    {
+        $this->mosaic->delVar($key);
     }
 
     /**
@@ -56,9 +68,9 @@ abstract class Crystal extends Page
      * and register them as Shards in Mosaic. Also instantiates the ClearView
      * crystal explicitly.
      *
-     * @return void
+     * @return Mosaic The Mosaic instance (also assigned to Pane)
      */
-    public static function loadAll(): void
+    public static function loadAll($mosaic): Mosaic
     {
         // Load all Crystal subclass files from the Crystals/ directory
         foreach (glob(__DIR__ . '/crystals/*.php') as $file) {
@@ -76,16 +88,11 @@ abstract class Crystal extends Page
             if (is_subclass_of($class, self::class) && (new ReflectionClass($class))->isInstantiable()) {
                 $shortName = $nameOverrides[$class]
                           ?? (($pos = strrpos($class, '\\')) !== false ? substr($class, $pos + 1) : $class);
-                new $class(null, $shortName, 'ClearView');
+                new $class(null, $shortName, 'ClearView', $mos);
             }
         }
-        new Page(\ProcessWire\page(), 'Page', 'ClearView');
-
-        // Instantiate ClearView crystal — it lives in the root namespace,
-        // not under crystals/, so it's handled explicitly.
-        if (class_exists('ClearView\\ClearView')) {
-            new \ClearView\ClearView(null, 'ClearView', 'ClearView');
-        }
+        new Page(\ProcessWire\page(), 'Page', 'ClearView', $mos);
+        return $mosaic;
     }
 
 }

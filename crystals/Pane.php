@@ -32,9 +32,9 @@ class PaneCrystal extends Crystal
      *
      * @param mixed $pwObject The ProcessWire page (null during auto-plug).
      */
-    public function __construct($pwObject = null, $panename = null, $inlayname = null)
+    public function __construct($pwObject = null, $panename = null, $inlayname = null,$mos)
     {
-        parent::__construct($pwObject, $panename, $inlayname);
+        parent::__construct($pwObject, $panename, $inlayname,$mos);
     }
 
     /**
@@ -71,9 +71,9 @@ class PaneCrystal extends Crystal
         // Check the "Pane" inlay first, then the shared last-inlay namespace
         // where loadMosaic stores URL parameters without a "-" separator.
         // The input key is the literal "Pane::Key", so reconstruct it.
-        $shard = ClearView::Mosaic()->index('Pane', $key);
+        $shard = $this["Pane::$key"];
         if (!$shard) {
-            $lastInlay = ClearView::Mosaic()->getVar('Shared::lastInlay');
+            $lastInlay = $this['Shared::lastInlay'];
             if ($lastInlay) {
                 $shard = ClearView::Mosaic()->index($lastInlay, "Pane::" . $key);
             }
@@ -95,7 +95,7 @@ class PaneCrystal extends Crystal
         if ($pwObject instanceof \ProcessWire\Page) {
             $pwObject->set(
                 $key,
-                ClearView::Mosaic()->index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
+                ClearView::Sanitizer()->sanitize($value, Config::SANI_PAGE_SAVE)
             );
         }
     }
@@ -117,8 +117,6 @@ class PaneCrystal extends Crystal
      */
     public static function load(string $panename, string $inlayname): \ClearView\Element
     {
-        $mosaic = ClearView::Mosaic();
-
         // 1. Find the ProcessWire page for this pane
         $pwPage = \ProcessWire\pages()->get("name={$panename}");
         if (!$pwPage || !$pwPage->id) {
@@ -136,7 +134,7 @@ class PaneCrystal extends Crystal
         $element = \ClearView\Shard::loadShard($data, id: 'body', inlay: '__body');
 
         // 4. Merge Shared::attributes into the Element
-        $attrs = $mosaic?->getVar('Shared::attributes');
+        $attrs = $this['Shared::attributes'];
         if (is_array($attrs)) {
             foreach ($attrs as $key => $value) {
                 $element->setField($key, $value);
@@ -144,7 +142,7 @@ class PaneCrystal extends Crystal
         }
 
         // 5. Load template view if configured
-        $viewName = $mosaic?->getVar("Shared::templateView");
+        $viewName = $this["Shared::templateView"];
         if ($viewName) {
             $viewElement = \ClearView\Element::loadView($viewName);
             if ($viewElement) {
