@@ -1,6 +1,5 @@
 {% import 'components/macros/anchor.macro.twig' as anchor %}
-{% if node is attributed %}
-    {% set attributes = attributes(node)|specializedAttributes|sortByVisibility %}
+{% set attributes = attributes(node)|specializedAttributes|sortByVisibility %}
 
     {% if attributes is not empty %}
         <section class="phpdocumentor-attributes">
@@ -12,4 +11,3 @@
             {% endfor %}
         </section>
     {% endif %}
-{% endif %}

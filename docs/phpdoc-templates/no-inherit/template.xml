@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
   <name>no-inherit</name>
+  <extends>default</extends>
   <author>Gopher / ClearView</author>
   <email>uudruid74@gmail.com</email>
   <version>1.0.0</version>
