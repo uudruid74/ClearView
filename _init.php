@@ -2,7 +2,6 @@
 namespace ClearView;
 require_once __DIR__ . "/utility/jsonmangler.php";
 require_once __DIR__ . "/Exception.php";
-require_once __DIR__ . "/ClearView.php";
 require_once __DIR__ . "/QueryParser.php";
 require_once __DIR__ . "/Shard.php";
 require_once __DIR__ . "/Page.php";
