@@ -75,16 +75,16 @@ class QueryParser
         // Pre-decrement: {{--count}}
         if (preg_match('/^--(\w+)$/', $expression, $matches)) {
             $var = $matches[1];
-            $value = (int) Mosaic::getVar($var,$inlay); // Cast to int for numeric ops
+            $value = (int) ClearView::Mosaic()->getVar($var,$inlay); // Cast to int for numeric ops
             $newValue = $value - 1;
-            Mosaic::setVar($var, $newValue);
+            ClearView::Mosaic()->setVar($var, $newValue);
             return $newValue;
         }
         // Post-increment: {{count++}}
         elseif (preg_match('/^(\w+)\+\+$/', $expression, $matches)) {
             $var = $matches[1];
-            $value = (int) Mosaic::getVar($var,$inlay); // Cast to int for numeric ops
-            Mosaic::setVar($var, $value + 1);
+            $value = (int) ClearView::Mosaic()->getVar($var,$inlay); // Cast to int for numeric ops
+            ClearView::Mosaic()->setVar($var, $value + 1);
             return $value;
         }
         // Array indexing: {{var[index]}}
@@ -136,7 +136,7 @@ class QueryParser
 
             // Apply sanitizers after resolution and subfield
             if (!empty($parsed['sanitizers'])) {
-                $value = Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, $parsed['sanitizers']);
+                $value = ClearView::Mosaic()->index('ClearView', 'Sanitizer')->sanitize($value, $parsed['sanitizers']);
             }
             return $value;
         }
@@ -243,7 +243,7 @@ class QueryParser
         switch ($inlay) {
             case 'Inlay':
                 // Dispatch to current Inlay instance (Crystal registered for current inlay name)
-                $inlayCrystal = Mosaic::getVar("ClearView::" . Facet::inlay());
+                $inlayCrystal = ClearView::Mosaic()->getVar("ClearView::" . Facet::inlay());
                 if ($inlayCrystal instanceof Crystal && method_exists($inlayCrystal, $method)) {
                     return $inlayCrystal->$method();
                 }
@@ -255,7 +255,7 @@ class QueryParser
                 return method_exists(Facet::class, $method) ? Facet::$method() : '';
             default:
                 // Generalized crystal dispatch: any Crystal whose inlay name matches the prefix
-                $crystal = Mosaic::getVar("ClearView::{$inlay}");
+                $crystal = ClearView::Mosaic()->getVar("ClearView::{$inlay}");
                 if ($crystal instanceof Crystal && method_exists($crystal, $method)) {
                     return $crystal->$method();
                 }
@@ -307,7 +307,7 @@ class QueryParser
      * Resolves a variable expression.
      *
      * Handles standard variable lookups, first checking locals, then the current element
-     * via Facet::me(), and finally Mosaic::getVar().
+     * via Facet::me(), and finally Mosaic getVar().
      *
      * @param array $parsed Parsed expression components (base).
      * @param array|null $locals Local variables for lookup (optional).
@@ -345,7 +345,7 @@ class QueryParser
                     return $results;
                 }
             }
-            return Mosaic::findShards($field, $expected, $inlay, $op);
+            return ClearView::Mosaic()->findShards($field, $expected, $inlay, $op);
         }
         return self::getVarValue($base, $inlay, $locals);
     }
@@ -369,7 +369,7 @@ class QueryParser
             $op = $matches[2];
             $expected = trim($matches[3]);
 
-            $crystal = Mosaic::getVar("ClearView::" . $inlay);
+            $crystal = ClearView::Mosaic()->getVar("ClearView::" . $inlay);
             if ($crystal instanceof Crystal) {
                 $query = $field . $op . $expected;
                 return $crystal->getVar($query);
@@ -395,17 +395,17 @@ class QueryParser
                         return $results;
                     }
                 }
-                return Mosaic::findShards($field, $expected, $inlay, $op);
+                return ClearView::Mosaic()->findShards($field, $expected, $inlay, $op);
             }
         }
 
-        $shard = Mosaic::index($inlay, $base);
+        $shard = ClearView::Mosaic()->index($inlay, $base);
         if ($shard) {
             return $shard;
         }
 
         // As a fallback, check if it's a Crystal
-        $crystal = Mosaic::index("ClearView",$inlay);
+        $crystal = ClearView::Mosaic()->index("ClearView",$inlay);
         if ($crystal instanceof Page) {
             return $crystal->getVar($base);
         }
@@ -480,7 +480,7 @@ class QueryParser
         }
 
         // 3. Fall back to Mosaic
-        $shard = Mosaic::index($inlay ?? Facet::inlay(), $var);
+        $shard = ClearView::Mosaic()->index($inlay ?? Facet::inlay(), $var);
         if ($shard) {
             return $field ? ($shard->getField($field) ?? null) : $shard;
         }

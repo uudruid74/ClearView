@@ -60,6 +60,6 @@ namespace {
         }
     }
 
-    // ── Initialise Mosaic singleton ───────────────────────────────────────
-    \ClearView\Mosaic::init();
+    // ── Initialise Mosaic instance ──────────────────────────────────────────
+    // Mosaic is now owned by Pane; tests create their own via ViewBuilder.
 }

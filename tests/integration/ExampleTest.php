@@ -21,7 +21,7 @@ class ExampleTest extends TestCase
     {
         ViewBuilder::new('Inventory', 'Default');
 
-        $panename = Mosaic::getVar('Pane::name');
+        $panename = ClearView::Mosaic()->getVar('Pane::name');
         $this->assertSame('Inventory', $panename, 'Pane::name should be in Mosaic');
     }
 
@@ -32,7 +32,7 @@ class ExampleTest extends TestCase
     {
         ViewBuilder::new('Demo', 'Default');
 
-        $url = Mosaic::getVar('Page::url');
+        $url = ClearView::Mosaic()->getVar('Page::url');
         $this->assertSame('/Demo/', $url, 'Page::url should match panename');
     }
 

@@ -3,7 +3,6 @@ namespace ClearView;
 use ClearView\Pane;
 use ClearView\Facet;
 use ClearView\Mosaic;
-use ClearView\Shared;
 use ClearView\Page;
 
 /**
@@ -11,13 +10,13 @@ use ClearView\Page;
  *
  * An inlay represents a tab/subpage inside a pane. The default html()
  * method renders Page::body and fires inlaychange when the inlay differs
- * from Shared::prevInlay.
+ * from $this['Shared::prevInlay'].
  *
  * Inlay subclasses live under modules/<module>/panes/<panename>/<inlayname>.php
  * with class names like ClearView\<panename>_<inlayname>.
  *
- * @see ClearView\Pane
- * @see ClearView\Shared
+ * @see ClearView\\Pane
+ * @see ClearView\\Mosaic
  */
 class Inlay extends Pane
 {
@@ -36,13 +35,6 @@ class Inlay extends Pane
      */
     public static function load(string $panename, string $inlayname): string
     {
-        // 0. Test harness: if InlayRegistry has a stub, return the stub class.
-        if (php_sapi_name() === 'cli' || defined('STDIN')) {
-            if (\ClearView\Test\InlayRegistry::hasStub($panename, $inlayname)) {
-                return \ClearView\Test\InlayRegistry::getClass($panename, $inlayname);
-            }
-        }
-
         // 1. No inlay → load Pane directly
         if (empty($inlayname) || $inlayname === 'Pane') {
             return '\\ClearView\\Pane';
@@ -59,29 +51,29 @@ class Inlay extends Pane
         }
         throw new \ClearView\Exception("Cannot load inlay: {$panename}/{$inlayname}");
     }
-
+    
     /**
      * Default HTML response for an inlay.
      *
      * Renders {{Page::body}} from the ProcessWire page matching the
-     * pane/inlay URL. Fires inlaychange event when Shared::prevInlay
+     * pane/inlay URL. Fires inlaychange event when $this['Shared::prevInlay']
      * differs from the current inlay name.
      *
      * @return void
      */
     public function html(): void
     {
-        $inlayName = $this->inlay();
+        $inlayName = $this['ClearView::inlayname'];
 
         // Fire inlaychange if the inlay changed
-        if (Shared::$prevInlay !== null && Shared::$prevInlay !== $inlayName) {
-            $this->triggerevent('inlaychange', ['pane' => $this->panename]);
+        if ($this['Shared::prevInlay'] !== null && $this['Shared::prevInlay'] !== $inlayName) {
+            $this->triggerevent('inlaychange', ['pane' => ClearView::panename()]);
         }
 
-        (new Facet($this->body()))
-            ->html("{{Page::body}}")
+        (new Facet($this['Pane::body']))
+            ->html()
             ->close();
 
-        Shared::$prevInlay = $inlayName;
+        $this['Shared::prevInlay'] = $inlayName;
     }
 }

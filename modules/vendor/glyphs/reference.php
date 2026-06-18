@@ -32,7 +32,7 @@ class reference extends Element
     {
         if (is_array($obj)) {
             // Capture the real inlay for resolution before forcing anon.
-            // On round-trip through Mosaic::loadMosaic, loadShard sets
+            // On round-trip through Mosaic loadMosaic, loadShard sets
             // $obj['inlay'] to the current inlay — save it so resolve()
             // can find the target.  When canonicalizeChildren() already
             // provided _refInlay, keep it.
@@ -60,7 +60,7 @@ class reference extends Element
         // round-trips (single-underscore prefix is not stripped).
         $inlay = $this->data['_refInlay']
               ?? Facet::inlay();
-        return Mosaic::index($inlay, $name);
+        return ClearView::Mosaic()->index($inlay, $name);
     }
 
     /**

@@ -20,7 +20,7 @@ use ReflectionClass;
  * ```php
  * // Register a custom sanitizer method
  * public function devolveSanitizer($value) { return strtoupper($value); }
- * Mosaic::setVar("Sanitizer::devolve", $this); // register sanitizer
+ * Mosaic setVar("Sanitizer::devolve", $this); // register sanitizer
  * // Use it like this ...
  * $myhello = (new Sanitizer("devolve"))->validate("hello"); // returns "HELLO"
  * ```
@@ -252,7 +252,7 @@ class Sanitizer extends Crystal
      */
     public function validate($value = null, $sanitizers = null)
     {
-        $value = $value ?? Pane::CurrentPane();
+        $value = $value ?? ClearView::paneobj();
         $sanitizerList = self::getSanitizerList($sanitizers);
         if (empty($sanitizerList)) {
             throw new Exception("No sanitizers specified for validation.");

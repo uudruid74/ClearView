@@ -86,7 +86,7 @@ class Facet
     public static function me()
     {
         if (empty(self::$tagstack)) {
-            return Pane::CurrentPane();
+            return ClearView::paneobj();
         }
         $targetIdx = count(self::$tagstack) - 1;
         while ($targetIdx >= 0 && !is_object(self::$tagstack[$targetIdx])) {
@@ -95,8 +95,8 @@ class Facet
         if ($targetIdx >= 0) {
             return self::$tagstack[$targetIdx];
         }
-        Exception::debug('FACET', "Facet::me() returning **Pane Creator!** (no object found)");
-        return Pane::CurrentPane();
+        Exception::debug('FACET', "Facet::me() returning **NULL** (no object found)");
+        return null;
     }
 
     /**
@@ -108,7 +108,7 @@ class Facet
      */
     public function id()
     {
-        return self::me()->id() ?? Mosaic::getVar("Pane::name");
+        return self::me()->id() ?? ClearView::panename();
     }
 
     /**
@@ -120,7 +120,7 @@ class Facet
      */
     public static function inlay()
     {
-        return self::me()->inlay() ?? Mosaic::getVar("Input::inlayname");
+        return self::me()->inlay() ?? ClearView::inlayname();
     }
 
     /**
@@ -146,7 +146,7 @@ class Facet
         $string = preg_replace('/\s+/', ' ', $string);
         // Process nested {{...}} pairs
         if (str_contains($string, '{{')) {
-            return QueryParser::processTemplate($string, $locals, self::me()->inlay());
+            return QueryParser::processTemplate($string, $locals, self::me()->offsetGet('ClearView::inlay'));
         }
         return $string;
     }
@@ -358,32 +358,28 @@ class Facet
 
     /**
      * Formats the Facet instance for debugging.
-     *
-     * Generates a debug string showing the current element’s ID, stack position, and an optional message.
-     *
+     * Generates a debug string showing the current stack position, and an optional message.
      * @param string|null $msg Optional message to append.
-     * @return string Formatted debug string (e.g., `[element_id : pos/count] msg`).
+     * @return string Formatted debug string (e.g., `[pos/count] msg`).
      */
     public function _p($msg = null)
     {
         $pos = $this->position ?? '-';
         $count = count(self::$tagstack);
-        return "[ " . $this->id() . " : {$pos}/{$count} ] {$msg}";
+        return "[ {$pos}/{$count} ] {$msg}";
     }
 
     /**
      * Static version of _p() for debugging.
-     *
      * Generates a debug string for the current element without an instance context.
-     *
      * @param string|null $msg Optional message to append.
-     * @return string Formatted debug string (e.g., `[element_id : -/count] msg`).
+     * @return string Formatted debug string (e.g., `[-/count] msg`).
      */
     public static function print($msg = null)
     {
         $pos = '-';
         $count = count(self::$tagstack);
-        return "[ " . self::me()->id() . " : {$pos}/{$count} ] {$msg}";
+        return "[ {$pos}/{$count} ] {$msg}";
     }
 
     /**
@@ -542,7 +538,7 @@ class Facet
         $contents = ob_get_contents();
         ob_end_clean();
         self::$oobCount--;
-        Mosaic::index('ClearView', 'ClearView')->sendOOB($contents);
+        $this['Crystal::ClearView']->sendOOB($contents);
         return $this;
     }
 
@@ -665,7 +661,7 @@ class Facet
             $found = $input;
         }
         if (isset($found)) {
-            Exception::debug('EVENT', $this->_p('Calling html on {{id}}'));
+            Exception::debug('EVENT', $this->_p('Calling html on {{name}}'));
             $found->html();
         } elseif (is_array($input)) {
             echo self::_($input['text'] ?? ($input['value'] ?? null))."\n";
@@ -689,7 +685,7 @@ class Facet
     {
         $target = self::me();
         if (is_object($target) && method_exists($target, 'render')) {
-            Exception::debug('FACET', $this->_p("Calling render on " . Mosaic::classname($target)));
+            Exception::debug('FACET', $this->_p("Calling render on {{name}}"));
             $target->render();
             $target->style();
             $target->script();
@@ -780,22 +776,15 @@ class Facet
             if ($name === 'debug') {
                 $arguments = [...$arguments, 3];
             }
-            Exception::debug($this->_p("Calling " . Mosaic::classname($target) . "->$name id: {{id}}"));
+            Exception::debug($this->_p("Calling ->$name"));
             $target->$name(...$arguments);
         } elseif (method_exists('ClearView\\ClearView', $name)) {
             $args = empty($arguments) ? [] : $arguments;
             Exception::debug($this->_p("Calling ClearView->$name"));
-            $cv = Mosaic::index('ClearView', 'ClearView');
-            if ($cv) {
-                $cv->$name(...$args);
-            }
-        } elseif (method_exists('ClearView\\Mosaic', $name)) {
-            $args = empty($arguments) ? [] : $arguments;
-            Exception::debug($this->_p("Calling Mosaic::$name"));
-            Mosaic::$name(...$args);
+            ClearView::$name(...$args);
         } else {
             if (method_exists($target, $name)) {
-                Exception::debug($this->_p("Cascading->$name id: {{id}}"));
+                Exception::debug($this->_p("Cascading->$name"));
                 $target->$name(...$arguments);
             } else {
                 throw new Exception("Facet: No such method as $name");

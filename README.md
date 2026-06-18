@@ -13,30 +13,30 @@ ClearView sits on top of ProcessWire CMS and uses HTMX for AJAX, Surreal for enc
 **Request lifecycle:**
 1. ProcessWire receives the request; `Crystal::loadAll()` initializes crystals.
 2. The URL is split into `panename`, `inlayname`, and `command`. Default method mapping: `GET → open`, `POST → html`, `PUT → put`, `DELETE → delete`.
-3. `Pane::loadInlay()` searches the module stack for the class file.
-4. `Pane::handleCommand($command)` validates the CSRF token, loads Mosaic state from POST data, and dispatches to the matching method.
-5. The Facet rendering engine outputs HTML with OOB (out-of-band) updates for changed Shards.
+3. `Inlay::load()` searches the module stack for the class file.
+4. `Pane::handleCommand($command)` validates the CSRF token, loads Mosaic state from POST data with `$pane->loadMosaic()`, and dispatches to the matching method.
+5. The `Facet` rendering engine outputs HTML; the `<mosaic />` glyph emits hidden inputs for changed Shards, and the ClearView crystal emits OOB fragments, scripts, and debug output.
 
 ---
 
 ### Core Concepts
 
-**Pane** — A self-contained UI namespace with its own URL prefix and Mosaic. The Pane is the top-level rendering context. Every page area is a Pane.
+**Pane** — A self-contained UI namespace with its own URL prefix and Mosaic. The Pane is the top-level rendering context; it owns its `Mosaic` instance (`$pane->mosaic`) and delegates rendering to its body Element. Every page area is a Pane.
 
 **Inlay** — A PHP class extending `Pane` that handles a portion of the UI (e.g., a form tab, a login widget). Inlays are the unit of development — you write an Inlay per user-facing feature.
 
 **Shard** — The basic data unit, like a mini-cookie stored on the page, not in the browser. Each Shard carries an address (inlay-id), a glyph (its HTML tag type), and data fields. Named children are canonicalized — stored once in the Mosaic with lightweight Reference proxies in the DOM tree, avoiding redundant state duplication.
 
-**Mosaic** — A server-side key-value store of Shards indexed by inlay-id. On render, it deflates to hidden `<input>` fields inside the HTML. On the next request, those inputs are POSTed back and re-inflated. The Mosaic glyph ensures only *changed* Shards are sent, keeping the wire efficient.
+**Mosaic** — A Pane-owned key-value store of Shards indexed by inlay-id. On render, the `<mosaic />` glyph deflates changed Shards to hidden `<input>` fields inside the HTML. On the next request, those inputs are POSTed back and re-inflated by `$pane->loadMosaic()`. Each Pane carries its own Mosaic in the DOM; the server only reconstructs the one belonging to the active Pane.
 
 **Facet** — The rendering engine with a static tag stack. Tags are opened, content is forwarded through method calls, and tags auto-close on output. Supports template expansion (`{{Crystal::field}}`), OOB sections, recording, and conditional rendering via `match:`/`unless:` qualifiers.
 
-**Crystal** — Singleton Shards wrapping ProcessWire APIs. Available in templates and code:
-- `Page::title` — the current ProcessWire page
-- `User::displayname` — the logged-in user
-- `Session::*` — session data and CSRF tokens
-- `Pane::*` — the ProcessWire page for the current pane URL
-- `Config::*`, `Input::*`, `Find::*`, `View::*`
+**Crystal** — Singleton-like Shards wrapping ProcessWire APIs, loaded into the Pane's Mosaic. Available in templates and code via the prefix API:
+- `$this['Page']` / `$this['Page::title']` — the current ProcessWire page
+- `$this['User']` / `$this['User::displayname']` — the logged-in user
+- `$this['Session']` / `$this['Session::*']` — session data and CSRF tokens
+- `$this['Pane']` / `$this['Pane::*']` — the ProcessWire page for the current pane URL
+- `$this['Config']`, `$this['Input']`, `$this['Find']`, `$this['View']`
 
 **Reference** — A proxy glyph that forwards all access to a named Shard stored in the Mosaic. When a child element has a `name` attribute, it is extracted, stored once in the Mosaic, and replaced in the DOM tree with a Reference. This solves redundant state duplication without requiring a normalization layer like Redux or Vuex.
 
@@ -59,7 +59,7 @@ Child pages inherit parent modules and can add their own overrides without editi
 
 ### A Taste: Login Form
 
-This is a complete Inlay from the framework's module library. It handles both login and logout, using `setVars()` to update form content and `triggerevent()` to notify other panes:
+This is a complete Inlay from the framework's module library. It handles both login and logout, using `fill()` to update form content and `triggerevent()` to notify other panes:
 
 ```php
 namespace ClearView;
@@ -67,15 +67,15 @@ class loginform_login extends Inlay
 {
     public function logout()
     {
-        ClearView::Session()->logout();
+        $this['Session']->logout();
         $this->triggerevent('userchange');
     }
 
     public function login()
     {
         // Requires inputs named username and password
-        if (ClearView::Session()->trylogin()) {
-            $this->setVars([
+        if ($this['Session']->trylogin()) {
+            $this->fill([
                 'headline' => 'Login Succeeded!',
                 'summary'  => 'Welcome back<br>{{text20\\User::displayname}}!',
                 'login'    => 'Success!'
@@ -83,7 +83,7 @@ class loginform_login extends Inlay
             $this->triggerevent('userchange')
                  ->close();         // close the form
         } else {
-            $this->setVars([
+            $this->fill([
                 'headline' => "Login Failed!",
                 'summary'  => "Try again, or reset your password using the link below",
                 'login'    => 'Try Again!'
@@ -93,7 +93,7 @@ class loginform_login extends Inlay
 }
 ```
 
-POST to `/loginform/login/login/` or hook up a button with `hx-post`. ProcessWire handles authentication; `setVars()` replaces the form's content via Mosaic diffs; `close()` removes the form from the DOM.
+POST to `/loginform/login/login/` or hook up a button with `hx-post`. ProcessWire handles authentication; `fill()` replaces the form's content via Mosaic diffs; `close()` removes the form from the DOM.
 
 ---
 

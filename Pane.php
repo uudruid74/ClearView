@@ -12,42 +12,16 @@ use ProcessWire;
 
 class Pane implements \ArrayAccess
 {
-    /** @var Pane|null Current pane instance (rendering context). */
-    private static ?Pane $currentPane = null;
-
-    /** @var string Current command being executed. */
-    public string $command = '';
-
-    /** @var Mosaic The Mosaic singleton for this pane. */
-    protected Mosaic $mosaic;
-
-    /** @var Element|null The body Element from ProcessWire body field. */
-    protected ?Element $body = null;
-
-    /** @var string The pane name. */
-    protected string $panename;
-
-    /** @var string The inlay name. */
-    protected string $inlayname;
-
-    /**
-     * Get/Set the current Pane handling this request.
-     */
-    public static function CurrentPane(?Pane $newCreator = null): ?Pane
-    {
-        if ($newCreator !== null) {
-            self::$currentPane = $newCreator;
-        }
-        return self::$currentPane;
-    }
+    /** @var Mosaic The Mosaic instance for this pane. */
+    public Mosaic $mosaic;
 
     /**
      * Returns the default method name for a given request method.
      */
     public static function defaultMethod(?string $method = null): string
     {
-        $map = ['POST' => 'html', 'CLI' => 'open', 'GET' => 'open', 'PUT' => 'put', 'DELETE' => 'delete'];
-        return $map[$method ?? \ProcessWire\input()->requestMethod()] ?? 'open';
+        $map = ['POST' => 'post', 'CLI' => 'open', 'GET' => 'html', 'PUT' => 'put', 'DELETE' => 'delete'];
+        return $map[$method] ?? 'html';
     }
 
     /**
@@ -75,83 +49,33 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Initializes the pane.
-     */
-    public function __construct($panename, $inlayname = 'Default')
-    {
-        Pane::CurrentPane($this);
-        $this->panename = $panename;
-        $this->inlayname = $inlayname;
-        $this->mosaic = Mosaic::init();
-    }
-
-    /**
-     * Returns the body Element, created from the ProcessWire body field.
-     */
-    public function body(): Element
-    {
-        if ($this->body === null) {
-            $this->body = new Element([
-                'id'    => $this->panename . 'Pane',
-                'inlay' => $this->inlayname,
-                'name'  => $this->panename,
-            ]);
-        }
-        return $this->body;
-    }
-
-    /**
      * Fills the Mosaic with an array of values.
      */
     public function fill(array $values): void
     {
-        Mosaic::fill($values);
-    }
-
-    /**
-     * Gets a Mosaic variable.
-     */
-    public function getVar(string $expression)
-    {
-        return Mosaic::getVar($expression);
-    }
-
-    /**
-     * Gets the inlay name for this pane.
-     */
-    public function inlay(): string
-    {
-        return $this->inlayname;
-    }
-
-    /**
-     * Gets the id for this pane (used by Facet::me() fallback).
-     */
-    public function id(): string
-    {
-        return $this->panename . 'Pane';
+        $this->mosaic->fill($values);
     }
 
     // ── ArrayAccess ──────────────────────────────────────────────
 
     public function offsetGet($key): mixed
     {
-        return Mosaic::getVar($key);
+        return $this->mosaic->getVar($key);
     }
 
     public function offsetSet($key, $value): void
     {
-        Mosaic::setVar($key, $value);
+        $this->mosaic->setVar($key, $value);
     }
 
     public function offsetExists($key): bool
     {
-        return Mosaic::getVar($key) !== null;
+        return $this->mosaic->getVar($key) !== null;
     }
 
     public function offsetUnset($key): void
     {
-        Mosaic::delVar($key);
+        $this->mosaic->delVar($key);
     }
 
     // ── Lifecycle methods ────────────────────────────────────────
@@ -159,17 +83,13 @@ class Pane implements \ArrayAccess
     /**
      * Initializes the ClearView framework from the request.
      *
-     * Called from _main.php. Creates the Mosaic, loads crystals,
-     * resolves panename/inlayname/command from URL, loads the Pane
-     * class from the module stack, and dispatches the command.
-     *
      * @param string $template The ProcessWire page template name.
      * @return void
      * @throws Exception on errors.
      */
-    public static function init(string $template): void
+    public function __construct(string $template)
     {
-        Mosaic::init();
+        $this->mosaic = $mosaic = new Mosaic();
         Crystal::loadAll();
 
         $panename = 'Default';
@@ -181,7 +101,7 @@ class Pane implements \ArrayAccess
             $inlayname = 'Pane';
             $PaneClass = '\\ClearView\\Main';
         } else {
-            $segments = array_values(array_filter(explode('/', trim(\ProcessWire\page()->url, '/')), 'strlen'));
+            $segments = array_values(array_filter(explode('/', trim(Page::page()->url, '/')), 'strlen'));
             $count = count($segments);
             if ($count >= 1) $panename  = $segments[0];
             if ($count >= 2) $inlayname  = $segments[1];
@@ -200,24 +120,34 @@ class Pane implements \ArrayAccess
         if (empty($panename)) {
             throw new Exception("No panename");
         }
-        Exception::outputComment("The Panename is " . json_decode($panename));
 
-        // Wire up the Pane Crystal with the correct ProcessWire page.
-        $pwPage = \ProcessWire\pages()->get('name=' . $panename);
-        if ($pwPage && $pwPage->id) {
-            new \ClearView\PaneCrystal($pwPage, $panename, 'Pane');
-        }
-        Mosaic::setVar("Pane::name", $panename);
-        Mosaic::setVar("Input::inlayname", $inlayname);
+        /**
+         * Consider the following variables to be off-limits to new code
+         * They are provided for emergency use as transition, especially the bottom few!
+         */
+        ClearView::setMosaic($mosaic);
+        ClearView::panename($panename);
+        ClearView::inlayname($inlayname);
+        ClearView::method($command);
+        ClearView::paneobj($this);
+        
+        // Load and resolve the body Element (after crystals are wired)
+        $this['Pane::body'] = PaneCrystal::load($panename, $inlayname);
+        
+        // We probably want to kill the direct ProcessWire attachment some day
+        Exception::outheader($template, \ProcessWire\config()->debug ? Config::TRACEMODE : null);            
+        
+        return new $PaneClass();
+    }
 
-        try {
-            Exception::outheader($template, \ProcessWire\config()->debug ? Config::TRACEMODE : null);
-            $pane = new $PaneClass($panename, $inlayname);
-            $pane->command = $command;
-            $pane->handleCommand($command);
-        } catch (\Throwable $e) {
-            throw new \ClearView\Exception($e);
-        }
+    /**
+     * Moves loadMosaic into Pane as a non-static method.
+     *
+     * The Pane owns its Mosaic; loadMosaic delegates accordingly.
+     */
+    public function loadMosaic($input): void
+    {
+        $this->mosaic->loadMosaic($input);
     }
 
     /**
@@ -226,23 +156,33 @@ class Pane implements \ArrayAccess
      */
     public function open(): void
     {
-        (new Facet($this->body()))
-            ->open("{{Pane::open}}")
-            ->render()
-            ->html("{{Pane::body^^View::" . $this->panename . "}}")
-            ->close();
-        $this->triggerevent('paneopen');
+        self::html();
     }
 
     /**
+     * Default HTML method. Renders Pane::body. Detects inlay changes
+     * by comparing against $this['Shared::prevInlay'] and fires inlaychange.
+     * @param string|null $template Optional template to render instead of Pane::body.
+     */
+    public function html(?string $template = null): void
+    {
+        $currentInlay = $this['ClearView::inlayname'];
+        if ($this['Shared::prevInlay'] !== null && $this['Shared::prevInlay'] !== $currentInlay) {
+            $this->triggerevent('inlaychange', ['inlay' => $currentInlay]);
+        }
+        $this['Shared::prevInlay'] = $currentInlay;
+
+        (new Facet($this['Pane::body']))
+            ->html()
+            ->close();
+    }
+    /**
      * Renders the launcher element (e.g., a button that opens the pane).
-     * Reads Pane::launcher field. Sets hx-target to #layerstack,
-     * hx-swap to beforeend, and method to open.
      */
     public function launcher(): void
     {
-        (new Facet($this->body()))
-            ->open("{{Pane::launcher}}", null, null, null, false, true)
+        (new Facet($this['Pane::launcher']))
+            ->html()
             ->close();
     }
 
@@ -252,45 +192,25 @@ class Pane implements \ArrayAccess
      */
     public function close($delay = null): void
     {
-        $this->triggerevent('closepane', $delay);
+        $this->triggerevent('closepane', [ 'delay' => $delay]);
     }
 
     /**
-     * Default HTML method. Renders Pane::body. Detects inlay changes
-     * by comparing against Shared::$prevInlay and fires inlaychange.
-     * @param string|null $template Optional template to render instead of Pane::body.
+     * Redirects to a URL via HX-Location JSON payload.
+     * @param string|null $url The URL.
      */
-    public function html(?string $template = null): void
+    public function redirect($url = null): void
     {
-        $currentInlay = $this->inlay();
-        if (Shared::$prevInlay !== null && Shared::$prevInlay !== $currentInlay) {
-            $this->triggerevent('inlaychange', ['inlay' => $currentInlay]);
-        }
-        Shared::$prevInlay = $currentInlay;
-
-        $body = $template ?? "{{Pane::body}}";
-        (new Facet($this->body()))
-            ->open($body)
-            ->render()
-            ->close();
-    }
-
-    /**
-     * Redirects to a URL.
-     * @param string $url The URL.
-     */
-    public static function redirect($url): void
-    {
-        $url = $url ?? Mosaic::getVar('Page::url');
-        header("HX-Location: {$url}");
+        $url = $url ?? $this['Page::url'];
+        header("HX-Location: " . json_encode(["path" => $url]));
     }
 
     /**
      * Reloads the page.
      */
-    public static function reloadPage(): void
+    public function reloadPage(): void
     {
-        self::redirect();
+        $this->redirect();
     }
 
     /**
@@ -298,20 +218,28 @@ class Pane implements \ArrayAccess
      * @param string $event The event to trigger.
      * @param mixed $params Optional event parameters.
      */
-    public function triggerevent($event, $params = null): self
+    public function triggerevent(string $event, $params = null): self
+    {
+    	$this->sendHtmxHeader('HX-Trigger', $event, $params);
+        return $this;
+    }
+    
+    /**
+     * Sends a special header in the server response.
+     * @param string $header The header to write
+     * @param string $data The primary data point
+     * @param string $params Additional parameters
+     */
+    public function sendHtmxHeader(string $header, $event, $params): self
     {
         Exception::debug('EVENT', "Triggering {$event}");
-        $paneName = $this->panename;
-        if (isset($params)) {
-            $payload = is_array($params)
-                ? array_merge(['pane' => $paneName], $params)
-                : ['pane' => $paneName, 'value' => $params];
-            $headerLine = 'HX-Trigger: ' . json_encode([$event => $payload]);
+        if (isset($params) && is_array($params)) {
+            // Assumes $events values are already arrays
+            $events = array_map(fn($d) => array_merge($d, ['Pane' => $this['ClearView::panename']]), $params);
+            header("HX-Trigger: " . json_encode($events));   
         } else {
-            $headerLine = 'HX-Trigger: ' . json_encode([$event => ['pane' => $paneName]]);
+            header("HX-Trigger: {$event}");
         }
-        // Buffer the header so it's emitted before body output in dumpOOBdata().
-        $this['ClearView']->bufferTriggerEvent($headerLine);
         return $this;
     }
 
@@ -319,14 +247,11 @@ class Pane implements \ArrayAccess
      * Sets the HX-Retarget header to redirect an HTMX response to a
      * different target element than the one that triggered the request.
      *
-     * Used by <attr view="..."> when a layout change requires the response
-     * to swap the outer <main> element instead of the inner <article>.
-     *
-     * @param string $target CSS selector for the new swap target.
+     * @param string $target CSS selector for the new swap target w/#
      */
-    public static function retargetResult(string $target): void
+    public function retargetResult(string $target, $params=null): void
     {
-        header("HX-Retarget: #{$target}");
+    	$this->sendHtmxHeader('HX-Retarget', $target, $params);
     }
 
     /**
@@ -341,52 +266,47 @@ class Pane implements \ArrayAccess
 
     /**
      * Dispatches commands based on URL segments.
-     * @param string|null $command The command to execute.
      */
-    public function handleCommand(?string $command = '_doesNotUnderstand'): void
+    public function handleCommand(): void
     {
-        // Only apply request-method fallback if no command was specified in the URL.
-        // init() already computed the right command; we only fill in a default here
-        // when nothing was provided.
-        if ($command === '_doesNotUnderstand') {
-            $command = self::defaultMethod();
-        }
-        $this->command = $command;
+        $command = $this['ClearView::method'] ?: self::defaultMethod();
 
         // Slurp up variables first
-        Mosaic::loadMosaic($this->getVar('Input::all'));
+        $this->loadMosaic($this['Input::all']);
 
         if (method_exists($this, $command)) {
             $reflectionMethod = new \ReflectionMethod($this, $command);
 
-            // PaneKey security: <button>s and embedded <pane>s create Pane::Key and pass it as an URL parameter.
-            $providedToken = $this->getVar("Pane::Key");         // CSRF token for this pane
-            $expectedToken = $this->getVar("Session::PaneKey");  // returns different values based on Pane::name
+            // PaneKey security
+            $providedToken = $this['Pane::Key'];
+            $expectedToken = $this['Session::PaneKey'];
             if ($providedToken !== $expectedToken) {
                 throw new Exception('Invalid PaneKey: $providedToken vs $expectedToken');
             }
-            // No private methods, even if the panekay matches
+            // No private methods, even if the panekey matches
             if ($reflectionMethod->isPrivate() || str_starts_with($command, '_')) {
                 throw new \Exception('Access denied: Cannot call private or underscored methods.');
             }
 
             // Execute the method if all checks pass.
             Exception::debug('EVENT', "Executing {$command} from {{uppercase\\Input::requestMethod}} {{Input::url}}");
-            (new Facet())
-                ->forward($command) // the command to be executed
-                ->create(new \ClearView\Element\Mosaic())  // Render Mosaic glyph
-                ->close();          // close the facet
-        } else { // No such command!
+            (new Facet($this))
+                ->forward($command)
+                ->create(['glyph' => 'mosaic'])
+                ->close();
+        } else {
             // Page-field fallback: lookup $command as a field on the ProcessWire Page
-            $pageField = Mosaic::getVar($command, "Page");
+            $pageField = $this["Page::$command"];
             if ($pageField !== null) {
-                echo $pageField;
+                (new Facet($pageField))
+                	->html()
+                	->close();
             } else {
-                $this->doesNotUnderstand();
+                $this->doesNotUnderstand($command);
             }
         }
         // Send buffered variable and script updates
-        ($crystal = Mosaic::getVar('ClearView', 'ClearView')) ? $crystal->dumpOOBdata() : null;
+        $this['ClearView']->dumpOOBdata();
     }
 
     /**
@@ -394,7 +314,7 @@ class Pane implements \ArrayAccess
      */
     public function doesNotUnderstand($name = null): void
     {
-        $name = $name ?? $this->command;
+        $name = $name ?? ClearView::method();
         throw new Exception("I don't know how to '$name', from {{Input::url}}");
     }
 
@@ -403,11 +323,11 @@ class Pane implements \ArrayAccess
      */
     public function __call($name, $arguments): void
     {
-        $redir = Mosaic::getVar($name, "Page");
+        $redir = $this["ClearView::pagename"];
         if (isset($redir)) {
             echo $redir;
         } else {
-            echo $this->doesNotUnderstand($name);
+            $this->doesNotUnderstand($name);
         }
     }
 }

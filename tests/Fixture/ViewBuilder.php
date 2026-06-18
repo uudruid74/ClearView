@@ -3,6 +3,7 @@
 namespace ClearView\Test\Fixture;
 
 use ClearView\Mosaic;
+use ClearView\Pane;
 use ClearView\Facet;
 
 /**
@@ -16,14 +17,16 @@ class ViewBuilder
 {
     private string $panename;
     private string $inlayname;
+    private Mosaic $mosaic;
 
     /** @var array<string, \ClearView\Element> */
     private array $elements = [];
 
-    private function __construct(string $panename, string $inlayname)
+    private function __construct(string $panename, string $inlayname, Mosaic $mosaic)
     {
         $this->panename  = $panename;
         $this->inlayname = $inlayname;
+        $this->mosaic    = $mosaic;
     }
 
     /**
@@ -33,23 +36,27 @@ class ViewBuilder
         string $panename = 'TestPage',
         string $inlayname = 'Default'
     ): self {
-        // Re-init Mosaic to get a clean state.
+        // Reset previous state.
         self::tearDownMosaic();
-        Mosaic::init();
+
+        // Create a fresh Mosaic owned by a Pane.
+        $mosaic = new Mosaic();
+        new \ClearView\Pane($panename, $inlayname, $mosaic);
 
         // Initialise ClearView singleton (headless — no ProcessWire server).
-        // Element::__construct accesses ClearView::CurrentPane(),
-        // which dereferences self::$instance->creator.
         self::initClearView($panename, $inlayname);
 
         // Seed minimal variables so templates resolve.
-        // Use the 3-arg form to store the value directly under the
-        // 'Page' inlay (bypassing the Page Crystal's setVar, which
-        // requires ProcessWire's Sanitizer).
-        Mosaic::setVar('name', $panename, 'Pane');
-        Mosaic::setVar('url', '/' . $panename . '/', 'Page');
+        $mosaic->setVar('name', $panename, 'Pane');
+        $mosaic->setVar('url', '/' . $panename . '/', 'Page');
 
-        return new self($panename, $inlayname);
+        return new self($panename, $inlayname, $mosaic);
+    }
+
+    /** @return Mosaic */
+    public function mosaic(): Mosaic
+    {
+        return $this->mosaic;
     }
 
     /**
@@ -160,18 +167,17 @@ class ViewBuilder
     }
 
     /**
-     * Tear down the Mosaic singleton so ::init() can be called again.
+     * Tear down Pane current state so ::new() can start fresh.
      */
     private static function tearDownMosaic(): void
     {
-        // Mosaic has a protected __clone / __wakeup — we use
-        // reflection to null out the singleton.
+        // Reset Pane current state.
         try {
-            $ref = new \ReflectionProperty(Mosaic::class, 'instance');
+            $ref = new \ReflectionProperty(Pane::class, 'currentPane');
             $ref->setAccessible(true);
-            $ref->setValue(null);
+            $ref->setValue(null, null);
         } catch (\ReflectionException $e) {
-            // Mosaic may not have been loaded yet — that's fine.
+            // Pane may not have been loaded yet — that's fine.
         }
 
         // Reset Facet static state.

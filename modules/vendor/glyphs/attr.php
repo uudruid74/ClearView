@@ -5,7 +5,6 @@ namespace ClearView\Element;
 use ClearView\Element;
 use ClearView\Facet;
 use ClearView\Pane;
-use ClearView\Shared;
 
 /**
  * attr glyph — outputs a Surreal-powered <script> tag that modifies the
@@ -15,8 +14,8 @@ use ClearView\Shared;
  * content tag semantics ({@code -tag +tag %tag}), and view-based layout
  * retargeting via {@link Pane::retargetResult()}.</p>
  *
- * @see Glyph-attr
- * @see Runtime-Pane
+ * @see Glyph-attr (custom glyph element)
+ * @see Runtime-Pane (runtime pane element)
  */
 class attr extends Element
 {
@@ -40,8 +39,8 @@ class attr extends Element
         $view = $this->getField('view');
 
         // Branch 1: view-based layout change
-        if ($view !== null && $view !== Shared::$mainLayout) {
-            Shared::$mainLayout = $view;
+        if ($view !== null && $view !== ClearView::Mosaic()->getVar('Shared::mainLayout')) {
+            ClearView::Mosaic()->setVar('Shared::mainLayout', $view);
 
             $viewFile = __DIR__ . "/../../views/{$view}.php";
             if (file_exists($viewFile)) {
@@ -49,7 +48,7 @@ class attr extends Element
             }
 
             Pane::retargetResult('main');
-            Pane::CurrentPane()->triggerevent('inlaychange');
+            ClearView::paneobj()->triggerevent('inlaychange');
             return;
         }
 

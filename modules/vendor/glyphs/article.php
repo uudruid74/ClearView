@@ -37,9 +37,9 @@ class article extends Element
         // Seed Shared::prevInlay from the inlay attribute on first load
         $inlay = $this->getField('inlay');
         if ($inlay !== null) {
-            $prevInlay = Mosaic::getVar('Shared::prevInlay');
+            $prevInlay = ClearView::Mosaic()->getVar('Shared::prevInlay');
             if ($prevInlay === null) {
-                Mosaic::setVar('prevInlay', $inlay, 'Shared');
+                ClearView::Mosaic()->setVar('prevInlay', $inlay, 'Shared');
             }
         }
     }

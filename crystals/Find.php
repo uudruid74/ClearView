@@ -35,7 +35,7 @@ class Find extends Crystal
      *
      * Used to retrieve a single page matching a ProcessWire selector, wrapped as a Page Crystal.
      *
-     * Why: Enables page searches via Mosaic::getVar() with selectors.
+     * Why: Enables page searches via Mosaic getVar() with selectors.
      *
      * @param string $selector The ProcessWire selector (e.g., 'template=home').
      * @return Page|null A Page Crystal if found, null otherwise.
@@ -55,7 +55,7 @@ class Find extends Crystal
      *      Contents will be an array of Page Shards
      *      Every Page shard should override 'contents' to be the children of the Page
      *
-     * Why: Enables batch page searches via Mosaic::getVars().
+     * Why: Enables batch page searches via Mosaic getVars().
      *
      * @param string $selector The ProcessWire selector (e.g., 'template=blog').
      * @return \ProcessWire\PageArray The matching pages.

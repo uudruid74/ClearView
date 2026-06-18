@@ -5,13 +5,14 @@ namespace ClearView\Test\Fixture;
 use ClearView\ClearView;
 use ClearView\Config;
 use ClearView\Mosaic;
+use ClearView\Pane;
 use ClearView\Facet;
 use ClearView\Shard;
 
 /**
  * Builds a ClearView element tree at runtime for unit testing.
  *
- * Resets ClearView/Mosaic/Facet singletons in new()/reset() so tests do not leak state.
+ * Resets ClearView/Pane/Facet state in new()/reset() so tests do not leak.
  * Registers shards in Mosaic and can render individual elements or the full tree.
  *
  * @see \ClearView\Test\Fixture\TestFixtureException
@@ -23,6 +24,9 @@ class ViewBuilder
 
     /** @var string Inlay name for this builder session */
     private string $inlayname;
+
+    /** @var Mosaic The Mosaic for this builder session */
+    private Mosaic $mosaic;
 
     /** @var array<string> Shard IDs in registration order */
     private array $shardIds = [];
@@ -44,17 +48,15 @@ class ViewBuilder
         $builder->reset();
 
         // Pane Crystal: set Pane::name for template resolution
-        Mosaic::setVar("Pane::name", $panename);
+        $builder->mosaic->setVar("Pane::name", $panename);
         // Page::url defaults to /<panename>/
-        Mosaic::setVar("Page::url", "/{$panename}/");
+        $builder->mosaic->setVar("Page::url", "/{$panename}/");
 
         return $builder;
     }
 
     /**
-     * Reset ClearView, Mosaic, and Facet singletons so tests do not leak.
-     *
-     * Uses reflection to access private static properties.
+     * Reset ClearView, Pane, Mosaic, and Facet state so tests do not leak.
      */
     public function reset(): self
     {
@@ -72,19 +74,15 @@ class ViewBuilder
         $constructor->invoke($instance);
         $cvProp->setValue(null, $instance);
 
-        // Set a stub CurrentPane so Element constructors don't crash
-        // when checking for change-notification methods.
-        \ClearView\ClearView::CurrentPane(new \ClearView\Shard([
-            'id'    => '_stub_',
-            'inlay' => \ClearView\Config::SHARD_ANONINLAY,
-        ]));
+        // Create a fresh Mosaic owned by a Pane (replaces old Mosaic singleton).
+        $this->mosaic = new Mosaic();
+        new Pane($this->panename, $this->inlayname, $this->mosaic);
 
-        // Reset Mosaic singleton
-        $mRef = new \ReflectionClass(Mosaic::class);
-        $mProp = $mRef->getProperty('instance');
-        $mProp->setAccessible(true);
-        $mProp->setValue(null, null);
-        Mosaic::init();
+        // Set a stub CurrentPane so Element constructors don't crash.
+        \ClearView\ClearView::CurrentPane(new Shard([
+            'id'    => '_stub_',
+            'inlay' => Config::SHARD_ANONINLAY,
+        ]));
 
         // Reset Facet static state
         $fRef = new \ReflectionClass(Facet::class);
@@ -103,11 +101,6 @@ class ViewBuilder
 
     /**
      * Add a raw Shard by ID.
-     *
-     * @param string      $id    Shard ID
-     * @param array       $data  Data passed to Shard::loadShard()
-     * @param string|null $inlay Inlay override (default: builder's inlay)
-     * @throws TestFixtureException on duplicate ID
      */
     public function withShard(string $id, array $data, ?string $inlay = null): self
     {
@@ -122,7 +115,7 @@ class ViewBuilder
         $data['inlay'] = $inlay;
 
         $shard = Shard::loadShard($data);
-        Mosaic::addShard($shard, id: $id, inlay: $inlay);
+        $this->mosaic->addShard($shard, id: $id, inlay: $inlay);
 
         $this->shardIds[]          = $id;
         $this->registered[$key]    = true;
@@ -132,12 +125,6 @@ class ViewBuilder
 
     /**
      * Add an Element (glyph) by ID.
-     *
-     * @param string      $id    Element ID
-     * @param string      $tag   HTML tag / glyph name (e.g. 'button', 'input')
-     * @param array       $attrs Element fields (value, class, hx-post, etc.)
-     * @param string|null $inlay Inlay override (default: builder's inlay)
-     * @throws TestFixtureException on duplicate ID
      */
     public function withElement(string $id, string $tag, array $attrs, ?string $inlay = null): self
     {
@@ -153,7 +140,7 @@ class ViewBuilder
         $attrs['glyph'] = $tag;
 
         $shard = Shard::loadShard($attrs);
-        Mosaic::addShard($shard, id: $id, inlay: $inlay);
+        $this->mosaic->addShard($shard, id: $id, inlay: $inlay);
 
         $this->shardIds[]       = $id;
         $this->registered[$key] = true;
@@ -163,17 +150,10 @@ class ViewBuilder
 
     /**
      * Attach a child shard to a parent shard by ID.
-     *
-     * Stores a Reference array in the parent's `children` so that
-     * renderChildren() can resolve the child via Mosaic.
-     *
-     * @param string $parentId Parent shard ID
-     * @param string $childId  Child shard ID
-     * @throws TestFixtureException if parent or child not found
      */
     public function withChild(string $parentId, string $childId): self
     {
-        $parent = Mosaic::index($this->inlayname, $parentId);
+        $parent = $this->mosaic->index($this->inlayname, $parentId);
         if (!$parent) {
             throw new TestFixtureException("Parent shard '{$parentId}' not found in inlay '{$this->inlayname}'");
         }
@@ -182,9 +162,8 @@ class ViewBuilder
             throw new TestFixtureException("Child shard '{$childId}' not found in inlay '{$this->inlayname}'");
         }
 
-        $childShard = Mosaic::index($this->inlayname, $childId);
+        $childShard = $this->mosaic->index($this->inlayname, $childId);
         $children   = $parent->getField('children') ?? [];
-        // Store as a Reference so renderChildren resolves it via Mosaic
         $children[] = [
             'glyph'      => 'reference',
             'name'       => $childId,
@@ -197,27 +176,20 @@ class ViewBuilder
     }
 
     /**
-     * Set a Mosaic / Crystal variable (e.g. "Pane::name", "Page::url").
-     *
-     * @param string $expression Variable expression (e.g. "Foo::bar" or "myVar")
-     * @param mixed  $value      Value to set
+     * Set a Mosaic / Crystal variable.
      */
     public function withVar(string $expression, mixed $value): self
     {
-        Mosaic::setVar($expression, $value);
+        $this->mosaic->setVar($expression, $value);
         return $this;
     }
 
     /**
      * Get a registered element by ID from Mosaic.
-     *
-     * @param string $id Element ID
-     * @return \ClearView\Element
-     * @throws TestFixtureException if element not found
      */
     public function getElement(string $id): \ClearView\Element
     {
-        $shard = Mosaic::index($this->inlayname, $id);
+        $shard = $this->mosaic->index($this->inlayname, $id);
         if (!$shard || !($shard instanceof \ClearView\Element)) {
             throw new TestFixtureException("Named element '{$id}' not found in inlay '{$this->inlayname}'");
         }
@@ -226,12 +198,6 @@ class ViewBuilder
 
     /**
      * Render the assembled tree or a single named shard to HTML.
-     *
-     * Captures output via Facet::record() / Shard::getHtml().
-     *
-     * @param string|null $id Shard ID to render, or null for all registered shards
-     * @return string Rendered HTML
-     * @throws TestFixtureException if named shard not found
      */
     public function render(?string $id = null): string
     {
@@ -240,13 +206,13 @@ class ViewBuilder
             if (!isset($this->registered[$key])) {
                 throw new TestFixtureException("Named shard '{$id}' not found in inlay '{$this->inlayname}'");
             }
-            $shard = Mosaic::index($this->inlayname, $id);
+            $shard = $this->mosaic->index($this->inlayname, $id);
             return $shard->getHtml();
         }
 
         $output = '';
         foreach ($this->shardIds as $shardId) {
-            $shard = Mosaic::index($this->inlayname, $shardId);
+            $shard = $this->mosaic->index($this->inlayname, $shardId);
             if ($shard) {
                 $output .= $shard->getHtml();
             }

@@ -306,7 +306,7 @@ class Config extends Crystal
      * Examples:
      * ```php
      * $layer = Config::getVar('layername_clearview'); // Returns 'ClearView'
-     * $layer = Mosaic::getVar("Config::layername_clearview");  // As above
+     * $layer = Mosaic getVar("Config::layername_clearview");  // As above
      * $layer = Config::LAYERNAME_CLEARVIEW // Static init compatible
      * ```
      * Template usage:

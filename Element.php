@@ -54,7 +54,7 @@ class Element extends Shard
     {
         parent::__construct(...func_get_args());
         // Set up automatic change notification
-        if (method_exists(Pane::CurrentPane(), $this->getField('name') ?? 'change')) {
+        if (method_exists(ClearView::paneobj(), $this->getField('name') ?? 'change')) {
             $this->addtrigger('change');
         }
     }
@@ -318,7 +318,7 @@ class Element extends Shard
     public function getHxVals(): string
     {
         $out = '';
-        $time = Mosaic::getVar('User::haptic-strength') * $this->getField('buzz');
+        $time = ClearView::Mosaic()->getVar('User::haptic-strength') * $this->getField('buzz');
         if ($time > 0) {
             $out .= "hx-buzz=$time ";
         }
@@ -536,7 +536,7 @@ class Element extends Shard
         // 2. Base: modules/vendor/views/{{Page::name}}/<viewName>.php
         $filePath = __DIR__ . "/modules/vendor/views/{{Page::name}}/{$viewName}.php";
         if (!file_exists($filePath)) {
-            if (Mosaic::getVar("Pane::name") !== 'Default') {
+            if (ClearView::Mosaic()->getVar("Pane::name") !== 'Default') {
                 $filePath = __DIR__ . "/modules/vendor/views/Default/{$viewName}.php";
                 if (!file_exists($filePath)) {
                     throw new Exception("View file $filePath not found: {$filePath}");
@@ -613,6 +613,10 @@ class Element extends Shard
      */
     public function getField(string $name)
     {
+        // Prefix routing: keys containing :: resolve via the current Pane's Mosaic
+        if (strpos($name, '::') !== false) {
+            return ClearView::Mosaic()->getVar($name);
+        }
         switch ($name) {
             case 'id':
                 $storedId = parent::getField('id');
@@ -621,7 +625,7 @@ class Element extends Shard
                 }
                 if ($this->canonicalId) {
                     $name = parent::getField('name') ?? $storedId;
-                    return Mosaic::getVar('Pane::name') . '-' . $this->inlay() . '-' . $name;
+                    return ClearView::Mosaic()->getVar('Pane::name') . '-' . $this->inlay() . '-' . $name;
                 }
                 return $storedId;
             case 'hx':

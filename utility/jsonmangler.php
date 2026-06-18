@@ -308,25 +308,34 @@ class jsonmangler
 
                 // 1. Nested context: views/{pane}/{context}/{glyph}.php
                 if ($context !== null) {
-                    $ctxPath = __DIR__ . "/../modules/vendor/views/{$pane}/{$context}/{$glyph}.php";
-                    if (file_exists($ctxPath)) {
-                        $element['__loadExternal'] = "View::{$context}/{$glyph}";
+                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                        $ctxPath = __DIR__ . "/../modules/{$module}/views/{$pane}/{$context}/{$glyph}.php";
+                        if (file_exists($ctxPath)) {
+                            $element['__loadExternal'] = "View::{$context}/{$glyph}";
+                            break;
+                        }
                     }
                 }
 
                 // 2. Top-level: views/{pane}/{glyph}.php
                 if (empty($element['__loadExternal'])) {
-                    $filePath = __DIR__ . "/../modules/vendor/views/{$pane}/{$glyph}.php";
-                    if (file_exists($filePath)) {
-                        $element['__loadExternal'] = "View::$glyph";
+                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                        $filePath = __DIR__ . "/../modules/{$module}/views/{$pane}/{$glyph}.php";
+                        if (file_exists($filePath)) {
+                            $element['__loadExternal'] = "View::$glyph";
+                            break;
+                        }
                     }
                 }
 
                 // 3. Default fallback: views/Default/{glyph}.php
                 if (empty($element['__loadExternal']) && $pane != 'Default') {
-                    $filePath = __DIR__ . "/../modules/vendor/views/Default/{$glyph}.php";
-                    if (file_exists($filePath)) {
-                        $element['__loadExternal'] = "View::$glyph";
+                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                        $filePath = __DIR__ . "/../modules/{$module}/views/Default/{$glyph}.php";
+                        if (file_exists($filePath)) {
+                            $element['__loadExternal'] = "View::$glyph";
+                            break;
+                        }
                     }
                 }
             }
@@ -336,19 +345,21 @@ class jsonmangler
                 // Handle folder globs: load all matching files as sibling fragments.
                 if (str_contains($element['view'], '*')) {
                     $pane = Facet::me()->getField('name') ?? 'Default';
-                    $globPattern = __DIR__ . "/../modules/vendor/views/{$pane}/{$element['view']}";
-                    $files = glob($globPattern);
                     $globChildren = [];
-                    foreach ($files as $file) {
-                        if (is_file($file)) {
-                            // Load glob fragments standalone — no parent context so nested
-                            // default-view lookups don't bleed into sibling fragments.
-                            $subData = self::fromhtml(file_get_contents($file));
-                            if (!empty($subData)) {
-                                if (isset($subData['glyph'])) {
-                                    $globChildren[] = $subData;
-                                } elseif (isset($subData['children'])) {
-                                    $globChildren = array_merge($globChildren, $subData['children']);
+                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                        $globPattern = __DIR__ . "/../modules/{$module}/views/{$pane}/{$element['view']}";
+                        $files = glob($globPattern);
+                        foreach ($files as $file) {
+                            if (is_file($file)) {
+                                // Load glob fragments standalone — no parent context so nested
+                                // default-view lookups don't bleed into sibling fragments.
+                                $subData = self::fromhtml(file_get_contents($file));
+                                if (!empty($subData)) {
+                                    if (isset($subData['glyph'])) {
+                                        $globChildren[] = $subData;
+                                    } elseif (isset($subData['children'])) {
+                                        $globChildren = array_merge($globChildren, $subData['children']);
+                                    }
                                 }
                             }
                         }

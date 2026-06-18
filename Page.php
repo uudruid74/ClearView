@@ -120,7 +120,7 @@ class Page extends Shard
     {
         $this->data[Config::PAGE_PWOBJECT]->set(
             $key,
-            Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
+            ClearView::Mosaic()->index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
         );
     }
 
@@ -134,7 +134,7 @@ class Page extends Shard
     {
         $this->data[Config::PAGE_PWOBJECT]->set(
             $key,
-            Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
+            ClearView::Mosaic()->index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
         );
     }
 
@@ -307,7 +307,7 @@ class Page extends Shard
         }
         $stack = Config::MODULES_LIST;
         try {
-            $panename = Mosaic::getVar("Pane::name");
+            $panename = ClearView::Mosaic()->getVar("Pane::name");
             if ($panename) {
                 $page = \ProcessWire\pages()->get("name={$panename}");
                 while ($page && $page->id) {

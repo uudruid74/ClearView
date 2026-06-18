@@ -15,7 +15,7 @@ class redirect extends Element
 {
     public function render()
     {
-        new Facet(Mosaic::handleMethodCall($this->id()));
+        new Facet(ClearView::Mosaic()->handleMethodCall($this->id()));
     }
 
 } // end of class

@@ -5,13 +5,12 @@ namespace ClearView\Element;
 use ClearView\Element;
 use ClearView\Facet;
 use ClearView\Mosaic;
-use ClearView\Shared;
 
 /**
  * Container for the primary page content.
  *
  * Does NOT hx-boost itself; boosting is delegated to the inner <article>.
- * Calls Mosaic::outputMosaic() to preserve Mosaic state across swaps.
+ * Calls Mosaic outputMosaic() to preserve Mosaic state across swaps.
  * Loads the view file specified by Shared::mainLayout (or the view attribute),
  * and renders captured children inside it.
  */
@@ -30,13 +29,13 @@ class main extends Element
         ]);
 
         // Seed view from Shared::mainLayout if not already set on the element.
-        if (!$this->getField('view') && Shared::$mainLayout) {
-            $this->setField('view', Shared::$mainLayout);
+        if (!$this->getField('view') && ($sl = ClearView::Mosaic()->getVar('Shared::mainLayout'))) {
+            $this->setField('view', $sl);
         }
 
         // Persist the current view so the client round-trips correctly.
         if ($view = $this->getField('view')) {
-            Shared::$mainLayout = $view;
+            ClearView::Mosaic()->setVar('Shared::mainLayout', $view);
         }
     }
 
@@ -74,7 +73,7 @@ class main extends Element
             return;
         }
         $fields = array_map('trim', explode(',', (string)$pageFields));
-        $pageCrystal = Mosaic::getVar('Page', 'ClearView');
+        $pageCrystal = ClearView::Mosaic()->getVar('Page', 'ClearView');
         if (!$pageCrystal) {
             return;
         }

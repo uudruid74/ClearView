@@ -12,7 +12,7 @@ use ClearView\Mosaic;
  *
  * The Dark Crystal is a neon-lit gateway to the Tor network, controlling circuits and fetching hidden
  * service data. Registered as 'ClearView::Dark' and stores in inlay: Dark, it exposes components like Skeksi
- * (controller) and Essence (responses) via Mosaic::getVar().
+ * (controller) and Essence (responses) via Mosaic getVar().
  *
  * @see \ClearView\Crystal
  * @see https://stem.torproject.org/api.html
@@ -38,7 +38,7 @@ class Dark extends Crystal
     {
         $stem = $pwObject ?? new Stem($this);
         parent::__construct($stem);
-        Mosaic::fill([
+        ClearView::Mosaic()->fill([
             'Dark::Skeksi' 	=> $stem->controller(),
             'Dark::socket' 	=> $stem->socket(),
             'Dark::connection'  => $stem->connection(),
@@ -60,7 +60,7 @@ class Dark extends Crystal
     public static function init(): void
     {
         parent::init();
-        Mosaic::addShard(new self(), id: self::class, inlay: 'Dark');
+        ClearView::Mosaic()->addShard(new self(), id: self::class, inlay: 'Dark');
     }
 }
 

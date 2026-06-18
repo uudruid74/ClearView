@@ -71,11 +71,11 @@ class PaneCrystal extends Crystal
         // Check the "Pane" inlay first, then the shared last-inlay namespace
         // where loadMosaic stores URL parameters without a "-" separator.
         // The input key is the literal "Pane::Key", so reconstruct it.
-        $shard = Mosaic::index('Pane', $key);
+        $shard = ClearView::Mosaic()->index('Pane', $key);
         if (!$shard) {
-            $lastInlay = Mosaic::getVar('Shared::lastInlay');
+            $lastInlay = ClearView::Mosaic()->getVar('Shared::lastInlay');
             if ($lastInlay) {
-                $shard = Mosaic::index($lastInlay, "Pane::" . $key);
+                $shard = ClearView::Mosaic()->index($lastInlay, "Pane::" . $key);
             }
         }
         if ($shard) {
@@ -95,7 +95,7 @@ class PaneCrystal extends Crystal
         if ($pwObject instanceof \ProcessWire\Page) {
             $pwObject->set(
                 $key,
-                Mosaic::index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
+                ClearView::Mosaic()->index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
             );
         }
     }
@@ -103,5 +103,55 @@ class PaneCrystal extends Crystal
     public function getField(string $key)
     {
         return $this->getVar($key);
+    }
+
+    /**
+     * Load and resolve the body Element for a pane+inlay.
+     *
+     * Finds the ProcessWire page, converts its body field to an Element,
+     * merges Shared::attributes, and loads any template view.
+     *
+     * @param string $panename
+     * @param string $inlayname
+     * @return \ClearView\Element
+     */
+    public static function load(string $panename, string $inlayname): \ClearView\Element
+    {
+        $mosaic = ClearView::Mosaic();
+
+        // 1. Find the ProcessWire page for this pane
+        $pwPage = \ProcessWire\pages()->get("name={$panename}");
+        if (!$pwPage || !$pwPage->id) {
+            $pwPage = \ProcessWire\pages()->get('/');
+        }
+
+        // 2. Get the body field
+        $bodyField = $pwPage->get('body');
+        if (empty($bodyField)) {
+            $bodyField = '<div></div>';
+        }
+
+        // 3. Convert to Element via fromhtml → loadShard
+        $data = \ClearView\jsonmangler::fromhtml((string)$bodyField);
+        $element = \ClearView\Shard::loadShard($data, id: 'body', inlay: '__body');
+
+        // 4. Merge Shared::attributes into the Element
+        $attrs = $mosaic?->getVar('Shared::attributes');
+        if (is_array($attrs)) {
+            foreach ($attrs as $key => $value) {
+                $element->setField($key, $value);
+            }
+        }
+
+        // 5. Load template view if configured
+        $viewName = $mosaic?->getVar("Shared::templateView");
+        if ($viewName) {
+            $viewElement = \ClearView\Element::loadView($viewName);
+            if ($viewElement) {
+                return $viewElement;
+            }
+        }
+
+        return $element;
     }
 }

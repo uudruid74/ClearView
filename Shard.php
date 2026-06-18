@@ -116,7 +116,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         $loadView = $this->__loadExternal ?? $obj['__loadExternal'] ?? null;
         if (!empty($loadView)) {
             Exception::debug('GLYPH',"Loading external data from loadExternal=" . $loadView);
-            Mosaic::initArray($obj, self::toArray(Mosaic::getVar($loadView)));
+            ClearView::Mosaic()->initArray($obj, self::toArray(ClearView::Mosaic()->getVar($loadView)));
         }
         // Restore canonicalId after round-trip through deflate/inflate.
         // jsonmangler strips __, inlay, id, and name-when-name===id,
@@ -132,10 +132,10 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (array_key_exists('text',$obj) && array_key_exists('__pF', $obj) && $obj['__pF'] == 'text') {
             $obj['inlay'] = Config::SHARD_ANONINLAY;
         } else {
-            $obj['inlay'] = $obj['inlay'] ?? $this->inlay ?? Facet::me()->inlay() ?? Mosaic::getVar("Input::inlayname");
+            $obj['inlay'] = $obj['inlay'] ?? $this->inlay ?? ClearView::Mosaic()->getVar("Input::inlayname");
             // If id="#" → expand to canonical form on output.
             // Store the name as the Mosaic key so References can
-            // resolve via Mosaic::index($inlay, $name).
+            // resolve via Mosaic index($inlay, $name).
             if (($obj['id'] ?? null) === '#') {
                 if (empty($obj['name'])) {
                     $obj['name'] = $this->createid($obj);
@@ -157,8 +157,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         }
         $this->setRawFields($obj);
         if ($obj['inlay'] !== Config::SHARD_ANONINLAY) {
-            $this->address = $obj['__address'] = Mosaic::makeAddress($this);
-            Mosaic::addShard($this);
+            $this->address = $obj['__address'] = ClearView::Mosaic()->makeAddress($this);
+            ClearView::Mosaic()->addShard($this);
         }
         $this->init();
     }
@@ -331,7 +331,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
         if (is_object($obj)) {
             if ($obj instanceof Pane) {
-                if ($obj->id() === Pane::CurrentPane()->id()) {
+                if ($obj->id() === ClearView::paneobj()->id()) {
                     return $obj;
                 }
                 throw new Exception("Cannot load a different Pane via loadShard. Use ClearView::sendPost()");
@@ -517,7 +517,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function getVar(string $expression)
     {
-        return Mosaic::getVar($expression);
+        return ClearView::Mosaic()->getVar($expression);
     }
 
     /**
@@ -530,7 +530,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function getVars(string $expression): array
     {
-        return Mosaic::getVars($expression);
+        return ClearView::Mosaic()->getVars($expression);
     }
 
     /**
@@ -544,7 +544,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function setVar(string $var, $value)
     {
-        return Mosaic::setVar($var, $value);
+        return ClearView::Mosaic()->setVar($var, $value);
     }
 
     /**
@@ -557,7 +557,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function initVar(string $var, $value): void
     {
-        Mosaic::initVar($var, $value);
+        ClearView::Mosaic()->initVar($var, $value);
     }
 
     /**
@@ -611,7 +611,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     public function setField(string $var, $val): void
     {
         $this->data[$var] = $val;
-        Mosaic::checkShard($this);
+        ClearView::Mosaic()->checkShard($this);
     }
 
     /**
@@ -698,7 +698,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function delVar()
     {
-        Mosaic::delShard($this);
+        ClearView::Mosaic()->delShard($this);
         unset($this->data);
     }
 
@@ -757,7 +757,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     public function offsetUnset($key): void
     {
         unset($this->data[$key]);
-        Mosaic::checkShard($this);
+        ClearView::Mosaic()->checkShard($this);
     }
 
     /**
@@ -815,7 +815,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function hasChanged(): mixed
     {
-        $oldValue = Mosaic::isShardStored($this) ? Mosaic::getVar("Input::" . $this->address) : null;
+        $oldValue = ClearView::Mosaic()->isShardStored($this) ? ClearView::Mosaic()->getVar("Input::" . $this->address) : null;
         $currentValue = $this->deflate();
         return ($currentValue !== $oldValue) ? $currentValue : null;
     }
@@ -1035,13 +1035,13 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 $this->initRawField($varname, $value);
             }
         }
-        Mosaic::checkShard($this);
+        ClearView::Mosaic()->checkShard($this);
     }
 
     /**
      * Bulk write to Mosaic variables.
      *
-     * Replaces the old setVars(). Delegates to Mosaic::fill().
+     * Replaces the old setVars(). Delegates to Mosaic fill().
      *
      * @param array $arr Variable-value pairs.
      * @param string|null $inlay Inlay context.
@@ -1054,7 +1054,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             if ($key === 'children') {
                 $this->replaceChildren($value);
             } else {
-                Mosaic::setVar($key, $value, $inlay);
+                ClearView::Mosaic()->setVar($key, $value, $inlay);
             }
         }
     }
@@ -1069,7 +1069,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function delVars($arr, ?string $inlay = null): void
     {
-        Mosaic::delVars($arr, $inlay);
+        ClearView::Mosaic()->delVars($arr, $inlay);
     }
 
     /**
