@@ -139,16 +139,6 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Moves loadMosaic into Pane as a non-static method.
-     *
-     * The Pane owns its Mosaic; loadMosaic delegates accordingly.
-     */
-    public function loadMosaic($input): void
-    {
-        $this->mosaic->loadMosaic($input);
-    }
-
-    /**
      * Default full-page render. Opens the container tag, renders element
      * contents, outputs the body template, and closes. Fires paneopen event.
      */

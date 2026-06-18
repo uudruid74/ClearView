@@ -13,26 +13,26 @@ class loginform_login extends Inlay
 {
     public function logout()
     {
-        ClearView::Mosaic()->index('ClearView', 'Session')->logout();
+        ClearView::Session()->logout();
         $this->triggerevent('userchange');
     }
 
     public function login()
     {
         // Requires inputs named username and password
-        if (ClearView::Mosaic()->index('ClearView', 'Session')->trylogin()) {
-            $this->fill([        // Login successful
+        if (ClearView::Session()->trylogin()) {
+            $this->fill([         // Login successful
                 'headline'     => 'Login Succeeded!',
                 'summary'      => 'Welcome back<br>{{text20\\User::displayname}}!',
-                'login'         => 'Success!'
+                'login'        => 'Success!'
             ]);
             $this->triggerevent('userchange')
-                 ->close();         // close the form
+                 ->close();       // close the form
         } else {
-            $this->fill([        // Login failed
+            $this->fill([         // Login failed
                 'headline'     => "Login Failed!",
                 'summary'      => "Try again, or reset your password using the link below",
-                'login'         => 'Try Again!'
+                'login'        => 'Try Again!'
             ]);
         }
     }

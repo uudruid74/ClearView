@@ -16,6 +16,8 @@ class loginform_newaccount extends Inlay
     // Email sanity check.  TODO: Implement blacklist checking
     public function isValidEmail($email)
     {
+	// TO-DO Turn this into a Crystal:
+	// $mailcheck = $this['Module::EmailVerification'];
         $mailcheck = ProcessWire\modules()->get("EmailVerification");
         return ($mailcheck->validHost($email));
     }
@@ -23,7 +25,7 @@ class loginform_newaccount extends Inlay
     // Return full email address
     public function getEmailAddr()
     {
-        $extdata = $this->getVar('Input::nextInlay');
+        $extdata = $this['Input::nextinlay'];
         if (isset($extdata)) {
             $email = getEmailAddress($extdata);
 
@@ -31,10 +33,10 @@ class loginform_newaccount extends Inlay
                 return $email;
             }
             if (isset($email) && strlen($email) < 10) {
-                $this->setVar('summary', "Sorry, {$email} doesn't look right");
+                $this['summary'] = "Sorry, {$email} doesn't look right";
             }
         }
-        $this->setVar('headline', "Invalid Email");
+        $this['headline']= "Invalid Email");
         return null;
     }
 
@@ -48,45 +50,45 @@ class loginform_newaccount extends Inlay
 
     public function createAccount()
     {
-        $extdata = $this->getVar('email\Input::nextInlay');
+        $extdata = $this['email\Input::nextinlay'];
         $email = $this->getEmailAddr($extdata);
-        $existingMail = $this->getVar("User::email=$email");
-        $username = $this->getVar('username') ?? '';
-        if (strlen($username) < ($this->getVar('min_user_len') ?? 3)) {
+        $existingMail = $this["User::email=$email"];
+        $username = $this['username'] ?? '';
+        if (strlen($username) < ($this['min_user_len']] ?? 3)) {
             $this->fill([
-                'headline' => "Error",
-                'summary'  => "Use a longer username"
+                'formtitle' => "Error",
+                'forminfo'  => "Use a longer username"
             ]);
             return;
         }
-	$existingUser = $this->getVar("User::name=$username");
+	$existingUser = $this["User::name=$username"];
         if ($existingMail->id !== 0) {
             $this->fill([
-                'headline' => "Error",
-                'summary'  => "Email Exists"
+                'formtitle' => "Error",
+                'forminfo'  => "Email Exists"
             ]);
             return;
         }
         if ($existingUser->id !== 0) {
             $this->fill([
-                'headline' => "Error",
-                'summary'  => "Username Exists"
+                'formtitle' => "Error",
+                'forminfo'  => "Username Exists"
             ]);
             return;
         }
-        $password = $this->getVar('removeWhitespace30\password') ?? '';
-        $displayname = $this->getVar('text30\displayname') ?? ucfirst($username);
+        $password = $this['removeWhitespace30\password'] ?? '';
+        $displayname = $this['text30\displayname'] ?? ucfirst($username);
         if (strlen($password) < 7) {
             $this->fill([
-                'headline' => "Error",
-                'summary'  => "Password is too small"
+                'formtitle' => "Error",
+                'forminfo'  => "Password is too small"
             ]);
             return;
         }
         if (strlen($displayname) < 4) {
             $displayname = ucfirst($username);
         }
-        $user = $this->getVar("ClearView::User")->add($username);
+        $user = $this["ClearView::User"]->add($username);
         $user->pass = $password;
         $user->addRole("apprentice");
 	$user->fill([
@@ -101,7 +103,7 @@ class loginform_newaccount extends Inlay
     public function init()
     {
         $this->debug("called init");
-        $extdata = $this->getVar('email\Input::nextInlay');
+        $extdata = $this['email\Input::nextinlay'];
         $email = $this->getEmailAddr($extdata);
         if (isset($email)) {
             list($username, $domain) = explode("@", $email);
@@ -114,8 +116,8 @@ class loginform_newaccount extends Inlay
             ]);
         } else {
             $this->fill([
-                'title' => "Error",
-                'info'  => "Invalid Link!"
+                'formtitle' => "Error",
+                'forminfo'  => "Invalid Link!"
             ]);
             $this->close();
             return "Error";

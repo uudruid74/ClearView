@@ -24,9 +24,8 @@ class pane extends Element
     {
         // Build hx-vals from all Shard attributes (skip internal/HTMX keys)
         $vals = [];
-        $skip = ['element', 'glyph', 'id', 'inlay', 'name',
+        $skip = ['element', 'glyph', 'id', 'inlay', 
                   'hx-get', 'hx-trigger', 'hx-target', 'hx-swap',
-                  'hx-indicator', 'hx-vals', 'preload', 'preload-images',
                   '__loadExternal', '__pF'];
         $this->iterateFields(function($value, $key) use (&$vals, $skip) {
             if (!in_array($key, $skip, true) && is_string($value)) {
