@@ -127,7 +127,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">22</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -136,7 +136,7 @@
 
     <section class="phpdocumentor-description"><p>An inlay represents a tab/subpage inside a pane. The default html()
 method renders Page::body and fires inlaychange when the inlay differs
-from Shared::prevInlay.</p>
+from $this['Shared::prevInlay'].</p>
 <p>Inlay subclasses live under modules/<module>/panes/<panename>/<inlayname>.php
 with class names like ClearView&lt;panename&gt;_<inlayname>.</p>
 </section>
@@ -152,11 +152,11 @@ with class names like ClearView&lt;panename&gt;_<inlayname>.</p>
                 <span class="phpdocumentor-tag__name">see</span>
             </dt>
                             <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\ClearView\ClearView\Pane">Pane</abbr></span>
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\ClearView\ClearView\\Pane">Pane</abbr></span>
                                                                 
                                     </dd>
                             <dd class="phpdocumentor-tag-list__definition">
-                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\ClearView\ClearView\Shared">Shared</abbr></span>
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\ClearView\ClearView\\Mosaic">Mosaic</abbr></span>
                                                                 
                                     </dd>
                         </dl>
@@ -226,7 +226,7 @@ with class names like ClearView&lt;panename&gt;_<inlayname>.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 
     </aside>
 
@@ -240,7 +240,7 @@ with class names like ClearView&lt;panename&gt;_<inlayname>.</p>
         </div>
     
         <section class="phpdocumentor-description"><p>Renders {{Page::body}} from the ProcessWire page matching the
-pane/inlay URL. Fires inlaychange event when Shared::prevInlay
+pane/inlay URL. Fires inlaychange event when $this['Shared::prevInlay']
 differs from the current inlay name.</p>
 </section>
 
@@ -265,7 +265,7 @@ differs from the current inlay name.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 

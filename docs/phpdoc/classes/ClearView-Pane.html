@@ -166,9 +166,9 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/ClearView-Pane.html#property_command">$command</a>
+    <a class="" href="classes/ClearView-Pane.html#property_mosaic">$mosaic</a>
     <span>
-                        &nbsp;: string            </span>
+                        &nbsp;: <a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a>            </span>
 </dt>
 
     </dl>
@@ -189,16 +189,9 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Initializes the pane.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Pane.html#method_body">body()</a>
-    <span>
-                                &nbsp;: <a href="classes/ClearView-Element.html"><abbr title="\ClearView\Element">Element</abbr></a>    </span>
-</dt>
-<dd>Returns the body Element, created from the ProcessWire body field.</dd>
+<dd>Initializes the ClearView framework from the request.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method_close">close()</a>
@@ -206,13 +199,6 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Triggers closepane event with optional delay.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Pane.html#method_CurrentPane">CurrentPane()</a>
-    <span>
-                                &nbsp;: <a href="classes/ClearView-Pane.html"><abbr title="\ClearView\Pane">Pane</abbr></a>|null    </span>
-</dt>
-<dd>Get/Set the current Pane handling this request.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method_debug">debug()</a>
@@ -243,13 +229,6 @@
 <dd>Fills the Mosaic with an array of values.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Pane.html#method_getVar">getVar()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-<dd>Gets a Mosaic variable.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method_handleCommand">handleCommand()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -262,28 +241,7 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Default HTML method. Renders Pane::body. Detects inlay changes
-by comparing against Shared::$prevInlay and fires inlaychange.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Pane.html#method_id">id()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Gets the id for this pane (used by Facet::me() fallback).</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Pane.html#method_init">init()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Initializes the ClearView framework from the request.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Pane.html#method_inlay">inlay()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Gets the inlay name for this pane.</dd>
+by comparing against $this[&#039;Shared::prevInlay&#039;] and fires inlaychange.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method_inTesting">inTesting()</a>
@@ -312,6 +270,13 @@ by comparing against Shared::$prevInlay and fires inlaychange.</dd>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Renders the launcher element (e.g., a button that opens the pane).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_loadMosaic">loadMosaic()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Moves loadMosaic into Pane as a non-static method.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method_offsetExists">offsetExists()</a>
@@ -350,7 +315,7 @@ contents, outputs the body template, and closes. Fires paneopen event.</dd>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Redirects to a URL.</dd>
+<dd>Redirects to a URL via HX-Location JSON payload.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method_reloadPage">reloadPage()</a>
@@ -366,6 +331,13 @@ contents, outputs the body template, and closes. Fires paneopen event.</dd>
 </dt>
 <dd>Sets the HX-Retarget header to redirect an HTMX response to a
 different target element than the one that triggered the request.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Pane.html#method_sendHtmxHeader">sendHtmxHeader()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Sends a special header in the server response.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Pane.html#method_triggerevent">triggerevent()</a>
@@ -394,9 +366,9 @@ different target element than the one that triggered the request.</dd>
             -public
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_command">
-        $command
-        <a href="classes/ClearView-Pane.html#property_command" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_mosaic">
+        $mosaic
+        <a href="classes/ClearView-Pane.html#property_mosaic" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
@@ -404,7 +376,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">16</span>
 
     </aside>
 
@@ -412,12 +384,12 @@ different target element than the one that triggered the request.</dd>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$command</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
+            <span class="phpdocumentor-signature__type"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$mosaic</span>
+    </code>
 
     
-        <section class="phpdocumentor-description"><p>Current command being executed.</p>
+        <section class="phpdocumentor-description"><p>The Mosaic instance for this pane.</p>
 </section>
 
     
@@ -448,7 +420,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">404</span>
+    <span class="phpdocumentor-element-found-in__line">324</span>
 
     </aside>
 
@@ -500,15 +472,15 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">80</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initializes the pane.</p>
+        <p class="phpdocumentor-summary">Initializes the ClearView framework from the request.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$panename</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlayname</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'Default'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$template</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -517,65 +489,37 @@ different target element than the one that triggered the request.</dd>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$panename</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                <span class="phpdocumentor-argument-list__argument__name">$template</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$inlayname</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">'Default'</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>The ProcessWire page template name.</p>
+</section>
+
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="method___construct_tags">
+        Tags
+        <a href="classes/ClearView-Pane.html#method___construct_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
+                                                                                        <section class="phpdocumentor-description"><p>on errors.</p>
+</section>
+
+                                    </dd>
+                        </dl>
 
         
     
     
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_body">
-        body()
-        <a href="classes/ClearView-Pane.html#method_body" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">91</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Returns the body Element, created from the ProcessWire body field.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">body</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Element.html"><abbr title="\ClearView\Element">Element</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Element.html"><abbr title="\ClearView\Element">Element</abbr></a></span>
-            </section>
-
 </article>
                     <article
         class="phpdocumentor-element
@@ -591,7 +535,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">253</span>
+    <span class="phpdocumentor-element-found-in__line">193</span>
 
     </aside>
 
@@ -628,55 +572,6 @@ different target element than the one that triggered the request.</dd>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_CurrentPane">
-        CurrentPane()
-        <a href="classes/ClearView-Pane.html#method_CurrentPane" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">36</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Get/Set the current Pane handling this request.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">CurrentPane</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type"><a href="classes/ClearView-Pane.html"><abbr title="\ClearView\Pane">Pane</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$newCreator</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Pane.html"><abbr title="\ClearView\Pane">Pane</abbr></a>|null</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$newCreator</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/ClearView-Pane.html"><abbr title="\ClearView\Pane">Pane</abbr></a>|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Pane.html"><abbr title="\ClearView\Pane">Pane</abbr></a>|null</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_debug">
@@ -687,7 +582,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">336</span>
+    <span class="phpdocumentor-element-found-in__line">261</span>
 
     </aside>
 
@@ -747,7 +642,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -796,7 +691,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">395</span>
+    <span class="phpdocumentor-element-found-in__line">315</span>
 
     </aside>
 
@@ -841,7 +736,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">106</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
@@ -878,51 +773,6 @@ different target element than the one that triggered the request.</dd>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getVar">
-        getVar()
-        <a href="classes/ClearView-Pane.html#method_getVar" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">114</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Gets a Mosaic variable.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getVar</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$expression</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$expression</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_handleCommand">
         handleCommand()
         <a href="classes/ClearView-Pane.html#method_handleCommand" class="headerlink"><i class="fas fa-link"></i></a>
@@ -931,7 +781,7 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">346</span>
+    <span class="phpdocumentor-element-found-in__line">270</span>
 
     </aside>
 
@@ -939,25 +789,13 @@ different target element than the one that triggered the request.</dd>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">handleCommand</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$command</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'_doesNotUnderstand'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">handleCommand</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$command</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">'_doesNotUnderstand'</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The command to execute.</p>
-</section>
-
-            </dd>
-            </dl>
-
+    
     
 
         
@@ -978,12 +816,12 @@ different target element than the one that triggered the request.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">263</span>
+    <span class="phpdocumentor-element-found-in__line">167</span>
 
     </aside>
 
         <p class="phpdocumentor-summary">Default HTML method. Renders Pane::body. Detects inlay changes
-by comparing against Shared::$prevInlay and fires inlaychange.</p>
+by comparing against $this[&#039;Shared::prevInlay&#039;] and fires inlaychange.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1016,151 +854,6 @@ by comparing against Shared::$prevInlay and fires inlaychange.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_id">
-        id()
-        <a href="classes/ClearView-Pane.html#method_id" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">130</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Gets the id for this pane (used by Facet::me() fallback).</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">id</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_init">
-        init()
-        <a href="classes/ClearView-Pane.html#method_init" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">170</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Initializes the ClearView framework from the request.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">init</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$template</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Called from _main.php. Creates the Mosaic, loads crystals,
-resolves panename/inlayname/command from URL, loads the Pane
-class from the module stack, and dispatches the command.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$template</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The ProcessWire page template name.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-    <h5 class="phpdocumentor-tag-list__heading" id="method_init_tags">
-        Tags
-        <a href="classes/ClearView-Pane.html#method_init_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>on errors.</p>
-</section>
-
-                                    </dd>
-                        </dl>
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_inlay">
-        inlay()
-        <a href="classes/ClearView-Pane.html#method_inlay" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">122</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Gets the inlay name for this pane.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">inlay</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_inTesting">
@@ -1171,7 +864,7 @@ class from the module stack, and dispatches the command.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
@@ -1210,7 +903,7 @@ class from the module stack, and dispatches the command.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -1249,7 +942,7 @@ class from the module stack, and dispatches the command.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -1288,7 +981,7 @@ class from the module stack, and dispatches the command.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">242</span>
+    <span class="phpdocumentor-element-found-in__line">182</span>
 
     </aside>
 
@@ -1301,11 +994,55 @@ class from the module stack, and dispatches the command.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Reads Pane::launcher field. Sets hx-target to #layerstack,
-hx-swap to beforeend, and method to open.</p>
+    
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_loadMosaic">
+        loadMosaic()
+        <a href="classes/ClearView-Pane.html#method_loadMosaic" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">148</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Moves loadMosaic into Pane as a non-static method.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">loadMosaic</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>The Pane owns its Mosaic; loadMosaic delegates accordingly.</p>
 </section>
 
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
     
 
         
@@ -1326,7 +1063,7 @@ hx-swap to beforeend, and method to open.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">147</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
@@ -1374,7 +1111,7 @@ hx-swap to beforeend, and method to open.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">137</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -1418,7 +1155,7 @@ hx-swap to beforeend, and method to open.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">142</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 
     </aside>
 
@@ -1469,7 +1206,7 @@ hx-swap to beforeend, and method to open.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">152</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 
     </aside>
 
@@ -1513,7 +1250,7 @@ hx-swap to beforeend, and method to open.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">227</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
@@ -1539,7 +1276,7 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_redirect">
         redirect()
@@ -1549,15 +1286,15 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">282</span>
+    <span class="phpdocumentor-element-found-in__line">202</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Redirects to a URL.</p>
+        <p class="phpdocumentor-summary">Redirects to a URL via HX-Location JSON payload.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">redirect</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">redirect</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1567,8 +1304,8 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$url</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The URL.</p>
 </section>
@@ -1586,7 +1323,7 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_reloadPage">
         reloadPage()
@@ -1596,7 +1333,7 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">291</span>
+    <span class="phpdocumentor-element-found-in__line">211</span>
 
     </aside>
 
@@ -1604,7 +1341,7 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">reloadPage</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">reloadPage</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1621,7 +1358,7 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
     <h4 class="phpdocumentor-element__name" id="method_retargetResult">
         retargetResult()
@@ -1631,7 +1368,7 @@ contents, outputs the body template, and closes. Fires paneopen event.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">327</span>
+    <span class="phpdocumentor-element-found-in__line">252</span>
 
     </aside>
 
@@ -1640,15 +1377,12 @@ different target element than the one that triggered the request.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">retargetResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">retargetResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Used by <attr view="..."> when a layout change requires the response
-to swap the outer <main> element instead of the inner <article>.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1656,9 +1390,16 @@ to swap the outer <main> element instead of the inner <article>.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>CSS selector for the new swap target.</p>
+                    <section class="phpdocumentor-description"><p>CSS selector for the new swap target w/#</p>
 </section>
 
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
             </dd>
             </dl>
 
@@ -1674,6 +1415,73 @@ to swap the outer <main> element instead of the inner <article>.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_sendHtmxHeader">
+        sendHtmxHeader()
+        <a href="classes/ClearView-Pane.html#method_sendHtmxHeader" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">233</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sends a special header in the server response.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">sendHtmxHeader</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$header</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$header</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The header to write</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$event</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Additional parameters</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_triggerevent">
         triggerevent()
         <a href="classes/ClearView-Pane.html#method_triggerevent" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1682,7 +1490,7 @@ to swap the outer <main> element instead of the inner <article>.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Pane.php"><a href="files/pane.html">Pane.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">301</span>
+    <span class="phpdocumentor-element-found-in__line">221</span>
 
     </aside>
 
@@ -1750,7 +1558,7 @@ to swap the outer <main> element instead of the inner <article>.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/ClearView-Pane.html#property_command">$command</a></li>
+                                                    <li class=""><a href="classes/ClearView-Pane.html#property_mosaic">$mosaic</a></li>
                                             </ul>
                 </li>
             
@@ -1759,23 +1567,18 @@ to swap the outer <main> element instead of the inner <article>.</p>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/ClearView-Pane.html#method___call">__call()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method___construct">__construct()</a></li>
-                                            <li class=""><a href="classes/ClearView-Pane.html#method_body">body()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_close">close()</a></li>
-                                            <li class=""><a href="classes/ClearView-Pane.html#method_CurrentPane">CurrentPane()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_debug">debug()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_defaultMethod">defaultMethod()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_doesNotUnderstand">doesNotUnderstand()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_fill">fill()</a></li>
-                                            <li class=""><a href="classes/ClearView-Pane.html#method_getVar">getVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_handleCommand">handleCommand()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_html">html()</a></li>
-                                            <li class=""><a href="classes/ClearView-Pane.html#method_id">id()</a></li>
-                                            <li class=""><a href="classes/ClearView-Pane.html#method_init">init()</a></li>
-                                            <li class=""><a href="classes/ClearView-Pane.html#method_inlay">inlay()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_inTesting">inTesting()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_is_htmx_boosted">is_htmx_boosted()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_is_htmx_request">is_htmx_request()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_launcher">launcher()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_loadMosaic">loadMosaic()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_offsetExists">offsetExists()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_offsetGet">offsetGet()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_offsetSet">offsetSet()</a></li>
@@ -1784,6 +1587,7 @@ to swap the outer <main> element instead of the inner <article>.</p>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_redirect">redirect()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_reloadPage">reloadPage()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_retargetResult">retargetResult()</a></li>
+                                            <li class=""><a href="classes/ClearView-Pane.html#method_sendHtmxHeader">sendHtmxHeader()</a></li>
                                             <li class=""><a href="classes/ClearView-Pane.html#method_triggerevent">triggerevent()</a></li>
                                     </ul>
             </li>

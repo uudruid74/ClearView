@@ -140,7 +140,7 @@ and sanitizing/validating values with chained sanitizers.</p>
 <p>Example:</p>
 <pre class="prettyprint"><code class="language-php">// Register a custom sanitizer method
 public function devolveSanitizer($value) { return strtoupper($value); }
-Mosaic::setVar(&quot;Sanitizer::devolve&quot;, $this); // register sanitizer
+Mosaic setVar(&quot;Sanitizer::devolve&quot;, $this); // register sanitizer
 // Use it like this ...
 $myhello = (new Sanitizer(&quot;devolve&quot;))-&gt;validate(&quot;hello&quot;); // returns &quot;HELLO&quot;
 </code></pre>

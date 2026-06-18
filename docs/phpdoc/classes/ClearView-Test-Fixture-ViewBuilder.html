@@ -126,14 +126,14 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
             <p class="phpdocumentor-summary">Builds a ClearView element tree at runtime for unit testing.</p>
 
 
-    <section class="phpdocumentor-description"><p>Resets ClearView/Mosaic/Facet singletons in new()/reset() so tests do not leak state.
+    <section class="phpdocumentor-description"><p>Resets ClearView/Pane/Facet state in new()/reset() so tests do not leak.
 Registers shards in Mosaic and can render individual elements or the full tree.</p>
 </section>
 
@@ -202,7 +202,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <span>
                                 &nbsp;: self    </span>
 </dt>
-<dd>Reset ClearView, Mosaic, and Facet singletons so tests do not leak.</dd>
+<dd>Reset ClearView, Pane, Mosaic, and Facet state so tests do not leak.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Test-Fixture-ViewBuilder.html#method_withChild">withChild()</a>
@@ -230,7 +230,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <span>
                                 &nbsp;: self    </span>
 </dt>
-<dd>Set a Mosaic / Crystal variable (e.g. &quot;Pane::name&quot;, &quot;Page::url&quot;).</dd>
+<dd>Set a Mosaic / Crystal variable.</dd>
 
     </dl>
 
@@ -260,7 +260,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">218</span>
+    <span class="phpdocumentor-element-found-in__line">190</span>
 
     </aside>
 
@@ -281,29 +281,11 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Element ID</p>
-</section>
-
+                
             </dd>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_getElement_tags">
-        Tags
-        <a href="classes/ClearView-Test-Fixture-ViewBuilder.html#method_getElement_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Test-Fixture-TestFixtureException.html"><abbr title="\ClearView\Test\Fixture\TestFixtureException">TestFixtureException</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>if element not found</p>
-</section>
-
-                                    </dd>
-                        </dl>
 
         
     
@@ -327,7 +309,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -387,7 +369,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">236</span>
+    <span class="phpdocumentor-element-found-in__line">202</span>
 
     </aside>
 
@@ -400,9 +382,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Captures output via Facet::record() / Shard::getHtml().</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -410,39 +390,17 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
                 : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Shard ID to render, or null for all registered shards</p>
-</section>
-
+                
             </dd>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_render_tags">
-        Tags
-        <a href="classes/ClearView-Test-Fixture-ViewBuilder.html#method_render_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Test-Fixture-TestFixtureException.html"><abbr title="\ClearView\Test\Fixture\TestFixtureException">TestFixtureException</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>if named shard not found</p>
-</section>
-
-                                    </dd>
-                        </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>Rendered HTML</p>
-</section>
-
             </section>
 
 </article>
@@ -460,11 +418,11 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Reset ClearView, Mosaic, and Facet singletons so tests do not leak.</p>
+        <p class="phpdocumentor-summary">Reset ClearView, Pane, Mosaic, and Facet state so tests do not leak.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -473,9 +431,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Uses reflection to access private static properties.</p>
-</section>
-
+    
     
     
 
@@ -501,7 +457,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">174</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 
     </aside>
 
@@ -514,10 +470,7 @@ Registers shards in Mosaic and can render individual elements or the full tree.<
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Stores a Reference array in the parent's <code class="prettyprint">children</code> so that
-renderChildren() can resolve the child via Mosaic.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -525,38 +478,18 @@ renderChildren() can resolve the child via Mosaic.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Parent shard ID</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$childId</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Child shard ID</p>
-</section>
-
+                
             </dd>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_withChild_tags">
-        Tags
-        <a href="classes/ClearView-Test-Fixture-ViewBuilder.html#method_withChild_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Test-Fixture-TestFixtureException.html"><abbr title="\ClearView\Test\Fixture\TestFixtureException">TestFixtureException</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>if parent or child not found</p>
-</section>
-
-                                    </dd>
-                        </dl>
 
         
     
@@ -580,7 +513,7 @@ renderChildren() can resolve the child via Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">142</span>
+    <span class="phpdocumentor-element-found-in__line">129</span>
 
     </aside>
 
@@ -601,56 +534,32 @@ renderChildren() can resolve the child via Mosaic.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Element ID</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$tag</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>HTML tag / glyph name (e.g. 'button', 'input')</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$attrs</span>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Element fields (value, class, hx-post, etc.)</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Inlay override (default: builder's inlay)</p>
-</section>
-
+                
             </dd>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_withElement_tags">
-        Tags
-        <a href="classes/ClearView-Test-Fixture-ViewBuilder.html#method_withElement_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Test-Fixture-TestFixtureException.html"><abbr title="\ClearView\Test\Fixture\TestFixtureException">TestFixtureException</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>on duplicate ID</p>
-</section>
-
-                                    </dd>
-                        </dl>
 
         
     
@@ -674,7 +583,7 @@ renderChildren() can resolve the child via Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">112</span>
+    <span class="phpdocumentor-element-found-in__line">105</span>
 
     </aside>
 
@@ -695,47 +604,25 @@ renderChildren() can resolve the child via Mosaic.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Shard ID</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$data</span>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Data passed to Shard::loadShard()</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Inlay override (default: builder's inlay)</p>
-</section>
-
+                
             </dd>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_withShard_tags">
-        Tags
-        <a href="classes/ClearView-Test-Fixture-ViewBuilder.html#method_withShard_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Test-Fixture-TestFixtureException.html"><abbr title="\ClearView\Test\Fixture\TestFixtureException">TestFixtureException</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>on duplicate ID</p>
-</section>
-
-                                    </dd>
-                        </dl>
 
         
     
@@ -759,11 +646,11 @@ renderChildren() can resolve the child via Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Test/Fixture/ViewBuilder.php"><a href="files/test-fixture-viewbuilder.html"><abbr title="Test/Fixture/ViewBuilder.php">ViewBuilder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">205</span>
+    <span class="phpdocumentor-element-found-in__line">181</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Set a Mosaic / Crystal variable (e.g. &quot;Pane::name&quot;, &quot;Page::url&quot;).</p>
+        <p class="phpdocumentor-summary">Set a Mosaic / Crystal variable.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -780,18 +667,14 @@ renderChildren() can resolve the child via Mosaic.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Variable expression (e.g. &quot;Foo::bar&quot; or &quot;myVar&quot;)</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$value</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Value to set</p>
-</section>
-
+                
             </dd>
             </dl>
 
