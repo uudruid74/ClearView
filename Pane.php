@@ -148,12 +148,22 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Default HTML method. Renders Pane::body. Detects inlay changes
-     * by comparing against $this['Shared::prevInlay'] and fires inlaychange.
+     * Default HTML method. Serves as both html() and open() by testing
+     * ClearView::method. When 'open', renders full-page container with
+     * paneopen event. Otherwise renders Pane::body with inlay-change detection.
      * @param string|null $template Optional template to render instead of Pane::body.
      */
     public function html(?string $template = null): void
     {
+        if (ClearView::method() === 'open') {
+            (new Facet($this['Pane::body']))
+                ->open("{{Pane::open}}")
+                ->render()
+                ->close();
+            $this->triggerevent('paneopen');
+            return;
+        }
+
         $currentInlay = $this['ClearView::inlayname'];
         if ($this['Shared::prevInlay'] !== null && $this['Shared::prevInlay'] !== $currentInlay) {
             $this->triggerevent('inlaychange', ['inlay' => $currentInlay]);
