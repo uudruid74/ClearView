@@ -107,21 +107,12 @@ class ClearView extends Crystal
      * Set the current Mosaic object.
      * @return Mosaic|null
      */
-    public static function setMosaic($value = null): ?Mosaic
+    public static function Mosaic($value = null): ?Mosaic
     {
         if ($value !== null) {
             self::$instance->data['Mosaic'] = $value;
         }
         return $value;
-    }
-
-    /**
-     * Get the current Mosaic object.
-     * @return Mosaic|null
-     */
-    public static function Mosaic(): ?Mosaic
-    {
-        return self::$instance->data['Mosaic'] ?? null;
     }
 
     // ── Output helpers ────────────────────────────────────────

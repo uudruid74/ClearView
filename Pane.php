@@ -125,7 +125,7 @@ class Pane implements \ArrayAccess
          * Consider the following variables to be off-limits to new code
          * They are provided for emergency use as transition, especially the bottom few!
          */
-        ClearView::setMosaic($mosaic);
+        ClearView::Mosaic($mosaic);
         ClearView::panename($panename);
         ClearView::inlayname($inlayname);
         ClearView::method($command);
