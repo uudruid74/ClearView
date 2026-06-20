@@ -665,7 +665,7 @@ class Facet
     public function snapshot(string $name): self
     {
         ob_start();
-        Mosaic::instance()->outputMosaic();
+        Mosaic::outputMosaic();
         $html = ob_get_clean();
         $path = __DIR__ . "/views/{$name}.php";
         $dir = dirname($path);

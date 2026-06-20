@@ -178,7 +178,9 @@ class Mosaic
         $i = self::$instance;
         Exception::debug('VAR',"Slurping input data: " . Facet::_($input));
         Exception::debug('VAR','    ****    Slurping Up STORED Variables    ****');
-        $currentInlay = self::getVar('Input::inlayname') ?? Facet::inlay() ?? 'ClearView';
+        $currentInlay = self::getVar('Input::inlayname')
+            ?? (Facet::me() ? Facet::inlay() : null)
+            ?? 'ClearView';
 
         if (!is_null($input)) {
             foreach ($input as $key => $value) {
