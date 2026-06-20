@@ -9,36 +9,158 @@ use ClearView\QueryParser;
 use ProcessWire;
 
 /**
- * Request-scoped store for Shards, owned by the current Pane.
+ * Request-scoped store for Shards — fully static singleton.
  *
  * Shards are indexed by inlay-id, deflated into hidden inputs on the client,
- * and re-inflated on every request. The Mosaic instance represents the current
- * request's single client Mosaic — not a global aggregate of all panes.
+ * and re-inflated on every request. The Mosaic is the first thing created
+ * during bootstrap, fully initialized before any Pane acts.
  *
- * Each Pane owns its Mosaic via `$this->mosaic = new Mosaic()`.
- * Access the current instance via `ClearView::Mosaic()`.
+ * All methods are static and call through Mosaic::$instance.
+ * The instance is set by Mosaic::load() or the constructor.
  *
  * @see \ClearView\Shard
  * @see \ClearView\Facet
  * @see \ClearView\Crystal
  * @see \ClearView\Pane
  */
-class Mosaic implements \ArrayAccess
+class Mosaic
 {
+    /** @var Mosaic|null The current request/test-scope Mosaic instance */
+    private static ?Mosaic $instance = null;
+
     /** @var array Main storage array for mosaic data, indexed by shard addresses (inlay-id) */
-    private $mosaic = [];
+    private array $mosaic = [];
 
     /** @var array List of shard addresses that have changed or been added for update tracking */
-    private $checkList = [];
+    private array $checkList = [];
 
     /** @var bool Flag to prevent change tracking until after loading the Mosaic */
-    private $trackChanges = false;
+    private bool $trackChanges = false;
+
+    /** @var Facet|null Current request-scope Facet singleton */
+    private ?Facet $facetsingleton = null;
 
     /**
-     * Public constructor — each Pane creates its own Mosaic instance.
+     * Returns the current Mosaic instance.
+     * @return Mosaic|null
+     */
+    public static function instance(): ?Mosaic
+    {
+        return self::$instance;
+    }
+
+    /**
+     * Static factory — creates and fully initializes a Mosaic.
+     *
+     * This is the single entry point for Mosaic creation. It handles crystal
+     * loading, input data inflation, CLI data injection, and snapshot
+     * restoration in the correct order. Once complete, Mosaic::instance()
+     * returns the fully-initialized Mosaic.
+     *
+     * @param array $options {
+     *     loadCrystals: true|false     — load all Crystal subclasses (default: true)
+     *     overridePath: "null"|string  — load crystals from crystals/<path>/ subdir
+     *     loadInputData: true          — inflate shards from GET/POST data
+     *     loadCliData: array           — key-value pairs to inject directly
+     *     loadSnapShot: "name"         — restore from views/<name>.php snapshot
+     * }
+     * @return Mosaic The fully initialized instance (also Mosaic::instance())
+     * @throws Exception on invalid option combinations
+     */
+    public static function load(array $options = []): Mosaic
+    {
+        $loadCrystals  = $options['loadCrystals'] ?? true;
+        $overridePath  = $options['overridePath'] ?? null;
+        $loadInputData = $options['loadInputData'] ?? false;
+        $loadCliData   = $options['loadCliData'] ?? [];
+        $loadSnapShot  = $options['loadSnapShot'] ?? null;
+
+        // ── Validation ──────────────────────────────────────────
+        if ($loadInputData && !$loadCrystals) {
+            throw new Exception("loadInputData requires loadCrystals");
+        }
+        if ($loadSnapShot && !$loadCrystals) {
+            throw new Exception("loadSnapShot requires loadCrystals");
+        }
+
+        // ── Create and register ─────────────────────────────────
+        $mosaic = new Mosaic();
+        self::$instance = $mosaic;
+
+        // ── Load crystals ───────────────────────────────────────
+        if ($loadCrystals) {
+            Crystal::loadAll($mosaic, overridePath: $overridePath);
+        }
+
+        // ── Create Facet singleton ──────────────────────────────
+        $mosaic->facetsingleton = new Facet();
+
+        // ── Load input data ─────────────────────────────────────
+        if ($loadInputData) {
+            $input = self::getVar('Input::all');
+            self::loadMosaic($input);
+        }
+
+        // ── Inject CLI data ─────────────────────────────────────
+        foreach ($loadCliData as $key => $value) {
+            self::setVar($key, $value);
+        }
+
+        // ── Restore snapshot ────────────────────────────────────
+        if ($loadSnapShot) {
+            self::loadSnapshot($loadSnapShot);
+        }
+
+        return $mosaic;
+    }
+
+    /**
+     * Loads a snapshot view file and inflates its hidden inputs into the Mosaic.
+     *
+     * @param string $name Snapshot name (corresponds to views/<name>.php)
+     * @return void
+     */
+    private static function loadSnapshot(string $name): void
+    {
+        $path = __DIR__ . "/views/{$name}.php";
+        if (!file_exists($path)) {
+            throw new Exception("Snapshot not found: {$path}");
+        }
+        // Include the view file — it outputs hidden <input> tags
+        ob_start();
+        include $path;
+        $html = ob_get_clean();
+
+        // Parse hidden inputs into key-value pairs
+        $data = [];
+        if (preg_match_all('/<input[^>]+name="([^"]+)"[^>]+value="([^"]*)"/', $html, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $m) {
+                $data[$m[1]] = $m[2];
+            }
+        }
+        self::loadMosaic($data);
+    }
+
+    /**
+     * Returns the current request-scope Facet singleton.
+     * Created during Mosaic::load().
+     * @return Facet|null
+     */
+    public static function facet(): ?Facet
+    {
+        return self::$instance?->facetsingleton;
+    }
+
+    /**
+     * Public constructor — use Mosaic::load() instead.
+     *
+     * Sets self::$instance so that legacy code creating `new Mosaic()`
+     * still wires the singleton. Crystal::loadAll() returns the instance
+     * which Pane stores for backward compatibility.
      */
     public function __construct()
     {
+        self::$instance = $this;
     }
 
     /**
@@ -51,11 +173,12 @@ class Mosaic implements \ArrayAccess
      * @param $input Input data to process, typically from ProcessWire's input.
      * @return void
      */
-    public function loadMosaic($input): void
+    public static function loadMosaic($input): void
     {
+        $i = self::$instance;
         Exception::debug('VAR',"Slurping input data: " . Facet::_($input));
         Exception::debug('VAR','    ****    Slurping Up STORED Variables    ****');
-        $currentInlay = $this->getVar('Input::inlayname') ?? Facet::inlay() ?? 'ClearView';
+        $currentInlay = self::getVar('Input::inlayname') ?? Facet::inlay() ?? 'ClearView';
 
         if (!is_null($input)) {
             foreach ($input as $key => $value) {
@@ -69,11 +192,11 @@ class Mosaic implements \ArrayAccess
                     if ($inlay === $currentInlay) {
                         $shard = Shard::loadShard($value, id: $id, inlay: $inlay);
                     } else {
-                        $this->addShard($value, id: $id, inlay: $inlay);
+                        self::addShard($value, id: $id, inlay: $inlay);
                     }
                 }
             }
-            $inlay = $this->getVar("Shared::lastInlay");
+            $inlay = self::getVar("Shared::lastInlay");
             Exception::debug('VAR',"LastInlay was $inlay");
 
             if ($inlay !== null) {
@@ -85,15 +208,15 @@ class Mosaic implements \ArrayAccess
                     if (is_string($value) && strlen($value) > 0) {
                         Exception::debug('VAR',"Adding [$inlay][$key] = [$value]");
                         $shard = Shard::loadShard($value, id: $key, inlay: $inlay);
-                        $this->checkShard($shard);
+                        self::checkShard($shard);
                     } elseif ($value !== null) {
                         Exception::debug('VAR',"Skipped non-string value for key={$key}: " . Facet::_($value));
                     }
                 }
             }
         }
-        $this->trackChanges = true; // Start tracking changes
-        $this->setVar("Shared::lastInlay", $currentInlay);
+        $i->trackChanges = true; // Start tracking changes
+        self::setVar("Shared::lastInlay", $currentInlay);
 
         // ── Shared::attributes extraction ────────────────────────────
         // hx-vals from <pane> arrive as regular POST params. Keys without
@@ -116,7 +239,7 @@ class Mosaic implements \ArrayAccess
             }
         }
         if (!empty($attrs)) {
-            $this->setVar("Shared::attributes", $attrs);
+            self::setVar("Shared::attributes", $attrs);
             Exception::debug('VAR', "Shared::attributes set: " . json_encode($attrs));
         }
         if ($sharedVars !== null) {
@@ -126,7 +249,7 @@ class Mosaic implements \ArrayAccess
             foreach ($varNames as $varName) {
                 $varName = trim($varName);
                 if (isset($attrs[$varName])) {
-                    $this->setVar("Shared::$varName", $attrs[$varName]);
+                    self::setVar("Shared::$varName", $attrs[$varName]);
                     Exception::debug('VAR', "Shared::$varName = {$attrs[$varName]}");
                 }
             }
@@ -139,7 +262,7 @@ class Mosaic implements \ArrayAccess
      * @param object $classobj
      * @return string
      */
-    public function classname(object $classobj): string
+    public static function classname(object $classobj): string
     {
         return (new \ReflectionClass($classobj))->getShortName();
     }
@@ -150,7 +273,7 @@ class Mosaic implements \ArrayAccess
      * @param Shard|array $input Shard object or array with 'id' and 'inlay' keys.
      * @return string The unique address in the format "inlay-id".
      */
-    public function makeAddress($input): string
+    public static function makeAddress($input): string
     {
         if ($input instanceof Shard) {
             $id = $input->id();
@@ -170,9 +293,9 @@ class Mosaic implements \ArrayAccess
      * @param object $shard The Shard to check (must have an address property).
      * @return bool
      */
-    public function isShardStored($shard): bool
+    public static function isShardStored($shard): bool
     {
-        return array_key_exists($shard->address, $this->checkList);
+        return array_key_exists($shard->address, self::$instance->checkList);
     }
 
     /**
@@ -182,13 +305,13 @@ class Mosaic implements \ArrayAccess
      * @param string $id The Shard ID.
      * @return Shard|null
      */
-    public function index(string $inlay, string $id): ?Shard
+    public static function index(string $inlay, string $id): ?Shard
     {
-        $address = $this->makeAddress(['id' => $id, 'inlay' => $inlay]);
-        $shard = $this->mosaic[$address] ?? null;
+        $address = self::makeAddress(['id' => $id, 'inlay' => $inlay]);
+        $shard = self::$instance->mosaic[$address] ?? null;
         if ($shard && is_string($shard)) {
             $shard = Shard::loadShard($shard, id: $id, inlay: $inlay);
-            $this->mosaic[$address] = $shard;
+            self::$instance->mosaic[$address] = $shard;
         }
         return $shard;
     }
@@ -200,10 +323,10 @@ class Mosaic implements \ArrayAccess
      * @param string $id The Shard ID.
      * @return bool
      */
-    public function exists(string $inlay, string $id): bool
+    public static function exists(string $inlay, string $id): bool
     {
-        $address = $this->makeAddress(['id' => $id, 'inlay' => $inlay]);
-        return array_key_exists($address, $this->mosaic);
+        $address = self::makeAddress(['id' => $id, 'inlay' => $inlay]);
+        return array_key_exists($address, self::$instance->mosaic);
     }
 
     /**
@@ -213,7 +336,7 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay The inlay name to search in (optional).
      * @return mixed
      */
-    public function getVar(string $expression, ?string $inlay = null)
+    public static function getVar(string $expression, ?string $inlay = null)
     {
         return QueryParser::parseAndResolve($expression, inlay:$inlay);
     }
@@ -226,7 +349,7 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay The inlay name to store in.
      * @return mixed
      */
-    public function setVar(string $varname, $val, ?string $inlay = null)
+    public static function setVar(string $varname, $val, ?string $inlay = null)
     {
         if ($varname === null || strlen($varname) === 0) {
             return;
@@ -235,7 +358,7 @@ class Mosaic implements \ArrayAccess
 
         if (strpos($varname, "::") !== false) {
             list($inlay, $varname) = explode("::", $varname, 2);
-            $crystal = $this->getVar("ClearView::{$inlay}");
+            $crystal = self::getVar("ClearView::{$inlay}");
             if (!is_null($crystal) && $crystal instanceof Crystal) {
                 return $crystal->setVar($varname, $val);
             }
@@ -246,10 +369,10 @@ class Mosaic implements \ArrayAccess
             list($varname, $field) = explode(".", $varname, 2);
         }
 
-        $shard = $this->index($inlay, $varname);
+        $shard = self::index($inlay, $varname);
         if ($shard) {
             $shard->$field = $val;
-            $this->checkShard($shard);
+            self::checkShard($shard);
         } else {
             if ($varname == 'value') {
                 $data = ['text' => $val, '__pF' => 'text'];
@@ -268,35 +391,13 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay Inlay context.
      * @return void
      */
-    public function fill(array $values, ?string $inlay = null): void
+    public static function fill(array $values, ?string $inlay = null): void
     {
         foreach ($values as $varname => $val) {
             if ($val !== null) {
-                $this->setVar($varname, (string)$val, $inlay);
+                self::setVar($varname, (string)$val, $inlay);
             }
         }
-    }
-
-    // ─── ArrayAccess implementation ───────────────────────────────────────
-
-    public function offsetGet($key): mixed
-    {
-        return $this->getVar((string)$key);
-    }
-
-    public function offsetSet($key, $value): void
-    {
-        $this->setVar((string)$key, $value);
-    }
-
-    public function offsetExists($key): bool
-    {
-        return $this->getVar((string)$key) !== null;
-    }
-
-    public function offsetUnset($key): void
-    {
-        $this->delVar((string)$key);
     }
 
     /**
@@ -307,12 +408,12 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay The inlay name.
      * @return void
      */
-    public function initVar(string $var, string $value, ?string $inlay = null): void
+    public static function initVar(string $var, string $value, ?string $inlay = null): void
     {
         $inlay = $inlay ?? Facet::inlay();
 
-        if (!$this->exists($inlay, $var)) {
-            $this->setVar($var, $value, $inlay);
+        if (!self::exists($inlay, $var)) {
+            self::setVar($var, $value, $inlay);
         }
     }
 
@@ -323,7 +424,7 @@ class Mosaic implements \ArrayAccess
      * @param array $defaults Key-value pairs to set if the key is not already present.
      * @return void
      */
-    public function initArray(array &$dest, array $defaults): void
+    public static function initArray(array &$dest, array $defaults): void
     {
         foreach ($defaults as $key => $value) {
             if (!array_key_exists($key, $dest)) {
@@ -347,11 +448,11 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay The inlay name.
      * @return void
      */
-    public function initVars(array $array, ?string $inlay = null): void
+    public static function initVars(array $array, ?string $inlay = null): void
     {
         foreach ($array as $varname => $value) {
             if ($value !== null) {
-                $this->initVar($varname, (string)$value, $inlay);
+                self::initVar($varname, (string)$value, $inlay);
             }
         }
     }
@@ -363,14 +464,14 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay The inlay name.
      * @return void
      */
-    public function delVars($varname, ?string $inlay = null): void
+    public static function delVars($varname, ?string $inlay = null): void
     {
         if (is_array($varname)) {
             foreach ($varname as $var) {
-                $this->delVar($var, $inlay);
+                self::delVar($var, $inlay);
             }
         } else {
-            $this->delVar($varname, $inlay);
+            self::delVar($varname, $inlay);
         }
     }
 
@@ -381,17 +482,17 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay The inlay name.
      * @return void
      */
-    public function delVar(string $varname, ?string $inlay = null): void
+    public static function delVar(string $varname, ?string $inlay = null): void
     {
         if (strpos($varname, '::') !== false) {
             [$inlay, $varname] = explode('::', $varname, 2);
-            if ($this->exists('ClearView', $inlay)) {
-                $this->getVar("ClearView::$inlay")->delVar($varname);
+            if (self::exists('ClearView', $inlay)) {
+                self::getVar("ClearView::$inlay")->delVar($varname);
                 return;
             }
         }
-        $address = $this->makeAddress(['id' => $varname, 'inlay' => $inlay ?? Facet::inlay()]);
-        $shard = $this->mosaic[$address] ?? null;
+        $address = self::makeAddress(['id' => $varname, 'inlay' => $inlay ?? Facet::inlay()]);
+        $shard = self::$instance->mosaic[$address] ?? null;
         if ($shard) {
             $shard->delVar();
         }
@@ -403,13 +504,13 @@ class Mosaic implements \ArrayAccess
      * @param mixed|null $obj The object to dump.
      * @return void
      */
-    public function dumpEverything($obj = null): void
+    public static function dumpEverything($obj = null): void
     {
         if ($obj instanceof Facet) {
             $obj = null;
         }
         Exception::outputComment("dumpEverything called");
-        $encoded = json_encode($obj ?? $this->mosaic, JSON_PRETTY_PRINT);
+        $encoded = json_encode($obj ?? self::$instance->mosaic, JSON_PRETTY_PRINT);
         $id = is_object($obj) ? $obj->id() : 'MOSAIC';
         $lines = explode("\n", $encoded);
         Exception::outputComment("\n$id: " . implode("\n", $lines) . "\n");
@@ -420,14 +521,15 @@ class Mosaic implements \ArrayAccess
      *
      * @return void
      */
-    public function outputMosaic(): void
+    public static function outputMosaic(): void
     {
+        $i = self::$instance;
         Exception::debug('VAR', 'Starting outputMosaic');
         $facet = (new Facet())
             ->open("<div id=\"{{Pane::name}}" . Config::LAYER_SUFFIX_MOSAIC . "\" class=\"{{Config::class_mosaic}}\" hx-preserve=\"true\">");
-        foreach (array_keys($this->checkList) as $address) {
+        foreach (array_keys($i->checkList) as $address) {
             if (!str_starts_with($address,'ClearView') && !str_starts_with($address,'__')) {
-                $this->storeShard($this->mosaic[$address], $facet);
+                self::storeShard($i->mosaic[$address], $facet);
             } else {
                 Exception::debug('VAR',"Skipping $address");
             }
@@ -440,19 +542,20 @@ class Mosaic implements \ArrayAccess
      *
      * @return void
      */
-    public function updateMosaic(): void
+    public static function updateMosaic(): void
     {
+        $i = self::$instance;
         Exception::debug('VAR', 'Starting updateMosaic');
-        foreach ($this->checkList as $address) {
-            $shard = $this->mosaic[$address] ?? null;
+        foreach ($i->checkList as $address) {
+            $shard = $i->mosaic[$address] ?? null;
             if ($shard) {
-                $oldValue = $this->getVar("Input::$address");
+                $oldValue = self::getVar("Input::$address");
                 if ($oldValue === null) {
-                    $this->insertShard($shard);
+                    self::insertShard($shard);
                 } else {
                     $newValue = $shard->hasChanged($oldValue);
                     if ($newValue !== null) {
-                        $this->updateShard($shard, $newValue);
+                        self::updateShard($shard, $newValue);
                     }
                 }
             }
@@ -466,7 +569,7 @@ class Mosaic implements \ArrayAccess
      * @param Facet $facet
      * @return void
      */
-    public function storeShard(Shard $shard, Facet $facet): void
+    public static function storeShard(Shard $shard, Facet $facet): void
     {
         $address = $shard->address;
         $facet->using($shard)->out("<input type='hidden' name='{$address}' value='{{Glyph::deflate()}}'>");
@@ -478,7 +581,7 @@ class Mosaic implements \ArrayAccess
      * @param Shard $shard The Shard to insert.
      * @return void
      */
-    public function insertShard(Shard $shard): void
+    public static function insertShard(Shard $shard): void
     {
         $address = $shard->address;
         (new Facet($shard))
@@ -495,7 +598,7 @@ class Mosaic implements \ArrayAccess
      * @param string|null $newValue The new deflated value.
      * @return void
      */
-    public function updateShard(Shard $shard, ?string $newValue = null): void
+    public static function updateShard(Shard $shard, ?string $newValue = null): void
     {
         $newValue = $newValue ?? $shard->deflate();
         $address = $shard->address;
@@ -511,7 +614,7 @@ class Mosaic implements \ArrayAccess
      * @param Shard $shard The Shard to remove.
      * @return void
      */
-    public function removeShard(Shard $shard): void
+    public static function removeShard(Shard $shard): void
     {
         $address = $shard->address;
         (new Facet($shard))
@@ -528,15 +631,16 @@ class Mosaic implements \ArrayAccess
      * @param string|null $inlay The inlay name.
      * @return void
      */
-    public function addShard($json, ?string $id = null, ?string $inlay = null): void
+    public static function addShard($json, ?string $id = null, ?string $inlay = null): void
     {
+        $i = self::$instance;
         if (empty($json->address)) {
             $inlay = $inlay ?? Facet::inlay();
             $id = $id ?? uniqid('__array_');
-            $json->address = $this->makeAddress(['id'=>$id, 'inlay'=>$inlay]);
+            $json->address = self::makeAddress(['id'=>$id, 'inlay'=>$inlay]);
         }
         Exception::debug("SHARD","Adding shard at " . $json->address);
-        $this->mosaic[$json->address] = $json;
+        $i->mosaic[$json->address] = $json;
     }
 
     /**
@@ -545,11 +649,12 @@ class Mosaic implements \ArrayAccess
      * @param object $shard The Shard to delete.
      * @return void
      */
-    public function delShard($shard): void
+    public static function delShard($shard): void
     {
-        $this->removeShard($shard);
-        unset($this->mosaic[$shard->address]);
-        unset($this->checkList[$shard->address]);
+        $i = self::$instance;
+        self::removeShard($shard);
+        unset($i->mosaic[$shard->address]);
+        unset($i->checkList[$shard->address]);
     }
 
     /**
@@ -558,10 +663,11 @@ class Mosaic implements \ArrayAccess
      * @param object $shard The Shard to check.
      * @return void
      */
-    public function checkShard($shard): void
+    public static function checkShard($shard): void
     {
-        if ($this->trackChanges) {
-            $this->checkList[$shard->address] = true;
+        $i = self::$instance;
+        if ($i->trackChanges) {
+            $i->checkList[$shard->address] = true;
         }
     }
 
@@ -574,10 +680,11 @@ class Mosaic implements \ArrayAccess
      * @param string $op The comparison operator.
      * @return string|null The Shard ID if found, null otherwise.
      */
-    public function findShard(string $field, $value, ?string $inlay = null, string $op = '='): ?string
+    public static function findShard(string $field, $value, ?string $inlay = null, string $op = '='): ?string
     {
+        $i = self::$instance;
         $inlay = $inlay ?? Facet::inlay();
-        foreach ($this->mosaic as $address => $element) {
+        foreach ($i->mosaic as $address => $element) {
             [$elemInlay, $id] = explode('-', $address, 2);
             if ($elemInlay === $inlay) {
                 $val = $element->getField($field) ?? null;
@@ -598,11 +705,12 @@ class Mosaic implements \ArrayAccess
      * @param string $op The comparison operator.
      * @return array An array of matching Shards, indexed by ID.
      */
-    public function findShards(string $field, $value, ?string $inlay = null, string $op = '='): array
+    public static function findShards(string $field, $value, ?string $inlay = null, string $op = '='): array
     {
+        $i = self::$instance;
         $inlay = $inlay ?? Facet::inlay();
         $found = [];
-        foreach ($this->mosaic as $address => $element) {
+        foreach ($i->mosaic as $address => $element) {
             [$elemInlay, $id] = explode('-', $address, 2);
             if ($elemInlay === $inlay) {
                 $val = $element->getField($field) ?? null;

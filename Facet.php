@@ -108,7 +108,7 @@ class Facet
      */
     public function id()
     {
-        return self::me()->id() ?? ClearView::panename();
+        return self::me()->id() ?? Mosaic::getVar('Input::panename');
     }
 
     /**
@@ -120,7 +120,7 @@ class Facet
      */
     public static function inlay()
     {
-        return self::me()->inlay() ?? ClearView::inlayname();
+        return self::me()->inlay() ?? Mosaic::getVar('Input::inlayname');
     }
 
     /**
@@ -610,6 +610,70 @@ class Facet
     public static function isContained()
     {
         return self::$containedCount > 0;
+    }
+
+    // ── Mosaic lifecycle management ─────────────────────────
+
+    /**
+     * Swaps the current Mosaic for a new one, pushing the old onto the
+     * Facet tag stack for automatic restoration on close().
+     *
+     * @param array $options Mosaic::load() options (loadCrystals, loadInputData, etc.)
+     * @return self For method chaining.
+     */
+    public function loadMosaic(array $options = []): self
+    {
+        $oldMosaic = Mosaic::instance();
+        self::$tagstack[] = $oldMosaic;
+        $this->onClose('->restoreMosaic');
+        Mosaic::load($options);
+        return $this;
+    }
+
+    /**
+     * Restores the previous Mosaic instance from the tag stack.
+     * Called automatically via onClose('->restoreMosaic').
+     *
+     * @return self For method chaining.
+     */
+    public function restoreMosaic(): self
+    {
+        // The old Mosaic was pushed before restoreMosaic marker;
+        // popto has already processed restoreMosaic, now the old
+        // Mosaic is the next item on the stack.
+        $oldMosaic = array_pop(self::$tagstack);
+        if ($oldMosaic instanceof Mosaic) {
+            // Set the static instance via reflection on private property
+            $ref = new \ReflectionClass(Mosaic::class);
+            $prop = $ref->getProperty('instance');
+            $prop->setAccessible(true);
+            $prop->setValue(null, $oldMosaic);
+        }
+        return $this;
+    }
+
+    /**
+     * Snapshots the current Mosaic state to a view file.
+     *
+     * Renders all Shards as hidden <input> tags and writes them to
+     * views/<name>.php. The resulting file is a valid ClearView view
+     * that can be loaded later via Mosaic::load(['loadSnapShot' => $name]).
+     *
+     * @param string $name Snapshot name (saved to views/<name>.php)
+     * @return self For method chaining.
+     */
+    public function snapshot(string $name): self
+    {
+        ob_start();
+        Mosaic::instance()->outputMosaic();
+        $html = ob_get_clean();
+        $path = __DIR__ . "/views/{$name}.php";
+        $dir = dirname($path);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        file_put_contents($path, $html);
+        return $this;
     }
 
     /**

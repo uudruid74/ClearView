@@ -47,8 +47,8 @@ class ViewBuilder
         self::initClearView($panename, $inlayname);
 
         // Seed minimal variables so templates resolve.
-        $mosaic->setVar('name', $panename, 'Pane');
-        $mosaic->setVar('url', '/' . $panename . '/', 'Page');
+        Mosaic::setVar('name', $panename, 'Pane');
+        Mosaic::setVar('url', '/' . $panename . '/', 'Page');
 
         return new self($panename, $inlayname, $mosaic);
     }

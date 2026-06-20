@@ -1,0 +1,20 @@
+<?php
+
+namespace ClearView;
+
+/**
+ * Null Find crystal — returns null for all values.
+ * Used when ProcessWire is unavailable (CLI testing, headless mode).
+ */
+class Find extends \ClearView\Find
+{
+    public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
+    {
+        $this->data = [];
+    }
+
+    public function getVar($key = null)
+    {
+        return null;
+    }
+}

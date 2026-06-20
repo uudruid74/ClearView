@@ -43,22 +43,22 @@ abstract class Crystal extends Page implements ArrayAccess
 
     public function offsetGet($key): mixed
     {
-        return $this->mosaic->getVar($key);
+        return Mosaic::getVar($key);
     }
 
     public function offsetSet($key, $value): void
     {
-        $this->mosaic->setVar($key, $value);
+        Mosaic::setVar($key, $value);
     }
 
     public function offsetExists($key): bool
     {
-        return $this->mosaic->getVar($key) !== null;
+        return Mosaic::getVar($key) !== null;
     }
 
     public function offsetUnset($key): void
     {
-        $this->mosaic->delVar($key);
+        Mosaic::delVar($key);
     }
 
     /**
@@ -68,13 +68,20 @@ abstract class Crystal extends Page implements ArrayAccess
      * and register them as Shards in Mosaic. Also instantiates the ClearView
      * crystal explicitly.
      *
+     * @param Mosaic $mosaic The Mosaic to register crystals in
+     * @param string|null $overridePath Load from crystals/<path>/ instead of crystals/
      * @return Mosaic The Mosaic instance (also assigned to Pane)
      */
-    public static function loadAll($mosaic): Mosaic
+    public static function loadAll($mosaic, ?string $overridePath = null): Mosaic
     {
-        // Load all Crystal subclass files from the Crystals/ directory
-        foreach (glob(__DIR__ . '/crystals/*.php') as $file) {
-            require_once $file;
+        $crystalDir = __DIR__ . '/crystals';
+        $loadDir = $overridePath ? "{$crystalDir}/{$overridePath}" : $crystalDir;
+
+        // Load all Crystal subclass files from the crystals directory
+        if (is_dir($loadDir)) {
+            foreach (glob("{$loadDir}/*.php") as $file) {
+                require_once $file;
+            }
         }
 
         // Short-name overrides: crystals whose class name differs from
@@ -88,10 +95,10 @@ abstract class Crystal extends Page implements ArrayAccess
             if (is_subclass_of($class, self::class) && (new ReflectionClass($class))->isInstantiable()) {
                 $shortName = $nameOverrides[$class]
                           ?? (($pos = strrpos($class, '\\')) !== false ? substr($class, $pos + 1) : $class);
-                new $class(null, $shortName, 'ClearView', $mos);
+                new $class(null, $shortName, 'ClearView', $mosaic);
             }
         }
-        new Page(\ProcessWire\page(), 'Page', 'ClearView', $mos);
+        new Page(\ProcessWire\page(), 'Page', 'ClearView', $mosaic);
         return $mosaic;
     }
 

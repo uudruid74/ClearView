@@ -48,9 +48,9 @@ class ViewBuilder
         $builder->reset();
 
         // Pane Crystal: set Pane::name for template resolution
-        $builder->mosaic->setVar("Pane::name", $panename);
+        Mosaic::setVar("Pane::name", $panename);
         // Page::url defaults to /<panename>/
-        $builder->mosaic->setVar("Page::url", "/{$panename}/");
+        Mosaic::setVar("Page::url", "/{$panename}/");
 
         return $builder;
     }
@@ -115,7 +115,7 @@ class ViewBuilder
         $data['inlay'] = $inlay;
 
         $shard = Shard::loadShard($data);
-        $this->mosaic->addShard($shard, id: $id, inlay: $inlay);
+        Mosaic::addShard($shard, id: $id, inlay: $inlay);
 
         $this->shardIds[]          = $id;
         $this->registered[$key]    = true;
@@ -140,7 +140,7 @@ class ViewBuilder
         $attrs['glyph'] = $tag;
 
         $shard = Shard::loadShard($attrs);
-        $this->mosaic->addShard($shard, id: $id, inlay: $inlay);
+        Mosaic::addShard($shard, id: $id, inlay: $inlay);
 
         $this->shardIds[]       = $id;
         $this->registered[$key] = true;
@@ -153,7 +153,7 @@ class ViewBuilder
      */
     public function withChild(string $parentId, string $childId): self
     {
-        $parent = $this->mosaic->index($this->inlayname, $parentId);
+        $parent = Mosaic::index($this->inlayname, $parentId);
         if (!$parent) {
             throw new TestFixtureException("Parent shard '{$parentId}' not found in inlay '{$this->inlayname}'");
         }
@@ -162,7 +162,7 @@ class ViewBuilder
             throw new TestFixtureException("Child shard '{$childId}' not found in inlay '{$this->inlayname}'");
         }
 
-        $childShard = $this->mosaic->index($this->inlayname, $childId);
+        $childShard = Mosaic::index($this->inlayname, $childId);
         $children   = $parent->getField('children') ?? [];
         $children[] = [
             'glyph'      => 'reference',
@@ -180,7 +180,7 @@ class ViewBuilder
      */
     public function withVar(string $expression, mixed $value): self
     {
-        $this->mosaic->setVar($expression, $value);
+        Mosaic::setVar($expression, $value);
         return $this;
     }
 
@@ -189,7 +189,7 @@ class ViewBuilder
      */
     public function getElement(string $id): \ClearView\Element
     {
-        $shard = $this->mosaic->index($this->inlayname, $id);
+        $shard = Mosaic::index($this->inlayname, $id);
         if (!$shard || !($shard instanceof \ClearView\Element)) {
             throw new TestFixtureException("Named element '{$id}' not found in inlay '{$this->inlayname}'");
         }
@@ -206,13 +206,13 @@ class ViewBuilder
             if (!isset($this->registered[$key])) {
                 throw new TestFixtureException("Named shard '{$id}' not found in inlay '{$this->inlayname}'");
             }
-            $shard = $this->mosaic->index($this->inlayname, $id);
+            $shard = Mosaic::index($this->inlayname, $id);
             return $shard->getHtml();
         }
 
         $output = '';
         foreach ($this->shardIds as $shardId) {
-            $shard = $this->mosaic->index($this->inlayname, $shardId);
+            $shard = Mosaic::index($this->inlayname, $shardId);
             if ($shard) {
                 $output .= $shard->getHtml();
             }

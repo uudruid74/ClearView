@@ -53,29 +53,29 @@ class Pane implements \ArrayAccess
      */
     public function fill(array $values): void
     {
-        $this->mosaic->fill($values);
+        Mosaic::fill($values);
     }
 
     // ── ArrayAccess ──────────────────────────────────────────────
 
     public function offsetGet($key): mixed
     {
-        return $this->mosaic->getVar($key);
+        return Mosaic::getVar($key);
     }
 
     public function offsetSet($key, $value): void
     {
-        $this->mosaic->setVar($key, $value);
+        Mosaic::setVar($key, $value);
     }
 
     public function offsetExists($key): bool
     {
-        return $this->mosaic->getVar($key) !== null;
+        return Mosaic::getVar($key) !== null;
     }
 
     public function offsetUnset($key): void
     {
-        $this->mosaic->delVar($key);
+        Mosaic::delVar($key);
     }
 
     // ── Lifecycle methods ────────────────────────────────────────
@@ -89,22 +89,20 @@ class Pane implements \ArrayAccess
      */
     public function __construct(string $template)
     {
-        $this->mosaic = Crystal::loadAll(new Mosaic());
+        // Load Mosaic via the static factory — crystals are initialized,
+        // Input crystal is ready with panename/inlayname/methodname.
+        $this->mosaic = Mosaic::load();
 
-        $panename = 'Default';
-        $inlayname = 'ClearView';
-        $command = '';
+        // Resolve URL parameters from the Input crystal
+        $panename  = $this['Input::panename'] ?? 'Default';
+        $inlayname = $this['Input::inlayname'] ?? 'ClearView';
+        $command   = $this['Input::methodname'] ?? '';
 
         if ($template == 'Default') {
             $panename = $template;
             $inlayname = 'Pane';
             $PaneClass = '\\ClearView\\Main';
         } else {
-            $segments = array_values(array_filter(explode('/', trim(Page::page()->url, '/')), 'strlen'));
-            $count = count($segments);
-            if ($count >= 1) $panename  = $segments[0];
-            if ($count >= 2) $inlayname  = $segments[1];
-            if ($count >= 3) $command    = $segments[2];
             if (empty($panename))  $panename = 'Default';
             if (empty($inlayname)) $inlayname = 'ClearView';
             $PaneClass = Inlay::load($panename, $inlayname);
@@ -120,21 +118,18 @@ class Pane implements \ArrayAccess
             throw new Exception("No panename");
         }
 
-        /**
-         * Consider the following variables to be off-limits to new code
-         * They are provided for emergency use as transition, especially the bottom few!
-         */
+        /** @deprecated — transition accessors, remove after G5 */
         ClearView::panename($panename);
         ClearView::inlayname($inlayname);
         ClearView::method($command);
         ClearView::paneobj($this);
-        
+
         // Load and resolve the body Element (after crystals are wired)
         $this['Pane::body'] = PaneCrystal::load($panename, $inlayname);
-        
-        // We probably want to kill the direct ProcessWire attachment some day
-        Exception::outheader($template, \ProcessWire\config()->debug ? Config::TRACEMODE : null);            
-        
+
+        // Debug header — tracemode comes from Config, not ProcessWire
+        Exception::outheader($template, Config::TRACEMODE);
+
         return new $PaneClass();
     }
 
@@ -155,7 +150,7 @@ class Pane implements \ArrayAccess
      */
     public function html(?string $template = null): void
     {
-        if (ClearView::method() === 'open') {
+        if ($this['Input::methodname'] === 'open') {
             (new Facet($this['Pane::body']))
                 ->open("{{Pane::open}}")
                 ->render()
@@ -164,7 +159,7 @@ class Pane implements \ArrayAccess
             return;
         }
 
-        $currentInlay = $this['ClearView::inlayname'];
+        $currentInlay = $this['Input::inlayname'];
         if ($this['Shared::prevInlay'] !== null && $this['Shared::prevInlay'] !== $currentInlay) {
             $this->triggerevent('inlaychange', ['inlay' => $currentInlay]);
         }
@@ -233,7 +228,7 @@ class Pane implements \ArrayAccess
         Exception::debug('EVENT', "Triggering {$event}");
         if (isset($params) && is_array($params)) {
             // Assumes $events values are already arrays
-            $events = array_map(fn($d) => array_merge($d, ['Pane' => $this['ClearView::panename']]), $params);
+            $events = array_map(fn($d) => array_merge($d, ['Pane' => $this['Input::panename']]), $params);
             header("HX-Trigger: " . json_encode($events));   
         } else {
             header("HX-Trigger: {$event}");
@@ -267,10 +262,10 @@ class Pane implements \ArrayAccess
      */
     public function handleCommand(): void
     {
-        $command = $this['ClearView::method'] ?: self::defaultMethod();
+        $command = $this['Input::methodname'] ?: self::defaultMethod();
 
         // Slurp up variables first
-        $this->loadMosaic($this['Input::all']);
+        Mosaic::loadMosaic($this['Input::all']);
 
         if (method_exists($this, $command)) {
             $reflectionMethod = new \ReflectionMethod($this, $command);
@@ -312,7 +307,7 @@ class Pane implements \ArrayAccess
      */
     public function doesNotUnderstand($name = null): void
     {
-        $name = $name ?? ClearView::method();
+        $name = $name ?? $this['Input::methodname'];
         throw new Exception("I don't know how to '$name', from {{Input::url}}");
     }
 

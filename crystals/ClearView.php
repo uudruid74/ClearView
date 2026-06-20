@@ -58,6 +58,7 @@ class ClearView extends Crystal
     /**
      * Get/set panename. Pass value to set; omit to read.
      * @return string
+     * @deprecated Use Input::panename via Mosaic instead
      */
     public static function panename($value = null): string
     {
