@@ -3,76 +3,112 @@
 namespace ClearView;
 
 /**
- * TestRig — a Pane subclass for automated testing.
+ * TestRig — headless Pane for CLI testing.
  *
- * Accepts CLI arguments or extended URL parameters. Uses null crystals
- * (no ProcessWire dependency) and can load/restore Mosaic snapshots
- * via the Facet tag stack.
+ * Runs without ProcessWire by loading null crystals. Accepts
+ * CLI arguments for configuration. Renders test views.
  *
- * Tests are ClearView view files. They're PHP includes — assertions
- * are just `if (!condition) throw`. Facet's automatic variable restore
- * means test state doesn't leak between test cases.
+ * Usage: php TestRig.php --panename=MyPane --inlayname=TestInlay --view=my_test
  *
- * Usage (CLI):
- *   php -r "Mosaic::load(['overridePath'=>'null','loadCliData'=>[...]]); (new TestRig('Test'))->run();"
- *
- * Usage (test view):
- *   $facet->loadMosaic(['loadSnapShot'=>'known-state'])
- *         ->render()
- *         ->close();
+ * @see \ClearView\Pane
+ * @see \ClearView\Mosaic
  */
 class TestRig extends Pane
 {
-    /** @var array CLI arguments or test parameters */
-    private array $params;
+    /** @var array CLI argument overrides */
+    private array $cliArgs = [];
 
-    public function __construct(string $template = 'Test', array $params = [])
+    /**
+     * Creates a headless test Pane.
+     *
+     * @param string $template Always 'CLI' — no ProcessWire template.
+     * @param array $cliArgs  Key-value pairs from CLI (e.g. ['panename' => 'TestPage'])
+     */
+    public function __construct(string $template = 'CLI', array $cliArgs = [])
     {
-        $this->params = $params;
+        $this->cliArgs = $cliArgs;
 
-        // Mosaic should already be loaded via Mosaic::load() with null crystals.
-        // The constructor sets up the Pane from the Input crystal.
-        if (!Mosaic::instance()) {
-            Mosaic::load([
-                'loadCrystals' => true,
-                'overridePath' => 'null',
-                'loadCliData'  => $params,
-            ]);
+        // Build Mosaic::load() options — use null crystals (no ProcessWire)
+        $options = [
+            'loadCrystals' => true,
+            'overridePath' => 'null',
+            'loadCliData'  => $this->cliArgs,
+        ];
+
+        // If a snapshot is specified, load it
+        if (isset($cliArgs['snapshot'])) {
+            $options['loadSnapShot'] = $cliArgs['snapshot'];
         }
 
-        parent::__construct($template);
+        Mosaic::load($options);
+
+        // Set routing state from CLI args or fall back to defaults
+        ClearView::panename($cliArgs['panename'] ?? 'TestRig');
+        ClearView::inlayname($cliArgs['inlayname'] ?? 'Default');
+        ClearView::method($cliArgs['methodname'] ?? 'open');
+        ClearView::paneobj($this);
+
+        $this->mosaic = Mosaic::instance();
     }
 
     /**
-     * Runs all tests by rendering the Pane::body view.
-     * Test cases are child elements in the view tree — they auto-render.
+     * Render a test view file.
+     *
+     * Test views are plain PHP files that use the Facet rendering
+     * pipeline directly. They live in views/ and are included inline.
+     *
+     * @param string $name View name (views/<name>.php)
      */
-    public function run(): void
+    public function renderTestView(string $name): void
     {
-        $body = $this['Pane::body'];
-        if ($body) {
-            (new Facet($body))
-                ->render()
-                ->close();
+        $path = __DIR__ . "/views/{$name}.php";
+        if (!file_exists($path)) {
+            throw new Exception("Test view not found: {$path}");
         }
+        include $path;
     }
 
     /**
-     * Asserts a condition, throws on failure.
+     * Entry point for CLI test execution.
+     *
+     * Parses argv, creates TestRig, renders the specified view.
      */
-    public static function assert(bool $condition, string $message = 'Assertion failed'): void
+    public static function run(): void
     {
-        if (!$condition) {
-            throw new Exception("TEST FAILED: {$message}");
-        }
+        $args = self::parseArgv();
+
+        $rig = new self('CLI', $args);
+
+        $view = $args['view'] ?? 'default';
+        $rig->renderTestView($view);
+
+        // Flush any OOB/script output
+        $rig['ClearView']->dumpOOBdata();
     }
 
     /**
-     * Asserts two values are equal.
+     * Parse CLI arguments into key-value pairs.
+     *
+     * Supports: --key=value, --key value, --flag (sets value to true)
      */
-    public static function assertEquals($expected, $actual, string $message = ''): void
+    private static function parseArgv(): array
     {
-        $msg = $message ?: "Expected " . json_encode($expected) . ", got " . json_encode($actual);
-        self::assert($expected === $actual, $msg);
+        global $argv;
+        $args = [];
+        for ($i = 1, $c = count($argv); $i < $c; $i++) {
+            $arg = $argv[$i];
+            if (str_starts_with($arg, '--')) {
+                $arg = substr($arg, 2);
+                if (str_contains($arg, '=')) {
+                    [$key, $value] = explode('=', $arg, 2);
+                    $args[$key] = $value;
+                } elseif ($i + 1 < $c && !str_starts_with($argv[$i + 1], '--')) {
+                    $args[$arg] = $argv[++$i];
+                } else {
+                    $args[$arg] = true;
+                }
+            }
+        }
+        return $args;
     }
 }
