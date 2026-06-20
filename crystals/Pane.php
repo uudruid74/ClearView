@@ -144,7 +144,7 @@ class PaneCrystal extends Crystal
         // 5. Load template view if configured
         $viewName = $this["Shared::templateView"];
         if ($viewName) {
-            $viewElement = \ClearView\Element::loadView($viewName);
+            $viewElement = \ClearView\View::loadView($viewName);
             if ($viewElement) {
                 return $viewElement;
             }

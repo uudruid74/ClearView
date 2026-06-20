@@ -512,44 +512,15 @@ class Element extends Shard
     }
 
     /**
-     * Includes a PHP view file from the module stack, then the vendor /views/ directory.
+     * Delegates to View::loadPHPView() for backward compatibility.
      *
-     * Tries modules/<module>/views/<viewName>.php through the module stack first,
-     * then falls back to the base vendor views.
-     *
+     * @deprecated Use \ClearView\View::loadPHPView() directly.
      * @param string $viewName The name of the view file (without .php extension).
      * @throws Exception If the view file is not found.
      */
     public static function loadPHPView(string $viewName): void
     {
-        // 1. Module stack: modules/<module>/views/<viewName>.php
-        foreach (Page::buildModuleStack() as $module) {
-            $path = __DIR__ . "/modules/{$module}/views/{$viewName}.php";
-            if (file_exists($path)) {
-                if (!(include $path)) {
-                    throw new Exception("Can't load the PHP View {$path}");
-                }
-                Exception::debug('TRACE', "Loaded $path as View");
-                return;
-            }
-        }
-        // 2. Base: modules/vendor/views/{{Page::name}}/<viewName>.php
-        $filePath = __DIR__ . "/modules/vendor/views/{{Page::name}}/{$viewName}.php";
-        if (!file_exists($filePath)) {
-            if (ClearView::Mosaic()->getVar("Pane::name") !== 'Default') {
-                $filePath = __DIR__ . "/modules/vendor/views/Default/{$viewName}.php";
-                if (!file_exists($filePath)) {
-                    throw new Exception("View file $filePath not found: {$filePath}");
-                }
-            } else {
-                throw new Exception("View filke $filePath not found: {$filePath}");
-            }
-            Exception::error("View file not found: {$filePath}");
-        }
-        if (!(include $filePath)) {
-            throw new Exception("Can't load the PHP View {$filePath} ");
-        }
-        Exception::debug('TRACE', "Loaded $filePath as View");
+        View::loadPHPView($viewName);
     }
 
     /**
@@ -577,8 +548,9 @@ class Element extends Shard
     }
 
     /**
-     * Loads a view file, captures its output, and returns it as a Shard object.
+     * Delegates to View::loadView() for backward compatibility.
      *
+     * @deprecated Use \ClearView\View::loadView() directly.
      * @param string $view The name of the view file (without .php extension).
      * @param string|null $from Source marker (Shard::VIEW for view-loaded Shards).
      * @return Shard The Shard object representing the view's content.
@@ -586,19 +558,7 @@ class Element extends Shard
      */
     public static function loadView(string $view, ?string $from = null): Shard
     {
-        $data = jsonmangler::fromhtml(
-            (new Facet())
-                    ->record()
-                    ->loadPHPView($view)
-                    ->close(),
-            $view  // context: enables nested default-view resolution
-        );
-        unset($data['__loadExternal']);
-        return Shard::loadShard(
-            $data,
-            inlay: "__$view",
-            from: ($from === Shard::VIEW) ? Shard::VIEW : Shard::HTML,
-        );
+        return View::loadView($view, $from);
     }
 
     /**
