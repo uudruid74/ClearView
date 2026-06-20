@@ -112,18 +112,6 @@ class Facet
     }
 
     /**
-     * Gets the inlay of the current element.
-     *
-     * Retrieves the inlay of the current target element via me()->inlay().
-     *
-     * @return string The inlay of the current element.
-     */
-    public static function inlay()
-    {
-        return self::me()->inlay() ?? Mosaic::getVar('Input::inlayname');
-    }
-
-    /**
      * Processes a template string or object, condensing whitespace and handling nested expressions.
      *
      * Expands template strings (e.g., `{{inlay::var}}`) or converts objects/arrays to JSON via jsonmangler.

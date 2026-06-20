@@ -179,7 +179,7 @@ class Mosaic
         Exception::debug('VAR',"Slurping input data: " . Facet::_($input));
         Exception::debug('VAR','    ****    Slurping Up STORED Variables    ****');
         $currentInlay = self::getVar('Input::inlayname')
-            ?? (Facet::me() ? Facet::inlay() : null)
+            ?? null
             ?? 'ClearView';
 
         if (!is_null($input)) {
@@ -366,7 +366,7 @@ class Mosaic
             }
         }
         $field = null;
-        $inlay = $inlay ?? Facet::inlay();
+        $inlay = $inlay ?? self::getVar('Input::inlayname');
         if (strpos($varname, ".") !== false) {
             list($varname, $field) = explode(".", $varname, 2);
         }
@@ -412,7 +412,7 @@ class Mosaic
      */
     public static function initVar(string $var, string $value, ?string $inlay = null): void
     {
-        $inlay = $inlay ?? Facet::inlay();
+        $inlay = $inlay ?? self::getVar('Input::inlayname');
 
         if (!self::exists($inlay, $var)) {
             self::setVar($var, $value, $inlay);
@@ -493,7 +493,7 @@ class Mosaic
                 return;
             }
         }
-        $address = self::makeAddress(['id' => $varname, 'inlay' => $inlay ?? Facet::inlay()]);
+        $address = self::makeAddress(['id' => $varname, 'inlay' => $inlay ?? self::getVar('Input::inlayname')]);
         $shard = self::$instance->mosaic[$address] ?? null;
         if ($shard) {
             $shard->delVar();
@@ -637,7 +637,7 @@ class Mosaic
     {
         $i = self::$instance;
         if (empty($json->address)) {
-            $inlay = $inlay ?? Facet::inlay();
+            $inlay = $inlay ?? self::getVar('Input::inlayname');
             $id = $id ?? uniqid('__array_');
             $json->address = self::makeAddress(['id'=>$id, 'inlay'=>$inlay]);
         }
@@ -685,7 +685,7 @@ class Mosaic
     public static function findShard(string $field, $value, ?string $inlay = null, string $op = '='): ?string
     {
         $i = self::$instance;
-        $inlay = $inlay ?? Facet::inlay();
+        $inlay = $inlay ?? self::getVar('Input::inlayname');
         foreach ($i->mosaic as $address => $element) {
             [$elemInlay, $id] = explode('-', $address, 2);
             if ($elemInlay === $inlay) {
@@ -710,7 +710,7 @@ class Mosaic
     public static function findShards(string $field, $value, ?string $inlay = null, string $op = '='): array
     {
         $i = self::$instance;
-        $inlay = $inlay ?? Facet::inlay();
+        $inlay = $inlay ?? self::getVar('Input::inlayname');
         $found = [];
         foreach ($i->mosaic as $address => $element) {
             [$elemInlay, $id] = explode('-', $address, 2);

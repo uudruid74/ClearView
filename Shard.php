@@ -392,7 +392,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!$children || !is_array($children)) {
             return;
         }
-        $inlay = $this->data['inlay'] ?? Facet::inlay();
+        $inlay = $this->data['inlay'] ?? Mosaic::getVar('Input::inlayname');
 
         foreach ($children as $i => &$child) {
             if (!is_array($child)) {
@@ -781,7 +781,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function inlay(): string
     {
-        return $this->data['inlay'] ?? Facet::inlay();
+        return $this->data['inlay'] ?? Mosaic::getVar('Input::inlayname');
     }
 
     /**

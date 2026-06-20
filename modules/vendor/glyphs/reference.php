@@ -59,7 +59,7 @@ class reference extends Element
         // the target Shard's Mosaic entry.  _refInlay survives jsonmangler
         // round-trips (single-underscore prefix is not stripped).
         $inlay = $this->data['_refInlay']
-              ?? Facet::inlay();
+              ?? Mosaic::getVar('Input::inlayname');
         return ClearView::Mosaic()->index($inlay, $name);
     }
 
@@ -132,7 +132,7 @@ class reference extends Element
             'name' => $this->data['name'] ?? '',
             '_refInlay' => $this->data['_refInlay'] 
                         ?? $this->data['inlay'] 
-                        ?? Facet::inlay(),
+                        ?? Mosaic::getVar('Input::inlayname'),
         ]);
     }
 }
