@@ -88,6 +88,7 @@ abstract class Crystal extends Page implements ArrayAccess
         // the Mosaic inlay name they should be registered under.
         $nameOverrides = [
             'ClearView\\PaneCrystal' => 'Pane',
+            'ClearView\\StaticCrystal' => 'Static',
         ];
 
         $classes = get_declared_classes();

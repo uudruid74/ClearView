@@ -4,7 +4,7 @@ namespace ClearView\Element;
 
 use ClearView\Element;
 use ClearView\Facet;
-use ClearView\Pane;
+use ClearView\Runtime;
 
 /**
  * attr glyph — outputs a Surreal-powered <script> tag that modifies the
@@ -12,7 +12,7 @@ use ClearView\Pane;
  *
  * <p>Supports attribute modifiers ({@code +add -remove ^toggle %takeClass}),
  * content tag semantics ({@code -tag +tag %tag}), and view-based layout
- * retargeting via {@link Pane::retargetResult()}.</p>
+ * retargeting via {@link Runtime::retargetResult()}.</p>
  *
  * @see Glyph-attr (custom glyph element)
  * @see Runtime-Pane (runtime pane element)
@@ -47,7 +47,7 @@ class attr extends Element
                 include $viewFile;
             }
 
-            Pane::retargetResult('main');
+            Runtime::retargetResult('main');
             ClearView::paneobj()->triggerevent('inlaychange');
             return;
         }

@@ -221,4 +221,30 @@ class ClearView extends Crystal
     {
         return ProcessWire\modules()->get('TextformatterHannaCode')->render(Facet::_($hannacode));
     }
+
+    // ── Prism loader ───────────────────────────────────────────
+
+    /**
+     * Loads and instantiates a Prism from the module stack.
+     *
+     * Invoked as ClearView::PrismName([...]) — searches
+     * modules/<module>/prisms/<PrismName>.php via the module stack
+     * (same pattern as glyphs, inlays, and views).  Returns whatever
+     * the Prism's constructor returns: null for display phase (|| return),
+     * or a string choice for the switch/case re-entry.
+     *
+     * @throws Exception if the prism file is not found.
+     */
+    public static function __callStatic(string $name, array $args): mixed
+    {
+        foreach (Page::buildModuleStack() as $module) {
+            $path = __DIR__ . "/../modules/{$module}/prisms/{$name}.php";
+            if (file_exists($path)) {
+                require_once $path;
+                $class = "\\ClearView\\Prism\\{$name}";
+                return new $class(...$args);
+            }
+        }
+        throw new Exception("Prism '{$name}' not found in any module");
+    }
 }

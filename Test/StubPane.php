@@ -2,7 +2,7 @@
 
 namespace ClearView\Test;
 
-use ClearView\Pane;
+use ClearView\Runtime;
 
 /**
  * Base class for dynamically-generated stub panes.
@@ -12,7 +12,7 @@ use ClearView\Pane;
  * provides the render() method that emits the data as an HTML
  * fragment with a `data-stub` marker for test assertions.
  */
-class StubPane extends Pane
+class StubPane extends Runtime
 {
     /** @var array<string,callable> Shared callable store for dynamically-generated subclasses */
     public static array $callables = [];

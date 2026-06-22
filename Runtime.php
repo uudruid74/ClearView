@@ -10,9 +10,20 @@ use ClearView\Crystal;
 use ClearView\Config;
 use ProcessWire;
 
-class Pane implements \ArrayAccess
+/**
+ * Runtime — the ClearView request lifecycle engine.
+ *
+ * Boots Mosaic, resolves URL parameters, loads inlay classes, and
+ * dispatches commands.  Implements ArrayAccess for pane-scoped variable
+ * access with existence-check routing: writes land where the variable
+ * was first found, reads check current inlay first then "Pane" inlay.
+ *
+ * Replaces the old Pane request-handler class.  The "Pane" is now a
+ * crystal (crystals/Pane.php) for {{Pane::headline}} template lookups.
+ */
+class Runtime implements \ArrayAccess
 {
-    /** @var Mosaic The Mosaic instance for this pane. */
+    /** @var Mosaic The Mosaic instance for this request. */
     public Mosaic $mosaic;
 
     /**
@@ -48,34 +59,105 @@ class Pane implements \ArrayAccess
         return isset($_SERVER['HTTP_HX_BOOSTED']) && $_SERVER['HTTP_HX_BOOSTED'] === 'true';
     }
 
+    // ── ArrayAccess — existence-check routing ──────────────────────
+
     /**
-     * Fills the Mosaic with an array of values.
+     * Get a variable with existence-check routing.
+     *
+     * 1. Contains :: {{ or . → delegate to Mosaic::getVar (expression routing).
+     * 2. Exists in current inlay → return that.
+     * 3. Exists in "Pane" inlay → return that.
+     * 4. Otherwise → null.
      */
-    public function fill(array $values): void
-    {
-        Mosaic::fill($values);
-    }
-
-    // ── ArrayAccess ──────────────────────────────────────────────
-
     public function offsetGet($key): mixed
     {
+        if (str_contains((string)$key, '::') || str_contains((string)$key, '{{') || str_contains((string)$key, '.')) {
+            return Mosaic::getVar($key);
+        }
+
+        $currentInlay = Mosaic::getVar('Input::inlayname');
+
+        // Check current inlay first
+        if ($currentInlay && Mosaic::exists($currentInlay, $key)) {
+            $shard = Mosaic::index($currentInlay, $key);
+            if ($shard) {
+                return $shard->getField('value') ?? $shard;
+            }
+        }
+
+        // Fall back to Pane inlay
+        if (Mosaic::exists('Pane', $key)) {
+            $shard = Mosaic::index('Pane', $key);
+            if ($shard) {
+                return $shard->getField('value') ?? $shard;
+            }
+        }
+
+        // Last resort — try Mosaic::getVar for crystal routing
         return Mosaic::getVar($key);
     }
 
+    /**
+     * Set a variable with existence-check routing.
+     *
+     * 1. Contains :: {{ or . → delegate to Mosaic::setVar.
+     * 2. Exists in current inlay → update there.
+     * 3. Exists in "Pane" inlay → update there.
+     * 4. Otherwise → store in "Pane" inlay (pane-scoped by default).
+     */
     public function offsetSet($key, $value): void
     {
-        Mosaic::setVar($key, $value);
+        if (str_contains((string)$key, '::') || str_contains((string)$key, '{{') || str_contains((string)$key, '.')) {
+            Mosaic::setVar($key, $value);
+            return;
+        }
+
+        $currentInlay = Mosaic::getVar('Input::inlayname');
+
+        if ($currentInlay && Mosaic::exists($currentInlay, $key)) {
+            Mosaic::setVar($key, $value, $currentInlay);
+            return;
+        }
+
+        if (Mosaic::exists('Pane', $key)) {
+            Mosaic::setVar($key, $value, 'Pane');
+            return;
+        }
+
+        // Default: store under Pane inlay
+        Mosaic::setVar($key, $value, 'Pane');
     }
 
     public function offsetExists($key): bool
     {
-        return Mosaic::getVar($key) !== null;
+        return $this->offsetGet($key) !== null;
     }
 
     public function offsetUnset($key): void
     {
-        Mosaic::delVar($key);
+        $currentInlay = Mosaic::getVar('Input::inlayname');
+        if ($currentInlay && Mosaic::exists($currentInlay, $key)) {
+            Mosaic::delVar($key, $currentInlay);
+            return;
+        }
+        Mosaic::delVar($key, 'Pane');
+    }
+
+    // ── Legacy fill — routes through offsetSet ─────────────────────
+
+    /**
+     * Fills the Mosaic with an array of values.
+     *
+     * Each key-value pair is set via offsetSet(), which uses
+     * existence-check routing to determine the correct inlay.
+     */
+    public function fill(array $values): void
+    {
+        foreach ($values as $key => $val) {
+            if ($val !== null) {
+                $this[$key] = $val;
+            }
+        }
     }
 
     // ── Lifecycle methods ────────────────────────────────────────
@@ -124,8 +206,10 @@ class Pane implements \ArrayAccess
         ClearView::method($command);
         ClearView::paneobj($this);
 
-        // Load and resolve the body Element (after crystals are wired)
-        $this['Pane::body'] = PaneCrystal::load($panename, $inlayname);
+        // Load and resolve the body Element.
+        // Pane::load() stores it in Mosaic "Pane" inlay automatically;
+        // subsequent {{Pane::body}} lookups resolve through the Pane crystal.
+        \ClearView\Pane::load($panename, $inlayname, $this->mosaic);
 
         // Debug header — tracemode comes from Config, not ProcessWire
         Exception::outheader($template, Config::TRACEMODE);
@@ -134,8 +218,7 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Default full-page render. Opens the container tag, renders element
-     * contents, outputs the body template, and closes. Fires paneopen event.
+     * Default full-page render.
      */
     public function open(): void
     {
@@ -143,10 +226,7 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Default HTML method. Serves as both html() and open() by testing
-     * ClearView::method. When 'open', renders full-page container with
-     * paneopen event. Otherwise renders Pane::body with inlay-change detection.
-     * @param string|null $template Optional template to render instead of Pane::body.
+     * Default HTML method.
      */
     public function html(?string $template = null): void
     {
@@ -169,8 +249,9 @@ class Pane implements \ArrayAccess
             ->html()
             ->close();
     }
+
     /**
-     * Renders the launcher element (e.g., a button that opens the pane).
+     * Renders the launcher element.
      */
     public function launcher(): void
     {
@@ -180,17 +261,15 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Triggers closepane event with optional delay.
-     * @param mixed $delay Optional delay value for the event payload.
+     * Triggers closepane event.
      */
     public function close($delay = null): void
     {
-        $this->triggerevent('closepane', [ 'delay' => $delay]);
+        $this->triggerevent('closepane', ['delay' => $delay]);
     }
 
     /**
      * Redirects to a URL via HX-Location JSON payload.
-     * @param string|null $url The URL.
      */
     public function redirect($url = null): void
     {
@@ -207,29 +286,23 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Triggers an htmx event. Pane name is always included in the JSON payload.
-     * @param string $event The event to trigger.
-     * @param mixed $params Optional event parameters.
+     * Triggers an htmx event.
      */
     public function triggerevent(string $event, $params = null): self
     {
-    	$this->sendHtmxHeader('HX-Trigger', $event, $params);
+        $this->sendHtmxHeader('HX-Trigger', $event, $params);
         return $this;
     }
-    
+
     /**
      * Sends a special header in the server response.
-     * @param string $header The header to write
-     * @param string $data The primary data point
-     * @param string $params Additional parameters
      */
     public function sendHtmxHeader(string $header, $event, $params): self
     {
         Exception::debug('EVENT', "Triggering {$event}");
         if (isset($params) && is_array($params)) {
-            // Assumes $events values are already arrays
             $events = array_map(fn($d) => array_merge($d, ['Pane' => $this['Input::panename']]), $params);
-            header("HX-Trigger: " . json_encode($events));   
+            header("HX-Trigger: " . json_encode($events));
         } else {
             header("HX-Trigger: {$event}");
         }
@@ -237,19 +310,15 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Sets the HX-Retarget header to redirect an HTMX response to a
-     * different target element than the one that triggered the request.
-     *
-     * @param string $target CSS selector for the new swap target w/#
+     * Sets the HX-Retarget header.
      */
-    public function retargetResult(string $target, $params=null): void
+    public function retargetResult(string $target, $params = null): void
     {
-    	$this->sendHtmxHeader('HX-Retarget', $target, $params);
+        $this->sendHtmxHeader('HX-Retarget', $target, $params);
     }
 
     /**
-     * Wrapper around Exception::debug() for inlays
-     * @return $this for chaining
+     * Wrapper around Exception::debug() for inlays.
      */
     public function debug($msg, $depth = 2): self
     {
@@ -276,24 +345,21 @@ class Pane implements \ArrayAccess
             if ($providedToken !== $expectedToken) {
                 throw new Exception('Invalid PaneKey: $providedToken vs $expectedToken');
             }
-            // No private methods, even if the panekey matches
             if ($reflectionMethod->isPrivate() || str_starts_with($command, '_')) {
                 throw new \Exception('Access denied: Cannot call private or underscored methods.');
             }
 
-            // Execute the method if all checks pass.
             Exception::debug('EVENT', "Executing {$command} from {{uppercase\\Input::requestMethod}} {{Input::url}}");
             (new Facet($this))
                 ->forward($command)
                 ->create(['glyph' => 'mosaic'])
                 ->close();
         } else {
-            // Page-field fallback: lookup $command as a field on the ProcessWire Page
             $pageField = $this["Page::$command"];
             if ($pageField !== null) {
                 (new Facet($pageField))
-                	->html()
-                	->close();
+                    ->html()
+                    ->close();
             } else {
                 $this->doesNotUnderstand($command);
             }
@@ -312,7 +378,7 @@ class Pane implements \ArrayAccess
     }
 
     /**
-     * Catch unknown method calls for consistency
+     * Catch unknown method calls.
      */
     public function __call($name, $arguments): void
     {

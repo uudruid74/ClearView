@@ -1,12 +1,12 @@
 <?php
 namespace ClearView;
-use ClearView\Pane;
+use ClearView\Runtime;
 use ClearView\Facet;
 use ClearView\Mosaic;
 use ClearView\Page;
 
 /**
- * Subclass of Pane used when the URL includes an inlay segment.
+ * Subclass of Runtime used when the URL includes an inlay segment.
  *
  * An inlay represents a tab/subpage inside a pane. The default html()
  * method renders Page::body and fires inlaychange when the inlay differs
@@ -15,10 +15,10 @@ use ClearView\Page;
  * Inlay subclasses live under modules/<module>/panes/<panename>/<inlayname>.php
  * with class names like ClearView\<panename>_<inlayname>.
  *
- * @see ClearView\\Pane
+ * @see ClearView\\Runtime
  * @see ClearView\\Mosaic
  */
-class Inlay extends Pane
+class Inlay extends Runtime
 {
     /**
      * Load Inlay by panename and inlayname.
@@ -37,7 +37,7 @@ class Inlay extends Pane
     {
         // 1. No inlay → load Pane directly
         if (empty($inlayname) || $inlayname === 'Pane') {
-            return '\\ClearView\\Pane';
+            return '\\ClearView\\Runtime';
         }
 
         // 2. Inlay → search modules/<module>/panes/<panename>/<inlayname>.php

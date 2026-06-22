@@ -1,8 +1,14 @@
 <?php
 namespace ClearView;
-use ClearView\Pane;
+use ClearView\Runtime;
+use ClearView\Facet;
 
-class DefaultPane extends Pane
+/**
+ * DefaultPane — legacy glyph replaced by Main.
+ *
+ * @deprecated Use ClearView\\Main instead.
+ */
+class DefaultPane extends Runtime
 {
     public $__loadExternal = "View::Default";
 

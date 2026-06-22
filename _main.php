@@ -1,10 +1,10 @@
 <?php
 namespace ClearView;
-use ClearView\Pane;
+use ClearView\Runtime;
 use ClearView\Exception;
 
 try {
-    (new Pane($page->template()))
+    (new Runtime($page->template()))
     	->handleCommand();
 } 
 catch (\Throwable $e) {

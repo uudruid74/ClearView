@@ -5,7 +5,7 @@ namespace ClearView\Test\Fixture;
 use ClearView\ClearView;
 use ClearView\Config;
 use ClearView\Mosaic;
-use ClearView\Pane;
+use ClearView\Runtime;
 use ClearView\Facet;
 use ClearView\Shard;
 
@@ -76,7 +76,7 @@ class ViewBuilder
 
         // Create a fresh Mosaic owned by a Pane (replaces old Mosaic singleton).
         $this->mosaic = new Mosaic();
-        new Pane($this->panename, $this->inlayname, $this->mosaic);
+        new Runtime($this->panename, $this->inlayname, $this->mosaic);
 
         // Set a stub CurrentPane so Element constructors don't crash.
         \ClearView\ClearView::CurrentPane(new Shard([

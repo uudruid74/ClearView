@@ -1,6 +1,6 @@
 <?php
 namespace ClearView;
-use ClearView\Pane;
+use ClearView\Runtime;
 use ClearView\Facet;
 use ClearView\Exception;
 
@@ -17,11 +17,11 @@ use ClearView\Exception;
  * 3. Main::render() emits the full HTML document.
  * 4. Inside the document, <main view="..."> loads the configured layout view.
  *
- * @see ClearView\Pane
- * @see ClearView\Facet
- * @see ClearView\Mosaic
+ * @see ClearView\\Runtime
+ * @see ClearView\\Facet
+ * @see ClearView\\Mosaic
  */
-class Main extends Pane
+class Main extends Runtime
 {
     /** @var string External view file to load (View::Default) */
     public $__loadExternal = "View::Default";

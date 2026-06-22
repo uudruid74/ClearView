@@ -36,7 +36,7 @@ class loginform_newaccount extends Inlay
                 $this['summary'] = "Sorry, {$email} doesn't look right";
             }
         }
-        $this['headline']= "Invalid Email");
+        $this['headline'] = "Invalid Email";
         return null;
     }
 
@@ -54,7 +54,7 @@ class loginform_newaccount extends Inlay
         $email = $this->getEmailAddr($extdata);
         $existingMail = $this["User::email=$email"];
         $username = $this['username'] ?? '';
-        if (strlen($username) < ($this['min_user_len']] ?? 3)) {
+        if (strlen($username) < ($this['min_user_len'] ?? 3)) {
             $this->fill([
                 'formtitle' => "Error",
                 'forminfo'  => "Use a longer username"

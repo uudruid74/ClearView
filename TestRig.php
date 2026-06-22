@@ -2,18 +2,20 @@
 
 namespace ClearView;
 
+use ClearView\Runtime;
+
 /**
- * TestRig — headless Pane for CLI testing.
+ * TestRig — headless Runtime for CLI testing.
  *
  * Runs without ProcessWire by loading null crystals. Accepts
  * CLI arguments for configuration. Renders test views.
  *
  * Usage: php TestRig.php --panename=MyPane --inlayname=TestInlay --view=my_test
  *
- * @see \ClearView\Pane
+ * @see \ClearView\Runtime
  * @see \ClearView\Mosaic
  */
-class TestRig extends Pane
+class TestRig extends Runtime
 {
     /** @var array CLI argument overrides */
     private array $cliArgs = [];

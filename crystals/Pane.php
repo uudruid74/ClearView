@@ -8,45 +8,46 @@ use ClearView\Page;
 use ProcessWire;
 
 /**
- * Crystal for the pane page in ProcessWire.
+ * Pane crystal — ProcessWire page wrapper and named-element container.
  *
- * Wraps the ProcessWire page associated with the current pane URL.
- * After Crystal::plugAllCrystals() creates it with a null page,
- * ClearView::init() replaces it with the correct ProcessWire page.
- *
- * Field access (Pane::name, Pane::title, etc.) delegates to the
- * ProcessWire page.  Unknown keys fall back to raw Mosaic shards
- * under the "Pane" inlay so that transient values (e.g. Pane::Key
- * as a CSRF token from URL parameters) continue to work.
+ * Registered under the "Pane" inlay for {{Pane::headline}} template
+ * lookups.  getVar() checks Mosaic "Pane" inlay FIRST (for runtime
+ * aside values set via fill()), then falls back to the ProcessWire
+ * page field.  Writing to the PW page requires explicit Page crystal
+ * access.
  *
  * @see \ClearView\Crystal
  * @see \ClearView\Page
+ * @see \ClearView\PaneAttr   (attribute manager)
  */
-class PaneCrystal extends Crystal
+class Pane extends Crystal
 {
     /**
      * Initializes the Pane Crystal with a ProcessWire page.
      *
      * Called by Crystal::plugAllCrystals() with null, then replaced
-     * by ClearView::init() with the actual pane page.
+     * by Runtime::__construct() with the actual pane page.
      *
-     * @param mixed $pwObject The ProcessWire page (null during auto-plug).
+     * @param mixed  $pwObject  The ProcessWire page (null during auto-plug).
+     * @param string|null $panename
+     * @param string|null $inlayname
+     * @param mixed  $mos       Mosaic reference
      */
-    public function __construct($pwObject = null, $panename = null, $inlayname = null,$mos)
+    public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
-        parent::__construct($pwObject, $panename, $inlayname,$mos);
+        parent::__construct($pwObject, $panename, $inlayname, $mos);
     }
 
     /**
-     * Gets a variable from the Pane Crystal.
+     * Gets a variable from the Pane crystal.
      *
-     * First tries the ProcessWire page's field.  If the page doesn't
-     * have the field, falls back to a raw Mosaic shard under the
-     * "Pane" inlay — this preserves transient values like Pane::Key
-     * that arrive via URL parameters.
+     * REVERSED from the old PaneCrystal: checks Mosaic "Pane" inlay
+     * first, then falls back to the ProcessWire page field.  This
+     * means runtime values (headline, summary, formtitle, etc.) take
+     * priority over stored PW page data.
      *
-     * @param string|null $key The key to retrieve, or null for the PW object.
-     * @return mixed The value, wrapped Page for Wire objects, or null.
+     * @param string|null $key  The key to retrieve, or null for the PW object.
+     * @return mixed  The value, wrapped Page for Wire objects, or null.
      */
     public function getVar($key = null)
     {
@@ -54,9 +55,17 @@ class PaneCrystal extends Crystal
             return $this->data[Config::PAGE_PWOBJECT];
         }
 
-        $pwObject = $this->data[Config::PAGE_PWOBJECT];
+        // 1. Check Mosaic "Pane" inlay first — runtime values win.
+        $shard = Mosaic::index('Pane', $key);
+        if ($shard) {
+            $val = $shard->getField('value') ?? $shard;
+            if ($val !== null) {
+                return $val;
+            }
+        }
 
-        // Try the ProcessWire page field first
+        // 2. Fall back to the ProcessWire page field.
+        $pwObject = $this->data[Config::PAGE_PWOBJECT];
         if ($pwObject instanceof \ProcessWire\Page) {
             $value = $pwObject->get($key);
             if ($value !== null) {
@@ -67,19 +76,14 @@ class PaneCrystal extends Crystal
             }
         }
 
-        // Fall back to raw Mosaic shard for transient values (e.g. Pane::Key).
-        // Check the "Pane" inlay first, then the shared last-inlay namespace
-        // where loadMosaic stores URL parameters without a "-" separator.
-        // The input key is the literal "Pane::Key", so reconstruct it.
-        $shard = $this["Pane::$key"];
-        if (!$shard) {
-            $lastInlay = $this['Shared::lastInlay'];
-            if ($lastInlay) {
-                $shard = ClearView::Mosaic()->index($lastInlay, "Pane::" . $key);
+        // 3. Last-resort: raw Mosaic shard under the old lastInlay
+        //    fallback (preserves transient values like Pane::Key).
+        $lastInlay = Mosaic::getVar('Shared::lastInlay');
+        if ($lastInlay) {
+            $shard = Mosaic::index($lastInlay, "Pane::" . $key);
+            if ($shard) {
+                return $shard->getField('value') ?? $shard;
             }
-        }
-        if ($shard) {
-            return $shard->getField('value') ?? $shard;
         }
 
         return null;
@@ -87,7 +91,8 @@ class PaneCrystal extends Crystal
 
     /**
      * Setting a variable goes through the ProcessWire page (with sanitization),
-     * same as the parent Page class.
+     * same as the parent Page class.  Use Mosaic::setVar directly for runtime
+     * pane-scoped values.
      */
     public function setVar(string $key, $value): void
     {
@@ -109,13 +114,14 @@ class PaneCrystal extends Crystal
      * Load and resolve the body Element for a pane+inlay.
      *
      * Finds the ProcessWire page, converts its body field to an Element,
-     * merges Shared::attributes, and loads any template view.
+     * merges PaneAttr::attributes, and loads any template view.
      *
-     * @param string $panename
-     * @param string $inlayname
+     * @param string      $panename
+     * @param string      $inlayname
+     * @param Mosaic|null $mosaic    Current Mosaic instance for attribute lookup.
      * @return \ClearView\Element
      */
-    public static function load(string $panename, string $inlayname): \ClearView\Element
+    public static function load(string $panename, string $inlayname, ?Mosaic $mosaic = null): \ClearView\Element
     {
         // 1. Find the ProcessWire page for this pane
         $pwPage = \ProcessWire\pages()->get("name={$panename}");
@@ -129,20 +135,29 @@ class PaneCrystal extends Crystal
             $bodyField = '<div></div>';
         }
 
-        // 3. Convert to Element via fromhtml → loadShard
+        // 3. Convert to Element via fromhtml → loadShard.
+        //    Store under "Pane" inlay so Pane::body resolves via Mosaic.
         $data = \ClearView\jsonmangler::fromhtml((string)$bodyField);
-        $element = \ClearView\Shard::loadShard($data, id: 'body', inlay: '__body');
+        $element = \ClearView\Shard::loadShard($data, id: 'body', inlay: 'Pane');
 
-        // 4. Merge Shared::attributes into the Element
-        $attrs = $this['Shared::attributes'];
-        if (is_array($attrs)) {
-            foreach ($attrs as $key => $value) {
-                $element->setField($key, $value);
+        // 4. Merge PaneAttr attributes into the Element
+        $mosaic = $mosaic ?? Mosaic::instance();
+        $attrsShard = Mosaic::index('PaneAttr', 'attributes');
+        if ($attrsShard) {
+            $attrs = $attrsShard->getFields('');
+            if (is_array($attrs)) {
+                // Filter out internal keys
+                unset($attrs['id'], $attrs['inlay'], $attrs['glyph'], $attrs['name']);
+                foreach ($attrs as $key => $value) {
+                    if (is_string($value)) {
+                        $element->setField($key, $value);
+                    }
+                }
             }
         }
 
         // 5. Load template view if configured
-        $viewName = $this["Shared::templateView"];
+        $viewName = Mosaic::getVar('Shared::templateView');
         if ($viewName) {
             $viewElement = \ClearView\View::loadView($viewName);
             if ($viewElement) {

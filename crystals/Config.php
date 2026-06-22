@@ -235,7 +235,8 @@ class Config extends Crystal
      * Ordered list of active module directories.
      * Modules are tried in order for glyph/views/pane lookups. 'site' is tried
      * first (user overrides), 'vendor' last (pristine ClearView code).
-     * ProcessWire page 'modules' fields are layered between site and vendor at runtime.
+     * ProcessWire page 'modules' fields are replaced by PaneAttr::modules
+ * at runtime.  See Page::buildModuleStack().
      *
      * @see ClearView::buildModuleStack()
      * @var array<int, string>
