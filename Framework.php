@@ -23,6 +23,9 @@ use ProcessWire;
  */
 class Framework implements \ArrayAccess
 {
+    /** @var Framework|null The active Framework instance for this request. */
+    public static ?Framework $instance = null;
+
     /** @var Mosaic The Mosaic instance for this request. */
     public Mosaic $mosaic;
 
@@ -57,6 +60,53 @@ class Framework implements \ArrayAccess
     public static function is_htmx_boosted(): bool
     {
         return isset($_SERVER['HTTP_HX_BOOSTED']) && $_SERVER['HTTP_HX_BOOSTED'] === 'true';
+    }
+
+    // ── Framework instance accessor ──────────────────────────────
+
+    /**
+     * Returns the active Framework instance for this request.
+     *
+     * There is exactly one Framework per request; subclasses like
+     * TestRig set themselves as the instance during construction.
+     */
+    public static function instance(): self
+    {
+        return self::$instance;
+    }
+
+    // ── Module list ──────────────────────────────────────────────
+
+    /**
+     * Returns the ordered module list for resource lookups.
+     *
+     * Base implementation returns Config::MODULES_LIST.  PaneAttr::modules
+     * (from the <pane modules="..."> attribute) is prepended when set.
+     * Subclasses override to inject framework-specific modules (e.g.
+     * TestRig prepends 'testjig' for null crystals).
+     *
+     * @return array<string>
+     */
+    public function Modules(): array
+    {
+        $modules = Config::MODULES_LIST;
+
+        // Merge per-pane module override if PaneAttr is loaded
+        try {
+            $paneModules = Mosaic::getVar('PaneAttr::modules');
+            if ($paneModules && is_string($paneModules) && strlen($paneModules) > 0) {
+                $paneList = array_map('trim', explode(',', $paneModules));
+                $modules = array_merge($paneList, $modules);
+            }
+        } catch (\Throwable $e) {
+            // PaneAttr not loaded yet during bootstrap — use Config defaults
+        }
+
+        // Always ensure 'vendor' is the terminal fallback
+        if (!in_array('vendor', $modules, true)) {
+            $modules[] = 'vendor';
+        }
+        return array_values(array_unique($modules));
     }
 
     // ── ArrayAccess — existence-check routing ──────────────────────
@@ -171,6 +221,10 @@ class Framework implements \ArrayAccess
      */
     public function __construct(string $template)
     {
+        // Register as the active Framework BEFORE Mosaic::load() so
+        // Crystal::loadAll() can call $this->Modules() for the module list.
+        self::$instance = $this;
+
         // Load Mosaic via the static factory — crystals are initialized,
         // Input crystal is ready with panename/inlayname/methodname.
         $this->mosaic = Mosaic::load();

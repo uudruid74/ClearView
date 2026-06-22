@@ -42,7 +42,7 @@ class Inlay extends Framework
 
         // 2. Inlay → search modules/<module>/panes/<panename>/<inlayname>.php
         $className = "{$panename}_{$inlayname}";
-        foreach (Page::buildModuleStack() as $module) {
+        foreach (Framework::instance()->Modules() as $module) {
             $path = __DIR__ . "/modules/{$module}/panes/{$panename}/{$inlayname}.php";
             if (file_exists($path)) {
                 require_once($path);

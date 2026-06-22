@@ -48,10 +48,10 @@ class View extends Crystal
      */
     public static function loadPHPView(string $viewName): void
     {
-        $baseDir = dirname(__DIR__);  // one level up from crystals/
+        $baseDir = dirname(__DIR__, 3);  // project root from modules/vendor/crystals/
 
         // 1. Module stack: modules/<module>/views/<viewName>.php
-        foreach (Page::buildModuleStack() as $module) {
+        foreach (Framework::instance()->Modules() as $module) {
             $path = "{$baseDir}/modules/{$module}/views/{$viewName}.php";
             if (file_exists($path)) {
                 if (!(include $path)) {

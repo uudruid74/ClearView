@@ -59,7 +59,6 @@ class Mosaic
      *
      * @param array $options {
      *     loadCrystals: true|false     — load all Crystal subclasses (default: true)
-     *     overridePath: "null"|string  — load crystals from crystals/<path>/ subdir
      *     loadInputData: true          — inflate shards from GET/POST data
      *     loadCliData: array           — key-value pairs to inject directly
      *     loadSnapShot: "name"         — restore from views/<name>.php snapshot
@@ -70,7 +69,6 @@ class Mosaic
     public static function load(array $options = []): Mosaic
     {
         $loadCrystals  = $options['loadCrystals'] ?? true;
-        $overridePath  = $options['overridePath'] ?? null;
         $loadInputData = $options['loadInputData'] ?? false;
         $loadCliData   = $options['loadCliData'] ?? [];
         $loadSnapShot  = $options['loadSnapShot'] ?? null;
@@ -89,7 +87,7 @@ class Mosaic
 
         // ── Load crystals ───────────────────────────────────────
         if ($loadCrystals) {
-            Crystal::loadAll($mosaic, overridePath: $overridePath);
+            Crystal::loadAll($mosaic);
         }
 
         // ── Create Facet singleton ──────────────────────────────

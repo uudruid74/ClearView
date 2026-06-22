@@ -308,7 +308,7 @@ class jsonmangler
 
                 // 1. Nested context: views/{pane}/{context}/{glyph}.php
                 if ($context !== null) {
-                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                    foreach (\ClearView\Framework::instance()->Modules() as $module) {
                         $ctxPath = __DIR__ . "/../modules/{$module}/views/{$pane}/{$context}/{$glyph}.php";
                         if (file_exists($ctxPath)) {
                             $element['__loadExternal'] = "View::{$context}/{$glyph}";
@@ -319,7 +319,7 @@ class jsonmangler
 
                 // 2. Top-level: views/{pane}/{glyph}.php
                 if (empty($element['__loadExternal'])) {
-                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                    foreach (\ClearView\Framework::instance()->Modules() as $module) {
                         $filePath = __DIR__ . "/../modules/{$module}/views/{$pane}/{$glyph}.php";
                         if (file_exists($filePath)) {
                             $element['__loadExternal'] = "View::$glyph";
@@ -330,7 +330,7 @@ class jsonmangler
 
                 // 3. Default fallback: views/Default/{glyph}.php
                 if (empty($element['__loadExternal']) && $pane != 'Default') {
-                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                    foreach (\ClearView\Framework::instance()->Modules() as $module) {
                         $filePath = __DIR__ . "/../modules/{$module}/views/Default/{$glyph}.php";
                         if (file_exists($filePath)) {
                             $element['__loadExternal'] = "View::$glyph";
@@ -346,7 +346,7 @@ class jsonmangler
                 if (str_contains($element['view'], '*')) {
                     $pane = Facet::me()->getField('name') ?? 'Default';
                     $globChildren = [];
-                    foreach (\ClearView\Page::buildModuleStack() as $module) {
+                    foreach (\ClearView\Framework::instance()->Modules() as $module) {
                         $globPattern = __DIR__ . "/../modules/{$module}/views/{$pane}/{$element['view']}";
                         $files = glob($globPattern);
                         foreach ($files as $file) {

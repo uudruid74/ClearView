@@ -237,8 +237,8 @@ class ClearView extends Crystal
      */
     public static function __callStatic(string $name, array $args): mixed
     {
-        foreach (Page::buildModuleStack() as $module) {
-            $path = __DIR__ . "/../modules/{$module}/prisms/{$name}.php";
+        foreach (Framework::instance()->Modules() as $module) {
+            $path = dirname(__DIR__, 3) . "/modules/{$module}/prisms/{$name}.php";
             if (file_exists($path)) {
                 require_once $path;
                 $class = "\\ClearView\\Prism\\{$name}";

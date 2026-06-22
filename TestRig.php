@@ -28,12 +28,14 @@ class TestRig extends Framework
      */
     public function __construct(string $template = 'CLI', array $cliArgs = [])
     {
+        // Register as the active Framework BEFORE Mosaic::load()
+        self::$instance = $this;
+
         $this->cliArgs = $cliArgs;
 
-        // Build Mosaic::load() options — use null crystals (no ProcessWire)
+        // Build Mosaic::load() options — using module-based crystal loading
         $options = [
             'loadCrystals' => true,
-            'overridePath' => 'null',
             'loadCliData'  => $this->cliArgs,
         ];
 
@@ -51,6 +53,22 @@ class TestRig extends Framework
         ClearView::paneobj($this);
 
         $this->mosaic = Mosaic::instance();
+    }
+
+    /**
+     * Returns the module list with 'testjig' prepended.
+     *
+     * TestRig loads null crystals from modules/testjig/crystals/
+     * before vendor crystals, so headless tests run without
+     * ProcessWire dependencies.
+     *
+     * @return array<string>
+     */
+    public function Modules(): array
+    {
+        $modules = parent::Modules();
+        array_unshift($modules, 'testjig');
+        return array_values(array_unique($modules));
     }
 
     /**

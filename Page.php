@@ -279,41 +279,6 @@ class Page extends Shard
         throw new Exception("Page children don't get rendered");
     }
 
-    /**
-     * Handles calls to undefined methods
-     *
-     * @param string $name The method name called.
-     * @param array $arguments The arguments passed.
-     * @return mixed The result of the method.
-     * @throws Exception If the method does not exist.
-     */
-    /**
-     * Build a module search stack from PaneAttr::modules attribute.
-     *
-     * Reads the comma-separated module list from the "PaneAttr" Mosaic
-     * inlay's "modules" field.  Falls back to Config::MODULES_LIST
-     * when no modules attribute is set.
-     *
-     * No ProcessWire dependency — pure Mosaic lookup.  The modules
-     * attribute is set on the pane body element and editable via the
-     * <attr> glyph.
-     *
-     * @return array<string>
-     */
-    public static function buildModuleStack(): array
-    {
-        $modules = Mosaic::getVar('PaneAttr::modules');
-        if ($modules && is_string($modules) && strlen($modules) > 0) {
-            $list = array_map('trim', explode(',', $modules));
-            // Always ensure 'vendor' is the terminal fallback
-            if (!in_array('vendor', $list, true)) {
-                $list[] = 'vendor';
-            }
-            return array_values(array_unique($list));
-        }
-        return Config::MODULES_LIST;
-    }
-
     public function __call($name, $arguments)
     {
         Exception::debug("Page " . self::class . " __call $name");

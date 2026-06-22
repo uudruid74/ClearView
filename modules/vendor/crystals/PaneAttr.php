@@ -13,7 +13,7 @@ namespace ClearView;
  * Template usage: {{PaneAttr::modules}}, {{PaneAttr::class}}, etc.
  *
  * @see \ClearView\Crystal
- * @see \ClearView\Page       (buildModuleStack reads PaneAttr::modules)
+ * @see \ClearView\Framework  (Framework::Modules() reads PaneAttr::modules)
  */
 class PaneAttr extends Crystal
 {

@@ -29,15 +29,15 @@ namespace {
     const CLEARVIEW_ROOT = __DIR__ . '/..';
 
     // ── Core classes in dependency order ──────────────────────────────────
-    // NOTE: Do NOT load crystals/Pane.php — it defines class Pane in the
-    //       ClearView namespace, colliding with root Pane.php (Element).
+    // NOTE: Crystals live under modules/<module>/crystals/ now.
+    // Loaded via Crystal::loadAll() which uses Framework::Modules().
     $files = [
         '/utility/jsonmangler.php',
         '/QueryParser.php',
         '/Shard.php',
         '/Page.php',
         '/Crystal.php',
-        '/crystals/Config.php',
+        '/modules/vendor/crystals/Config.php',
         '/Exception.php',
         '/Facet.php',
         '/Mosaic.php',

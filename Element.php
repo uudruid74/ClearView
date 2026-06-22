@@ -531,7 +531,7 @@ class Element extends Shard
      */
     public static function loadGlyph(string $viewName): ?string
     {
-        foreach (Page::buildModuleStack() as $module) {
+        foreach (Framework::instance()->Modules() as $module) {
             $path = __DIR__ . "/modules/{$module}/glyphs/{$viewName}.php";
             if (file_exists($path)) {
                 require_once($path);

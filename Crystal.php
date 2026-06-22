@@ -64,22 +64,29 @@ abstract class Crystal extends Page implements ArrayAccess
     /**
      * Initializes all Crystal subclasses and registers them in Mosaic.
      *
-     * Called during system startup to instantiate all concrete Crystal subclasses
-     * and register them as Shards in Mosaic. Also instantiates the ClearView
-     * crystal explicitly.
+     * Iterates the Framework module stack and loads crystal files from
+     * modules/<module>/crystals/.  First module to define a crystal wins;
+     * lower-priority modules are skipped for already-loaded crystals.
+     *
+     * Called during system startup.  Requires Framework::instance() to be
+     * set before Mosaic::load() so the module list is available.
      *
      * @param Mosaic $mosaic The Mosaic to register crystals in
-     * @param string|null $overridePath Load from crystals/<path>/ instead of crystals/
-     * @return Mosaic The Mosaic instance (also assigned to Pane)
+     * @return Mosaic The Mosaic instance
      */
-    public static function loadAll($mosaic, ?string $overridePath = null): Mosaic
+    public static function loadAll($mosaic): Mosaic
     {
-        $crystalDir = __DIR__ . '/crystals';
-        $loadDir = $overridePath ? "{$crystalDir}/{$overridePath}" : $crystalDir;
+        $modules = Framework::instance()->Modules();
+        $loaded = [];
 
-        // Load all Crystal subclass files from the crystals directory
-        if (is_dir($loadDir)) {
-            foreach (glob("{$loadDir}/*.php") as $file) {
+        foreach ($modules as $module) {
+            $crystalDir = __DIR__ . "/modules/{$module}/crystals";
+            if (!is_dir($crystalDir)) continue;
+
+            foreach (glob("{$crystalDir}/*.php") as $file) {
+                $basename = basename($file, '.php');
+                if (isset($loaded[$basename])) continue; // higher-priority module already loaded
+                $loaded[$basename] = true;
                 require_once $file;
             }
         }
