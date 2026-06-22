@@ -60,7 +60,7 @@ class Exception extends WireException
             $msg = $tag;
             $tag = "TRACE";
         }
-        if (Runtime::inTesting()) {
+        if (Framework::inTesting()) {
             fwrite(STDERR, $msg . "\n");
             return;
         }
@@ -77,7 +77,7 @@ class Exception extends WireException
      */
     public static function error($msg, ?self $e = null): self
     {
-        if (Runtime::inTesting()) {
+        if (Framework::inTesting()) {
             fwrite(STDERR, $msg . "\n$e\n\n");
         }
         $logMsg = Facet::_($msg);
@@ -107,7 +107,7 @@ class Exception extends WireException
      */
     public static function outputComment($msg): void
     {
-        if (Runtime::inTesting()) {
+        if (Framework::inTesting()) {
             fwrite(STDERR, $msg . "\n");
             return;
         }

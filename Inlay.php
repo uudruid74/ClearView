@@ -1,6 +1,6 @@
 <?php
 namespace ClearView;
-use ClearView\Runtime;
+use ClearView\Framework;
 use ClearView\Facet;
 use ClearView\Mosaic;
 use ClearView\Page;
@@ -15,10 +15,10 @@ use ClearView\Page;
  * Inlay subclasses live under modules/<module>/panes/<panename>/<inlayname>.php
  * with class names like ClearView\<panename>_<inlayname>.
  *
- * @see ClearView\\Runtime
+ * @see ClearView\\Framework
  * @see ClearView\\Mosaic
  */
-class Inlay extends Runtime
+class Inlay extends Framework
 {
     /**
      * Load Inlay by panename and inlayname.
@@ -37,7 +37,7 @@ class Inlay extends Runtime
     {
         // 1. No inlay → load Pane directly
         if (empty($inlayname) || $inlayname === 'Pane') {
-            return '\\ClearView\\Runtime';
+            return '\\ClearView\\Framework';
         }
 
         // 2. Inlay → search modules/<module>/panes/<panename>/<inlayname>.php

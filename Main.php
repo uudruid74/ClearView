@@ -1,6 +1,6 @@
 <?php
 namespace ClearView;
-use ClearView\Runtime;
+use ClearView\Framework;
 use ClearView\Facet;
 use ClearView\Exception;
 
@@ -21,7 +21,7 @@ use ClearView\Exception;
  * @see ClearView\\Facet
  * @see ClearView\\Mosaic
  */
-class Main extends Runtime
+class Main extends Framework
 {
     /** @var string External view file to load (View::Default) */
     public $__loadExternal = "View::Default";

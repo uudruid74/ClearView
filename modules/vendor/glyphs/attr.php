@@ -4,7 +4,7 @@ namespace ClearView\Element;
 
 use ClearView\Element;
 use ClearView\Facet;
-use ClearView\Runtime;
+use ClearView\Framework;
 
 /**
  * attr glyph — outputs a Surreal-powered <script> tag that modifies the
@@ -47,7 +47,7 @@ class attr extends Element
                 include $viewFile;
             }
 
-            Runtime::retargetResult('main');
+            Framework::retargetResult('main');
             ClearView::paneobj()->triggerevent('inlaychange');
             return;
         }

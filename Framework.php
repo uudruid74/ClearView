@@ -11,7 +11,7 @@ use ClearView\Config;
 use ProcessWire;
 
 /**
- * Runtime — the ClearView request lifecycle engine.
+ * Framework — the ClearView request lifecycle engine.
  *
  * Boots Mosaic, resolves URL parameters, loads inlay classes, and
  * dispatches commands.  Implements ArrayAccess for pane-scoped variable
@@ -21,7 +21,7 @@ use ProcessWire;
  * Replaces the old Pane request-handler class.  The "Pane" is now a
  * crystal (crystals/Pane.php) for {{Pane::headline}} template lookups.
  */
-class Runtime implements \ArrayAccess
+class Framework implements \ArrayAccess
 {
     /** @var Mosaic The Mosaic instance for this request. */
     public Mosaic $mosaic;

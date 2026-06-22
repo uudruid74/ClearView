@@ -2,10 +2,10 @@
 
 namespace ClearView;
 
-use ClearView\Runtime;
+use ClearView\Framework;
 
 /**
- * TestRig — headless Runtime for CLI testing.
+ * TestRig — headless Framework for CLI testing.
  *
  * Runs without ProcessWire by loading null crystals. Accepts
  * CLI arguments for configuration. Renders test views.
@@ -15,7 +15,7 @@ use ClearView\Runtime;
  * @see \ClearView\Runtime
  * @see \ClearView\Mosaic
  */
-class TestRig extends Runtime
+class TestRig extends Framework
 {
     /** @var array CLI argument overrides */
     private array $cliArgs = [];

@@ -1,6 +1,6 @@
 <?php
 namespace ClearView;
-use ClearView\Runtime;
+use ClearView\Framework;
 use ClearView\Facet;
 
 /**
@@ -8,7 +8,7 @@ use ClearView\Facet;
  *
  * @deprecated Use ClearView\\Main instead.
  */
-class DefaultPane extends Runtime
+class DefaultPane extends Framework
 {
     public $__loadExternal = "View::Default";
 
