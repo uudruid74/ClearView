@@ -12,7 +12,6 @@ use ClearView\Element;
 /**
  * End-to-end test: register InlayStub, build a ViewBuilder,
  * render it, and assert the stub data appears in output.
- *
  * Exercises the full InlayStub → InlayRegistry → ViewBuilder pipeline.
  */
 class InlayStubEndToEndTest extends TestCase

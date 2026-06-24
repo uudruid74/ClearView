@@ -11,10 +11,8 @@ use ClearView\Shard;
 
 /**
  * Builds a ClearView element tree at runtime for unit testing.
- *
  * Resets ClearView/Pane/Facet state in new()/reset() so tests do not leak.
  * Registers shards in Mosaic and can render individual elements or the full tree.
- *
  * @see \ClearView\Test\Fixture\TestFixtureException
  */
 class ViewBuilder
@@ -36,7 +34,6 @@ class ViewBuilder
 
     /**
      * Create a fresh builder, resetting all singleton state.
-     *
      * @param string|null $panename  Pane name (default: 'TestPage')
      * @param string|null $inlay     Inlay name (default: 'Default')
      */
@@ -55,9 +52,9 @@ class ViewBuilder
         return $builder;
     }
 
-    /**
-     * Reset ClearView, Pane, Mosaic, and Facet state so tests do not leak.
-     */
+    /** Reset ClearView, Pane, Mosaic, and Facet state so tests do not leak. */
+
+
     public function reset(): self
     {
         // Reset ClearView singleton: null the instance then create a fresh
@@ -99,9 +96,9 @@ class ViewBuilder
         return $this;
     }
 
-    /**
-     * Add a raw Shard by ID.
-     */
+    /** Add a raw Shard by ID. */
+
+
     public function withShard(string $id, array $data, ?string $inlay = null): self
     {
         $inlay = $inlay ?? $this->inlayname;
@@ -123,9 +120,9 @@ class ViewBuilder
         return $this;
     }
 
-    /**
-     * Add an Element (glyph) by ID.
-     */
+    /** Add an Element (glyph) by ID. */
+
+
     public function withElement(string $id, string $tag, array $attrs, ?string $inlay = null): self
     {
         $inlay = $inlay ?? $this->inlayname;
@@ -148,9 +145,9 @@ class ViewBuilder
         return $this;
     }
 
-    /**
-     * Attach a child shard to a parent shard by ID.
-     */
+    /** Attach a child shard to a parent shard by ID. */
+
+
     public function withChild(string $parentId, string $childId): self
     {
         $parent = Mosaic::index($this->inlayname, $parentId);
@@ -175,18 +172,18 @@ class ViewBuilder
         return $this;
     }
 
-    /**
-     * Set a Mosaic / Crystal variable.
-     */
+    /** Set a Mosaic / Crystal variable. */
+
+
     public function withVar(string $expression, mixed $value): self
     {
         Mosaic::setVar($expression, $value);
         return $this;
     }
 
-    /**
-     * Get a registered element by ID from Mosaic.
-     */
+    /** Get a registered element by ID from Mosaic. */
+
+
     public function getElement(string $id): \ClearView\Element
     {
         $shard = Mosaic::index($this->inlayname, $id);
@@ -196,9 +193,9 @@ class ViewBuilder
         return $shard;
     }
 
-    /**
-     * Render the assembled tree or a single named shard to HTML.
-     */
+    /** Render the assembled tree or a single named shard to HTML. */
+
+
     public function render(?string $id = null): string
     {
         if ($id !== null) {

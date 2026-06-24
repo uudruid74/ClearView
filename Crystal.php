@@ -10,12 +10,10 @@ use ReflectionClass;
 
 /**
  * Abstract base class for Crystals, managing ProcessWire objects.
- *
  * Crystals wrap ProcessWire objects (e.g., pages, users, sessions) to integrate them into ClearView’s data model.
  * They provide a unified interface for getting and setting variables or fields, forwarding method calls to the
  * underlying ProcessWire object, and registering instances as Shards in Mosaic. Subclasses specialize in specific
  * ProcessWire contexts, such as input, sessions, or pages.
- *
  * @see \ClearView\Shard
  * @see \ClearView\Mosaic
  * @see \ClearView\Page
@@ -25,12 +23,8 @@ abstract class Crystal extends Page implements ArrayAccess
     protected $mosaic;
     /**
      * Initializes the Crystal with a ProcessWire object.
-     *
      * Called during instantiation to set the ProcessWire object that the Crystal wraps. Subclasses may override
      * to provide default objects if none is provided.
-     *
-     * Why: Establishes the link between ClearView’s data model and ProcessWire’s API.
-     *
      * @param mixed $pwObject The ProcessWire object to wrap.
      */
     public function __construct($pwObject=null,$name=null,$inlay='ClearView',$mos=null)
@@ -63,14 +57,11 @@ abstract class Crystal extends Page implements ArrayAccess
 
     /**
      * Initializes all Crystal subclasses and registers them in Mosaic.
-     *
      * Iterates the Framework module stack and loads crystal files from
      * modules/<module>/crystals/.  First module to define a crystal wins;
      * lower-priority modules are skipped for already-loaded crystals.
-     *
      * Called during system startup.  Requires Framework::instance() to be
      * set before Mosaic::load() so the module list is available.
-     *
      * @param Mosaic $mosaic The Mosaic to register crystals in
      * @return Mosaic The Mosaic instance
      */

@@ -11,7 +11,6 @@ use ClearView\Element;
 
 /**
  * Core data object representing a node in the ClearView hierarchy.
- *
  * @implements \Stringable
  * @implements \ArrayAccess
  * @implements \JsonSerializable
@@ -50,61 +49,57 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     protected bool $canonicalId = false;
 
-    /**
-     * childType is an array of strings.
-     */
+    /** childType is an array of strings. */
+
+
     public const StringArray = 'string';
 
-    /**
-     * childType is an array of Shards.
-     */
+    /** childType is an array of Shards. */
+
+
     public const ShardArray = 'shard';
 
-    /** 
-     * childType is a processWire PageArray
-     */
+    /** childType is a processWire PageArray */
+
+
     public const PageArray = 'pagearray';
 
-    /**
-     * childType calls ->children() of the Page
-     */
+    /** childType calls ->children() of the Page */
+
+
     public const ChildArray = 'children';
 
-    /**
-     * childType type is undefined, set on first write.
-     */
+    /** childType type is undefined, set on first write. */
+
+
     public const UndefinedArray = 'undefined';
 
-    /**
-     * Input type for HTML strings.
-     */
+    /** Input type for HTML strings. */
+
+
     public const HTML = 'html';
 
-    /**
-     * Input type for JSON strings.
-     */
+    /** Input type for JSON strings. */
+
+
     public const JSON = 'json';
 
-    /**
-     * Input type for mangled JSON strings.
-     */
+    /** Input type for mangled JSON strings. */
+
+
     public const MANGLED = 'mangled';
 
-    /**
-     * Input type for view-based loading.
-     */
+    /** Input type for view-based loading. */
+
+
     public const VIEW = 'view';
 
     /**
      * Constructs a Shard from input data.
-     *
      * @param mixed $obj Input data (array, string, or null).
      * @param string|null $primaryField Primary field name (e.g., 'value').
      * @param string|null $named Optional name for the Shard.
      * @param string|null $childType Type of children array (StringArray, ShardArray, UndefinedArray).
-     *
-     * Why: Initializes a Shard with data, sets up Mosaic integration, and processes children,
-    * supporting flexible input types and child type enforcement.
      */
     public function __construct($obj = null, ?string $primaryField = null, ?string $named = null, ?string $childType = null)
     {
@@ -165,11 +160,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Converts a Shard or scalar value to an array for Mosaic merging.
-     *
      * Shards return their field data directly. Scalar values are parsed
      * through fromhtml() without any wrapper element — fragments and
      * other glyphs are rendered as-is, not mangled into <article> tags.
-     *
      * @param mixed $shard Shard instance or scalar value.
      * @return array The field data or parsed array.
      */
@@ -184,13 +177,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Generates a unique ID for the Shard.
-     *
      * @param array $object Input data containing id, name, or glyph.
      * @return string The generated ID.
-     *
-     * Why: Ensures each Shard has a unique identifier for Mosaic tracking and DOM rendering.
-     *      When id="#" and no name exists, a synthetic name is generated so the element
-     *      can be stored and addressed in Mosaic.
      */
     public function createid(array $object): string
     {
@@ -210,11 +198,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         return '';
     }
 
-    /**
-     * Renders the children of the Shard.
-     *
-     * Why: Outputs children, optimizing for strings or Shards.
-     */
+    /** Renders the children of the Shard. */
+
+
     public function renderChildren(): void
     {
         Exception::debug('TRACE',"renderChildren called ");
@@ -239,11 +225,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         }
     }
 
-    /**
-     * Renders the Shard as HTML.
-     *
-     * Why: Delegates rendering to Facet for consistent HTML output.
-     */
+    /** Renders the Shard as HTML. */
+
+
     public function html(): void
     {
         (new Facet($this))
@@ -254,10 +238,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns the Shard's HTML as a string.
-     *
      * @return string The rendered HTML.
-     *
-     * Why: Provides HTML output for string-based operations, such as HTMX responses.
      */
     public function getHtml(): string
     {
@@ -269,10 +250,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Placeholder for adding styles.
-     *
      * @return Shard This Shard instance.
-     *
-     * Why: Allows method chaining for style additions (to be implemented by subclasses).
      */
     public function style()
     {
@@ -281,10 +259,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Placeholder for adding scripts.
-     *
      * @return Shard This Shard instance.
-     *
-     * Why: Allows method chaining for script additions (to be implemented by subclasses).
      */
     public function script()
     {
@@ -293,7 +268,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Loads a Shard from input data.
-     *
      * @param mixed $obj Input data (array, string, object).
      * @param string|null $id Optional ID.
      * @param string|null $inlay Optional inlay context.
@@ -301,9 +275,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      * @param string|null $from Input type (HTML, JSON, MANGLED, VIEW).
      * @return Shard The loaded Shard.
      * @throws Exception On invalid input or recursion in VIEW mode.
-     *
-     * Why: Provides a flexible entry point for creating Shards from various input types,
-     * including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadView().
      */
     public static function loadShard($obj, ?string $id = null, ?string $inlay = null, ?string $glyph = null, ?string $from = null): Shard
     {
@@ -378,13 +349,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      * Canonicalizes children: stores named and id="#" children in Mosaic
      * and replaces their tree slots with References. Unnamed children
      * (without id="#") are left as-is (never stored in Mosaic).
-     *
      * Recurses into unnamed children's own children arrays so nested named
      * elements are also canonicalized.
-     *
-     * Why: Ensures named and auto-id children live exactly once in Mosaic,
-     *      preventing duplicate Shards and DOM clutter from the legacy
-     *      __unnamed system.
      */
     public function canonicalizeChildren(): void
     {
@@ -438,7 +404,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      * Recursively canonicalizes an inline children array without creating
      * Shards that would be registered in Mosaic. Named and id="#" children
      * found at any depth are stored in Mosaic and replaced with References.
-     *
      * @param array &$children Reference to the children array to process.
      * @param string $inlay    The parent inlay to inherit.
      */
@@ -475,14 +440,11 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Searchesildren for matching field values.
-     *
      * @param string $field Field to search.
      * @param mixed $value Value to match.
      * @param string $operator Comparison operator (e.g., '=', '*=').
      * @param string|null $returnField Optional field to return.
      * @return array Matching values or Shards.
-     *
-     * Why: Enables efficient content searches, optimized by childType.
      */
     protected function searchChildren(string $field, $value, string $operator, ?string $returnField = null): array
     {
@@ -509,11 +471,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Gets a Mosaic variable.
-     *
      * @param string $expression Variable expression.
      * @return mixed The variable value.
-     *
-     * Why: Provides access to Mosaic variables for dynamic data retrieval.
      */
     public function getVar(string $expression)
     {
@@ -522,11 +481,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Gets multiple Mosaic variables.
-     *
      * @param string $expression Variable expression.
      * @return array The matching variables.
-     *
-     * Why: Enables bulk retrieval of Mosaic variables for efficiency.
      */
     public function getVars(string $expression): array
     {
@@ -535,12 +491,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets a Mosaic variable.
-     *
      * @param string $var Variable name.
      * @param mixed $value Variable value.
      * @return mixed The set value.
-     *
-     * Why: Allows setting Mosaic variables for state management.
      */
     public function setVar(string $var, $value)
     {
@@ -549,11 +502,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Initializes a Mosaic variable if unset.
-     *
      * @param string $var Variable name.
      * @param mixed $value Initial value.
-     *
-     * Why: Ensures Mosaic variables are initialized safely.
      */
     public function initVar(string $var, $value): void
     {
@@ -562,11 +512,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets a field value via property access.
-     *
      * @param string $name Field name.
      * @param mixed $value Field value.
-     *
-     * Why: Supports property-style field setting, mapping 'value' to primaryField.
      */
     public function __set(string $name, $value): void
     {
@@ -578,10 +525,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns the primary field's string value.
-     *
      * @return string The primary field value.
-     *
-     * Why: Implements Stringable for string conversion, used in string contexts.
      */
     public function __toString(): string
     {
@@ -590,10 +534,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Gets a field value, no queries.  May support later
-     *
      * @param string $field Field name.
      * @return mixed The field value.
-     *
      */
     public function getField(string $field)
     {
@@ -602,11 +544,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets a field value.
-     *
      * @param string $var Field name.
      * @param mixed $val Field value.
-     *
-     * Why: Updates field data and notifies Mosaic for state tracking.
      */
     public function setField(string $var, $val): void
     {
@@ -616,11 +555,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets a raw field value without processing.
-     *
      * @param string $field Field name.
      * @param mixed $value Field value.
-     *
-     * Why: Allows low-level field setting during initialization.
      */
     protected function setRawField(string $field, $value): void
     {
@@ -629,10 +565,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets multiple raw fields.
-     *
      * @param array $fields Field-value pairs.
-     *
-     * Why: Efficiently initializes multiple fields during construction.
      */
     protected function setRawFields(array $fields): void
     {
@@ -645,10 +578,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets the primary field name.
-     *
      * @param string $fieldname Field name.
-     *
-     * Why: Allows customization of the primary field for specific Shards.
      */
     public function setPrimaryField(string $fieldname): void
     {
@@ -657,10 +587,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Serializes the Shard to mangled JSON.
-     *
      * @return string The mangled JSON string.
-     *
-     * Why: Provides a compact serialization format for storage or transmission.
      */
     public function deflate(): string
     {
@@ -680,22 +607,17 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Creates a Shard from mangled JSON.
-     *
      * @param string $json Mangled JSON string.
      * @return Shard The inflated Shard.
-     *
-     * Why: Restores a Shard from serialized data for reconstruction.
      */
     public static function inflate(string $json): Shard
     {
         return new Shard(jsonmangler::unmangle($json));
     }
 
-    /**
-     * Removes the Shard from Mosaic.
-     *
-     * Why: Cleans up Shard data and Mosaic references during deletion.
-     */
+    /** Removes the Shard from Mosaic. */
+
+
     public function delVar()
     {
         ClearView::Mosaic()->delShard($this);
@@ -704,11 +626,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Gets a field value via array access.
-     *
      * @param mixed $key Field name.
      * @return mixed The field value.
-     *
-     * Why: Implements ArrayAccess for array-style field access.
      */
     public function offsetGet($key): mixed
     {
@@ -722,11 +641,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets a field value via array access.
-     *
      * @param mixed $key Field name.
      * @param mixed $value Field value.
-     *
-     * Why: Implements ArrayAccess for array-style field setting.
      */
     public function offsetSet($key, $value): void
     {
@@ -736,11 +652,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Checks if a field exists.
-     *
      * @param mixed $key Field name.
      * @return bool True if the field exists.
-     *
-     * Why: Implements ArrayAccess for field existence checks.
      */
     public function offsetExists($key): bool
     {
@@ -749,10 +662,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Unsets a field.
-     *
      * @param mixed $key Field name.
-     *
-     * Why: Implements ArrayAccess for field removal.
      */
     public function offsetUnset($key): void
     {
@@ -762,10 +672,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns the Shard's ID.
-     *
      * @return string The ID.
-     *
-     * Why: Provides access to the Shard's unique identifier.
      */
     public function id(): string
     {
@@ -774,21 +681,16 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns the Shard's inlay context.
-     *
      * @return string The inlay.
-     *
-     * Why: Provides access to the Shard's inlay for context-aware operations.
      */
     public function inlay(): string
     {
         return $this->data['inlay'] ?? Mosaic::getVar('Input::inlayname');
     }
 
-    /**
-     * Renders the Shard's primary field value.
-     *
-     * Why: Provides a default rendering method for subclasses to override.
-     */
+    /** Renders the Shard's primary field value. */
+
+
     public function render()
     {
         echo Facet::_((string)$this); // outputs primaryField
@@ -796,10 +698,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Initializes the Shard.
-     *
      * @return Shard This Shard instance.
-     *
-     * Why: Allows subclasses to perform initialization tasks.
      */
     public function init()
     {
@@ -808,10 +707,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Checks if the Shard has changed.
-     *
      * @return mixed The current serialized value if changed, null otherwise.
-     *
-     * Why: Supports change detection for dynamic updates (e.g., HTMX).
      */
     public function hasChanged(): mixed
     {
@@ -822,10 +718,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Serializes the Shard to JSON with templating.
-     *
      * @return array The serialized data.
-     *
-     * Why: Implements JsonSerializable for JSON output with variable substitution.
      */
     public function jsonSerialize(): array
     {
@@ -834,11 +727,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns JSON with optional templating.
-     *
      * @param bool $useTemplate Whether to apply Facet::_() templating.
      * @return array The JSON data.
-     *
-     * Why: Provides JSON output with control over variable substitution.
      */
     public function json(bool $useTemplate = true): array
     {
@@ -847,11 +737,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns raw JSON without templating.
-     *
      * @param bool $useTemplate Whether to apply Facet::_() templating.
      * @return array The JSON data.
-     *
-     * Why: Provides raw JSON output for cases where templating is not needed.
      */
     public function rawJson(bool $useTemplate = false): array
     {
@@ -874,11 +761,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns a simplified JSON representation of the Shard.
-     *
      * Outputs an associative array of the Shard's fields, with each field's value processed appropriately.
      * Arrays of Shards are processed recursively using Facet for stack management. Scalar values and string arrays
      * are included directly. The output contains only the fields, without an outer element name, suitable for forms.
-     *
      * @param bool $useTemplate Whether to apply Facet::_() templating to string values (default: false).
      * @return array The simplified JSON data.
      */
@@ -927,12 +812,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets $this->debug to be of the Shard tag
-     *
      * @param string $msg Debug message.
      * @param int $depth Stack trace depth.
      * @return Shard This Shard instance.
-     *
-     * Why: Facilitates debugging with method chaining.
      */
     public function debug(string $msg, int $depth = 2)
     {
@@ -942,10 +824,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets multiple fields.
-     *
      * @param array $arr Field-value pairs.
-     *
-     * Why: Efficiently updates multiple fields in one operation.
      */
     public function setFields(array $arr): void
     {
@@ -958,11 +837,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Checks if a field exists.
-     *
      * @param string $var Field name.
      * @return bool True if the field exists.
-     *
-     * Why: Supports field existence checks for conditional logic.
      */
     public function hasField(string $var): bool
     {
@@ -981,11 +857,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Checks if a field is missing.
-     *
      * @param string $var Field name.
      * @return bool True if the field is missing.
-     *
-     * Why: Provides a convenience method for missing field checks.
      */
     public function missingField(string $var): bool
     {
@@ -996,8 +869,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      * Initializes a field if     *
      * @param string $var Field name.
      * @param mixed $value Initial value.
-     *
-     * Why: Safely initializes fields without overwriting existing values.
      */
     public function initField(string $var, $value): void
     {
@@ -1008,11 +879,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Initializes a raw field if unset.
-     *
      * @param string $var Field name.
      * @param mixed $value Initial value.
-     *
-     * Why: Supports low-level field initialization during construction.
      */
     protected function initRawField(string $var, $value): void
     {
@@ -1023,10 +891,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Initializes multiple fields if unset.
-     *
      * @param array $array Field-value pairs.
-     *
-     * Why: Efficiently initializes multiple fields during setup.
      */
     public function initFields(array $array): void
     {
@@ -1040,13 +905,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Bulk write to Mosaic variables.
-     *
      * Replaces the old setVars(). Delegates to Mosaic fill().
-     *
      * @param array $arr Variable-value pairs.
      * @param string|null $inlay Inlay context.
-     *
-     * Why: Supports bulk variable setting via Mosaic.
      */
     public function fill(array $arr, ?string $inlay = null): void
     {
@@ -1061,11 +922,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Deletes multiple Mosaic variables.
-     *
      * @param mixed $arr Variables to delete.
      * @param string|null $inlay Inlay context.
-     *
-     * Why: Supports bulk variable removal for cleanup.
      */
     public function delVars($arr, ?string $inlay = null): void
     {
@@ -1074,10 +932,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns all field data.
-     *
      * @return array The field data.
-     *
-     * Why: Provides access to all fields for inspection or serialization.
      */
     public function getFieldData(): array
     {
@@ -1086,10 +941,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Adds content to the children field.
-     *
      * @param mixed $content Content to add (string, Shard, or array).
-     *
-     * Why: Provides explicit content addition for dynamic updates (e.g., HTMX).
      */
     public function addChildren($content): void
     {
@@ -1099,7 +951,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Sets the children type
-     *
      * @param string $arrayType
      * @return $this for chaining
      */
@@ -1111,21 +962,16 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns the child type.
-     *
      * @return string The child type (StringArray, ShardArray, UndefinedArray).
-     *
-     * Why: Allows external access to childType for optimized processing.
      */
     public function getChildType(): string
     {
         return $this->childType ;
     }
 
-    /**
-     * Resets the iterator position.
-     *
-     * Why: Implements Iterator for children traversal.
-     */
+    /** Resets the iterator position. */
+
+
     public function rewind(): void
     {
         $this->iteratorPosition = 0;
@@ -1133,10 +979,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns the current iterator item.
-     *
      * @return mixed The current content item.
-     *
-     * Why: Implements Iterator for children access.
      */
     public function current(): mixed
     {
@@ -1152,21 +995,16 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Returns the current iterator key.
-     *
      * @return mixed The current key.
-     *
-     * Why: Implements Iterator for key access.
      */
     public function key(): mixed
     {
         return $this->iteratorPosition;
     }
 
-    /**
-     * Advances the iterator.
-     *
-     * Why: Implements Iterator for traversal.
-     */
+    /** Advances the iterator. */
+
+
     public function next(): void
     {
         $this->iteratorPosition++;
@@ -1174,10 +1012,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Checks if the current iterator position is valid.
-     *
      * @return bool True if valid.
-     *
-     * Why: Implements Iterator for traversal control.
      */
     public function valid(): bool
     {
@@ -1193,11 +1028,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Searches the fields of the Shard based on a query.
-     *
      * @param string $query The query string for searching fields (wildcard or regex).
      * @return array An array of matching field names or values.
-     *
-     * Why: Allows flexible searching of Shard fields using wildcards or regex patterns.
      */
     public function getFields(string $query): array
     {
@@ -1221,11 +1053,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Converts a wildcard pattern to a regex pattern.
-     *
      * @param string $wildcard The wildcard pattern to convert.
      * @return string The equivalent regex pattern.
-     *
-     * Why: Facilitates wildcard searches by transforming them into regex for field matching.
      */
     private function wildcardToRegex(string $wildcard): string
     {
@@ -1236,11 +1065,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Searches or indexes the '__children' field of the Shard.
-     *
      * @param string $query The query string for searching or indexing children
      * @return array An array of matching strings or Shards.
-     *
-     * Why: Provides flexible access to children, supporting both indexing and value-based searches.
      */
     public function getChildren(string $query): array
     {
@@ -1280,13 +1106,10 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Iterates over the fields of the Shard, applying a callback to each matching field.
-     *
      * @param callable $callback The callback function to apply to each field (receives value and key).
      * @param string|null $delim The delimiter to join results (default: ' '). Null to return an array.
      * @param string|null $filter The regex pattern to filter field names (optional).
      * @return string|array The concatenated results or array of results.
-     *
-     * Why: Supports dynamic processing of Shard fields with optional filtering.
      */
     public function iterateFields(callable $callback, ?string $delim = ' ', ?string $filter = null): mixed
     {

@@ -14,9 +14,9 @@ class ExampleTest extends TestCase
 {
     // ── ViewBuilder tests ──────────────────────────────────────────
 
-    /**
-     * ViewBuilder::new() initialises Mosaic and sets Pane::name.
-     */
+    /** ViewBuilder::new() initialises Mosaic and sets Pane::name. */
+
+
     public function testViewBuilderSetsPaneName(): void
     {
         ViewBuilder::new('Inventory', 'Default');
@@ -25,9 +25,9 @@ class ExampleTest extends TestCase
         $this->assertSame('Inventory', $panename, 'Pane::name should be in Mosaic');
     }
 
-    /**
-     * ViewBuilder::new() sets Page::url so templates resolve.
-     */
+    /** ViewBuilder::new() sets Page::url so templates resolve. */
+
+
     public function testViewBuilderSetsPageUrl(): void
     {
         ViewBuilder::new('Demo', 'Default');
@@ -54,9 +54,9 @@ class ExampleTest extends TestCase
         $this->assertSame('/demo/save/', $element->getField('hx-post'));
     }
 
-    /**
-     * Missing element throws TestFixtureException.
-     */
+    /** Missing element throws TestFixtureException. */
+
+
     public function testGetMissingElementThrows(): void
     {
         $builder = ViewBuilder::new('Demo', 'Default');
@@ -67,18 +67,18 @@ class ExampleTest extends TestCase
 
     // ── Exception tests ────────────────────────────────────────────
 
-    /**
-     * TestFixtureException is throwable.
-     */
+    /** TestFixtureException is throwable. */
+
+
     public function testFixtureExceptionIsThrowable(): void
     {
         $this->expectException(TestFixtureException::class);
         throw new TestFixtureException('Duplicate shard id: submit');
     }
 
-    /**
-     * TestHarnessException is throwable (already exists).
-     */
+    /** TestHarnessException is throwable (already exists). */
+
+
     public function testHarnessExceptionIsThrowable(): void
     {
         $this->expectException(TestHarnessException::class);
