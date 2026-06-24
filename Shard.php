@@ -210,8 +210,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     {
         (new Facet($this))
             ->debug("Shard::html called for {{id}}")
-            ->render()
-            ->close();
+            ->html();
     }
 
     /**

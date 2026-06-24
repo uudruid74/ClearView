@@ -237,6 +237,13 @@ class ClearView extends Crystal
      */
     public static function __callStatic(string $name, array $args): mixed
     {
+        // 1. Check Mosaic for a Crystal under the 'ClearView' inlay first
+        $crystal = Mosaic::index('ClearView', $name);
+        if ($crystal !== null) {
+            return $crystal;
+        }
+
+        // 2. Fall through to Prism loading from the module stack
         foreach (Framework::instance()->Modules() as $module) {
             $path = dirname(__DIR__, 3) . "/modules/{$module}/prisms/{$name}.php";
             if (file_exists($path)) {
@@ -245,6 +252,6 @@ class ClearView extends Crystal
                 return new $class(...$args);
             }
         }
-        throw new Exception("Prism '{$name}' not found in any module");
+        throw new Exception("'{$name}' not found as Crystal or Prism in any module");
     }
 }
