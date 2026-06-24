@@ -609,7 +609,10 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         return Mosaic::getVar('Input::inlayname');
     }
 
-    /** Returns true if this Shard has no name — cannot be stored in Mosaic. */
+    /**
+     * Returns true if this Shard has no name — cannot be stored in Mosaic.
+     * @return bool
+     */
     public function isAnonymous(): bool
     {
         return !isset($this->data['name']);
@@ -869,7 +872,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Adds content to the children field, enforcing type consistency.
+     * If new content type differs from existing children, upgrades to Shards.
      * @param mixed $content Content to add (string, Shard, or array).
+     * @return void
      */
     public function addChildren($content): void
     {
@@ -888,6 +893,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * Replaces children, normalizing all items to Shards.
+     * @param mixed $newChildren Single item or array of items.
+     * @return void
      */
     public function replaceChildren(mixed $newChildren): void
     {
@@ -898,11 +905,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         );
     }
 
-    /**
-     * Sets the children type
-     * @param string $arrayType
-     * @return $this for chaining
-     */
     /**
      * Returns the child type by inspecting the children array.
      * @return string|null The type: 'string', class name, or null for no children.

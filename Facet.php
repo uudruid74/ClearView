@@ -637,9 +637,11 @@ class Facet
     }
 
     /**
-     * Renders a Shard or object as HTML by calling html().
+     * Full render cycle. Two branches:
+     * - With argument: accepts Shard, array, or string; renders + children + auto-close.
+     * - No argument: operates on current target (me()); renders + children + close.
      *
-     * @param object $input The Shard or object to render.
+     * @param mixed $input Shard, array, string, or null for current target.
      * @param array|null $match Conditions to check for true (optional).
      * @param array|null $unless Conditions to check for false (optional).
      * @param bool $unlessContained If true, skips rendering if the element is contained (optional).
@@ -771,6 +773,11 @@ class Facet
     /**
      * Triggers an HTMX event, with optional conditional gating via match/unless.
      * Forwards to Framework::triggerevent() on the current target.
+     * @param string $event Event name to trigger.
+     * @param mixed $params Optional event parameters.
+     * @param array|null $match Conditions to check for true (optional).
+     * @param array|null $unless Conditions to check for false (optional).
+     * @return self For method chaining.
      */
     public function triggerevent(string $event, $params = null, ?array $match = null, ?array $unless = null): self
     {

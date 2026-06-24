@@ -322,7 +322,10 @@ class Config extends Crystal
     }
 
     /**
-     * Sets a config value, storing in both the static array and Mosaic.
+     * Sets a config value in the static $config array.
+     * @param string $var Config key name.
+     * @param mixed $value Config value.
+     * @return self
      */
     public function setVar(string $var, $value)
     {
