@@ -28,9 +28,6 @@ class aside extends Element
      */
     public function __construct($obj = null, ?string $primaryField = null, ?string $named = null, ?string $childType = null)
     {
-        if (is_array($obj)) {
-            $obj['inlay'] = 'Pane';
-        }
         parent::__construct($obj, $primaryField, $named, $childType);
     }
 

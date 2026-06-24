@@ -59,7 +59,7 @@ class jsonmangler
         $result = '';
         $first = true;
         foreach ($input as $key => $value) {
-            if ($key === 'inlay' || $key === 'id') {
+            if ($key === 'id') {
                 continue;
             }
             if (strncmp($key, '__', 2) === 0) {

@@ -76,12 +76,6 @@ class ViewBuilder
         $this->mosaic = new Mosaic();
         new Framework($this->panename, $this->inlayname, $this->mosaic);
 
-        // Set a stub CurrentPane so Element constructors don't crash.
-        \ClearView\ClearView::CurrentPane(new Shard([
-            'id'    => '_stub_',
-            'inlay' => Config::SHARD_ANONINLAY,
-        ]));
-
         // Reset Facet static state
         $fRef = new \ReflectionClass(Facet::class);
         foreach (['tagstack', 'oobCount', 'recordCount', 'containedCount', 'data'] as $field) {

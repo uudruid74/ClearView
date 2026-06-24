@@ -101,27 +101,22 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 	    Mosaic::initArray($obj, self::toArray(Mosaic::getVar($loadView)));
         }
 	// Text-only nodes are anonymous — no Mosaic storage
-	// TODO: Inlay per element needs to go away!
-        if (array_key_exists('text',$obj) && array_key_exists('__pF', $obj) && $obj['__pF'] == 'text') {
-            $obj['inlay'] = Config::SHARD_ANONINLAY;
-        } else {
-            $obj['inlay'] = $obj['inlay'] ?? $this->inlay ?? Mosaic::getVar("Input::inlayname");
-            // If id="#" → expand to canonical form on output.
-            // Store the name as the Mosaic key so References can
-            // resolve via Mosaic index($inlay, $name).
-            if (($obj['id'] ?? null) === '#') {
-                if (empty($obj['name'])) {
-                    $obj['name'] = $this->createid($obj);
-                }
-                $obj['id'] = $obj['name'];
-                $this->canonicalId = true;
-            }
-            $obj['name'] = $obj['name'] ?? $this->name ?? $named;
-            $obj['id'] = $obj['id'] ?? $this->id ?? $this->createid($obj);
-            if ($obj['id'] === '') {
-                $obj['inlay'] = Config::SHARD_ANONINLAY;
-            }
-        }
+	if (array_key_exists('text',$obj) && array_key_exists('__pF', $obj) && $obj['__pF'] == 'text') {
+	    // anonymous — no name, no Mosaic storage
+	} else {
+	    // If id="#" → expand to canonical form on output.
+	    // Store the name as the Mosaic key so References can
+	    // resolve via Mosaic index($inlay, $name).
+	    if (($obj['id'] ?? null) === '#') {
+	        if (empty($obj['name'])) {
+	            $obj['name'] = $this->createid($obj);
+	        }
+	        $obj['id'] = $obj['name'];
+	        $this->canonicalId = true;
+	    }
+	    $obj['name'] = $obj['name'] ?? $this->name ?? $named;
+	    $obj['id'] = $obj['id'] ?? $this->id ?? $this->createid($obj);
+	}
         if (isset($obj['__pF'])) {
             $primaryField = $obj['__pF'];
             unset($obj['__pF']);
@@ -129,7 +124,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             $this->primaryField = $primaryField;
         }
         $this->setRawFields($obj);
-        if ($obj['inlay'] !== Config::SHARD_ANONINLAY) {
+        if (!$this->isAnonymous()) {
             $this->address = $obj['__address'] = Mosaic::makeAddress($this);
             Mosaic::addShard($this);
         }
@@ -356,7 +351,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 $this->data['children'][$i] = [
                     'glyph' => 'reference',
                     'name' => $child['name'],
-                    'inlay' => Config::SHARD_ANONINLAY,
                     '_refInlay' => $childShard->inlay(),
                 ];
             } elseif (!empty($child['children'])) {
@@ -397,7 +391,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 $children[$i] = [
                     'glyph' => 'reference',
                     'name' => $child['name'],
-                    'inlay' => Config::SHARD_ANONINLAY,
                     '_refInlay' => $childShard->inlay(),
                 ];
             } elseif (!empty($child['children'])) {
@@ -646,7 +639,13 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function inlay(): string
     {
-        return $this->data['inlay'] ?? Mosaic::getVar('Input::inlayname');
+        return Mosaic::getVar('Input::inlayname');
+    }
+
+    /** Returns true if this Shard has no name — cannot be stored in Mosaic. */
+    public function isAnonymous(): bool
+    {
+        return !isset($this->data['name']);
     }
 
     /** Renders the Shard's primary field value. */
@@ -876,7 +875,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             if ($key === 'children') {
                 $this->replaceChildren($value);
             } else {
-		Mosaic::->setVar($key, $value, $inlay);
+		                Mosaic::setVar($key, $value, $inlay);
             }
         }
     }

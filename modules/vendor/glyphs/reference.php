@@ -28,20 +28,15 @@ class reference extends Element
      *
      * Captures the real inlay as _refInlay for Mosaic resolution.
      */
-    public function __construct($obj = null, ?string $primaryField = null, ?string $named = null, ?string $childType = null)
+    public function __construct($obj = null, ...$args)
     {
         if (is_array($obj)) {
-            // Capture the real inlay for resolution before forcing anon.
-            // On round-trip through Mosaic loadMosaic, loadShard sets
-            // $obj['inlay'] to the current inlay — save it so resolve()
-            // can find the target.  When canonicalizeChildren() already
-            // provided _refInlay, keep it.
-            if (!isset($obj['_refInlay']) && isset($obj['inlay']) && $obj['inlay'] !== Config::SHARD_ANONINLAY) {
+            // Round-trip: save the real inlay from canonicalizeChildren()'s _refInlay
+            if (!isset($obj['_refInlay']) && isset($obj['inlay'])) {
                 $obj['_refInlay'] = $obj['inlay'];
             }
-            $obj['inlay'] = Config::SHARD_ANONINLAY;
         }
-        parent::__construct($obj, $primaryField, $named, $childType);
+        parent::__construct($obj, ...$args);
     }
     /**
      * Resolves the target Shard from Mosaic by inlay + name.

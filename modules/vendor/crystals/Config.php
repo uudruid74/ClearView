@@ -52,11 +52,7 @@ class Config extends Crystal
      */
     public const TITLE_PREFIX = 'ClearView';
 
-    /**
-     * Anonymous Shards have the following inlay and are never stored anywhere
-     * These Shards are temporary, such as Page objects
-     */
-    public const SHARD_ANONINLAY = "__anonymous";
+    /** @var string Path to remote ProcessWire installation for Hanna Code imports */
 
     /**
      * The name of the field holding a reference to a processwire object
@@ -263,7 +259,6 @@ class Config extends Crystal
         'modules_list' => self::MODULES_LIST,
         'layername_clearview' => self::LAYERNAME_CLEARVIEW,
         'title_prefix' => self::TITLE_PREFIX,
-        'shard_anoninlay' => self::SHARD_ANONINLAY,
         'page_pwobject' => self::PAGE_PWOBJECT,
         'page_pwPane' => self::PAGE_PWPANE,
         'layername_modal' => self::LAYERNAME_MODAL,

@@ -85,7 +85,7 @@ class Facet
     public static function me()
     {
         if (empty(self::$tagstack)) {
-            return ClearView::CurrentPane();
+            return Framework::instance();
         }
         $targetIdx = count(self::$tagstack) - 1;
         while ($targetIdx >= 0 && !is_object(self::$tagstack[$targetIdx])) {
@@ -95,31 +95,26 @@ class Facet
             return self::$tagstack[$targetIdx];
         }
         Exception::debug('FACET', "Facet::me() returning **Pane Creator!** (no object found)");
-        return ClearView::CurrentPane();
+        return Framework::instance();
     }
 
     /**
-     * Gets the ID of the current element.
-     *
      * Retrieves the ID of the current target element via me()->id().
-     *
      * @return string The ID of the current element.
      */
     public function id()
     {
-        return self::me()->id() ?? ClearView::id();
+        return self::me()->id() ?? null; 
     }
 
     /**
      * Gets the inlay of the current element.
-     *
      * Retrieves the inlay of the current target element via me()->inlay().
-     *
      * @return string The inlay of the current element.
      */
     public static function inlay()
     {
-        return self::me()->inlay() ?? ClearView::inlay();
+        return self::me()->inlay() ?? Mosiac::getVar("Input::inlayname");
     }
 
     /**
@@ -145,7 +140,7 @@ class Facet
         $string = preg_replace('/\s+/', ' ', $string);
         // Process nested {{...}} pairs
         if (str_contains($string, '{{')) {
-            return QueryParser::processTemplate($string,$locals,self::me()->inlay(),self::me());
+            return QueryParser::processTemplate($string,$locals,self::inlay(),self::me());
         }
         return $string;
     }

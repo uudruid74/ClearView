@@ -301,7 +301,7 @@ class Framework implements \ArrayAccess
             $reflectionMethod = new \ReflectionMethod($this, $command);
 
             // PaneKey security
-            $providedToken = $this['Pane::Key'];
+            $providedToken = $this['Shared::PaneKey'];
             $expectedToken = $this['Session::PaneKey'];
             if ($providedToken !== $expectedToken) {
                 throw new Exception('Invalid PaneKey: $providedToken vs $expectedToken');
