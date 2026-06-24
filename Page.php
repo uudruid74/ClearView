@@ -34,9 +34,6 @@ class Page extends Shard
         if ($pwObject instanceof \ProcessWire\PageArray) {
             $init['__pF'] = "children";
             $init['children'] = $pwObject;
-            $childType = Shard::PageArray;
-        } else {
-            $childType = Shard::ChildArray;
         }
         if (is_String($pwObject)) {
             $init[Config::PAGE_PWPANE] = \ProcessWire\page();
@@ -46,7 +43,6 @@ class Page extends Shard
             $init['name'] = 'page-' . $pwObject->id;
         }
         parent::__construct($init);
-        $this->setChildType($childType);
     }
 
     /**

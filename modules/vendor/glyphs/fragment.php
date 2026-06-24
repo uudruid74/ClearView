@@ -19,7 +19,6 @@ use ClearView\Config;
 class fragment extends Element
 {
     protected $primaryField = 'children';
-    protected string $contentsType = self::ShardArray;
 
     public function render()
     {

@@ -38,36 +38,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     private int $iteratorPosition = 0;
 
-    /**
-     * @var string Type of children array (StringArray, ShardArray, or UndefinedArray).
-     * TODO: ChildType will go away in favor of just analyzing the first class in the
-     * array and promoting accordingly.  Create method to return class of children.
-     * Children start simple and promote accordingly, often to a Shard.
-     */
-    protected string $childType = self::UndefinedArray;
-
-    /**
-     * @var bool True when the original id was "#" — getField('id') should expand
-     *           to the canonical pane/inlay/name form instead of returning the stored id.
-     * TODO: This needs to be removed.  We just look at the 'id' field and it's
-     * 		either a specific id, or '#' to call creatid(), no field for no id.
-     */
     protected bool $canonicalId = false;
-
-    /** childType is an array of strings. */
-    public const StringArray = 'string';
-
-    /** childType is an array of Shards. */
-    public const ShardArray = 'shard';
-
-    /** childType is a processWire PageArray */
-    public const PageArray = 'pagearray';
-
-    /** childType calls ->children() of the Page */
-    public const ChildArray = 'children';
-
-    /** childType type is undefined, set on first write. */
-    public const UndefinedArray = 'undefined';
 
     /** Input type for HTML strings. */
     public const HTML = 'html';
@@ -86,13 +57,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      * @param mixed $obj Input data (array, string, or null).
      * @param string|null $primaryField Primary field name (e.g., 'value').
      * @param string|null $named Optional name for the Shard.
-     * @param string|null $childType Type of children array (StringArray, ShardArray, UndefinedArray).
      */
-    public function __construct($obj = null, ?string $primaryField = null, ?string $named = null, ?string $childType = null)
+    public function __construct($obj = null, ?string $primaryField = null, ?string $named = null)
     {
-        if ($childType !== null && in_array($childType, [self::StringArray, self::ShardArray, self::UndefinedArray], true)) {
-            $this->childType = $childType;
-        }
 
         $obj = is_array($obj) ? $obj : ['value' => $obj];
         $loadView = $this->__loadExternal ?? $obj['__loadExternal'] ?? null;
@@ -410,13 +377,13 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     protected function searchChildren(string $field, $value, string $operator, ?string $returnField = null): array
     {
         $matches = [];
-        if ($this->childType === self::StringArray) {
+        if ($this->getChildType() === 'string') {
             foreach ($this->data['children'] ?? [] as $item) {
                 if ($field === 'value' && QueryParser::compare($item, $value, $operator)) {
                     $matches[] = $returnField ? $item : $item;
                 }
             }
-        } elseif ($this->childType === self::ShardArray) {
+        } else {
             foreach ($this->data['children'] ?? [] as $item) {
                 $itemValue = $item->getField($field);
                 if ($itemValue === null) {
@@ -732,13 +699,14 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         $output = [];
         foreach ($this->data as $key => $value) {
             if ($key === 'children') {
-                if ($this->childType === self::StringArray) {
+                $type = $this->getChildType();
+                if ($type === 'string') {
                     // String arrays are included as-is, with optional templating
                     $output['children'] = array_map(
                         fn ($item) => $useTemplate ? Facet::_($item) : $item,
                         $value
                     );
-                } elseif ($this->childType === self::ShardArray) {
+                } elseif ($type !== null) {
                     // Shard arrays are processed recursively with Facet
                     $output['children'] = array_map(
                         function ($shard) use ($useTemplate) {
@@ -900,13 +868,34 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     }
 
     /**
-     * Adds content to the children field.
+     * Adds content to the children field, enforcing type consistency.
      * @param mixed $content Content to add (string, Shard, or array).
      */
     public function addChildren($content): void
     {
         $current = $this->data['children'] ?? [];
-        $this->data['children'] = array_merge($current, is_array($content) ? $content : [$content]);
+        $new = is_array($content) ? $content : [$content];
+        if (!empty($current) && !empty($new)) {
+            $existingType = $this->getChildType();
+            $newFirst = reset($new);
+            $newType = is_string($newFirst) ? 'string' : (is_object($newFirst) ? get_class($newFirst) : gettype($newFirst));
+            if ($existingType !== $newType) {
+                $new = array_map(fn($v) => is_string($v) ? Shard::loadShard($v) : $v, $new);
+            }
+        }
+        $this->data['children'] = array_merge($current, $new);
+    }
+
+    /**
+     * Replaces children, normalizing all items to Shards.
+     */
+    public function replaceChildren(mixed $newChildren): void
+    {
+        $items = is_array($newChildren) ? $newChildren : [$newChildren];
+        $this->data['children'] = array_map(
+            fn($item) => $item instanceof Shard ? $item : Shard::loadShard($item),
+            $items
+        );
     }
 
     /**
@@ -914,19 +903,21 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      * @param string $arrayType
      * @return $this for chaining
      */
-    public function setChildType(string $arrayType)
-    {
-        $this->childType = $arrayType;
-        return $this;
-    }
-
     /**
-     * Returns the child type.
-     * @return string The child type (StringArray, ShardArray, UndefinedArray).
+     * Returns the child type by inspecting the children array.
+     * @return string|null The type: 'string', class name, or null for no children.
      */
-    public function getChildType(): string
+    public function getChildType(): ?string
     {
-        return $this->childType ;
+        $children = $this->data['children'] ?? null;
+        if ($children === null || $children === []) {
+            return null;
+        }
+        $first = $children[array_key_first($children)];
+        if (is_string($first))  return 'string';
+        if ($first instanceof Shard)  return get_class($first);
+        if (is_array($first))   return 'array';
+        return gettype($first);
     }
 
     /** Resets the iterator position. */
@@ -947,10 +938,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!isset($children)) {
             return null;
         }
-        if ($this->childType === self::StringArray || $this->childType === self::ShardArray) {
-            return $children[$this->iteratorPosition] ?? null;
-        }
-        return $children;
+        return $children[$this->iteratorPosition] ?? null;
     }
 
     /**
@@ -980,10 +968,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!isset($children)) {
             return false;
         }
-        if ($this->childType === self::StringArray || $this->childType === self::ShardArray) {
-            return isset($children[$this->iteratorPosition]);
-        }
-        return $this->iteratorPosition === 0;
+        return isset($children[$this->iteratorPosition]);
     }
 
     /**
@@ -1035,14 +1020,15 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             return [];
         }
 
-        if ($this->childType === self::StringArray) {
+        $type = $this->getChildType();
+        if ($type === 'string') {
             if (strpos($query, '=') !== false) {
                 [$_, $value] = explode('=', $query, 2);
                 return array_filter($children, fn ($item) => $item == $value);
             } else {
                 return array_filter($children, fn ($item) => strpos($item, $query) !== false);
             }
-        } elseif ($this->childType === self::ShardArray) {
+        } else {
             if (strpos($query, '=') !== false) {
                 [$field, $value] = explode('=', $query, 2);
                 if (strpos($field, '.') !== false) {
