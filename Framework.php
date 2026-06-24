@@ -256,15 +256,26 @@ class Framework implements \ArrayAccess
         $this->redirect();
     }
 
-    /** Triggers an htmx event. */
-    public function triggerevent(string $event, $params = null): self
+    /** Triggers an htmx event. Calls through instance for subclass overrides. */
+    public static function triggerevent(string $event, $params = null): void
     {
-        $this->sendHtmxHeader('HX-Trigger', $event, $params);
-        return $this;
+        self::instance()->onTriggerevent($event, $params);
     }
 
-    /** Sends a special header in the server response. */
-    public function sendHtmxHeader(string $header, $event, $params): self
+    /** Instance override point for triggerevent. */
+    public function onTriggerevent(string $event, $params = null): void
+    {
+        $this->onSendHtmxHeader('HX-Trigger', $event, $params);
+    }
+
+    /** Sends a special header in the server response. Calls through instance. */
+    public static function sendHtmxHeader(string $header, $event, $params): void
+    {
+        self::instance()->onSendHtmxHeader($header, $event, $params);
+    }
+
+    /** Instance override point for sendHtmxHeader. */
+    public function onSendHtmxHeader(string $header, $event, $params): void
     {
         Exception::debug('EVENT', "Triggering {$event}");
         if (isset($params) && is_array($params)) {
@@ -273,13 +284,18 @@ class Framework implements \ArrayAccess
         } else {
             header("HX-Trigger: {$event}");
         }
-        return $this;
     }
 
-    /** Sets the HX-Retarget header. */
-    public function retargetResult(string $target, $params = null): void
+    /** Sets the HX-Retarget header. Calls through instance. */
+    public static function retargetResult(string $target, $params = null): void
     {
-        $this->sendHtmxHeader('HX-Retarget', $target, $params);
+        self::instance()->onRetargetResult($target, $params);
+    }
+
+    /** Instance override point for retargetResult. */
+    public function onRetargetResult(string $target, $params = null): void
+    {
+        self::instance()->onSendHtmxHeader('HX-Retarget', $target, $params);
     }
 
     /** Wrapper around Exception::debug() for inlays. */
@@ -319,7 +335,7 @@ class Framework implements \ArrayAccess
             $pageField = $this["Page::$command"];
             if ($pageField !== null) {
                 (new Facet()
-                    ->html($pageField)
+                    ->html($pageField))
                     ->close();
             } else {
                 $this->doesNotUnderstand($command);

@@ -14,7 +14,6 @@ class loginform_login extends Inlay
     public function logout()
     {
         ClearView::User()->logout();
-        $this->triggerevent('userchange');
     }
 
     public function login()
@@ -26,7 +25,6 @@ class loginform_login extends Inlay
                 'summary'      => 'Welcome back<br>{{text20\\User::displayname}}!',
                 'login'        => 'Success!'
             ])
-            ->triggerevent('userchange')
             ->close();       // close the form
         } else {
             $this->fill([         // Login failed

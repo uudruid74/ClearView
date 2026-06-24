@@ -36,7 +36,11 @@ class User extends Crystal
     public function trylogin()
     {
         $user = ClearView::Session()->login($this['name30\username'], $this['removeWhitespace30\password']);
-        return $user ? new \ClearView\User($user) : null;
+        if ($user) {
+            Framework::triggerevent('loginchange');
+            return new \ClearView\User($user);
+        }
+        return null;
     }
 
     /**
@@ -44,7 +48,8 @@ class User extends Crystal
      */
     public function logout()
     {
-	ClearView::Session()->logout();
+        ClearView::Session()->logout();
+        Framework::triggerevent('loginchange');
     }
 
 }
