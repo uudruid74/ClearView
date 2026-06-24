@@ -1,0 +1,14 @@
+{
+    "name": "ekl/clearview-neo",
+    "type": "project",
+    "require": {
+        "phpdocumentor/phpdocumentor": "^3"
+    },
+    "config": {
+        "policy": {
+            "advisories": {
+                "block": false
+            }
+        }
+    }
+}

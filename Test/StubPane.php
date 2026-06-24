@@ -6,7 +6,6 @@ use ClearView\Framework;
 
 /**
  * Base class for dynamically-generated stub panes.
- *
  * When InlayRegistry returns a stub, it creates an anonymous subclass
  * of StubPane that bakes in the synthetic data.  This base class
  * provides the render() method that emits the data as an HTML
@@ -33,17 +32,17 @@ class StubPane extends Framework
         $this->inlayname = $inlayname;
     }
 
-    /**
-     * Subclasses override this to return the stub payload.
-     */
+    /** Subclasses override this to return the stub payload. */
+
+
     protected function getStubData(): array
     {
         return [];
     }
 
-    /**
-     * Render the stub data as an HTML fragment.
-     */
+    /** Render the stub data as an HTML fragment. */
+
+
     public function render(): void
     {
         $data = $this->getStubData();
@@ -52,9 +51,9 @@ class StubPane extends Framework
         echo '</div>';
     }
 
-    /**
-     * Recursively render an array as nested <dl>/<ul> elements.
-     */
+    /** Recursively render an array as nested <dl>/<ul> elements. */
+
+
     private function renderArray(array $data, bool $isList = false): string
     {
         $out = '';

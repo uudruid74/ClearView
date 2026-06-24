@@ -1,7 +1,6 @@
 <?php
 /**
  * ClearView test bootstrap.
- *
  * Provides minimal ProcessWire stubs and loads the dependency tree
  * needed for ViewBuilder and fixture unit tests.
  */

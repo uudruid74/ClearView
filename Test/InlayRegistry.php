@@ -7,7 +7,6 @@ use ClearView\Test\Fixture\InlayStub;
 
 /**
  * Central registry for InlayStub fixtures.
- *
  * Consulted by ClearView::loadInlay() when ClearView::inTesting()
  * is true.  Registers stub panes that return synthetic data so
  * tests can bypass the real module/glyph filesystem lookup.
@@ -17,18 +16,18 @@ class InlayRegistry
     /** @var array<string,InlayStub> keyed by "panename:inlayname" */
     private static array $stubs = [];
 
-    /**
-     * Register an InlayStub for a given pane/inlay pair.
-     */
+    /** Register an InlayStub for a given pane/inlay pair. */
+
+
     public static function register(InlayStub $stub): void
     {
         $key = $stub->panename . ':' . $stub->inlayname;
         self::$stubs[$key] = $stub;
     }
 
-    /**
-     * Check whether a stub is registered for the given pane/inlay.
-     */
+    /** Check whether a stub is registered for the given pane/inlay. */
+
+
     public static function hasStub(string $panename, string $inlayname): bool
     {
         $key = $panename . ':' . $inlayname;
@@ -37,10 +36,8 @@ class InlayRegistry
 
     /**
      * Return the class name to instantiate for the given pane/inlay.
-     *
      * Uses InlayRegistry to dynamically generate a StubPane
      * subclass that will render the stub's data.
-     *
      * @return string Fully-qualified class name
      */
     public static function getClass(string $panename, string $inlayname): string
@@ -89,9 +86,9 @@ class InlayRegistry
         return $class;
     }
 
-    /**
-     * Reset all registered stubs (called between tests).
-     */
+    /** Reset all registered stubs (called between tests). */
+
+
     public static function reset(): void
     {
         self::$stubs = [];
