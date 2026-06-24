@@ -217,12 +217,13 @@ class Framework implements \ArrayAccess
     /** Default HTML method. */
     public function html(?string $template = null): void
     {
+	$isOpen = [[ $this['Input::methodname'] === 'open' ]];
+
         (new Facet($this['Pane::body']))
-	    ->render("Pane::open", 
-		match: [[ $this['Input::methodname'] == 'open']])
+	    ->render("Pane::open", match: $isOpen)
             ->html('Pane::body')
-	    ->triggerevent('paneopen', 
-	        match: [[ $this['Input::methodname'] == 'open']])
+	    ->html(['glyph' => 'mosaic'], match: $isOpen)
+	    ->triggerevent('paneopen', match: $isOpen)
 	    ->triggerevent('inlaychange', ['inlay' => $currentInlay], 
 		unless: [[ $this['Shared::prevInlay'] === $this['Input::inlayname'] ]])
             ->close();
@@ -329,13 +330,14 @@ class Framework implements \ArrayAccess
             Exception::debug('EVENT', "Executing {$command} from {{uppercase\\Input::requestMethod}} {{Input::url}}");
             (new Facet($this))
                 ->forward($command)
-                ->html(['glyph' => 'mosaic'])
+		->html()
                 ->close();
         } else {
             $pageField = $this["Page::$command"];
             if ($pageField !== null) {
-                (new Facet()
-                    ->html($pageField))
+                (new Facet())
+		    ->html($pageField)
+                    ->dumpVars()
                     ->close();
             } else {
                 $this->doesNotUnderstand($command);

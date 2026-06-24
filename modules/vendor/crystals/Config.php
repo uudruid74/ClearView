@@ -202,6 +202,11 @@ class Config extends Crystal
     public const CLASS_MOSAIC= 'mosaic';
 
     /**
+     * CSS class for transparent modal overlays (Confirm, etc.).
+     */
+    public const CLASS_TRANSPARENT = 'transparent';
+
+    /**
      * ID for close buttons.
      * Unique identifier for close buttons in forms or modals.
      */
@@ -281,6 +286,7 @@ class Config extends Crystal
         'class_tabbar' => self::CLASS_TABBAR,
         'class_tabbody' => self::CLASS_TABBODY,
         'class_mosaic' => self::CLASS_MOSAIC,
+        'class_transparent' => self::CLASS_TRANSPARENT,
         'class_debugconsole' => self::CLASS_DEBUGCONSOLE,
         'id_close_button' => self::ID_CLOSE_BUTTON,
         'user_haptic-strength' => 1, // Default multiplier for haptic feedback

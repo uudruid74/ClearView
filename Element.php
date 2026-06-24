@@ -131,7 +131,7 @@ class Element extends Shard
             }
         }
         if ($styles) {
-            (new Facet($this))->open("<style>\n$styles"))->close();
+            (new Facet($this))->open("<style>\n$styles")->close();
         }
     }
 
@@ -159,7 +159,7 @@ class Element extends Shard
             }
         }
         if ($output) {
-            (new Facet($this))->open("<script>\n$output"))->close();
+            (new Facet($this))->open("<script>\n$output")->close();
         }
     }
 
@@ -278,10 +278,18 @@ class Element extends Shard
             $out .= Facet::_("class=\"$cssclasses\" ");
         }
         $hxAttrs = $this->iterateFields(
-            callback: fn ($value, $key) => Facet::_("{$key}=\"$value\""),
+            callback: fn ($value, $key) => Facet::_("{$key}=\"{$value}\""),
             delim: ' ',
             filter: '/^hx-/'
         );
+        // listen="events" → hx-trigger + hx-post for pane lifecycle events
+        $listen = $this->getField('listen');
+        if ($listen) {
+            $panename = Mosaic::getVar('Input::panename') ?? 'Default';
+            $triggers = str_replace(',', ', ', $listen);
+            $out .= "hx-trigger=\"{$triggers}\" ";
+            $out .= "hx-post=\"/{$panename}/events/\" ";
+        }
         $retval = $out . $hxAttrs;
         Exception::debug('VAR', "HX: " . Facet::_(addslashes($retval)));
         return $retval;

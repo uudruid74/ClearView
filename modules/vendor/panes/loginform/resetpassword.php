@@ -2,9 +2,6 @@
 
 namespace ClearView;
 use ClearView\Inlay;
-use ProcessWire;
-
-require_once("hannas/gcmlib.php");
 
 /**
  * Loginform resetpassword inlay — handles password reset flow.
@@ -13,75 +10,94 @@ require_once("hannas/gcmlib.php");
  */
 class loginform_resetpassword extends Inlay
 {
-    // Email sanity check.  TODO: Implement blacklist checking
-    public function isValidEmail($email)
+    /**
+     * Validates an email address using the EmailVerification PW module.
+     *
+     * @param string $email Email address to validate.
+     * @return bool True if the email host is valid.
+     */
+    public function isValidEmail(string $email): bool
     {
-        $mailcheck = ProcessWire\modules()->get("EmailVerification");
-        return ($mailcheck->validHost($email));
+        // TODO: Module crystal should autoload PW modules via Module:: prefix
+        $mailcheck = \ProcessWire\modules()->get("EmailVerification");
+        return $mailcheck->validHost($email);
     }
 
-    // destroying this dialog destroys the email hash in the URL
-    // The emailhash ("/e/") page will show a regular login/logout
-    // This will change a lot!
-    // FIXME:: No longer knows when cancelled!
-    public function close($delay = 0)
+    /**
+     * When the user closes the pane, redirect to the email hash page.
+     *
+     * TODO: This should move to events.php's onclosepane() once the
+     * listen="closepane" attribute is on the pane element. The events
+     * inlay will handle this automatically via htmx trigger dispatch.
+     *
+     * TODO: Implement blacklist checking for email validation.
+     * TODO: Handle cancelled state — currently no way to detect if
+     * the user cancelled vs. completed the reset.
+     */
+    public function onclose()
     {
-        parent::close($delay);
+        parent::close();
         $this->redirect("/e/");
     }
 
-    // Return a user id for a given email hash
-    public function getUser()
+    /**
+     * Returns a user for a given email hash from the URL.
+     *
+     * @return \ClearView\User|null The user, or null if not found/invalid.
+     */
+    public function getUser(): ?\ClearView\User
     {
         $extdata = $this->getVar('Pane::nextinlay');
-        if (isset($extdata)) {
-            $email = getEmailAddress($extdata);
-
-            if (isset($email) && $this->isValidEmail($email) === false) {
-                $this->fill([
-                    'headline' => 'Invalid Email',
-                    'summary'  => "Sorry, {$email} doesn't look right!"
-                ]);
-                return null;
-            }
-        } else {
+        if (!isset($extdata)) {
             $this->debug("No next inlay in URL!");
             return null;
         }
-        // Find existing user by email
-        //$user = ProcessWire/users()->get("email=$email");
+
+        $email = getEmailAddress($extdata);
+        if (!isset($email) || !$this->isValidEmail($email)) {
+            $this->fill([
+                'headline' => 'Invalid Email',
+                'summary'  => "Sorry, {$email} doesn't look right!",
+            ]);
+            return null;
+        }
+
         $user = $this->getVar("User::email=$email");
         if ($user->id === 0) {
             return null;
-        } else {
-            return $user;
         }
+        return $user;
     }
 
-    // In the future, add a login tab and close the previous one
+    /**
+     * Submits the password reset — validates the code and sets new password.
+     */
     public function submit()
     {
         $user = $this->getUser();
-        $code = $this->getVar("digits\code");
-        if ($user) {
-            if ($code === $user->get('code')) {
-                $user->setVar("code", "");
-                $user->pass = $this->getVar('stripWhitespace30\password');
-                if ($user->save()) {
-                    $this->setVar('info', "Success!");
-                    $this->close();
-                    ;
-                } else {
-                    $this->setVar('info', "Can't update user profile!");
-                }
-            } else {
-                $this->setVar('info', "Sorry, the code does not match.");
-            }
-        } else {
+        if (!$user) {
             $this->setVar('info', "That link isn't right. Please contact support.");
+            return;
         }
+
+        $code = $this->getVar("digits\code");
+        if ($code !== $user->get('code')) {
+            $this->setVar('info', "Sorry, the code does not match.");
+            return;
+        }
+
+        $user->update([
+            'code' => '',
+            'pass' => $this->getVar('stripWhitespace30\password'),
+        ]);
+
+        $this->setVar('info', 'Success!');
+        $this->close();
     }
 
+    /**
+     * Pre-fills the form with user data from the email link.
+     */
     public function init()
     {
         $this->debug("initializing reset password form");
@@ -89,7 +105,7 @@ class loginform_resetpassword extends Inlay
         if ($user) {
             $this->initVars([
                 'email'    => $user->email,
-                'username' => $user->name
+                'username' => $user->name,
             ]);
         }
     }

@@ -735,14 +735,7 @@ class Facet
      */
     public function dumpVars()
     {
-        $panename = ClearView::Input()->getVar("Pane-name");
-        if (empty($panename)) {
-            Exception::debug('VAR',"dumpVars - no panename, creating Mosaic");
-            Mosaic::outputMosaic();
-        } else {
-            Exception::debug('VAR',"dumpVars - Pane is $panename");
-            Mosaic::updateMosaic();
-        }
+        Mosaic::updateMosaic();
         return $this;
     }
 

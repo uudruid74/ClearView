@@ -58,6 +58,12 @@ class attr extends Element
             return;
         }
 
+        // Store listen in PaneAttr for lifecycle event dispatch
+        $listen = $this->getField('listen');
+        if ($listen) {
+            Mosaic::setVar('listen', $listen, 'PaneAttr');
+        }
+
         // Branch 3: generate Surreal JavaScript for attribute/content modifiers
         $script = $this->buildSurrealScript();
         if ($script !== '') {
@@ -83,7 +89,7 @@ class attr extends Element
 
         $this->iterateFields(function ($value, $key) use (&$ops, &$removeOps, &$hasContentInsert, &$childrenHTML) {
             // Skip structural and already-handled fields
-            if ($key === 'view' || $key === 'children') {
+            if ($key === 'view' || $key === 'children' || $key === 'listen') {
                 return null;
             }
 
