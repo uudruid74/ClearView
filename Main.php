@@ -32,11 +32,13 @@ class Main extends Framework
      */
     public function render(): void
     {
-        Exception::outputComment("Main Page Rendering - render");
-        (new Facet($this['Pane::body']))
-            ->out("<!DOCTYPE html>")
-            ->open("<html {{lang=lang}} {{data-theme=data-theme}} {{manifest=manifest}} {{dir=dir}} {{xmlns=xmlns}}>")
-            ->close();
+	$partial = Framework::is_htmx_request();
+        Exception::debug('TRACE',"Main Page Rendering");
+	(new Facet($this))
+            ->out("<!DOCTYPE html>", unless: [[ $partial ]])
+	    ->html('View::Default', unless: [[ $partial ]])
+    	    ->html('Page::body', match: [[ $partial ]])
+	    ->close();
     }
 }
 // end of class

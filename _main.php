@@ -4,8 +4,7 @@ use ClearView\Framework;
 use ClearView\Exception;
 
 try {
-    (new Framework($page->template()))
-    	->handleCommand();
+    (new Framework())->handleCommand();
 } 
 catch (\Throwable $e) {
     throw new Exception($e);

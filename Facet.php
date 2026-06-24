@@ -315,6 +315,8 @@ class Facet
      * @param $command The command to execute
      * @param $arguments A list of arguments
      * @return $this for chaining
+     * @param mixed $command Description.
+     * @param mixed $args Description.
      */
     public function forward ($command,...$args)
     {

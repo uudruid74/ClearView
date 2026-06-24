@@ -31,24 +31,6 @@ class Session extends Crystal
     }
 
     /**
-     * Attempts to login the user.  The username and password must be attributes of the current pane
-     * @return User|null The User on success, null on failure.
-     */
-    public function trylogin()
-    {
-        $user = $this[Config::PAGE_PWOBJECT]->login($this['name30\username'], $this['removeWhitespace30\password']);
-        return $user ? new \ClearView\User($user) : null;
-    }
-
-    /**
-     * Companion to the above, log them out!
-     */
-    public function logout()
-    {
-        $this[Config::PAGE_PWOBJECT]->logout();
-    }
-
-    /**
      * Gets a CSRF token for a given panename.
      *
      * Creates the token if it doesn't exist.

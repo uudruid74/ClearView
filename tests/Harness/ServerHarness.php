@@ -33,6 +33,8 @@ class ServerHarness
     /**
      * Create a harness pointed at a base URL.
      * @throws TestHarnessException when neither curl_* nor shell curl is available.
+     * @param mixed $baseUrl Description.
+     * @return self Description.
      */
     public static function at(string $baseUrl): self
     {
@@ -116,6 +118,9 @@ class ServerHarness
      * POST with Mosaic-encoded form keys.
      * Keys in $mosaicData are sent as-is — they should already follow the
      * Mosaic naming convention (e.g. "LoginForm-username").
+     * @param mixed $path Description.
+     * @param mixed $mosaicData Description.
+     * @return TestResponse Description.
      */
     public function postMosaic(string $path, array $mosaicData): TestResponse
     {
@@ -129,6 +134,7 @@ class ServerHarness
      * @param string     $method  HTTP verb.
      * @param string     $path    URL path (appended to baseUrl).
      * @param array|null $data    POST / PUT body data.
+     * @return TestResponse Description.
      */
     private function request(string $method, string $path, ?array $data = null): TestResponse
     {
@@ -224,6 +230,9 @@ class ServerHarness
      * Parse a raw HTTP response (headers + body) into a TestResponse.
      * Handles the standard "HTTP/1.x status\r\nHeader: value\r\n\r\nbody"
      * format returned by `curl -i` and CURLOPT_HEADER.
+     * @param mixed $raw Description.
+     * @param mixed $curlInfoStatus Description.
+     * @return TestResponse Description.
      */
     private function parseHttpResponse(string $raw, int $curlInfoStatus): TestResponse
     {

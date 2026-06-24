@@ -41,12 +41,15 @@ class Element extends Shard
      * parent Shard constructor. Automatically registers a change notification trigger if a `name` field is
      * defined and a corresponding method exists on the ClearView creator.
      * @param mixed $obj Scalar value (e.g., element name) or array of properties (e.g., ['id' => 'btn', 'class' => 'active']).
+     * @param mixed $primaryField Description.
+     * @param mixed $named Description.
+     * @param mixed $contentsType Description.
      */
     public function __construct($obj = null, ?string $primaryField = null, ?string $named = null, ?string $contentsType = null)
     {
         parent::__construct(...func_get_args());
         // Set up automatic change notification
-        if (method_exists(ClearView::paneobj(), $this->getField('name') ?? 'change')) {
+        if (method_exists(Framework::instance(), $this->getField('name') ?? 'change')) {
             $this->addtrigger('change');
         }
     }
@@ -61,7 +64,7 @@ class Element extends Shard
      */
     public function setCSSVar(string $varname, string $value): self
     {
-        $this['ClearView']->javascript("me('#{{id}}').style.setProperty('--{$varname}', '{$value}');");
+	ClearView::javascript("me('#{{id}}').style.setProperty('--{$varname}', '{$value}');");
         return $this;
     }
 
@@ -128,7 +131,7 @@ class Element extends Shard
             }
         }
         if ($styles) {
-            (new Facet("<style>\n$styles"))->close();
+            (new Facet($this))->open("<style>\n$styles"))->close();
         }
     }
 
@@ -156,7 +159,7 @@ class Element extends Shard
             }
         }
         if ($output) {
-            (new Facet("<script>\n$output"))->close();
+            (new Facet($this))->open("<script>\n$output"))->close();
         }
     }
 
@@ -263,7 +266,7 @@ class Element extends Shard
     public function getHxVals(): string
     {
         $out = '';
-        $time = ClearView::Mosaic()->getVar('User::haptic-strength') * $this->getField('buzz');
+        $time = Mosaic::getVar('User::haptic-strength') * $this->getField('buzz');
         if ($time > 0) {
             $out .= "hx-buzz=$time ";
         }
@@ -310,7 +313,7 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $newClasses);
-        $this['ClearView']->javascript("htmx.addClass(me(\"#{{id}}\"), '$cssclass');");
+	ClearView::javascript("htmx.addClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
@@ -340,7 +343,7 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $newClasses);
-        $this['ClearView']->javascript("htmx.removeClass(me(\"#{{id}}\"), '$cssclass');");
+	ClearView::javascript("htmx.removeClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
@@ -372,7 +375,7 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $newClasses);
-        $this['ClearView']->javascript("htmx.toggleClass(me(\"#{{id}}\"), '$cssclass');");
+	ClearView::javascript("htmx.toggleClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
@@ -395,7 +398,7 @@ class Element extends Shard
             return true;
         }
         $this->setField('class', $cssclass);
-        $this['ClearView']->javascript("htmx.takeClass(me(\"#{{id}}\"), '$cssclass');");
+	ClearView::javascript("htmx.takeClass(me(\"#{{id}}\"), '$cssclass');");
         return true;
     }
 
@@ -429,28 +432,18 @@ class Element extends Shard
     public function __call(string $name, array $arguments): void
     {
         $args = array_map(fn ($arg) => is_string($arg) ? "'" . addslashes($arg) . "'" : json_encode($arg), $arguments);
-        $this['ClearView']->javascript("me('#{{id}}').{$name}(" . implode(',', $args) . ");");
-    }
-
-    /**
-     * Delegates to View::loadPHPView() for backward compatibility.
-     * @deprecated Use \ClearView\View::loadPHPView() directly.
-     * @param string $viewName The name of the view file (without .php extension).
-     * @throws Exception If the view file is not found.
-     */
-    public static function loadPHPView(string $viewName): void
-    {
-        View::loadPHPView($viewName);
+	ClearView::javascript("me('#{{id}}').{$name}(" . implode(',', $args) . ");");
     }
 
     /**
      * Loads a glyph view file from the module stack, then base vendor glyphs.
+     * TODO: This should be moved into Element
      * @param string $viewName The name of the glyph (without .php extension).
      * @return string|null the loaded class path or null if not found
      */
     public static function loadGlyph(string $viewName): ?string
     {
-        foreach (Framework::instance()->Modules() as $module) {
+        foreach (Framework::Modules() as $module) {
             $path = __DIR__ . "/modules/{$module}/glyphs/{$viewName}.php";
             if (file_exists($path)) {
                 require_once($path);
@@ -467,19 +460,6 @@ class Element extends Shard
     }
 
     /**
-     * Delegates to View::loadView() for backward compatibility.
-     * @deprecated Use \ClearView\View::loadView() directly.
-     * @param string $view The name of the view file (without .php extension).
-     * @param string|null $from Source marker (Shard::VIEW for view-loaded Shards).
-     * @return Shard The Shard object representing the view's content.
-     * @throws Exception If the view file is not found.
-     */
-    public static function loadView(string $view, ?string $from = null): Shard
-    {
-        return View::loadView($view, $from);
-    }
-
-    /**
      * Retrieves a field value with element-specific handling.
      * Overrides Shard’s `getField()` to provide custom logic for fields like `id`, `hx`, `hx-swap-oob`, `data`,
      * and `interact`. Special handling ensures unique IDs, HTMX attribute compilation, and formatted data attributes.
@@ -490,7 +470,7 @@ class Element extends Shard
     {
         // Prefix routing: keys containing :: resolve via the current Pane's Mosaic
         if (strpos($name, '::') !== false) {
-            return ClearView::Mosaic()->getVar($name);
+            return Mosaic::getVar($name);
         }
         switch ($name) {
             case 'id':
@@ -498,9 +478,9 @@ class Element extends Shard
                 if (empty($storedId)) {
                     return null;
                 }
-                if ($this->canonicalId) {
+                if ($this->canonicalId) { // TODO: This should be its own function to generate IDs
                     $name = parent::getField('name') ?? $storedId;
-                    return ClearView::Mosaic()->getVar('Pane::name') . '-' . $this->inlay() . '-' . $name;
+                    return Mosaic::getVar('Pane::name') . '-' . $this->inlay() . '-' . $name;
                 }
                 return $storedId;
             case 'hx':
@@ -528,7 +508,7 @@ class Element extends Shard
     /**
      * Sets a field value with special handling for :: fields.
      * Overrides Shard’s `setField()` to handle fields with `::` syntax, such as `css::var` (CSS variables),
-     * `data::key` (data attributes), `on::event` (event handlers), `class::operation` (class manipulations), 
+     * `data::key` (data attributes), `on::event` (event handlers), `class::operation` (class manipulations),
      * and `style::rule` (style properties). Delegates to specialized methods for these cases.
      * @param string $var The field name to set.
      * @param mixed $val The value to set.

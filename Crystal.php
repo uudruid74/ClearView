@@ -26,6 +26,9 @@ abstract class Crystal extends Page implements ArrayAccess
      * Called during instantiation to set the ProcessWire object that the Crystal wraps. Subclasses may override
      * to provide default objects if none is provided.
      * @param mixed $pwObject The ProcessWire object to wrap.
+     * @param mixed $name Description.
+     * @param mixed $inlay Description.
+     * @param mixed $mos Description.
      */
     public function __construct($pwObject=null,$name=null,$inlay='ClearView',$mos=null)
     {
@@ -67,7 +70,7 @@ abstract class Crystal extends Page implements ArrayAccess
      */
     public static function loadAll($mosaic): Mosaic
     {
-        $modules = Framework::instance()->Modules();
+        $modules = Framework::Modules();
         $loaded = [];
 
         foreach ($modules as $module) {

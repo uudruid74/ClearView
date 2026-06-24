@@ -18,6 +18,9 @@ class Page extends Shard
      * Called during system initialization or when accessing page data. Uses ProcessWire’s `page()` function
      * if no object is provided.
      * @param mixed $pwPage The ProcessWire page object (defaults to Page via `page()`).
+     * @param mixed $pwObject Description.
+     * @param mixed $name Description.
+     * @param mixed $inlay Description.
      */
     public function __construct($pwObject=null,$name=null,$inlay=Config::SHARD_ANONINLAY)
     {
@@ -50,6 +53,7 @@ class Page extends Shard
      * The "from" call creates a new anonymous object from the Crystal instance
      * @param string $string A string to find the correct object to return
      * @return mixed the new wrapped object
+     * @param mixed $search Description.
      */
     public static function from(string $search)
     {
@@ -113,7 +117,7 @@ class Page extends Shard
     {
         $this->data[Config::PAGE_PWOBJECT]->set(
             $key,
-            ClearView::Mosaic()->index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
+            ClearView::Sanitizer()->sanitize($value, Config::SANI_PAGE_SAVE)
         );
     }
 
@@ -127,7 +131,7 @@ class Page extends Shard
     {
         $this->data[Config::PAGE_PWOBJECT]->set(
             $key,
-            ClearView::Mosaic()->index('ClearView', 'Sanitizer')->sanitize($value, Config::SANI_PAGE_SAVE)
+            ClearView::Sanitizer()->sanitize($value, Config::SANI_PAGE_SAVE)
         );
     }
 
@@ -135,6 +139,7 @@ class Page extends Shard
      * Used to update multiple properties or fields in the ProcessWire object in a single call.
      * @param array $data Key-value pairs to set, with keys possibly using '.' for nested fields.
      * @return void
+     * @param mixed $inlay Description.
      */
     public function setVars(array $data, ?string $inlay = null): void
     {
@@ -255,11 +260,13 @@ class Page extends Shard
 
     public function render(): void
     {
+	// TODO: Should this output Page::body?
         throw new Exception("Pages can't be rendered");
     }
 
     public function renderChildren(): void
     {
+	// TODO: Page children more pages
         throw new Exception("Page children don't get rendered");
     }
 

@@ -30,14 +30,14 @@ class Inlay extends Framework
      */
     public static function load(string $panename, string $inlayname): string
     {
-        // 1. No inlay → load Pane directly
+        // 1. No inlay → Pane is already loaded
         if (empty($inlayname) || $inlayname === 'Pane') {
             return '\\ClearView\\Framework';
         }
 
         // 2. Inlay → search modules/<module>/panes/<panename>/<inlayname>.php
         $className = "{$panename}_{$inlayname}";
-        foreach (Framework::instance()->Modules() as $module) {
+        foreach (Framework::Modules() as $module) {
             $path = __DIR__ . "/modules/{$module}/panes/{$panename}/{$inlayname}.php";
             if (file_exists($path)) {
                 require_once($path);
@@ -56,17 +56,12 @@ class Inlay extends Framework
      */
     public function html(): void
     {
-        $inlayName = $this['ClearView::inlayname'];
-
-        // Fire inlaychange if the inlay changed
-        if ($this['Shared::prevInlay'] !== null && $this['Shared::prevInlay'] !== $inlayName) {
-            $this->triggerevent('inlaychange', ['pane' => ClearView::panename()]);
-        }
-
-        (new Facet($this['Pane::body']))
-            ->html()
+        (new Facet())
+	    ->html('Page::body')
+	    ->triggerevent('inlaychange', ['inlay' = $this['Input::inlayname']], 
+    		unless: [[ $this['Shared::prevInlay'] === $this['Shared::inlayname'] ]] 
             ->close();
 
-        $this['Shared::prevInlay'] = $inlayName;
+        $this['Shared::prevInlay'] = $this['Input::inlayname'];
     }
 }

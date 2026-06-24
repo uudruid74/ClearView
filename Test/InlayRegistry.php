@@ -39,6 +39,8 @@ class InlayRegistry
      * Uses InlayRegistry to dynamically generate a StubPane
      * subclass that will render the stub's data.
      * @return string Fully-qualified class name
+     * @param mixed $panename Description.
+     * @param mixed $inlayname Description.
      */
     public static function getClass(string $panename, string $inlayname): string
     {

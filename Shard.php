@@ -40,58 +40,45 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     /**
      * @var string Type of children array (StringArray, ShardArray, or UndefinedArray).
+     * TODO: ChildType will go away in favor of just analyzing the first class in the
+     * array and promoting accordingly.  Create method to return class of children.
+     * Children start simple and promote accordingly, often to a Shard.
      */
     protected string $childType = self::UndefinedArray;
 
     /**
      * @var bool True when the original id was "#" — getField('id') should expand
      *           to the canonical pane/inlay/name form instead of returning the stored id.
+     * TODO: This needs to be removed.  We just look at the 'id' field and it's
+     * 		either a specific id, or '#' to call creatid(), no field for no id.
      */
     protected bool $canonicalId = false;
 
     /** childType is an array of strings. */
-
-
     public const StringArray = 'string';
 
     /** childType is an array of Shards. */
-
-
     public const ShardArray = 'shard';
 
     /** childType is a processWire PageArray */
-
-
     public const PageArray = 'pagearray';
 
     /** childType calls ->children() of the Page */
-
-
     public const ChildArray = 'children';
 
     /** childType type is undefined, set on first write. */
-
-
     public const UndefinedArray = 'undefined';
 
     /** Input type for HTML strings. */
-
-
     public const HTML = 'html';
 
     /** Input type for JSON strings. */
-
-
     public const JSON = 'json';
 
     /** Input type for mangled JSON strings. */
-
-
     public const MANGLED = 'mangled';
 
     /** Input type for view-based loading. */
-
-
     public const VIEW = 'view';
 
     /**
@@ -111,23 +98,14 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         $loadView = $this->__loadExternal ?? $obj['__loadExternal'] ?? null;
         if (!empty($loadView)) {
             Exception::debug('GLYPH',"Loading external data from loadExternal=" . $loadView);
-            ClearView::Mosaic()->initArray($obj, self::toArray(ClearView::Mosaic()->getVar($loadView)));
+	    Mosaic::initArray($obj, self::toArray(Mosaic::getVar($loadView)));
         }
-        // Restore canonicalId after round-trip through deflate/inflate.
-        // jsonmangler strips __, inlay, id, and name-when-name===id,
-        // so deflate() stashes these as _cv_c / _cv_n (non-stripped keys).
-        if (!empty($obj['_cv_c'])) {
-            $this->canonicalId = true;
-            if (!empty($obj['_cv_n'])) {
-                $obj['name'] = $obj['_cv_n'];
-            }
-            unset($obj['_cv_c'], $obj['_cv_n']);
-        }
-        // Text-only nodes are anonymous — no Mosaic storage
+	// Text-only nodes are anonymous — no Mosaic storage
+	// TODO: Inlay per element needs to go away!
         if (array_key_exists('text',$obj) && array_key_exists('__pF', $obj) && $obj['__pF'] == 'text') {
             $obj['inlay'] = Config::SHARD_ANONINLAY;
         } else {
-            $obj['inlay'] = $obj['inlay'] ?? $this->inlay ?? ClearView::Mosaic()->getVar("Input::inlayname");
+            $obj['inlay'] = $obj['inlay'] ?? $this->inlay ?? Mosaic::getVar("Input::inlayname");
             // If id="#" → expand to canonical form on output.
             // Store the name as the Mosaic key so References can
             // resolve via Mosaic index($inlay, $name).
@@ -152,8 +130,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         }
         $this->setRawFields($obj);
         if ($obj['inlay'] !== Config::SHARD_ANONINLAY) {
-            $this->address = $obj['__address'] = ClearView::Mosaic()->makeAddress($this);
-            ClearView::Mosaic()->addShard($this);
+            $this->address = $obj['__address'] = Mosaic::makeAddress($this);
+            Mosaic::addShard($this);
         }
         $this->init();
     }
@@ -300,16 +278,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             }
         }
 
-        if (is_object($obj)) {
-            if ($obj instanceof Pane) {
-                if ($obj->id() === ClearView::paneobj()->id()) {
-                    return $obj;
-                }
-                throw new Exception("Cannot load a different Pane via loadShard. Use ClearView::sendPost()");
-            }
-            return $obj instanceof Shard ? $obj : new Shard((array)$obj);
-        }
-
         if (is_scalar($obj)) {
             $obj = jsonmangler::unmangle($obj);
         }
@@ -406,6 +374,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      * found at any depth are stored in Mosaic and replaced with References.
      * @param array &$children Reference to the children array to process.
      * @param string $inlay    The parent inlay to inherit.
+     * @param mixed $children Description.
      */
     private function canonicalizeInline(array &$children, string $inlay): void
     {
@@ -476,7 +445,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function getVar(string $expression)
     {
-        return ClearView::Mosaic()->getVar($expression);
+        return Mosaic::getVar($expression);
     }
 
     /**
@@ -486,7 +455,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function getVars(string $expression): array
     {
-        return ClearView::Mosaic()->getVars($expression);
+        return Mosaic::getVars($expression);
     }
 
     /**
@@ -497,7 +466,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function setVar(string $var, $value)
     {
-        return ClearView::Mosaic()->setVar($var, $value);
+        return Mosaic::setVar($var, $value);
     }
 
     /**
@@ -507,7 +476,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function initVar(string $var, $value): void
     {
-        ClearView::Mosaic()->initVar($var, $value);
+	Mosaic::initVar($var, $value);
     }
 
     /**
@@ -550,7 +519,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     public function setField(string $var, $val): void
     {
         $this->data[$var] = $val;
-        ClearView::Mosaic()->checkShard($this);
+	Mosaic::checkShard($this);
     }
 
     /**
@@ -595,13 +564,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if ($this->primaryField !== 'value') {
             $data['__pF'] = $this->primaryField;
         }
-        // Persist canonicalId through the mangle filter.  jsonmangler
-        // strips __-prefixed keys, inlay, id, and name-when-name===id,
-        // so we use _cv_c / _cv_n (non-stripped keys) to survive round-trips.
-        if ($this->canonicalId) {
-            $data['_cv_c'] = true;
-            $data['_cv_n'] = $data['name'] ?? '';
-        }
         return jsonmangler::mangle($data);
     }
 
@@ -620,7 +582,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 
     public function delVar()
     {
-        ClearView::Mosaic()->delShard($this);
+	Mosaic::delShard($this);
         unset($this->data);
     }
 
@@ -667,7 +629,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     public function offsetUnset($key): void
     {
         unset($this->data[$key]);
-        ClearView::Mosaic()->checkShard($this);
+	Mosaic::checkShard($this);
     }
 
     /**
@@ -711,7 +673,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function hasChanged(): mixed
     {
-        $oldValue = ClearView::Mosaic()->isShardStored($this) ? ClearView::Mosaic()->getVar("Input::" . $this->address) : null;
+        $oldValue = Mosaic::isShardStored($this) ? Mosaic::getVar("Input::" . $this->address) : null;
         $currentValue = $this->deflate();
         return ($currentValue !== $oldValue) ? $currentValue : null;
     }
@@ -900,7 +862,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 $this->initRawField($varname, $value);
             }
         }
-        ClearView::Mosaic()->checkShard($this);
+	Mosaic::checkShard($this);
     }
 
     /**
@@ -915,7 +877,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             if ($key === 'children') {
                 $this->replaceChildren($value);
             } else {
-                ClearView::Mosaic()->setVar($key, $value, $inlay);
+		Mosaic::->setVar($key, $value, $inlay);
             }
         }
     }
@@ -927,7 +889,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function delVars($arr, ?string $inlay = null): void
     {
-        ClearView::Mosaic()->delVars($arr, $inlay);
+	    Mosaic::delVars($arr, $inlay);
     }
 
     /**

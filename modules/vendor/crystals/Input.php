@@ -26,6 +26,13 @@ class Input extends Crystal
         parent::__construct($pwObject ?? \ProcessWire\input(), $panename, $inlayname,$mos);
     }
 
+    /** Returns the default method name for a given request method. */
+    public static function defaultMethod(?string $method = null): string
+    {
+        $map = ['POST' => 'post', 'CLI' => 'open', 'GET' => 'html', 'PUT' => 'put', 'DELETE' => 'delete'];
+        return $map[$method] ?? 'html';
+    }
+
     /**
      * Gets a variable or field from the input object.
      *
@@ -53,11 +60,11 @@ class Input extends Crystal
             case 'url':
                 return $pw->url();
             case 'panename':
-                return $this->parseUrlSegments($pw)[1] ?? null;
+                return $this->parseUrlSegments($pw)[1] ?? 'Default';
             case 'inlayname':
-                return $this->parseUrlSegments($pw)[2] ?? null;
+                return $this->parseUrlSegments($pw)[2] ?? 'Pane';
             case 'methodname':
-                return $this->parseUrlSegments($pw)[3] ?? null;
+                return $this->parseUrlSegments($pw)[3] ?? self::defaultMethod($pw->requestMethod());
             case 'nextinlay':
                 return $this->parseUrlSegments($pw)[$nextinlay++] ?? null;
             case 'all':

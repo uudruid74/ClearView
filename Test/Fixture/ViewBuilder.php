@@ -36,6 +36,7 @@ class ViewBuilder
      * Create a fresh builder, resetting all singleton state.
      * @param string|null $panename  Pane name (default: 'TestPage')
      * @param string|null $inlay     Inlay name (default: 'Default')
+     * @return self Description.
      */
     public static function new(?string $panename = 'TestPage', ?string $inlay = 'Default'): self
     {

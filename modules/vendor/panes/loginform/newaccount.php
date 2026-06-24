@@ -16,8 +16,8 @@ class loginform_newaccount extends Inlay
     // Email sanity check.  TODO: Implement blacklist checking
     public function isValidEmail($email)
     {
-	// TO-DO Turn this into a Crystal:
-	// $mailcheck = $this['Module::EmailVerification'];
+	// TODO: Module crystal should autoload like this ...
+	// return $this['Module::EmailVerification']->validHost($email);
         $mailcheck = ProcessWire\modules()->get("EmailVerification");
         return ($mailcheck->validHost($email));
     }
@@ -88,7 +88,17 @@ class loginform_newaccount extends Inlay
         if (strlen($displayname) < 4) {
             $displayname = ucfirst($username);
         }
-        $user = $this["ClearView::User"]->add($username);
+	$user = ClearView::User()->add($username);
+	// TODO: Should modify the User crystal to support
+	// basic ->add. ->update, ->delete operations.  Ex:
+	// ClearView::User()->add([
+	//     'username' => $username,
+	//     'password' => $password,
+	//     'email' = $email,
+	//     'role' = "apprentice",
+	//     'displayname' = $displayname
+	// ]);
+	// This should auto-save.
         $user->pass = $password;
         $user->addRole("apprentice");
 	$user->fill([
@@ -96,7 +106,7 @@ class loginform_newaccount extends Inlay
 		"displayname" => $displayname
 	]);
         $user->save(); // should be unnecessary now
-        $this->setVar('title', "Success!");
+        $this['title'] = "Success!";
         $this->close();
     }
 
@@ -107,19 +117,21 @@ class loginform_newaccount extends Inlay
         $email = $this->getEmailAddr($extdata);
         if (isset($email)) {
             list($username, $domain) = explode("@", $email);
-            $this->debug("Email address is {$username}@{$domain}");
             $this->fill([
                 'email'          => $mail,
                 'email.disabled' => true,
                 'username'       => $username,
                 'displayname'    => ucfirst($username)
-            ]);
+	    ])
+            ->debug("Email address is {$username}@{$domain}")
+	    ;
         } else {
             $this->fill([
                 'formtitle' => "Error",
                 'forminfo'  => "Invalid Link!"
-            ]);
-            $this->close();
+            ])
+	    ->close()
+	    ;
             return "Error";
         }
     }

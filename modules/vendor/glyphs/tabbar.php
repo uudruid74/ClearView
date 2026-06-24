@@ -59,10 +59,10 @@ class tabbar extends Element
                 'hx-get'        => Facet::_("/{{Pane::name}}/{$tabname}/html/"),
                 'hx-trigger'    => 'click',
                 'glyph'         => 'li',
-                'data-tooltip'  => ClearView::Mosaic()->getVar("Page::$tabname.displayname"),
+                'data-tooltip'  => Mosaic::getVar("Page::$tabname.displayname"),
                 'inlay'         => $this->inlay(),
                 'name'          => $tabname,
-                'value'         => ClearView::Mosaic()->getVar("Find::url=/{{Pane::name}}/{$tabname}/.title"),
+                'value'         => Mosaic::getVar("Find::url=/{{Pane::name}}/{$tabname}/.title"),
                 // Javascript to make the tabs activate themselves
                 'hx-on:click'   => "htmx.takeClass('#'+me(event).id,'active')"
             ];

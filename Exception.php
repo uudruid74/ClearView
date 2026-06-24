@@ -50,6 +50,7 @@ class Exception extends WireException
      * Outputs a debug message, buffering for JS or as HTML comment.
      * @param string $tag The debug tag.
      * @param string|null $msg The debug message.
+     * @param mixed $depth Description.
      */
     public static function debug($tag, $msg = null, $depth = 1): void
     {
@@ -111,24 +112,25 @@ class Exception extends WireException
 
     /**
      * Outputs a header for debugging, optionally setting tracemode.
-     * @param string $template we were called with
      * @param array|null $tracemodeFlags Optional trace mode flags to set.
      */
-    public static function outheader(string $template, ?array $tracemodeFlags = null): void
+    public static function outheader(?array $tracemodeFlags = null): void
     {
         if ($tracemodeFlags !== null) {
             self::tracemode($tracemodeFlags);
         }
-        $url  = ClearView::Mosaic()->getVar("Input::url");
-        $name = ClearView::Mosaic()->getVar("Page::name");
-        $date = ProcessWire\datetime()->date('Y/m/d h:i:s');
+        $url   = Mosaic::getVar("Input::url");
+	$name  = Mosaic::getVar("Input::panename");
+	$inlay = Mosaic::getVar("Input::inlayname");
+	// TODO: Need to replace this with a non ProcessWire call or abstract it to Prism::Time
+        $date  = ProcessWire\datetime()->date('Y/m/d h:i:s');
         $err = Ansi::color('ERROR');
         $pag = Ansi::color('JSON');
         $inf = Ansi::color('INFO');
         $bld = Ansi::color('bold');
         $off = Ansi::color('off');
         ClearView::javascript("console.log('$err$bld  ========');");
-        ClearView::javascript("console.log('$err$bld-- {$date}:{$off}{$inf}{$url} {$pag}[ template: $template, inlay: {$name}]$off');");
+        ClearView::javascript("console.log('$err$bld-- {$date}:{$off}{$inf}{$url} {$pag}[ pane: {$name}, inlay: {$inlay}]$off');");
     }
 
     /**
@@ -187,13 +189,13 @@ class Exception extends WireException
                 $msg = "{$color}{$bold}{$tagfmt}{$off} {$className}:{$color}{$functionName}{$off} " .
                         "{$color}{$msg}{$off}";
             } else {
-                ClearView::Mosaic()->dumpEverything();
+		    Mosaic::dumpEverything();
                 self::backtrace();
                 die("Recursion Detected: Exceeded Config::STACK_LIMIT");
             }
         } else {
             $msg = "{$error}unknown caller{$off} {$color}{$msg}{$off}";
-            ClearView::Mosaic()->dumpEverything();
+            Mosaic::dumpEverything();
             self::backtrace();
         }
 

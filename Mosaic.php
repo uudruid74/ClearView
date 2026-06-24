@@ -161,6 +161,7 @@ class Mosaic
      * Enables change tracking after loading.
      * @param $input Input data to process, typically from ProcessWire's input.
      * @return void
+     * @param mixed $input Description.
      */
     public static function loadMosaic($input): void
     {
@@ -405,6 +406,7 @@ class Mosaic
      * @param array &$dest The destination array to modify.
      * @param array $defaults Key-value pairs to set if the key is not already present.
      * @return void
+     * @param mixed $dest Description.
      */
     public static function initArray(array &$dest, array $defaults): void
     {

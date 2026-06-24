@@ -63,6 +63,7 @@ class ViewBuilder
      * @param string $id    Shard id.
      * @param string $tag   HTML tag / glyph name (e.g. 'button', 'input').
      * @param array  $attrs Element fields (value, hx-post, class, etc.).
+     * @return self Description.
      */
     public function withElement(string $id, string $tag, array $attrs = []): self
     {
@@ -133,6 +134,8 @@ class ViewBuilder
     /**
      * Initialise the ClearView singleton just enough that
      * Element::__construct doesn't crash on CurrentPane().
+     * @param mixed $panename Description.
+     * @param mixed $inlayname Description.
      */
     private static function initClearView(string $panename, string $inlayname): void
     {

@@ -19,10 +19,9 @@ class TestRig extends Framework
 
     /**
      * Creates a headless test Pane.
-     * @param string $template Always 'CLI' — no ProcessWire template.
      * @param array $cliArgs  Key-value pairs from CLI (e.g. ['panename' => 'TestPage'])
      */
-    public function __construct(string $template = 'CLI', array $cliArgs = [])
+    public function __construct(array $cliArgs = [])
     {
         // Register as the active Framework BEFORE Mosaic::load()
         self::$instance = $this;
@@ -41,14 +40,7 @@ class TestRig extends Framework
         }
 
         Mosaic::load($options);
-
-        // Set routing state from CLI args or fall back to defaults
-        ClearView::panename($cliArgs['panename'] ?? 'TestRig');
-        ClearView::inlayname($cliArgs['inlayname'] ?? 'Default');
-        ClearView::method($cliArgs['methodname'] ?? 'open');
-        ClearView::paneobj($this);
-
-        $this->mosaic = Mosaic::instance();
+	$this->mosaic = Mosaic::instance();
     }
 
     /**
@@ -58,9 +50,9 @@ class TestRig extends Framework
      * ProcessWire dependencies.
      * @return array<string>
      */
-    public function Modules(): array
+    public function getModuleList(): array
     {
-        $modules = parent::Modules();
+        $modules = parent::getModuleList();
         array_unshift($modules, 'testjig');
         return array_values(array_unique($modules));
     }
@@ -94,12 +86,13 @@ class TestRig extends Framework
         $rig->renderTestView($view);
 
         // Flush any OOB/script output
-        $rig['ClearView']->dumpOOBdata();
+	ClearView::dumpOOBdata();
     }
 
     /**
      * Parse CLI arguments into key-value pairs.
      * Supports: --key=value, --key value, --flag (sets value to true)
+     * @return array Description.
      */
     private static function parseArgv(): array
     {

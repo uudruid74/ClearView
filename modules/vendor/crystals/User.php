@@ -29,5 +29,22 @@ class User extends Crystal
     {
         parent::__construct($pwObject ?? \ProcessWire\user(),$panename,$inlayname,$mos);
     }
+    /**
+     * Attempts to login the user.  The username and password must be attributes of the current pane
+     * @return User|null The User on success, null on failure.
+     */
+    public function trylogin()
+    {
+        $user = ClearView::Session()->login($this['name30\username'], $this['removeWhitespace30\password']);
+        return $user ? new \ClearView\User($user) : null;
+    }
+
+    /**
+     * Companion to the above, log them out!
+     */
+    public function logout()
+    {
+	ClearView::Session()->logout();
+    }
 
 }

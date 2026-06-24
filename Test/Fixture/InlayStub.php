@@ -47,6 +47,7 @@ class InlayStub
     /**
      * Provide the payload the inlay would normally fetch.
      * @param array|Shard $data
+     * @return self Description.
      */
     public function returns(array|Shard $data): self
     {
@@ -58,6 +59,8 @@ class InlayStub
     /**
      * Provide a callable that receives (panename, inlayname, context)
      * and returns the payload.
+     * @param mixed $fn Description.
+     * @return self Description.
      */
     public function returnsCallable(callable $fn): self
     {
@@ -69,6 +72,7 @@ class InlayStub
     /**
      * Register the stub in the central InlayRegistry.
      * @throws TestFixtureException if no payload has been set
+     * @return self Description.
      */
     public function register(): self
     {

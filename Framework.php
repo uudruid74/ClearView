@@ -27,34 +27,19 @@ class Framework implements \ArrayAccess
     /** @var Mosaic The Mosaic instance for this request. */
     public Mosaic $mosaic;
 
-    /** Returns the default method name for a given request method. */
-
-
-    public static function defaultMethod(?string $method = null): string
-    {
-        $map = ['POST' => 'post', 'CLI' => 'open', 'GET' => 'html', 'PUT' => 'put', 'DELETE' => 'delete'];
-        return $map[$method] ?? 'html';
-    }
-
     /** Check if we're running in a test environment. */
-
-
     public static function inTesting(): bool
     {
         return (php_sapi_name() === 'cli' || defined('STDIN'));
     }
 
     /** Check if the request is made via HTMX. */
-
-
     public static function is_htmx_request(): bool
     {
         return isset($_SERVER['HTTP_HX_REQUEST']) && $_SERVER['HTTP_HX_REQUEST'] === 'true';
     }
 
     /** Check if the request is from a boosted link. */
-
-
     public static function is_htmx_boosted(): bool
     {
         return isset($_SERVER['HTTP_HX_BOOSTED']) && $_SERVER['HTTP_HX_BOOSTED'] === 'true';
@@ -66,6 +51,7 @@ class Framework implements \ArrayAccess
      * Returns the active Framework instance for this request.
      * There is exactly one Framework per request; subclasses like
      * TestRig set themselves as the instance during construction.
+     * @return self Description.
      */
     public static function instance(): self
     {
@@ -82,7 +68,7 @@ class Framework implements \ArrayAccess
      * TestRig prepends 'testjig' for null crystals).
      * @return array<string>
      */
-    public function Modules(): array
+    public function getModuleList(): array
     {
         $modules = Config::MODULES_LIST;
 
@@ -104,6 +90,14 @@ class Framework implements \ArrayAccess
         return array_values(array_unique($modules));
     }
 
+    /**
+     * The public version calls through so we can override getModuleList
+     */
+    public function Modules(): array
+    {
+	return self::$instance->getModuleList();
+    }
+
     // ── ArrayAccess — existence-check routing ──────────────────────
 
     /**
@@ -112,6 +106,8 @@ class Framework implements \ArrayAccess
      * 2. Exists in current inlay → return that.
      * 3. Exists in "Pane" inlay → return that.
      * 4. Otherwise → null.
+     * @param mixed $key Description.
+     * @return mixed Description.
      */
     public function offsetGet($key): mixed
     {
@@ -147,6 +143,8 @@ class Framework implements \ArrayAccess
      * 2. Exists in current inlay → update there.
      * 3. Exists in "Pane" inlay → update there.
      * 4. Otherwise → store in "Pane" inlay (pane-scoped by default).
+     * @param mixed $key Description.
+     * @param mixed $value Description.
      */
     public function offsetSet($key, $value): void
     {
@@ -186,29 +184,11 @@ class Framework implements \ArrayAccess
         Mosaic::delVar($key, 'Pane');
     }
 
-    // ── Legacy fill — routes through offsetSet ─────────────────────
-
-    /**
-     * Fills the Mosaic with an array of values.
-     * Each key-value pair is set via offsetSet(), which uses
-     * existence-check routing to determine the correct inlay.
-     */
-    public function fill(array $values): void
-    {
-        foreach ($values as $key => $val) {
-            if ($val !== null) {
-                $this[$key] = $val;
-            }
-        }
-    }
-
     // ── Lifecycle methods ────────────────────────────────────────
 
     /**
      * Initializes the ClearView framework from the request.
-     * @param string $template The ProcessWire page template name.
      * @return void
-     * @throws Exception on errors.
      */
     public function __construct(string $template)
     {
@@ -220,102 +200,50 @@ class Framework implements \ArrayAccess
         // Input crystal is ready with panename/inlayname/methodname.
         $this->mosaic = Mosaic::load();
 
-        // Resolve URL parameters from the Input crystal
-        $panename  = $this['Input::panename'] ?? 'Default';
-        $inlayname = $this['Input::inlayname'] ?? 'ClearView';
-        $command   = $this['Input::methodname'] ?? '';
-
-        if ($template == 'Default') {
-            $panename = $template;
-            $inlayname = 'Pane';
-            $PaneClass = '\\ClearView\\Main';
-        } else {
-            if (empty($panename))  $panename = 'Default';
-            if (empty($inlayname)) $inlayname = 'ClearView';
-            $PaneClass = Inlay::load($panename, $inlayname);
-        }
-
-        if (self::is_htmx_boosted()) {
-            $command = 'html';
-        } elseif (empty($command)) {
-            $command = self::defaultMethod();
-        }
-
-        if (empty($panename)) {
-            throw new Exception("No panename");
-        }
-
-        /** @deprecated — transition accessors, remove after G5 */
-        ClearView::panename($panename);
-        ClearView::inlayname($inlayname);
-        ClearView::method($command);
-        ClearView::paneobj($this);
-
-        // Load and resolve the body Element.
-        // Pane::load() stores it in Mosaic "Pane" inlay automatically;
-        // subsequent {{Pane::body}} lookups resolve through the Pane crystal.
-        \ClearView\Pane::load($panename, $inlayname, $this->mosaic);
+        $PaneClass = Inlay::load($this['Input::panename'], $this['Input::inlayname']);
 
         // Debug header — tracemode comes from Config, not ProcessWire
-        Exception::outheader($template, Config::TRACEMODE);
+        Exception::outheader(Config::TRACEMODE);
 
         return new $PaneClass();
     }
 
     /** Default full-page render. */
-
-
     public function open(): void
     {
         self::html();
     }
 
     /** Default HTML method. */
-
-
     public function html(?string $template = null): void
     {
-        if ($this['Input::methodname'] === 'open') {
-            (new Facet($this['Pane::body']))
-                ->open("{{Pane::open}}")
-                ->render()
-                ->close();
-            $this->triggerevent('paneopen');
-            return;
-        }
-
-        $currentInlay = $this['Input::inlayname'];
-        if ($this['Shared::prevInlay'] !== null && $this['Shared::prevInlay'] !== $currentInlay) {
-            $this->triggerevent('inlaychange', ['inlay' => $currentInlay]);
-        }
-        $this['Shared::prevInlay'] = $currentInlay;
-
         (new Facet($this['Pane::body']))
-            ->html()
+	    ->render("Pane::open", 
+		match: [[ $this['Input::methodname'] == 'open']])
+            ->html('Pane::body')
+	    ->triggerevent('paneopen', 
+	        match: [[ $this['Input::methodname'] == 'open']])
+	    ->triggerevent('inlaychange', ['inlay' => $currentInlay], 
+		unless: [[ $this['Shared::prevInlay'] === $this['Input::inlayname'] ]])
             ->close();
+        $this['Shared::prevInlay'] = $currentInlay;
     }
 
     /** Renders the launcher element. */
-
-
     public function launcher(): void
     {
-        (new Facet($this['Pane::launcher']))
-            ->html()
+	(new Facet($this))
+            ->html('Pane::launcher')
             ->close();
     }
 
     /** Triggers closepane event. */
-
-
     public function close($delay = null): void
     {
         $this->triggerevent('closepane', ['delay' => $delay]);
     }
 
     /** Redirects to a URL via HX-Location JSON payload. */
-
-
     public function redirect($url = null): void
     {
         $url = $url ?? $this['Page::url'];
@@ -323,16 +251,12 @@ class Framework implements \ArrayAccess
     }
 
     /** Reloads the page. */
-
-
     public function reloadPage(): void
     {
         $this->redirect();
     }
 
     /** Triggers an htmx event. */
-
-
     public function triggerevent(string $event, $params = null): self
     {
         $this->sendHtmxHeader('HX-Trigger', $event, $params);
@@ -340,8 +264,6 @@ class Framework implements \ArrayAccess
     }
 
     /** Sends a special header in the server response. */
-
-
     public function sendHtmxHeader(string $header, $event, $params): self
     {
         Exception::debug('EVENT', "Triggering {$event}");
@@ -355,16 +277,12 @@ class Framework implements \ArrayAccess
     }
 
     /** Sets the HX-Retarget header. */
-
-
     public function retargetResult(string $target, $params = null): void
     {
         $this->sendHtmxHeader('HX-Retarget', $target, $params);
     }
 
     /** Wrapper around Exception::debug() for inlays. */
-
-
     public function debug($msg, $depth = 2): self
     {
         Exception::debug('PANE', $msg, $depth);
@@ -372,8 +290,6 @@ class Framework implements \ArrayAccess
     }
 
     /** Dispatches commands based on URL segments. */
-
-
     public function handleCommand(): void
     {
         $command = $this['Input::methodname'] ?: self::defaultMethod();
@@ -397,25 +313,23 @@ class Framework implements \ArrayAccess
             Exception::debug('EVENT', "Executing {$command} from {{uppercase\\Input::requestMethod}} {{Input::url}}");
             (new Facet($this))
                 ->forward($command)
-                ->create(['glyph' => 'mosaic'])
+                ->html(['glyph' => 'mosaic'])
                 ->close();
         } else {
             $pageField = $this["Page::$command"];
             if ($pageField !== null) {
-                (new Facet($pageField))
-                    ->html()
+                (new Facet()
+                    ->html($pageField)
                     ->close();
             } else {
                 $this->doesNotUnderstand($command);
             }
         }
         // Send buffered variable and script updates
-        $this['ClearView']->dumpOOBdata();
+	ClearView::dumpOOBdata();
     }
 
     /** Handles unknown commands. */
-
-
     public function doesNotUnderstand($name = null): void
     {
         $name = $name ?? $this['Input::methodname'];
@@ -423,15 +337,8 @@ class Framework implements \ArrayAccess
     }
 
     /** Catch unknown method calls. */
-
-
     public function __call($name, $arguments): void
     {
-        $redir = $this["ClearView::pagename"];
-        if (isset($redir)) {
-            echo $redir;
-        } else {
-            $this->doesNotUnderstand($name);
-        }
+        $this->doesNotUnderstand($name);
     }
 }
