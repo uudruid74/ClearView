@@ -178,9 +178,9 @@ class QueryParser
             $result['base'] = trim($query);
             return $result;
         }
-        // Method call: Inlay::method() or Inlay::method (parens optional),
+        // Method call: Inlay::method() only (requires parentheses)
         // Glyph::method(), or Crystal::method()
-        if (preg_match('/^(\w+)::(\w+)(?:\(\))?$/', $expression, $matches)) {
+        if (preg_match('/^(\w+)::(\w+)\(\)$/', $expression, $matches)) {
             $result['type'] = 'method';
             $result['inlay'] = $matches[1] ?? $inlay;
             $result['method'] = $matches[2];
