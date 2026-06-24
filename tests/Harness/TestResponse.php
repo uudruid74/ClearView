@@ -4,6 +4,7 @@ namespace ClearView\Test\Harness;
 
 /**
  * Wraps the raw result of a curl request made by ServerHarness.
+ *
  * Network / curl errors are captured with status 0 and the error message
  * set as the body so tests can still inspect the failure.
  */
@@ -27,32 +28,24 @@ class TestResponse
     }
 
     /** HTTP status code. 0 indicates a curl / network error. */
-
-
     public function status(): int
     {
         return $this->status;
     }
 
     /** Full response body as a string. */
-
-
     public function body(): string
     {
         return $this->body;
     }
 
     /** All response headers as a lowercase-keyed associative array. */
-
-
     public function headers(): array
     {
         return $this->headers;
     }
 
     /** Single header value, or null if not present. */
-
-
     public function header(string $name): ?string
     {
         return $this->headers[\strtolower($name)] ?? null;
@@ -60,6 +53,7 @@ class TestResponse
 
     /**
      * Decode the body as JSON.
+     *
      * @return array|null  Parsed array, or null when the body is not valid JSON.
      */
     public function json(): ?array

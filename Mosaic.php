@@ -10,11 +10,14 @@ use ProcessWire;
 
 /**
  * Request-scoped store for Shards — fully static singleton.
+ *
  * Shards are indexed by inlay-id, deflated into hidden inputs on the client,
  * and re-inflated on every request. The Mosaic is the first thing created
  * during bootstrap, fully initialized before any Pane acts.
+ *
  * All methods are static and call through Mosaic::$instance.
  * The instance is set by Mosaic::load() or the constructor.
+ *
  * @see \ClearView\Shard
  * @see \ClearView\Facet
  * @see \ClearView\Crystal
@@ -48,10 +51,12 @@ class Mosaic
 
     /**
      * Static factory — creates and fully initializes a Mosaic.
+     *
      * This is the single entry point for Mosaic creation. It handles crystal
      * loading, input data inflation, CLI data injection, and snapshot
      * restoration in the correct order. Once complete, Mosaic::instance()
      * returns the fully-initialized Mosaic.
+     *
      * @param array $options {
      *     loadCrystals: true|false     — load all Crystal subclasses (default: true)
      *     loadInputData: true          — inflate shards from GET/POST data
@@ -109,6 +114,7 @@ class Mosaic
 
     /**
      * Loads a snapshot view file and inflates its hidden inputs into the Mosaic.
+     *
      * @param string $name Snapshot name (corresponds to views/<name>.php)
      * @return void
      */
@@ -145,6 +151,7 @@ class Mosaic
 
     /**
      * Public constructor — use Mosaic::load() instead.
+     *
      * Sets self::$instance so that legacy code creating `new Mosaic()`
      * still wires the singleton. Crystal::loadAll() returns the instance
      * which Pane stores for backward compatibility.
@@ -156,9 +163,11 @@ class Mosaic
 
     /**
      * Loads mosaic data from input.
+     *
      * Parses input keys in 'inlay-id' format to load or add Shards,
      * and handles additional variables under the last inlay.
      * Enables change tracking after loading.
+     *
      * @param $input Input data to process, typically from ProcessWire's input.
      * @return void
      */
@@ -250,6 +259,7 @@ class Mosaic
 
     /**
      * Gets the short class name of an object.
+     *
      * @param object $classobj
      * @return string
      */
@@ -260,6 +270,7 @@ class Mosaic
 
     /**
      * Creates a unique address for a shard.
+     *
      * @param Shard|array $input Shard object or array with 'id' and 'inlay' keys.
      * @return string The unique address in the format "inlay-id".
      */
@@ -279,6 +290,7 @@ class Mosaic
 
     /**
      * Checks if a shard exists on the client.
+     *
      * @param object $shard The Shard to check (must have an address property).
      * @return bool
      */
@@ -289,6 +301,7 @@ class Mosaic
 
     /**
      * Indexes into the mosaic storage, always returning a Shard or null.
+     *
      * @param string $inlay The inlay name to search in.
      * @param string $id The Shard ID.
      * @return Shard|null
@@ -306,6 +319,7 @@ class Mosaic
 
     /**
      * Checks if an inlay and ID exist in the mosaic.
+     *
      * @param string $inlay The inlay name to check.
      * @param string $id The Shard ID.
      * @return bool
@@ -318,6 +332,7 @@ class Mosaic
 
     /**
      * Retrieves a variable from the Mosaic.
+     *
      * @param string $expression The variable expression to retrieve.
      * @param string|null $inlay The inlay name to search in (optional).
      * @return mixed
@@ -329,6 +344,7 @@ class Mosaic
 
     /**
      * Sets a variable in the mosaic.
+     *
      * @param string $varname The variable name, possibly with ".field" or "inlay::var".
      * @param string $val The value to set.
      * @param string|null $inlay The inlay name to store in.
@@ -371,6 +387,7 @@ class Mosaic
 
     /**
      * Bulk write to Mosaic variables.
+     *
      * @param array $values Key-value pairs to set.
      * @param string|null $inlay Inlay context.
      * @return void
@@ -386,6 +403,7 @@ class Mosaic
 
     /**
      * Initializes a variable if it doesn't exist.
+     *
      * @param string $var The variable name.
      * @param string $value The value to set.
      * @param string|null $inlay The inlay name.
@@ -402,6 +420,7 @@ class Mosaic
 
     /**
      * Initializes values in the destination array only for keys that don't exist.
+     *
      * @param array &$dest The destination array to modify.
      * @param array $defaults Key-value pairs to set if the key is not already present.
      * @return void
@@ -425,6 +444,7 @@ class Mosaic
 
     /**
      * Initializes multiple variables if they don't exist.
+     *
      * @param array $array Key-value pairs to initialize.
      * @param string|null $inlay The inlay name.
      * @return void
@@ -440,6 +460,7 @@ class Mosaic
 
     /**
      * Deletes multiple variables from the mosaic.
+     *
      * @param array|string $varname The variable name(s) to delete.
      * @param string|null $inlay The inlay name.
      * @return void
@@ -457,6 +478,7 @@ class Mosaic
 
     /**
      * Deletes a variable from the mosaic.
+     *
      * @param string $varname The variable name.
      * @param string|null $inlay The inlay name.
      * @return void
@@ -479,6 +501,7 @@ class Mosaic
 
     /**
      * Dumps all mosaic data for debugging.
+     *
      * @param mixed|null $obj The object to dump.
      * @return void
      */
@@ -496,6 +519,7 @@ class Mosaic
 
     /**
      * Outputs the entire mosaic as HTML inputs.
+     *
      * @return void
      */
     public static function outputMosaic(): void
@@ -516,6 +540,7 @@ class Mosaic
 
     /**
      * Updates the mosaic with changed or added shards.
+     *
      * @return void
      */
     public static function updateMosaic(): void
@@ -540,6 +565,7 @@ class Mosaic
 
     /**
      * Generates HTML to store a shard.
+     *
      * @param Shard $shard The Shard to store.
      * @param Facet $facet
      * @return void
@@ -552,6 +578,7 @@ class Mosaic
 
     /**
      * Generates OOB HTML to insert a new shard.
+     *
      * @param Shard $shard The Shard to insert.
      * @return void
      */
@@ -567,6 +594,7 @@ class Mosaic
 
     /**
      * Generates OOB HTML to update a shard.
+     *
      * @param Shard $shard The Shard to update.
      * @param string|null $newValue The new deflated value.
      * @return void
@@ -583,6 +611,7 @@ class Mosaic
 
     /**
      * Generates OOB HTML to remove a shard.
+     *
      * @param Shard $shard The Shard to remove.
      * @return void
      */
@@ -597,6 +626,7 @@ class Mosaic
 
     /**
      * Adds a shard to the mosaic.
+     *
      * @param mixed $json The JSON data or Shard to add.
      * @param string|null $id The Shard ID.
      * @param string|null $inlay The inlay name.
@@ -616,6 +646,7 @@ class Mosaic
 
     /**
      * Deletes a shard from the mosaic.
+     *
      * @param object $shard The Shard to delete.
      * @return void
      */
@@ -629,6 +660,7 @@ class Mosaic
 
     /**
      * Checks a Shard and adds it to the checkList if not already present.
+     *
      * @param object $shard The Shard to check.
      * @return void
      */
@@ -642,6 +674,7 @@ class Mosaic
 
     /**
      * Finds a single Shard by field and value.
+     *
      * @param string|null $field The field name to search.
      * @param mixed $value The value to match.
      * @param string $inlay The inlay to filter by.
@@ -666,6 +699,7 @@ class Mosaic
 
     /**
      * Finds multiple Shards by field and value.
+     *
      * @param string|null $field The field name to search.
      * @param mixed $value The value to match.
      * @param string $inlay The inlay name to filter by.

@@ -18,6 +18,7 @@ class Exception extends WireException
 
     /**
      * Constructor that processes templates and passes the message to error().
+     *
      * @param string $message The error message with potential templates.
      * @param int $code The error code (optional, default 0).
      * @param \Throwable|null $previous The previous throwable (optional, default null).
@@ -34,6 +35,7 @@ class Exception extends WireException
      *      $flags = Exception::tracemode(['ALL']);
      *      ... your code here ...
      *      Exception::tracemode($flags);
+     *
      * @param array $flags The new trace flags.
      * @return array of previous trace flags.
      */
@@ -48,6 +50,7 @@ class Exception extends WireException
 
     /**
      * Outputs a debug message, buffering for JS or as HTML comment.
+     *
      * @param string $tag The debug tag.
      * @param string|null $msg The debug message.
      */
@@ -67,6 +70,7 @@ class Exception extends WireException
 
     /**
      * Creates an error exception with call site information.
+     *
      * @param string $msg The error message.
      * @param self|null $e Optional existing exception to extract call site info.
      * @return self The exception instance to throw (if $e is null).
@@ -98,6 +102,7 @@ class Exception extends WireException
 
     /**
      * Outputs an HTML comment.
+     *
      * @param string $msg The comment message.
      */
     public static function outputComment($msg): void
@@ -111,6 +116,7 @@ class Exception extends WireException
 
     /**
      * Outputs a header for debugging, optionally setting tracemode.
+     *
      * @param string $template we were called with
      * @param array|null $tracemodeFlags Optional trace mode flags to set.
      */
@@ -145,6 +151,7 @@ class Exception extends WireException
 
     /**
      * Output Formatter
+     *
      * @param string $msg The message.
      * @param string $tag The tag.
      * @param int $depth How deep is the caller?
@@ -209,9 +216,9 @@ class Exception extends WireException
         }
     }
 
-    /** Output a backtrace at any time as a string */
-
-
+    /**
+     * Output a backtrace at any time as a string
+     */
     public static function backtrace()
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 13);
@@ -248,6 +255,7 @@ class Exception extends WireException
 
     /**
      * Gets caller information from debug_backtrace.
+     *
      * @return array Caller file and line.
      */
     private static function getCallerInfo(): array

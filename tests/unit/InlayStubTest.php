@@ -12,6 +12,7 @@ use ClearView\ClearView;
  *   A PHPUnit test can register a stub for OrderPane/OrderList,
  *   create a ViewBuilder for that pane/inlay, and assert the
  *   rendered output contains the stub data.
+ *
  * Since ViewBuilder is implemented in a separate task (t_3f36d1d2),
  * this test verifies the core InlayStub/InlayRegistry seam:
  *   - loadInlay() returns the stub class when a stub is registered.

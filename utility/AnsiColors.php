@@ -21,6 +21,7 @@ class AnsiColors
 
     /**
      * Returns the ANSI color code for a given tag.
+     *
      * @param string $tag The tag to get the color for.
      * @return string The ANSI color code.
      */

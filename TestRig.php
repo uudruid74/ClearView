@@ -6,9 +6,12 @@ use ClearView\Framework;
 
 /**
  * TestRig — headless Framework for CLI testing.
+ *
  * Runs without ProcessWire by loading null crystals. Accepts
  * CLI arguments for configuration. Renders test views.
+ *
  * Usage: php TestRig.php --panename=MyPane --inlayname=TestInlay --view=my_test
+ *
  * @see \ClearView\Runtime
  * @see \ClearView\Mosaic
  */
@@ -19,6 +22,7 @@ class TestRig extends Framework
 
     /**
      * Creates a headless test Pane.
+     *
      * @param string $template Always 'CLI' — no ProcessWire template.
      * @param array $cliArgs  Key-value pairs from CLI (e.g. ['panename' => 'TestPage'])
      */
@@ -53,9 +57,11 @@ class TestRig extends Framework
 
     /**
      * Returns the module list with 'testjig' prepended.
+     *
      * TestRig loads null crystals from modules/testjig/crystals/
      * before vendor crystals, so headless tests run without
      * ProcessWire dependencies.
+     *
      * @return array<string>
      */
     public function Modules(): array
@@ -67,8 +73,10 @@ class TestRig extends Framework
 
     /**
      * Render a test view file.
+     *
      * Test views are plain PHP files that use the Facet rendering
      * pipeline directly. They live in views/ and are included inline.
+     *
      * @param string $name View name (views/<name>.php)
      */
     public function renderTestView(string $name): void
@@ -82,6 +90,7 @@ class TestRig extends Framework
 
     /**
      * Entry point for CLI test execution.
+     *
      * Parses argv, creates TestRig, renders the specified view.
      */
     public static function run(): void
@@ -99,6 +108,7 @@ class TestRig extends Framework
 
     /**
      * Parse CLI arguments into key-value pairs.
+     *
      * Supports: --key=value, --key value, --flag (sets value to true)
      */
     private static function parseArgv(): array

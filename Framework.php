@@ -12,10 +12,12 @@ use ProcessWire;
 
 /**
  * Framework — the ClearView request lifecycle engine.
+ *
  * Boots Mosaic, resolves URL parameters, loads inlay classes, and
  * dispatches commands.  Implements ArrayAccess for pane-scoped variable
  * access with existence-check routing: writes land where the variable
  * was first found, reads check current inlay first then "Pane" inlay.
+ *
  * Replaces the old Pane request-handler class.  The "Pane" is now a
  * crystal (crystals/Pane.php) for {{Pane::headline}} template lookups.
  */
@@ -27,34 +29,34 @@ class Framework implements \ArrayAccess
     /** @var Mosaic The Mosaic instance for this request. */
     public Mosaic $mosaic;
 
-    /** Returns the default method name for a given request method. */
-
-
+    /**
+     * Returns the default method name for a given request method.
+     */
     public static function defaultMethod(?string $method = null): string
     {
         $map = ['POST' => 'post', 'CLI' => 'open', 'GET' => 'html', 'PUT' => 'put', 'DELETE' => 'delete'];
         return $map[$method] ?? 'html';
     }
 
-    /** Check if we're running in a test environment. */
-
-
+    /**
+     * Check if we're running in a test environment.
+     */
     public static function inTesting(): bool
     {
         return (php_sapi_name() === 'cli' || defined('STDIN'));
     }
 
-    /** Check if the request is made via HTMX. */
-
-
+    /**
+     * Check if the request is made via HTMX.
+     */
     public static function is_htmx_request(): bool
     {
         return isset($_SERVER['HTTP_HX_REQUEST']) && $_SERVER['HTTP_HX_REQUEST'] === 'true';
     }
 
-    /** Check if the request is from a boosted link. */
-
-
+    /**
+     * Check if the request is from a boosted link.
+     */
     public static function is_htmx_boosted(): bool
     {
         return isset($_SERVER['HTTP_HX_BOOSTED']) && $_SERVER['HTTP_HX_BOOSTED'] === 'true';
@@ -64,6 +66,7 @@ class Framework implements \ArrayAccess
 
     /**
      * Returns the active Framework instance for this request.
+     *
      * There is exactly one Framework per request; subclasses like
      * TestRig set themselves as the instance during construction.
      */
@@ -76,10 +79,12 @@ class Framework implements \ArrayAccess
 
     /**
      * Returns the ordered module list for resource lookups.
+     *
      * Base implementation returns Config::MODULES_LIST.  PaneAttr::modules
      * (from the <pane modules="..."> attribute) is prepended when set.
      * Subclasses override to inject framework-specific modules (e.g.
      * TestRig prepends 'testjig' for null crystals).
+     *
      * @return array<string>
      */
     public function Modules(): array
@@ -108,6 +113,7 @@ class Framework implements \ArrayAccess
 
     /**
      * Get a variable with existence-check routing.
+     *
      * 1. Contains :: {{ or . → delegate to Mosaic::getVar (expression routing).
      * 2. Exists in current inlay → return that.
      * 3. Exists in "Pane" inlay → return that.
@@ -143,6 +149,7 @@ class Framework implements \ArrayAccess
 
     /**
      * Set a variable with existence-check routing.
+     *
      * 1. Contains :: {{ or . → delegate to Mosaic::setVar.
      * 2. Exists in current inlay → update there.
      * 3. Exists in "Pane" inlay → update there.
@@ -190,6 +197,7 @@ class Framework implements \ArrayAccess
 
     /**
      * Fills the Mosaic with an array of values.
+     *
      * Each key-value pair is set via offsetSet(), which uses
      * existence-check routing to determine the correct inlay.
      */
@@ -206,6 +214,7 @@ class Framework implements \ArrayAccess
 
     /**
      * Initializes the ClearView framework from the request.
+     *
      * @param string $template The ProcessWire page template name.
      * @return void
      * @throws Exception on errors.
@@ -262,17 +271,17 @@ class Framework implements \ArrayAccess
         return new $PaneClass();
     }
 
-    /** Default full-page render. */
-
-
+    /**
+     * Default full-page render.
+     */
     public function open(): void
     {
         self::html();
     }
 
-    /** Default HTML method. */
-
-
+    /**
+     * Default HTML method.
+     */
     public function html(?string $template = null): void
     {
         if ($this['Input::methodname'] === 'open') {
@@ -295,9 +304,9 @@ class Framework implements \ArrayAccess
             ->close();
     }
 
-    /** Renders the launcher element. */
-
-
+    /**
+     * Renders the launcher element.
+     */
     public function launcher(): void
     {
         (new Facet($this['Pane::launcher']))
@@ -305,43 +314,43 @@ class Framework implements \ArrayAccess
             ->close();
     }
 
-    /** Triggers closepane event. */
-
-
+    /**
+     * Triggers closepane event.
+     */
     public function close($delay = null): void
     {
         $this->triggerevent('closepane', ['delay' => $delay]);
     }
 
-    /** Redirects to a URL via HX-Location JSON payload. */
-
-
+    /**
+     * Redirects to a URL via HX-Location JSON payload.
+     */
     public function redirect($url = null): void
     {
         $url = $url ?? $this['Page::url'];
         header("HX-Location: " . json_encode(["path" => $url]));
     }
 
-    /** Reloads the page. */
-
-
+    /**
+     * Reloads the page.
+     */
     public function reloadPage(): void
     {
         $this->redirect();
     }
 
-    /** Triggers an htmx event. */
-
-
+    /**
+     * Triggers an htmx event.
+     */
     public function triggerevent(string $event, $params = null): self
     {
         $this->sendHtmxHeader('HX-Trigger', $event, $params);
         return $this;
     }
 
-    /** Sends a special header in the server response. */
-
-
+    /**
+     * Sends a special header in the server response.
+     */
     public function sendHtmxHeader(string $header, $event, $params): self
     {
         Exception::debug('EVENT', "Triggering {$event}");
@@ -354,26 +363,26 @@ class Framework implements \ArrayAccess
         return $this;
     }
 
-    /** Sets the HX-Retarget header. */
-
-
+    /**
+     * Sets the HX-Retarget header.
+     */
     public function retargetResult(string $target, $params = null): void
     {
         $this->sendHtmxHeader('HX-Retarget', $target, $params);
     }
 
-    /** Wrapper around Exception::debug() for inlays. */
-
-
+    /**
+     * Wrapper around Exception::debug() for inlays.
+     */
     public function debug($msg, $depth = 2): self
     {
         Exception::debug('PANE', $msg, $depth);
         return $this;
     }
 
-    /** Dispatches commands based on URL segments. */
-
-
+    /**
+     * Dispatches commands based on URL segments.
+     */
     public function handleCommand(): void
     {
         $command = $this['Input::methodname'] ?: self::defaultMethod();
@@ -413,18 +422,18 @@ class Framework implements \ArrayAccess
         $this['ClearView']->dumpOOBdata();
     }
 
-    /** Handles unknown commands. */
-
-
+    /**
+     * Handles unknown commands.
+     */
     public function doesNotUnderstand($name = null): void
     {
         $name = $name ?? $this['Input::methodname'];
         throw new Exception("I don't know how to '$name', from {{Input::url}}");
     }
 
-    /** Catch unknown method calls. */
-
-
+    /**
+     * Catch unknown method calls.
+     */
     public function __call($name, $arguments): void
     {
         $redir = $this["ClearView::pagename"];

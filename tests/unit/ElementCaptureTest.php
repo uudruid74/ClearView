@@ -8,6 +8,7 @@ use ClearView\Element;
 
 /**
  * Unit test for the Element::render($capture) seam.
+ *
  * Verifies that elements can be rendered to a string for assertion
  * without side-effecting output.
  */

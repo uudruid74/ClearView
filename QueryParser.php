@@ -10,6 +10,7 @@ use ProcessWire;
 
 /**
  * Handles parsing and interpretation of variable query expressions.
+ *
  * This class centralizes all logic for understanding and resolving template
  * expressions used by Facet. It parses expressions into components and resolves
  * them against the current application state, handling method calls, variable
@@ -19,10 +20,12 @@ class QueryParser
 {
     /**
      * The main entry point for parsing and resolving a single template expression.
+     *
      * This method is responsible for taking a raw expression string (e.g., 'count++' or
      * 'Inlay::method()') and returning its resolved value. Handles short-circuit operators
      * (^^ XOR, ||, &&), increment/decrement, array indexing, template expansion, and
      * sanitizer pipelines.
+     *
      * @param string $expression The template expression to resolve.
      * @param array|null $locals Local variables for variable lookup (optional).
      * @param string|null $inlay The inlay name to resolve against (optional).
@@ -143,9 +146,11 @@ class QueryParser
 
     /**
      * Parses a template expression string into its component parts.
+     *
      * Analyzes expressions and categorizes them as method calls, CSS definitions, HTML attributes,
      * inlay queries, or variables. Pane:: prefix routes to inlay field queries (no method dispatch).
      * Inlay::, Glyph::, and other Crystal:: prefixes route to method dispatch.
+     *
      * @param string $expression The full variable expression string.
      * @param string|null $inlay The current inlay name for context.
      * @return array An associative array containing the parsed components.
@@ -220,10 +225,12 @@ class QueryParser
 
     /**
      * Resolves a method call expression.
+     *
      * Handles {{Inlay::method()}}, {{Glyph::method()}} or {{Crystal::method()}} by dispatching
      * to the appropriate object. Inlay dispatches to the current Inlay Crystal instance;
      * Glyph dispatches to the current Facet Element; any other prefix dispatches to the
      * Crystal whose inlay name matches.
+     *
      * @param array $parsed Parsed expression components (inlay, method).
      * @param array|null $locals Local variables for scope.
      * @return string The result of the method call, or empty string if not found.
@@ -258,8 +265,10 @@ class QueryParser
 
     /**
      * Resolves a CSS definition expression.
+     *
      * Handles `{{property:var}}` by retrieving the variable and formatting it as a
      * CSS property (e.g., `color: red;`).
+     *
      * @param array $parsed Parsed expression components (property, base).
      * @return string The CSS property string, or empty string if no value.
      */
@@ -276,8 +285,10 @@ class QueryParser
 
     /**
      * Resolves an HTML attribute expression.
+     *
      * Handles `{{attr=value}}` by retrieving the variable and formatting it as an
      * HTML attribute.
+     *
      * @param array $parsed Parsed expression components (attr, base).
      * @return string The attribute string, or empty string if no value.
      */
@@ -294,8 +305,10 @@ class QueryParser
 
     /**
      * Resolves a variable expression.
+     *
      * Handles standard variable lookups, first checking locals, then the current element
      * via Facet::me(), and finally Mosaic getVar().
+     *
      * @param array $parsed Parsed expression components (base).
      * @param array|null $locals Local variables for lookup (optional).
      * @return mixed The resolved value.
@@ -339,7 +352,9 @@ class QueryParser
 
     /**
      * Resolves an inlay query expression.
+     *
      * Handles `{{inlay::query}}` by retrieving the specified shard and field.
+     *
      * @param array $parsed Parsed expression components (inlay, base).
      * @return mixed The resolved value from Mosaic.
      */
@@ -434,7 +449,9 @@ class QueryParser
 
     /**
      * Gets a variable's value from the most specific scope outwards.
+     *
      * Priority: locals → current element (Facet::me()) → Mosaic.
+     *
      * @param string $var The variable name.
      * @param array|null $locals Local variables for lookup (optional).
      * @return mixed The resolved value.
@@ -472,8 +489,10 @@ class QueryParser
 
     /**
      * Evaluates a conditional match for rendering qualifiers.
+     *
      * Compares a value against an expected value using operators like `==`, `!=`, or `~=` for conditional
      * rendering checks. This is a unification of the previous logic from Facet.
+     *
      * @param mixed $value The value to compare.
      * @param string $operator The comparison operator (e.g., `==`, `!=`, `*=`).
      * @param mixed $expected The expected value.

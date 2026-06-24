@@ -6,9 +6,11 @@ use ClearView\Test\TestHarnessException;
 
 /**
  * Curl-based HTTP smoke-test helper for ClearView.
+ *
  * Preferred transport is PHP's curl_* extension.  Falls back to a shell
  * `curl` subprocess when the extension is unavailable.  Throws
  * TestHarnessException when neither curl transport is usable.
+ *
  * Usage:
  *   $server = ServerHarness::at('http://clearview.local')->asHtmx();
  *   $resp   = $server->get('/form/login/open/');
@@ -24,14 +26,13 @@ class ServerHarness
     private array $defaultHeaders = [];
 
     /** True when the PHP curl extension is loaded. */
-
-
     private bool $usePhpCurl;
 
     // ── Factory ──────────────────────────────────────────────────────
 
     /**
      * Create a harness pointed at a base URL.
+     *
      * @throws TestHarnessException when neither curl_* nor shell curl is available.
      */
     public static function at(string $baseUrl): self
@@ -42,9 +43,9 @@ class ServerHarness
         return $instance;
     }
 
-    /** Detect available curl transport. Throws on complete absence. */
-
-
+    /**
+     * Detect available curl transport.  Throws on complete absence.
+     */
     private function detectCurl(): void
     {
         $this->usePhpCurl = \function_exists('curl_init');
@@ -65,8 +66,6 @@ class ServerHarness
     // ── Builder ──────────────────────────────────────────────────────
 
     /** Add a default header sent with every request. */
-
-
     public function withHeader(string $name, string $value): self
     {
         $this->defaultHeaders[$name] = $value;
@@ -74,16 +73,12 @@ class ServerHarness
     }
 
     /** Mark every request as an HTMX request (sets HX-Request: true). */
-
-
     public function asHtmx(): self
     {
         return $this->withHeader('HX-Request', 'true');
     }
 
     /** Override the default 30-second timeout. */
-
-
     public function withTimeout(int $seconds): self
     {
         $this->timeout = $seconds;
@@ -114,6 +109,7 @@ class ServerHarness
 
     /**
      * POST with Mosaic-encoded form keys.
+     *
      * Keys in $mosaicData are sent as-is — they should already follow the
      * Mosaic naming convention (e.g. "LoginForm-username").
      */
@@ -126,6 +122,7 @@ class ServerHarness
 
     /**
      * Execute a single HTTP request.
+     *
      * @param string     $method  HTTP verb.
      * @param string     $path    URL path (appended to baseUrl).
      * @param array|null $data    POST / PUT body data.
@@ -209,8 +206,6 @@ class ServerHarness
     // ── Shared helpers ───────────────────────────────────────────────
 
     /** Build the HTTP header lines array for php-curl. */
-
-
     private function buildHeaderLines(): array
     {
         $lines = [];
@@ -222,6 +217,7 @@ class ServerHarness
 
     /**
      * Parse a raw HTTP response (headers + body) into a TestResponse.
+     *
      * Handles the standard "HTTP/1.x status\r\nHeader: value\r\n\r\nbody"
      * format returned by `curl -i` and CURLOPT_HEADER.
      */
@@ -252,8 +248,6 @@ class ServerHarness
     }
 
     /** Extract the status code from an HTTP status line like "HTTP/1.1 200 OK". */
-
-
     private function parseStatusLine(string $line): int
     {
         if (\preg_match('/^HTTP\/\d\.\d\s+(\d{3})/', $line, $m)) {

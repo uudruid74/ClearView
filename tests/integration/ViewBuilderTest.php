@@ -8,6 +8,7 @@ use ClearView\Test\Fixture\TestFixtureException;
 
 /**
  * Acceptance tests for ViewBuilder.
+ *
  * Verifies that ViewBuilder can assemble a view and render HTML
  * with expected attributes and text.
  */

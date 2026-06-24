@@ -8,6 +8,7 @@ use ProcessWire;
 
 /**
  * Class for managing page data in ProcessWire.
+ *
  * Wraps ProcessWire’s page object to provide access to page properties and fields. Supports change tracking
  * and automatic saving when modified.
  */
@@ -15,8 +16,12 @@ class Page extends Shard
 {
     /**
      * Initializes the Page with a ProcessWire page object.
+     *
      * Called during system initialization or when accessing page data. Uses ProcessWire’s `page()` function
      * if no object is provided.
+     *
+     * Why: Sets up access to page data within ClearView’s data model.
+     *
      * @param mixed $pwPage The ProcessWire page object (defaults to Page via `page()`).
      */
     public function __construct($pwObject=null,$name=null,$inlay=Config::SHARD_ANONINLAY)
@@ -63,6 +68,7 @@ class Page extends Shard
 
     /**
      * Gets a Page variable.
+     *
      * @param string $key The key to retrieve,
      * @return mixed The page value, Page Crystal, or null if not found.
      */
@@ -95,6 +101,7 @@ class Page extends Shard
 
     /**
      * Used to retrieve multiple properties or fields from the ProcessWire object in a single call.
+     * Why: Simplifies batch retrieval of ProcessWire data.
      * @param string|array $keys The keys to retrieve, possibly with '.' for nested fields.
      * @return array The values, indexed by key.
      */
@@ -133,6 +140,7 @@ class Page extends Shard
 
     /**
      * Used to update multiple properties or fields in the ProcessWire object in a single call.
+     * Why: Simplifies batch updates to ProcessWire data.
      * @param array $data Key-value pairs to set, with keys possibly using '.' for nested fields.
      * @return void
      */
@@ -144,6 +152,9 @@ class Page extends Shard
     }
     /**
      * Used to retrieve multiple properties or fields from the ProcessWire object in a single call.
+     *
+     * Why: Simplifies batch retrieval of ProcessWire data.
+     *
      * @param string|array $keys The keys to retrieve, possibly with '.' for nested fields.
      * @return array The values, indexed by key.
      */
@@ -154,7 +165,9 @@ class Page extends Shard
 
     /**
      * Checks if the crystal has changed and saves if necessary.
+     *
      * Used to detect modifications to the PW object and persist changes to ProcessWire’s database.
+     *
      * @return mixed Self if changes were saved, false otherwise.
      */
     public function hasChanged(): mixed
@@ -168,11 +181,14 @@ class Page extends Shard
 
     /**
      * Searches children for matching field values.
+     *
      * @param string $field Field to search.
      * @param mixed $value Value to match.
      * @param string $operator Comparison operator (e.g., '=', '*=').
      * @param string|null $returnField Optional field to return.
      * @return array Matching values or Shards.
+     *
+     * Why: Enables efficient content searches, optimized by childType.
      */
     protected function searchChildren(string $field, $value, string $operator, ?string $returnField = null): array
     {

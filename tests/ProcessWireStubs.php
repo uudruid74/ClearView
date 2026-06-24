@@ -2,6 +2,7 @@
 
 /**
  * Minimal ProcessWire stubs for headless ClearView testing.
+ *
  * Provides just enough of the ProcessWire API surface so that
  * ClearView core classes (Exception, Mosaic, Shard, Facet,
  * Element, Pane) can be loaded and instantiated without a

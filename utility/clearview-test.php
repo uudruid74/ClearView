@@ -2,11 +2,13 @@
 <?php
 /**
  * ClearView Test Runner
+ *
  * Thin CLI wrapper around PHPUnit that provides:
  *   - Suite selection (unit, integration, smoke)
  *   - Filter by test name
  *   - CI mode with concise output
  *   - Exit-code contract (0=pass, 1=fail, 2=bootstrap, 3=no match)
+ *
  * Usage: php utility/clearview-test.php [options]
  */
 

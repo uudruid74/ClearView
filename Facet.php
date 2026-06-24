@@ -10,6 +10,7 @@ use ClearView\Pane;
 
 /**
  * Manages HTML rendering and template processing for Shards in ClearView.
+ *
  * Facet is a rendering engine that wraps Shards, handling HTML tag management, template expansion, and output
  * buffering for client-side synchronization via HTMX. It maintains a static tag stack to track open/closed
  * elements and objects, supports nested out-of-band (OOB) updates and recording via reference counts, and
@@ -21,6 +22,7 @@ use ClearView\Pane;
  * rendering or element-specific finishing logic. A static `data[]` array stores global variables for fallback
  * resolution in template processing. The `jsonmangler` library is a hard dependency for inflating and
  * deflating Shards in template processing.
+ *
  * @see \ClearView\Shard
  * @see \ClearView\Mosaic
  * @see \ClearView\ClearView
@@ -51,8 +53,10 @@ class Facet
 
     /**
      * Initializes a Facet instance, optionally opening a tag or using an object.
+     *
      * Sets up a new Facet instance, recording its stack position and optionally processing an opening tag
      * or object. The instance tracks its position in the tag stack for proper closing.
+     *
      * @param mixed|null $open The opening HTML tag, Shard, or object to render (optional).
      * @param array|null $match Conditions to check before processing (optional).
      * @param array|null $unless Conditions to check for false before processing (optional).
@@ -73,8 +77,10 @@ class Facet
 
     /**
      * Gets the current target element or creator.
+     *
      * Retrieves the top object on the tag stack, or the ClearView creator if the stack is empty or contains
      * no objects. The target is used for method calls and field access during rendering.
+     *
      * @return object The current Shard, object, or ClearView creator.
      */
     public static function me()
@@ -95,7 +101,9 @@ class Facet
 
     /**
      * Gets the ID of the current element.
+     *
      * Retrieves the ID of the current target element via me()->id().
+     *
      * @return string The ID of the current element.
      */
     public function id()
@@ -105,9 +113,11 @@ class Facet
 
     /**
      * Processes a template string or object, condensing whitespace and handling nested expressions.
+     *
      * Expands template strings (e.g., `{{inlay::var}}`) or converts objects/arrays to JSON via jsonmangler.
      * Collapses whitespace and processes nested `{{...}}` expressions recursively. Falls back to the static
      * `data[]` array if a variable is not found via the current element or Mosaic.
+     *
      * @param mixed $string The template string, object, or array to process.
      * @param array|null $locals Local variables for template variable lookup (optional).
      * @return string|null The processed template string or mangled JSON, or null if input is unset.
@@ -131,10 +141,12 @@ class Facet
 
     /**
      * Checks if rendering conditions are met.
+     *
      * Evaluates rendering conditions, including field presence, equality checks, OOB state, recording state,
      * and contained state. Supports single boolean conditions, equality checks, or triadic comparisons
      * (value, operator, expected) via the unified QueryParser::compare() method. The `unless` parameter inverts
      * the logic, requiring conditions to evaluate to false.
+     *
      * @param array|null $match The conditions to check for true (optional).
      * @param array|null $unless The conditions to check for false (optional).
      * @param bool $unlessContained If true, skips rendering if the element is contained (optional).
@@ -208,7 +220,9 @@ class Facet
 
     /**
      * Gets a field value from the static data array.
+     *
      * Retrieves a value from the static `data[]` array, returning a default if the field is not set.
+     *
      * @param string $key The field name to retrieve.
      * @param mixed $default The default value to return if the field is not set.
      * @return mixed The field value or default.
@@ -220,9 +234,11 @@ class Facet
 
     /**
      * Sets a field value in the static data array.
+     *
      * Sets a value in the static `data[]` array. If the field already exists, pushes its old value and a
      * `==fieldname` tag to restore it on stack pop. If the field is new, pushes a `0=fieldname` tag to
      * unset it on stack pop.
+     *
      * @param string $key The field name to set.
      * @param mixed $value The value to set.
      * @return self For method chaining.
@@ -241,8 +257,10 @@ class Facet
 
     /**
      * Increments a field value in the static data array.
+     *
      * Increments a numeric field in `data[]` (or initializes it to 1 if unset) and pushes a `--fieldname`
      * tag to decrement it on stack pop.
+     *
      * @param string $field The field name to increment.
      * @return self For method chaining.
      */
@@ -255,8 +273,10 @@ class Facet
 
     /**
      * Decrements a field value in the static data array.
+     *
      * Decrements a numeric field in `data[]` (or initializes it to -1 if unset) and pushes a `++fieldname`
      * tag to increment it on stack pop.
+     *
      * @param string $field The field name to decrement.
      * @return self For method chaining.
      */
@@ -269,8 +289,10 @@ class Facet
 
     /**
      * Opens an HTML tag, renders a Shard, or uses an object, pushing to tag stack if not self-closing.
+     *
      * Starts rendering an HTML tag, Shard, or object. For Shards, calls `render()` to keep tags open. Handles
      * self-closing tags (e.g., `<input>`) and pushes closing tags or objects to the stack for later closing.
+     *
      * @param mixed $open The opening tag, Shard, or object to render.
      * @param string|null $close The closing tag (optional, auto-derived if null).
      * @param array|null $match Conditions to check for true before rendering (optional).
@@ -350,8 +372,10 @@ class Facet
 
     /**
      * Pushes an object or string to the tag stack.
+     *
      * Sets the current rendering context to an object or pushes a closing tag (e.g., `</div>`) to the stack.
      * Acts as syntactic sugar for pushing to `$tagstack`, similar to `onClose()`.
+     *
      * @param string|object $close The object or closing tag to push.
      * @return self For method chaining.
      */
@@ -363,9 +387,11 @@ class Facet
 
     /**
      * Registers a method or HTML to be processed when the stack is popped to this position.
+     *
      * Pushes a closing HTML tag (e.g., `</div>`) or a method call (prefixed with `->`, e.g., `->stopOOB`) to
      * the tag stack. When popped via `popto()` or `close()`, HTML is output, and `->method` triggers a method
      * call on the Facet or forwarded via `__call()`.
+     *
      * @param string $method The HTML tag or method name (prefixed with `->` for methods).
      * @return self For method chaining.
      */
@@ -377,7 +403,9 @@ class Facet
 
     /**
      * Registers a method or HTML to be processed after the next close().
+     *
      * Sets a string or method to be executed after the next `close()` call, before returning to the caller.
+     *
      * @param string $method The HTML tag or method name to process after closing.
      * @return self For method chaining.
      */
@@ -389,7 +417,9 @@ class Facet
 
     /**
      * Static version of using().
+     *
      * Pushes an object or closing tag to the tag stack without an instance.
+     *
      * @param string|object $close The object or closing tag to push.
      * @return mixed The pushed value.
      */
@@ -401,9 +431,11 @@ class Facet
 
     /**
      * Pops the tag stack back to a specific position, processing closing tags or method markers.
+     *
      * Closes open tags or restores the stack to a previous state, outputting closing tags or handling method
      * markers (`->method`), field operations (`++field`, `--field`, `0=field`, `==field`). Returns non-$this
      * results (e.g., recorded strings) if applicable.
+     *
      * @param int $position The stack position to restore to.
      * @return mixed The Facet instance or a method result (e.g., recorded string).
      */
@@ -423,8 +455,10 @@ class Facet
 
     /**
      * Handles a popped tag from the stack.
+     *
      * Processes a popped tag, outputting HTML, calling a method for `->method`, or handling field operations
      * for `++field`, `--field`, `0=field`, or `==field`.
+     *
      * @param string $poppedTag The tag or operation to handle.
      * @return mixed The Facet instance or method result.
      */
@@ -465,8 +499,10 @@ class Facet
 
     /**
      * Starts out-of-band (OOB) output buffering.
+     *
      * Initiates OOB buffering, incrementing the OOB reference count and registering `->stopOOB` via
      * `onClose()` to be called when the stack is popped.
+     *
      * @return self For method chaining.
      */
     public function oob()
@@ -479,8 +515,10 @@ class Facet
 
     /**
      * Stops out-of-band (OOB) output buffering.
+     *
      * Terminates an OOB buffer, decrementing the OOB reference count, capturing the buffer contents, and
      * sending them to ClearView::sendOOB() for HTMX delivery.
+     *
      * @return self For method chaining.
      */
     public function stopOOB()
@@ -494,8 +532,10 @@ class Facet
 
     /**
      * Starts recording output for later retrieval.
+     *
      * Initiates recording output, incrementing the recording reference count and registering `->stopRecording`
      * via `onClose()` to be called when the stack is popped.
+     *
      * @return self For method chaining.
      */
     public function record()
@@ -508,8 +548,10 @@ class Facet
 
     /**
      * Stops recording output and returns the captured content.
+     *
      * Terminates a recording buffer, decrementing the recording reference count and returning the captured
      * content as a string.
+     *
      * @return string The captured output.
      */
     public function stopRecording()
@@ -522,8 +564,10 @@ class Facet
 
     /**
      * Checks if any out-of-band (OOB) buffering is active.
+     *
      * Determines if any OOB buffers are currently open, based on the OOB reference count. Returns false if
      * the element is contained to prevent nested OOB rendering.
+     *
      * @return bool True if any OOB buffers are active and not contained, false otherwise.
      */
     public static function isOOB()
@@ -533,7 +577,9 @@ class Facet
 
     /**
      * Checks if any output recording is active.
+     *
      * Determines if any recording buffers are currently open, based on the recording reference count.
+     *
      * @return bool True if any recording buffers are active, false otherwise.
      */
     public static function isRecording()
@@ -543,8 +589,10 @@ class Facet
 
     /**
      * Checks if the current element is contained within another element.
+     *
      * Determines if the element is being rendered as part of a container's contents, based on the contained
      * reference count.
+     *
      * @return bool True if the element is contained, false otherwise.
      */
     public static function isContained()
@@ -557,6 +605,7 @@ class Facet
     /**
      * Swaps the current Mosaic for a new one, pushing the old onto the
      * Facet tag stack for automatic restoration on close().
+     *
      * @param array $options Mosaic::load() options (loadCrystals, loadInputData, etc.)
      * @return self For method chaining.
      */
@@ -572,6 +621,7 @@ class Facet
     /**
      * Restores the previous Mosaic instance from the tag stack.
      * Called automatically via onClose('->restoreMosaic').
+     *
      * @return self For method chaining.
      */
     public function restoreMosaic(): self
@@ -592,9 +642,11 @@ class Facet
 
     /**
      * Snapshots the current Mosaic state to a view file.
+     *
      * Renders all Shards as hidden <input> tags and writes them to
      * views/<name>.php. The resulting file is a valid ClearView view
      * that can be loaded later via Mosaic::load(['loadSnapShot' => $name]).
+     *
      * @param string $name Snapshot name (saved to views/<name>.php)
      * @return self For method chaining.
      */
@@ -614,8 +666,10 @@ class Facet
 
     /**
      * Outputs a template or string.
+     *
      * Renders a template string or value, applying template expansion via `self::_()`. Checks rendering
      * conditions before outputting.
+     *
      * @param mixed $input The template string to output.
      * @param array|null $match Conditions to check for true (optional).
      * @param array|null $unless Conditions to check for false (optional).
@@ -638,6 +692,7 @@ class Facet
 
     /**
      * Renders a Shard or object as HTML by calling html().
+     *
      * @param object $input The Shard or object to render.
      * @param array|null $match Conditions to check for true (optional).
      * @param array|null $unless Conditions to check for false (optional).
@@ -671,9 +726,11 @@ class Facet
 
     /**
      * Renders the current element and its contents.
+     *
      * Calls `render()`, `style()`, and `script()` on the current element, then renders its contents (if any)
      * as a collection of Shards. Increments the contained count before rendering contents and decrements it
      * after.
+     *
      * @return self For method chaining.
      */
     public function render()
@@ -709,8 +766,10 @@ class Facet
 
     /**
      * Closes tags back to the instance's position.
+     *
      * Restores the tag stack to the Facet instance’s initial position, processing closing tags and method
      * markers (e.g., `->stopOOB`) via `popto()`.
+     *
      * @return mixed The Facet instance or a method result.
      * @throws CleaView::Exception If the position is invalid.
      */
@@ -731,6 +790,7 @@ class Facet
 
     /**
      * Buffer a debug trace message for the current pane.
+     *
      * @param string $msg The debug message.
      * @return self For method chaining.
      */
@@ -742,6 +802,7 @@ class Facet
 
     /**
      * Buffer a debug breakpoint message for the current pane.
+     *
      * @return self For method chaining.
      */
     public function debug_break(): self
@@ -752,8 +813,10 @@ class Facet
 
     /**
      * Forwards unknown method calls to the target element, ClearView, or Mosaic.
+     *
      * Chains method calls to the current element (via `me()`), ClearView, or Mosaic, with debugging for
      * traceability. Handles special case for `debug()` and supports custom closure methods via `onClose()`.
+     *
      * @param string $name The method name being called.
      * @param array $arguments The arguments to pass.
      * @return self For method chaining.

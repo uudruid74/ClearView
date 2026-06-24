@@ -18,9 +18,9 @@ class PaneCrystal extends \ClearView\Pane
         return null;
     }
 
-    /** Headless Pane loader — returns null since no ProcessWire pages exist. */
-
-
+    /**
+     * Headless Pane loader — returns null since no ProcessWire pages exist.
+     */
     public static function load(string $panename, ?string $inlayname = null, ?Mosaic $mosaic = null): ?\ClearView\Element
     {
         return null;

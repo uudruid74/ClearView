@@ -27,18 +27,21 @@ class jsonmangler
         "title" => '%U', "value" => '%V', "glyph" => '%Y', '%' => '%Z'
     ];
 
-    /** Let %Q be used for the new references. %Qname%D would expand to {glyph:"reference",name:"name"} */
-
-
+    /**
+     * Let %Q be used for the new references.  %Qname%D would expand to {glyph:"reference",name:"name"}
+     */
 
     /**
      * @var array<string,string> Reverse mapping of encoded values to special characters for unmangling JSON.
      */
     private static $decode_map;
 
-    /** Initializes the decode map by flipping the encode map. */
-
-
+    /**
+     * Initializes the decode map by flipping the encode map.
+     *
+     * Why: Ensures the decode map is available for unmangling JSON strings, improving performance by
+     * initializing it once during class loading.
+     */
     public static function __constructStatic()
     {
         self::$decode_map = array_flip(self::$encode_map);
@@ -46,9 +49,13 @@ class jsonmangler
 
     /**
      * Converts an array to a mangled JSON string, escaping special characters.
+     *
      * @param mixed $input The input data to mangle, typically an array.
      * @param string|null $primaryField Optional primary field name to include as __pF.
      * @return string The mangled JSON string.
+     *
+     * Why: Provides a compact, quote-less JSON representation for storage or transmission, used by
+     * Shard::deflate() to serialize Shard data efficiently.
      */
     public static function mangle($input, ?string $primaryField = null)
     {
@@ -100,9 +107,13 @@ class jsonmangler
 
     /**
      * Converts a mangled JSON string back to a PHP array.
+     *
      * @param string $jsonString The mangled JSON string to unmangle.
      * @return array The decoded PHP array.
      * @throws Exception If unmangling fails.
+     *
+     * Why: Restores mangled JSON to a usable PHP array, used by Shard::inflate() to reconstruct
+     * Shard objects from stored data.
      */
     public static function unmangle(string $jsonString)
     {
@@ -222,6 +233,7 @@ class jsonmangler
 
     /**
      * Converts an HTML string to a JSON array.
+     *
      * @param string $html The raw HTML string to parse.
      * @param string|null $context Optional parent view name for nested view resolution.
      *                             When set, default view lookups also check
@@ -253,6 +265,7 @@ class jsonmangler
 
     /**
      * Recursively processes a DOM node into a JSON-compatible array.
+     *
      * Rules:
      * - Void/self-closing elements (br, hr, img, input, etc.) never load default views.
      * - Default views can nest: e.g. <head> loads views/head.php whose children may
@@ -261,6 +274,7 @@ class jsonmangler
      *   including on self-closing tags.
      * - Folder globs in view names (e.g. view="icons/*") load all matching views/<pane>/icons/*.php
      *   as sibling fragments.
+     *
      * @param \DOMNode $node The DOM node to process.
      * @param string|null $context Optional parent view name for nested default-view lookup.
      * @return array The JSON-compatible array for the node.

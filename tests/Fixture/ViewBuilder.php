@@ -9,6 +9,7 @@ use ClearView\Facet;
 /**
  * Minimal ViewBuilder — assembles a view / element tree at runtime
  * for headless testing.
+ *
  * Full implementation in sibling task t_3f36d1d2.
  * This version provides just enough for glyph-render tests to pass.
  */
@@ -28,9 +29,9 @@ class ViewBuilder
         $this->mosaic    = $mosaic;
     }
 
-    /** Create a new builder, resetting ClearView / Mosaic / Facet state. */
-
-
+    /**
+     * Create a new builder, resetting ClearView / Mosaic / Facet state.
+     */
     public static function new(
         string $panename = 'TestPage',
         string $inlayname = 'Default'
@@ -60,6 +61,7 @@ class ViewBuilder
 
     /**
      * Add an Element (glyph) by id.
+     *
      * @param string $id    Shard id.
      * @param string $tag   HTML tag / glyph name (e.g. 'button', 'input').
      * @param array  $attrs Element fields (value, hx-post, class, etc.).
@@ -87,9 +89,9 @@ class ViewBuilder
         return $this;
     }
 
-    /** Retrieve a previously added element by id. */
-
-
+    /**
+     * Retrieve a previously added element by id.
+     */
     public function getElement(string $id): \ClearView\Element
     {
         if (!isset($this->elements[$id])) {
@@ -100,9 +102,9 @@ class ViewBuilder
         return $this->elements[$id];
     }
 
-    /** Render a specific named element, capturing its output. */
-
-
+    /**
+     * Render a specific named element, capturing its output.
+     */
     public function render(?string $id = null): string
     {
         if ($id === null) {
@@ -164,9 +166,9 @@ class ViewBuilder
         }
     }
 
-    /** Tear down Pane current state so ::new() can start fresh. */
-
-
+    /**
+     * Tear down Pane current state so ::new() can start fresh.
+     */
     private static function tearDownMosaic(): void
     {
         // Reset Pane current state.

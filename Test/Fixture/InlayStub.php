@@ -8,9 +8,11 @@ use ClearView\Shard;
 
 /**
  * Synthetic data source for inlays under test.
+ *
  * Registers with InlayRegistry so that ClearView::loadInlay()
  * returns a StubPane subclass instead of searching the real
  * module/glyph filesystem.
+ *
  * Usage:
  *   InlayStub::for('OrderPane', 'OrderList')
  *       ->returns(['orders' => [['id' => 42]]])
@@ -33,9 +35,9 @@ class InlayStub
     /** @var string|null Custom pane class (bypass StubPane) */
     public ?string $paneClass = null;
 
-    /** Target a specific pane/inlay pair. */
-
-
+    /**
+     * Target a specific pane/inlay pair.
+     */
     public static function for(string $panename, string $inlayname): self
     {
         $stub = new self();
@@ -46,6 +48,7 @@ class InlayStub
 
     /**
      * Provide the payload the inlay would normally fetch.
+     *
      * @param array|Shard $data
      */
     public function returns(array|Shard $data): self
@@ -68,6 +71,7 @@ class InlayStub
 
     /**
      * Register the stub in the central InlayRegistry.
+     *
      * @throws TestFixtureException if no payload has been set
      */
     public function register(): self

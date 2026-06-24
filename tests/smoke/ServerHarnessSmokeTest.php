@@ -9,8 +9,10 @@ use ClearView\Test\TestHarnessException;
 
 /**
  * Smoke test for the curl-based ServerHarness.
+ *
  * Requires a running ClearView server at the URL specified by the
  * CLEARVIEW_BASE_URL environment variable (default: http://clearview.local).
+ *
  * Run:  CLEARVIEW_BASE_URL=http://localhost phpunit tests/smoke/ServerHarnessSmokeTest.php
  *   or (without PHPUnit):  php tests/smoke/ServerHarnessSmokeTest.php
  */
@@ -28,6 +30,7 @@ class ServerHarnessSmokeTest
     /**
      * Run all smoke tests.  Call this from a PHPUnit testCase or a
      * standalone CLI entry point.
+     *
      * @return array<string, bool>  Test name → pass/fail.
      */
     public function runAll(): array
@@ -50,8 +53,6 @@ class ServerHarnessSmokeTest
     }
 
     /** Discover test methods (any method starting with "test"). */
-
-
     private function testMethods(): array
     {
         $methods = [];
@@ -65,9 +66,9 @@ class ServerHarnessSmokeTest
 
     // ── Test cases ───────────────────────────────────────────────────
 
-    /** Acceptance: GET /form/login/open/ returns 200 and contains <form. */
-
-
+    /**
+     * Acceptance: GET /form/login/open/ returns 200 and contains <form.
+     */
     public function testFormLoginOpenReturns200AndContainsForm(): void
     {
         $server = ServerHarness::at($this->baseUrl);
@@ -93,9 +94,9 @@ class ServerHarnessSmokeTest
         \assert($resp->status() === 200, "Expected 200, got {$resp->status()}");
     }
 
-    /** Verifies post() sends form-encoded data. */
-
-
+    /**
+     * Verifies post() sends form-encoded data.
+     */
     public function testPostSendsFormData(): void
     {
         $server = ServerHarness::at($this->baseUrl);
@@ -130,9 +131,9 @@ class ServerHarnessSmokeTest
         );
     }
 
-    /** Verifies network errors are captured with status 0. */
-
-
+    /**
+     * Verifies network errors are captured with status 0.
+     */
     public function testUnreachableServerReturnsStatusZero(): void
     {
         $server = ServerHarness::at('http://127.0.0.1:19999'); // nothing here
