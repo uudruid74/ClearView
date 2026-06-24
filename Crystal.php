@@ -109,7 +109,7 @@ abstract class Crystal extends Page implements ArrayAccess
                 $vars = require $initFile;
                 if (is_array($vars)) {
                     foreach ($vars as $key => $value) {
-                        Mosaic::setVar("Config::{$key}", $value);
+                        Mosaic::setVar($key, $value, 'Config');
                     }
                 }
             }

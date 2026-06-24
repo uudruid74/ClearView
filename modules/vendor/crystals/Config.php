@@ -320,4 +320,13 @@ class Config extends Crystal
         }
         return static::$config[$varname] ?? null;
     }
+
+    /**
+     * Sets a config value, storing in both the static array and Mosaic.
+     */
+    public function setVar(string $var, $value)
+    {
+        static::$config[$var] = $value;
+        return $this;
+    }
 }
