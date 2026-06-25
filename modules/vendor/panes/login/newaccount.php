@@ -4,11 +4,11 @@ namespace ClearView;
 use ClearView\Inlay;
 
 /**
- * Loginform newaccount inlay — handles new account creation.
+ * Login newaccount inlay — handles new account creation.
  *
  * @see ClearView\Inlay
  */
-class loginform_newaccount extends Inlay
+class login_newaccount extends Inlay
 {
     /**
      * Validates an email address using the EmailVerification PW module.

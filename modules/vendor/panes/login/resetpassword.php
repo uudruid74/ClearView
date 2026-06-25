@@ -4,11 +4,11 @@ namespace ClearView;
 use ClearView\Inlay;
 
 /**
- * Loginform resetpassword inlay — handles password reset flow.
+ * Login resetpassword inlay — handles password reset flow.
  *
  * @see ClearView\Inlay
  */
-class loginform_resetpassword extends Inlay
+class login_resetpassword extends Inlay
 {
     /**
      * Validates an email address using the EmailVerification PW module.

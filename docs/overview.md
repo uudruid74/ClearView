@@ -145,7 +145,7 @@ The Pane Crystal is wired to the correct ProcessWire page so that
 
 One polymorphic `inlaychange` event is fired whenever the active inlay or main
 layout changes. Receivers filter by the sending pane name in the JSON payload
-(`{pane: 'loginform', ...}`).
+(`{pane: 'login', ...}`).
 
 | Transition | Trigger |
 |------------|---------|

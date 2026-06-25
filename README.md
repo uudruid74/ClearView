@@ -63,7 +63,7 @@ This is a complete Inlay from the framework's module library. It handles both lo
 
 ```php
 namespace ClearView;
-class loginform_login extends Inlay
+class login_login extends Inlay
 {
     public function logout()
     {
@@ -91,7 +91,7 @@ class loginform_login extends Inlay
 }
 ```
 
-POST to `/loginform/login/login/` or hook up a button with `hx-post`. ProcessWire handles authentication; `fill()` replaces the form's content via Mosaic diffs; `close()` removes the form from the DOM.  User crystal sends 'loginchange' events.
+POST to `/login/login/login/` or hook up a button with `hx-post`. ProcessWire handles authentication; `fill()` replaces the form's content via Mosaic diffs; `close()` removes the form from the DOM.  User crystal sends 'loginchange' events.
 
 ---
 

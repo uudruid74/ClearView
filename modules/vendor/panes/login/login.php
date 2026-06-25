@@ -5,11 +5,11 @@ use ClearView\Inlay;
 use ProcessWire;
 
 /**
- * Loginform login inlay — handles login/logout.
+ * Login login inlay — handles login/logout.
  *
  * @see ClearView\Inlay
  */
-class loginform_login extends Inlay
+class login_login extends Inlay
 {
     public function logout()
     {
