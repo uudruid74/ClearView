@@ -111,6 +111,10 @@ class Page extends Shard
      */
     public function setField(string $key, $value): void
     {
+        if (empty($this->data[Config::PAGE_PWOBJECT])) {
+            parent::setField($key, $value);
+            return;
+        }
         $this->data[Config::PAGE_PWOBJECT]->set(
             $key,
             ClearView::Sanitizer()->sanitize($value, Config::SANI_PAGE_SAVE)

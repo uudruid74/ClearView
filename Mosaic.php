@@ -369,7 +369,7 @@ class Mosaic
             }
         }
         $field = null;
-        $inlay = $inlay ?? self::getVar('Input::inlayname');
+        $inlay = $inlay ?? 'Default';
         if (strpos($varname, ".") !== false) {
             list($varname, $field) = explode(".", $varname, 2);
         }

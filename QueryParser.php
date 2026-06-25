@@ -156,7 +156,7 @@ class QueryParser
             'type' => 'variable',
             'base' => null,
             'sanitizers' => '',
-            'inlay' => $inlay ?? Mosaic::getVar('Input::inlayname'),
+            'inlay' => $inlay ?? 'Default',
             'method' => null,
             'attr' => null,
             'property' => null,

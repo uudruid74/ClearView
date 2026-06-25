@@ -6,7 +6,7 @@ namespace ClearView;
  * Null Input crystal — returns null for all values.
  * Used when ProcessWire is unavailable (CLI testing, headless mode).
  */
-class Input extends \ClearView\Input
+class Input extends Crystal
 {
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {

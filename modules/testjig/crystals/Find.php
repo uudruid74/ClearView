@@ -6,7 +6,7 @@ namespace ClearView;
  * Null Find crystal — returns null for all values.
  * Used when ProcessWire is unavailable (CLI testing, headless mode).
  */
-class Find extends \ClearView\Find
+class Find extends Crystal
 {
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {

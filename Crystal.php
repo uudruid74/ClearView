@@ -79,7 +79,8 @@ abstract class Crystal extends Page implements \ArrayAccess
 
             foreach (glob("{$crystalDir}/*.php") as $file) {
                 $basename = basename($file, '.php');
-                if (isset($loaded[$basename])) continue; // higher-priority module already loaded
+                if (isset($loaded[$basename])) continue;
+                if (class_exists("ClearView\\{$basename}")) continue;
                 $loaded[$basename] = true;
                 require_once $file;
             }
@@ -102,15 +103,15 @@ abstract class Crystal extends Page implements \ArrayAccess
         }
         new Page(\ProcessWire\page(), 'Page', 'ClearView', $mosaic);
 
-        // Load per-module _init.php config after crystals are instantiated.
-        // Uses Config::fill() which enforces first-module-wins:
-        // site/_init.php values override vendor/_init.php for the same keys.
+        // Load per-module _init.php config after crystals are instantiated
         foreach ($modules as $module) {
             $initFile = __DIR__ . "/modules/{$module}/_init.php";
             if (file_exists($initFile)) {
                 $vars = require $initFile;
                 if (is_array($vars)) {
-                    Config::fill($vars);
+                    foreach ($vars as $key => $value) {
+                        Mosaic::setVar($key, $value, 'Config');
+                    }
                 }
             }
         }
@@ -119,4 +120,7 @@ abstract class Crystal extends Page implements \ArrayAccess
     }
 
 }
+
+// Load Config crystal — needed by Crystal infrastructure
+require_once __DIR__ . '/modules/vendor/crystals/Config.php';
 

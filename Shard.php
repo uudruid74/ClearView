@@ -603,7 +603,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function inlay(): string
     {
-        return Mosaic::getVar('Input::inlayname');
+        return Mosaic::getVar('Input::inlayname') ?? 'Default';
     }
 
     /**

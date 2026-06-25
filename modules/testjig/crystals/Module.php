@@ -2,11 +2,8 @@
 
 namespace ClearView;
 
-/**
- * Null User crystal — returns null for all values.
- * Used when ProcessWire is unavailable (CLI testing, headless mode).
- */
-class User extends Crystal
+/** Null Module crystal — returns null for all modules. */
+class Module extends Crystal
 {
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
