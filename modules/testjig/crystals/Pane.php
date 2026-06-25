@@ -8,6 +8,7 @@ namespace ClearView;
  */
 class PaneCrystal extends Crystal
 {
+    public $address = "Crystal-Pane";
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->data = [];

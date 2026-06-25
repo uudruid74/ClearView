@@ -9,6 +9,7 @@ namespace ClearView;
 class ClearView extends Crystal
 {
     private static ?ClearView $instance = null;
+    public $address = "Crystal-Clearview";
 
     public function __construct($pwObject = null, $name = null, $inlay = 'ClearView', $mos = null)
     {

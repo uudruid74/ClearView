@@ -173,9 +173,7 @@ class Mosaic
         $i = self::$instance;
         Exception::debug('VAR',"Slurping input data: " . Facet::_($input));
         Exception::debug('VAR','    ****    Slurping Up STORED Variables    ****');
-        $currentInlay = self::getVar('Input::inlayname')
-            ?? null
-            ?? 'ClearView';
+        $currentInlay = self::getVar('Input::inlayname');
 
         if (!is_null($input)) {
             foreach ($input as $key => $value) {
@@ -266,21 +264,19 @@ class Mosaic
 
     /**
      * Creates a unique address for a shard.
-     * @param Shard|array $input Shard object or array with 'id' and 'inlay' keys.
-     * @return string The unique address in the format "inlay-id".
+     * @param Shard|array $input Shard object or array with 'name' and 'inlay' keys.
+     * @return string The unique address in the format "inlay-name".
      */
     public static function makeAddress($input): string
     {
-        if ($input instanceof Shard) {
-            $id = $input->id();
-            $inlay = $input->inlay();
-        } elseif (is_array($input)) {
-            $id = $input['id'];
-            $inlay = $input['inlay'];
-        } else {
-            throw new Exception("Invalid input for makeAddress: must be Shard or array with 'id' and 'inlay'");
-        }
-        return "$inlay-$id";
+	if (is_array($input)) {
+	    $name = $input['name'];
+	    $inlay = $input['inlay'];
+	} else {
+            $name = $input->getField('name');
+	    $inlay = $input->inlay();
+	}
+        return "$inlay-$name";
     }
 
     /**
@@ -299,12 +295,12 @@ class Mosaic
      * @param string $id The Shard ID.
      * @return Shard|null
      */
-    public static function index(string $inlay, string $id): ?Shard
+    public static function index(string $inlay, string $name): ?Shard
     {
-        $address = self::makeAddress(['id' => $id, 'inlay' => $inlay]);
+        $address = self::makeAddress(['name' => $name, 'inlay' => $inlay]);
         $shard = self::$instance->mosaic[$address] ?? null;
         if ($shard && is_string($shard)) {
-            $shard = Shard::loadShard($shard, id: $id, inlay: $inlay);
+            $shard = Shard::loadShard($shard, named: $name, inlay: $inlay);
             self::$instance->mosaic[$address] = $shard;
         }
         return $shard;
@@ -353,7 +349,7 @@ class Mosaic
      */
     public static function exists(string $inlay, string $id): bool
     {
-        $address = self::makeAddress(['id' => $id, 'inlay' => $inlay]);
+        $address = self::makeAddress(['name' => $id, 'inlay' => $inlay]);
         return array_key_exists($address, self::$instance->mosaic);
     }
 
@@ -410,7 +406,7 @@ class Mosaic
         }
         // Ensure address uses the correct inlay for Mosaic storage
         if ($shard && $inlay) {
-            $shard->address = Mosaic::makeAddress(['id' => $shard->getField('id') ?? $varname, 'inlay' => $inlay]);
+            $shard->address = Mosaic::makeAddress(['name' => $shard->getField('name') ?? $varname, 'inlay' => $inlay]);
         }
         return $shard;
     }
@@ -517,7 +513,7 @@ class Mosaic
                 return;
             }
         }
-        $address = self::makeAddress(['id' => $varname, 'inlay' => $inlay ?? self::getVar('Input::inlayname')]);
+        $address = self::makeAddress(['name' => $varname, 'inlay' => $inlay ?? self::getVar('Input::inlayname')]);
         $shard = self::$instance->mosaic[$address] ?? null;
         if ($shard) {
             $shard->delVar();
@@ -645,17 +641,16 @@ class Mosaic
     /**
      * Adds a shard to the mosaic.
      * @param mixed $json The JSON data or Shard to add.
-     * @param string|null $id The Shard ID.
+     * @param string|null $name The Shard name.
      * @param string|null $inlay The inlay name.
      * @return void
      */
-    public static function addShard($json, ?string $id = null, ?string $inlay = null): void
+    public static function addShard($json, ?string $name = null, ?string $inlay = null): void
     {
         $i = self::$instance;
         if (empty($json->address)) {
             $inlay = $inlay ?? self::getVar('Input::inlayname');
-            $id = $id ?? uniqid('__array_');
-            $json->address = self::makeAddress(['id'=>$id, 'inlay'=>$inlay]);
+            $json->address = self::makeAddress(['name'=>$name, 'inlay'=>$inlay]);
         }
         Exception::debug("SHARD","Adding shard at " . $json->address);
         $i->mosaic[$json->address] = $json;

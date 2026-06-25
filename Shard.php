@@ -69,15 +69,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 	if (array_key_exists('text',$obj) && array_key_exists('__pF', $obj) && $obj['__pF'] == 'text') {
 	    // anonymous — no name, no Mosaic storage
 	} else {
-	    // If id="#" → expand to canonical form on output.
-	    // Store the name as the Mosaic key so References can
-	    // resolve via Mosaic index($inlay, $name).
-	    if (($obj['id'] ?? null) === '#') {
-	            if (empty($obj['name'])) {
-	                $obj['name'] = $this->createid($obj);
-	            }
-	            unset($obj['id']);
-	    }
 	    $obj['name'] = $obj['name'] ?? $this->name ?? $named;
 	}
         if (isset($obj['__pF'])) {
@@ -90,8 +81,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!$this->isAnonymous()) {
             $this->address = $obj['__address'] = Mosaic::makeAddress($this);
             Mosaic::addShard($this);
-            // Inlay is now encoded in the address — no need for it in data
-            unset($this->data['inlay']);
         }
         $this->init();
     }
@@ -120,25 +109,19 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function createid(array $object): string
     {
-        if (isset($object['id']) && $object['id'] !== '#') {
+        if (isset($object['id'])) {
             return $object['id'];
         }
-        // Use explicit name as the id when available
-        if (!empty($object['name'])) {
-            return $object['name'];
-        }
         // id="#" with no name: generate a synthetic name for Mosaic addressing
-        if (isset($object['id']) && $object['id'] === '#') {
+        if (!isset($object['id']) && isset($object['name'])) {
             $glyph = $object['glyph'] ?? 'Shard';
             return '_' . $glyph . '_' . bin2hex(random_bytes(2));
         }
         // Truly unnamed with no id: return empty — this Shard stays anonymous
-        return '';
+        return null;
     }
 
     /** Renders the children of the Shard. */
-
-
     public function renderChildren(): void
     {
         Exception::debug('TRACE',"renderChildren called ");
@@ -245,9 +228,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             throw new Exception("Invalid input type for loadShard: " . gettype($obj));
         }
 
-        $obj['id'] = $obj['id'] ?? $id;
-        $obj['inlay'] = $obj['inlay'] ?? $inlay;
-
         $determinedGlyph = $obj['glyph'] ?? null;
         $determinedGlyph = $determinedGlyph ?? $glyph;
 
@@ -264,9 +244,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 $classPath = Element::loadGlyph($determinedGlyph);
             }
             Exception::debug('GLYPH',"Creating classPath $classPath");
-            $shard = new $classPath($obj, primaryField: $primaryField, named: $inlay);
+            $shard = new $classPath($obj, primaryField: $primaryField, named: $obj['name']);
         } else {
-            $shard = new Shard($obj, primaryField: $primaryField, named: $inlay);
+            $shard = new Shard($obj, primaryField: $primaryField, named: $obj['name']);
         }
         $shard->canonicalizeChildren();
         return $shard;
@@ -285,7 +265,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!$children || !is_array($children)) {
             return;
         }
-        $inlay = $this->data['inlay'] ?? Mosaic::getVar('Input::inlayname');
 
         foreach ($children as $i => &$child) {
             if (!is_array($child)) {
@@ -299,14 +278,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 continue;
             }
             $hasName = !empty($child['name']);
-            $isAutoId = ($child['id'] ?? null) === '#';
-            if ($hasName || $isAutoId) {
-                // id="#" with no name → generate a stable synthetic name
-                if (!$hasName && $isAutoId) {
-                    $child['name'] = $this->createid($child);
-                }
-                // Ensure the child inherits the parent inlay if not set
-                $child['inlay'] = $child['inlay'] ?? $inlay;
+            if ($hasName) {
                 // Create a Shard (stores it in Mosaic)
                 $childShard = self::loadShard($child);
                 // Replace the tree slot with a Reference.
@@ -316,7 +288,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 $this->data['children'][$i] = [
                     'glyph' => 'reference',
                     'name' => $child['name'],
-                    '_refInlay' => $childShard->inlay(),
                 ];
             } elseif (!empty($child['children'])) {
                 // Unnamed child with nested children — recurse inline
@@ -346,17 +317,11 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 continue;
             }
             $hasName = !empty($child['name']);
-            $isAutoId = ($child['id'] ?? null) === '#';
-            if ($hasName || $isAutoId) {
-                if (!$hasName && $isAutoId) {
-                    $child['name'] = $this->createid($child);
-                }
-                $child['inlay'] = $child['inlay'] ?? $inlay;
+            if ($hasName) {
                 $childShard = self::loadShard($child);
                 $children[$i] = [
                     'glyph' => 'reference',
                     'name' => $child['name'],
-                    '_refInlay' => $childShard->inlay(),
                 ];
             } elseif (!empty($child['children'])) {
                 $this->canonicalizeInline($child['children'], $inlay);
@@ -590,15 +555,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     }
 
     /**
-     * Returns the Shard's ID.
-     * @return string The ID.
-     */
-    public function id(): string
-    {
-        return $this->data['id'] ?? $this->data['name'] ?? '';
-    }
-
-    /**
      * Returns the Shard's inlay context.
      * @return string The inlay.
      */
@@ -608,7 +564,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             $parts = explode('-', $this->address, 2);
             return $parts[0];
         }
-        return $this->data['inlay'] ?? 'Default';
+	return Mosaic::getVar("Input::inlayname") ?? 'Default';
     }
 
     /**
@@ -848,7 +804,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             if ($key === 'children') {
                 $this->replaceChildren($value);
             } else {
-		                Mosaic::setVar($key, $value, $inlay);
+		Mosaic::setVar($key, $value, $inlay);
             }
         }
     }

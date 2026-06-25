@@ -7,6 +7,8 @@ namespace ClearView;
 
 class Config extends Crystal
 {
+    public $address = "Crystal-Config";
+
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->mosaic = $mos;

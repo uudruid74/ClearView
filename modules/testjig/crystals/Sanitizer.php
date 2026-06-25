@@ -8,6 +8,7 @@ namespace ClearView;
  */
 class Sanitizer extends Crystal
 {
+    public $address = "Crystal-Sanitizer";
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->data = [];

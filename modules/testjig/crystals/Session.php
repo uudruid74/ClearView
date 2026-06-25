@@ -8,6 +8,7 @@ namespace ClearView;
  */
 class Session extends Crystal
 {
+    public $address = "Crystal-Session";
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->data = [];

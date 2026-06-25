@@ -8,6 +8,8 @@ namespace ClearView;
  */
 class Find extends Crystal
 {
+    public $address = "Crystal-Find";
+
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->data = [];

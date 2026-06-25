@@ -8,6 +8,7 @@ namespace ClearView;
  */
 class User extends Crystal
 {
+    public $address = "Crystal-User";
     public int $id = 0;
 
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
@@ -28,13 +29,13 @@ class User extends Crystal
     public function trylogin()
     {
 	Exception::debug('VAR',Facet::_("trylogin: user='{{username}}' pass='{{password}}'"));
-        if (Mosaic::getVar('username') === 'admin' && Mosaic::getVar('password') === '1234') {
+        if (Mosaic::getVar('username') == 'admin' && Mosaic::getVar('password') == '1234') {
             $this->id = 1;
             Framework::triggerevent('loginchange');
             return $this;
-	}
-	Exception::debug('VAR',Facet::_('[{{Input::inlayname}}] Password Failed for username: ' . 
-		Mosaic::getVar('username') . " and password: " . Mosaic::getVar('password')));
+        }
+        Exception::debug('VAR',Facet::_('[{{Input::inlayname}}] Password Failed for username: ' .
+            Mosaic::getVar('username') . " and password: " . Mosaic::getVar('password')));
         return null;
     }
 

@@ -7,6 +7,8 @@ namespace ClearView;
  */
 class Input extends Crystal
 {
+    public $address = "Crystal-Input";
+
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->data = [];
