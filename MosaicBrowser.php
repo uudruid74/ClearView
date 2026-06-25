@@ -120,7 +120,8 @@ class MosaicBrowser extends TestRig
         }
 
         echo "\n" . str_repeat("═", 80) . "\n";
-        printf("  %-50s %s\n", $this->panename . '/' . $this->inlayname, 'q=quit h=help d=dump');
+        printf("  %-50s %s\n", $this->panename . '/' . $this->inlayname,
+            'q=quit h=help d=dump [' . ($this->dump ? 'ON' : 'OFF') . ']');
         echo str_repeat("─", 80) . "\n";
         printf("  %-3s %-8s %-20s %-8s %s\n", '#', 'Glyph', 'Name', 'Inlay', 'Value/Action');
 
