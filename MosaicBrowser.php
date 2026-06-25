@@ -254,14 +254,7 @@ class MosaicBrowser extends TestRig
 
     public function dumpEverything(): void
     {
-        echo "\n═══════ Full Mosaic Tree ═══════\n";
-        foreach (Mosaic::getAllShards() as $inlayName => $shards) {
-            echo "\n─── Inlay: {$inlayName} ───\n";
-            foreach ($shards as $shard) {
-                Mosaic::dumpShard($shard, 1);
-            }
-        }
-        echo "\n═══════ End ═══════\n";
+        Mosaic::dumpEverything();
     }
 
     public function repl(): void
