@@ -93,15 +93,12 @@ class ClearView extends Crystal
     }
 
     /**
-     * Get/set the current Pane object. Pass value to set; omit to read.
-     * @return Pane|null
+     * Returns the current Framework/Pane instance.
+     * @return Framework|null
      */
-    public static function paneobj($value = null): ?Pane
+    public static function paneobj($value = null): ?Framework
     {
-        if ($value !== null) {
-            self::$instance->data['paneobj'] = $value;
-        }
-        return self::$instance->data['paneobj'] ?? null;
+        return Framework::instance();
     }
 
     /**

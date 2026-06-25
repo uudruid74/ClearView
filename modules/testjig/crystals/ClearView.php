@@ -29,7 +29,6 @@ class ClearView extends Crystal
     public static function panename($value = null): string { return 'Default'; }
     public static function inlayname($value = null): string { return 'Pane'; }
     public static function method($value = null): string { return ''; }
-    public static function paneobj($value = null): ?Pane { return null; }
     public static function Mosaic(): ?Mosaic { return Mosaic::instance(); }
 
     public static function javascript(string $string): void {}
