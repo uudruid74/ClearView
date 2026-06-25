@@ -5,27 +5,20 @@ namespace ClearView;
 /**
  * Mosaic Browser — CLI REPL for exploring panes without a web browser.
  *
- * Instead of rendering HTML and parsing htmx responses, it directly
- * manipulates the Mosaic and re-invokes the Framework. Every named
- * Shard in the Mosaic becomes an interactive element.
- *
  * Usage:
- *   php MosaicBrowser.php --url=/loginform/newaccount/
- *   php MosaicBrowser.php --pane=loginform --inlay=newaccount
- *   php MosaicBrowser.php --url=/loginform/newaccount/ --dump
+ *   php bin/mosaic-browser --view=test-login
+ *   php bin/mosaic-browser --pane=loginform --inlay=login --method=open
+ *   php bin/mosaic-browser --view=test-login --dump
  *
  * @see \ClearView\TestRig
- * @see \ClearView\Mosaic
  */
 class MosaicBrowser extends TestRig
 {
     private bool $dump = false;
-    private string $panename;
-    private string $inlayname;
-    private string $methodname = 'init';
-    /** @var string|null Direct view to render (headless mode) */
+    private string $panename = 'Default';
+    private string $inlayname = 'Default';
+    private string $methodname = 'open';
     private ?string $view = null;
-    /** @var array Captured HTMX trigger events from response headers */
     private array $capturedEvents = [];
 
     public function __construct(array $cliArgs = [])
@@ -41,13 +34,13 @@ class MosaicBrowser extends TestRig
         if (!empty($args['url'])) {
             $url = trim($args['url'], '/');
             $segments = explode('/', $url);
-            $this->panename = $segments[0] ?? 'Default';
-            $this->inlayname = $segments[1] ?? 'Default';
-            $this->methodname = $segments[2] ?? 'init';
+            $this->panename = $segments[0] ?: 'Default';
+            $this->inlayname = $segments[1] ?: 'Default';
+            $this->methodname = $segments[2] ?: 'open';
         } else {
-            $this->panename = $args['pane'] ?? $args['panename'] ?? 'Default';
-            $this->inlayname = $args['inlay'] ?? $args['inlayname'] ?? 'Default';
-            $this->methodname = $args['method'] ?? 'init';
+            $this->panename = $args['pane'] ?? $args['panename'] ?? $this->panename;
+            $this->inlayname = $args['inlay'] ?? $args['inlayname'] ?? $this->inlayname;
+            $this->methodname = $args['method'] ?? $this->methodname;
         }
     }
 
@@ -66,9 +59,6 @@ class MosaicBrowser extends TestRig
         $this->loadPane();
     }
 
-    /**
-     * Override Framework's header sender to capture events instead.
-     */
     public function onSendHtmxHeader(string $header, $event, $params): void
     {
         $eventName = is_array($params) ? $event : (string)$params;
@@ -78,12 +68,9 @@ class MosaicBrowser extends TestRig
 
     private function setInput(string $pane, string $inlay, string $method): void
     {
-        // Static jig values — survive Framework instance changes during inlay construction
-        TestRig::setJig('url', "/{$pane}/{$inlay}/{$method}/", 'Input');
         TestRig::setJig('panename', $pane);
         TestRig::setJig('inlayname', $inlay);
         TestRig::setJig('methodname', $method);
-        error_log("setInput: pane='{$pane}' inlay='{$inlay}' method='{$method}'");
     }
 
     private function loadPane(): void
@@ -94,7 +81,6 @@ class MosaicBrowser extends TestRig
                 ob_start();
                 $this->renderTestView($this->view);
                 $html = ob_get_clean();
-                // Parse rendered HTML into Mosaic Shards
                 $data = jsonmangler::fromhtml($html, $this->view);
                 Shard::loadShard($data, inlay: $this->inlayname);
                 if ($this->dump) {
@@ -119,10 +105,8 @@ class MosaicBrowser extends TestRig
     private function processEvents(): void
     {
         foreach ($this->capturedEvents as $name => $data) {
-            if ($name === 'inlaychange' && isset($data['inlay'])) {
-                $old = $this->inlayname;
-                $this->inlayname = $data['inlay'];
-                echo "  \xe2\x86\xb3 inlaychange: {$old} \xe2\x86\x92 {$this->inlayname}\n";
+            if (($name === 'inlaychange' || $name === 'loginchange') && isset($data['inlay'])) {
+                echo "  event: {$name} → {$data['inlay']}\n";
             }
         }
     }
@@ -135,22 +119,31 @@ class MosaicBrowser extends TestRig
             return;
         }
 
-        echo "\n" . str_repeat('═', 72) . "\n";
-        printf("  %-30s %s\n", $this->panename . '/' . $this->inlayname, '[q=quit h=help]');
-        echo str_repeat('─', 72) . "\n";
-        printf("  %-3s %-10s %-25s %s\n", '#', 'Glyph', 'Name', 'Value/Action');
+        echo "\n" . str_repeat("═", 80) . "\n";
+        printf("  %-50s %s\n", $this->panename . '/' . $this->inlayname, 'q=quit h=help d=dump');
+        echo str_repeat("─", 80) . "\n";
+        printf("  %-3s %-8s %-20s %-8s %s\n", '#', 'Glyph', 'Name', 'Inlay', 'Value/Action');
 
         $i = 1;
         foreach ($items as $item) {
             $value = $item['value'] ?? '';
-            if (strlen($value) > 30) {
-                $value = substr($value, 0, 27) . '...';
+            if (strlen($value) > 25) {
+                $value = substr($value, 0, 22) . '...';
             }
-            $label = $item['action'] ? "{$value}  [run]" : $value;
-            printf("  %-3d %-10s %-25s %s\n", $i, $item['glyph'], $item['name'], $label);
+            $action = '';
+            if ($item['action']) {
+                $method = $item['method'] ?? 'POST';
+                $action = " [{$method}]";
+            }
+            printf("  %-3d %-8s %-20s %-8s %s%s\n",
+                $i, $item['glyph'], $item['name'], $item['inlay'] ?? '-', $value, $action);
             $i++;
         }
-        echo str_repeat('═', 72) . "\n";
+        echo str_repeat("═", 80) . "\n";
+
+        if (!empty($this->capturedEvents)) {
+            echo "  events: " . implode(', ', array_keys($this->capturedEvents)) . "\n";
+        }
     }
 
     public function getInteractables(): array
@@ -167,11 +160,12 @@ class MosaicBrowser extends TestRig
 
             $glyph = $shard->getField('glyph') ?? 'Shard';
             $value = (string)$shard;
+            $shardInlay = $shard->getField('inlay') ?? $shard->inlay();
 
-            $url = $shard->getField('hx-post')
-                ?? $shard->getField('hx-get')
-                ?? $shard->getField('href')
-                ?? null;
+            $postUrl = $shard->getField('hx-post');
+            $getUrl = $shard->getField('hx-get');
+            $url = $postUrl ?? $getUrl ?? $shard->getField('href') ?? null;
+            $method = $postUrl ? 'POST' : ($getUrl ? 'GET' : null);
 
             $items[] = [
                 'name'   => $name,
@@ -179,6 +173,8 @@ class MosaicBrowser extends TestRig
                 'value'  => $value,
                 'url'    => $url,
                 'action' => $url !== null,
+                'method' => $method,
+                'inlay'  => $shardInlay,
                 'shard'  => $shard,
             ];
         }
@@ -188,7 +184,7 @@ class MosaicBrowser extends TestRig
     public function set(string $name, string $value): void
     {
         Mosaic::setVar($name, $value, $this->inlayname);
-        echo "OK — {$name} = {$value}\n";
+        echo "OK: {$name} = {$value}\n";
     }
 
     public function invoke(string $name): void
@@ -203,14 +199,13 @@ class MosaicBrowser extends TestRig
 
             $url = trim($item['url'], '/');
             $segments = explode('/', $url);
-            $this->panename = $segments[0] ?? $this->panename;
-            $this->inlayname = $segments[1] ?? $this->inlayname;
-            $this->methodname = $segments[2] ?? 'submit';
+            $this->panename = $segments[0] ?: $this->panename;
+            $this->inlayname = $segments[1] ?: $this->inlayname;
+            $this->methodname = $segments[2] ?: 'submit';
 
             $this->setInput($this->panename, $this->inlayname, $this->methodname);
             echo "→ {$this->panename}/{$this->inlayname}/{$this->methodname}/\n";
 
-            // In view mode, load inlay and dispatch command directly
             if ($this->view) {
                 try {
                     $className = Inlay::load($this->panename, $this->inlayname);
@@ -218,13 +213,13 @@ class MosaicBrowser extends TestRig
                     $inlay = new $className();
                     $inlay->{$this->methodname}();
                     $output = ob_get_clean();
-                    // Reset to view inlay so show() reads dispatch results
                     $this->inlayname = 'Default';
+                    $this->processEvents();
                     if ($this->dump && $output) {
-                        echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
+                        echo "--- Response ---\n{$output}\n--- End Response ---\n";
                     }
                 } catch (\Throwable $e) {
-                    echo "  error: " . $e->getMessage() . "\n  trace: " . $e->getTraceAsString() . "\n";
+                    echo "  error: " . $e->getMessage() . "\n";
                 }
                 return;
             }
@@ -260,17 +255,17 @@ class MosaicBrowser extends TestRig
                     echo "  set <name> = <value>   set a value\n";
                     echo "  run <name>             execute a method\n";
                     echo "  show / refresh         redisplay\n";
-                    echo "  dump                   toggle response dump\n";
+                    echo "  dump / d               toggle response dump\n";
                     echo "  quit / exit / q        exit\n";
                     echo "  <number>               interact with item #N\n";
                     break;
                 case 'show': case 'refresh': break;
-                case 'dump': $this->toggleDump(); break;
+                case 'd': case 'dump': $this->toggleDump(); break;
 
                 case 'set':
-                    $rest = $parts[1] . (isset($parts[2]) ? ' ' . $parts[2] : '');
-                    if (preg_match('/^(\S+)\s*=\s*(.+)$/', $rest, $m)) {
-                        $this->set($m[1], $m[2]);
+                    $rest = ($parts[1] ?? '') . ' ' . ($parts[2] ?? '');
+                    if (preg_match('/^(\S+)\s*=\s*(.+)$/', trim($rest), $m)) {
+                        $this->set($m[1], trim($m[2]));
                     } else {
                         echo "Usage: set <name> = <value>\n";
                     }
@@ -292,7 +287,10 @@ class MosaicBrowser extends TestRig
                             if ($items[$idx]['action']) {
                                 $this->invoke($items[$idx]['name']);
                             } else {
-                                echo "  {$items[$idx]['glyph']} {$items[$idx]['name']} = {$items[$idx]['value']}\n";
+                                $glyph = $items[$idx]['glyph'];
+                                $name = $items[$idx]['name'];
+                                $val = $items[$idx]['value'];
+                                echo "  {$glyph} {$name} = {$val}\n";
                             }
                         } else {
                             echo "Invalid number.\n";
