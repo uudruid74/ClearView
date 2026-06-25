@@ -216,6 +216,8 @@ class MosaicBrowser extends TestRig
                     ob_start();
                     $inlay->{$this->methodname}();
                     $output = ob_get_clean();
+                    // Reset to view inlay so show() reads dispatch results
+                    $this->inlayname = 'Default';
                     if ($this->dump && $output) {
                         echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
                     }
