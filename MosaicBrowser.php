@@ -239,6 +239,62 @@ class MosaicBrowser extends TestRig
         echo "Dump: " . ($this->dump ? 'ON' : 'OFF') . "\n";
     }
 
+    public function dumpShard(int $index): void
+    {
+        $items = $this->getInteractables();
+        if (!isset($items[$index - 1])) {
+            echo "Invalid number.\n";
+            return;
+        }
+        $item = $items[$index - 1];
+        $shard = $item['shard'];
+        echo "\n─── Shard: {$item['name']} ({$item['glyph']}) inlay={$item['inlay']} ───\n";
+        $this->dumpShardRecursive($shard, 1);
+    }
+
+    private function dumpShardRecursive(Shard $shard, int $depth): void
+    {
+        $indent = str_repeat('  ', $depth);
+        $fields = $shard->getFields('*') ?: [];
+        $id = $shard->getField('id') ?? '-';
+        $glyph = $shard->getField('glyph') ?? 'Shard';
+        $inlay = $shard->inlay();
+        $addr = $shard->address ?? '-';
+        echo "{$indent}[{$glyph}] id={$id} inlay={$inlay} addr={$addr}\n";
+
+        foreach ($fields as $key => $value) {
+            if ($key === 'children' || $key === 'id' || str_starts_with((string)$key, '__')) continue;
+            if (is_scalar($value) || is_null($value)) {
+                $display = var_export($value, true);
+                echo "{$indent}  {$key}: {$display}\n";
+            }
+        }
+
+        $children = $shard->getField('children');
+        if (!empty($children) && is_array($children)) {
+            echo "{$indent}  children:\n";
+            foreach ($children as $i => $child) {
+                if ($child instanceof Shard) {
+                    $this->dumpShardRecursive($child, $depth + 1);
+                } else {
+                    echo "{$indent}    [{$i}] " . var_export($child, true) . "\n";
+                }
+            }
+        }
+    }
+
+    public function dumpEverything(): void
+    {
+        echo "\n═══════ Full Mosaic Tree ═══════\n";
+        foreach (Mosaic::getAllShards() as $inlayName => $shards) {
+            echo "\n─── Inlay: {$inlayName} ───\n";
+            foreach ($shards as $shard) {
+                $this->dumpShardRecursive($shard, 1);
+            }
+        }
+        echo "\n═══════ End ═══════\n";
+    }
+
     public function repl(): void
     {
         $this->bootstrap();
@@ -259,6 +315,8 @@ class MosaicBrowser extends TestRig
                     echo "  run <name>             execute a method\n";
                     echo "  show / refresh         redisplay\n";
                     echo "  dump / d               toggle response dump\n";
+                    echo "  ds <#>                 dump a single shard (all fields)\n";
+                    echo "  de                     dump everything (recursive tree)\n";
                     echo "  quit / exit / q        exit\n";
                     echo "  <number>               interact with item #N\n";
                     break;
@@ -268,6 +326,18 @@ class MosaicBrowser extends TestRig
                     elseif (($parts[1] ?? '') === 'off') { $this->dump = false; }
                     else { $this->dump = !$this->dump; }
                     echo "Dump: " . ($this->dump ? 'ON' : 'OFF') . "\n";
+                    break;
+
+                case 'ds':
+                    if (is_numeric($parts[1] ?? '')) {
+                        $this->dumpShard((int)$parts[1]);
+                    } else {
+                        echo "Usage: ds <#>\n";
+                    }
+                    break;
+
+                case 'de':
+                    $this->dumpEverything();
                     break;
 
                 case 'set':
