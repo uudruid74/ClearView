@@ -104,7 +104,8 @@ class Facet
      */
     public function id()
     {
-        return self::me()->id() ?? null; 
+        $me = self::me();
+        return ($me && method_exists($me, 'id')) ? $me->id() : null;
     }
 
     /**
@@ -114,7 +115,8 @@ class Facet
      */
     public static function inlay()
     {
-        return self::me()->inlay() ?? Mosiac::getVar("Input::inlayname");
+        $me = self::me();
+        return ($me && method_exists($me, 'inlay')) ? $me->inlay() : Mosaic::getVar("Input::inlayname") ?? 'Default';
     }
 
     /**

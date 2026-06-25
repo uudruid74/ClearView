@@ -23,11 +23,15 @@ class MosaicBrowser extends TestRig
     private string $panename;
     private string $inlayname;
     private string $methodname = 'init';
+    /** @var string|null Direct view to render (headless mode) */
+    private ?string $view = null;
+    /** @var array Captured HTMX trigger events from response headers */
     private array $capturedEvents = [];
 
     public function __construct(array $cliArgs = [])
     {
         $this->dump = !empty($cliArgs['dump']);
+        $this->view = $cliArgs['view'] ?? null;
         $this->resolveUrl($cliArgs);
         parent::__construct($cliArgs);
     }
@@ -85,7 +89,12 @@ class MosaicBrowser extends TestRig
         $this->capturedEvents = [];
         try {
             ob_start();
-            $this->load();
+            if ($this->view) {
+                $this->renderTestView($this->view);
+            } else {
+                // Framework lifecycle — needs ProcessWire for Pane::load()
+                $this->html();
+            }
             $output = ob_get_clean();
             if ($this->dump && $output) {
                 echo "\n--- Response ---\n{$output}\n--- End Response ---\n";

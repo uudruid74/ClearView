@@ -68,7 +68,8 @@ class Page extends Shard
      */
     public function getField(string $key)
     {
-        $pw = $this->data[Config::PAGE_PWOBJECT];
+        $pw = $this->data[Config::PAGE_PWOBJECT] ?? null;
+        if (!$pw) return parent::getField($key);
         Exception::debug("Page getField($key) called on " . gettype($pw));
         return $pw->get($key);
     }

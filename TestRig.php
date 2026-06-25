@@ -58,16 +58,17 @@ class TestRig extends Framework
     }
 
     /**
-     * Render a test view file.
-     * Test views are plain PHP files that use the Facet rendering
-     * pipeline directly. They live in views/ and are included inline.
-     * @param string $name View name (views/<name>.php)
+     * Override view path to use module views when headless.
      */
     public function renderTestView(string $name): void
     {
-        $path = __DIR__ . "/views/{$name}.php";
+        // Try module vendor views first, then root views
+        $path = __DIR__ . "/modules/vendor/views/{$name}.php";
         if (!file_exists($path)) {
-            throw new Exception("Test view not found: {$path}");
+            $path = __DIR__ . "/views/{$name}.php";
+        }
+        if (!file_exists($path)) {
+            throw new Exception("View not found: {$name}");
         }
         include $path;
     }
