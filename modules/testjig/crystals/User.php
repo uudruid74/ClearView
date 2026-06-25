@@ -3,11 +3,13 @@
 namespace ClearView;
 
 /**
- * Null User crystal — returns null for all values.
+ * Null User crystal — test login for "admin"/"1234".
  * Used when ProcessWire is unavailable (CLI testing, headless mode).
  */
 class User extends Crystal
 {
+    public int $id = 0;
+
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->data = [];
@@ -15,6 +17,27 @@ class User extends Crystal
 
     public function getVar($key = null)
     {
-        return $varname ?? $key ?? null;
+        return $key ?? null;
+    }
+
+    /**
+     * Test login — accepts admin/1234, rejects everything else.
+     */
+    public function trylogin()
+    {
+        $user = Mosaic::getVar('username', 'test-login') ?? '';
+        $pass = Mosaic::getVar('password', 'test-login') ?? '';
+        if ($user === 'admin' && $pass === '1234') {
+            $this->id = 1;
+            Framework::triggerevent('loginchange');
+            return $this;
+        }
+        return null;
+    }
+
+    public function logout()
+    {
+        $this->id = 0;
+        Framework::triggerevent('loginchange');
     }
 }

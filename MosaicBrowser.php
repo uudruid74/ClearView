@@ -100,11 +100,7 @@ class MosaicBrowser extends TestRig
                 }
             } else {
                 ob_start();
-                if ($this->methodname === 'init' || $this->methodname === 'open') {
-                    $this->html();
-                } else {
-                    $this->handleCommand();
-                }
+                $this->html();
                 $output = ob_get_clean();
                 if ($this->dump && $output) {
                     echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
