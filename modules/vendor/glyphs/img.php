@@ -8,6 +8,6 @@ class img extends Element
 {
     public function render()
     {
-        new Facet('<img {{id=id}} {{src=src}} {{width=width}} {{height=height}} {{alt=alt}} {{hx}}>');
+        new Facet('<img {{src=src}} {{width=width}} {{height=height}} {{alt=alt}} {{hx}}>');
     }
 } // end of class

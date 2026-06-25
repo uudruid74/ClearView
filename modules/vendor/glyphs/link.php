@@ -10,7 +10,7 @@ class link extends Element
     public function render()
     {
         (new Facet($this))
-            ->out("<link {{id=id}} {{rel=rel}} {{rel=rel}} {{href=href}} {{type=type}} {{sizes=sizes}} {{as=as}}>")
+            ->out("<link {{rel=rel}} {{rel=rel}} {{href=href}} {{type=type}} {{sizes=sizes}} {{as=as}}>")
             ;
     }
 

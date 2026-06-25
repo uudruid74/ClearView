@@ -34,7 +34,7 @@ class layout extends Element
 
         // Default mode: emit <div> wrapper.
         (new Facet($this))
-            ->open('<div {{id=id}} {{style=style}} {{hx}}>{{value}}')
+            ->open('<div {{style=style}} {{hx}}>{{value}}')
         ;
     }
 }

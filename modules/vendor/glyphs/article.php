@@ -47,14 +47,14 @@ class article extends Element
     /**
      * Render the <article> element.
      *
-     * Opens <article {{id=id}} {{hx}}> for template-expanded children.
+     * Opens <article {{hx}}> for template-expanded children.
      *
      * @return void
      */
     public function render()
     {
         (new Facet($this))
-            ->open('<article {{id=id}} {{name=name}} {{hx}}>');
+            ->open('<article {{name=name}} {{hx}}>');
     }
 } 
 // end of class

@@ -59,13 +59,7 @@ class jsonmangler
         $result = '';
         $first = true;
         foreach ($input as $key => $value) {
-            if ($key === 'id') {
-                continue;
-            }
             if (strncmp($key, '__', 2) === 0) {
-                continue;
-            }
-            if ($key === 'name' && isset($input['id']) && $value === $input['id']) {
                 continue;
             }
             if (!$first) {

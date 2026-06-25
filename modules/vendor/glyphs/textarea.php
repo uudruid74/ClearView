@@ -12,7 +12,7 @@ class textarea extends Element
         (new Facet($this))
         ->open('<label class="dynamic">{{label}}:', match: [$this->hasField('label')])
         ->open('<textarea
-            {{id=id}} {{hx}}
+            {{hx}}
             {{type=type}}
             {{rows=rows}} {{cols=cols}}
             {{name=name}}

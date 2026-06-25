@@ -54,6 +54,6 @@ class button extends Element
         if ($this->getField('center')) {
             new Facet('<center>');
         }
-        new Facet('<button {{id=id}} {{title=title}} {{name=name}} {{type=type}} {{hx}}>{{value}}');
+        new Facet('<button {{title=title}} {{name=name}} {{type=type}} {{hx}}>{{value}}');
     }
 }

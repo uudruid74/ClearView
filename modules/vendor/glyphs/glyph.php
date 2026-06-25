@@ -17,7 +17,7 @@ class glyph extends Element
         (new Facet($this))
             ->open(<<<EOT
 <{{glyph}}
-    {{id=id}}
+    
     {{name=name}}
     {{class=class}}
     {{content=content}}

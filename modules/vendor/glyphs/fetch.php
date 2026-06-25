@@ -12,7 +12,7 @@ class fetch extends Element
     {
         $this->initField('dest', $this->getVar("{{id}}"));    // set dest to write elsewhere
 
-        new Facet('<input {{id=id}} {{name=id}} type="hidden" {{hx}} {{value=value}}>');
+        new Facet('<input {{name=id}} type="hidden" {{hx}} {{value=value}}>');
     }
 
 } // end of class

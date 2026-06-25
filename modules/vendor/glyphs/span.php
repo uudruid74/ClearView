@@ -9,6 +9,6 @@ class span extends Element
     public function render()
     {
         (new Facet($this))
-            ->open('<span {{id=id}} {{hx}}>{{value}}');
+            ->open('<span {{hx}}>{{value}}');
     }
 } // end of class

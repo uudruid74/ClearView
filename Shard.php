@@ -38,8 +38,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     private int $iteratorPosition = 0;
 
-    protected bool $canonicalId = false;
-
     /** Input type for HTML strings. */
     public const HTML = 'html';
 
@@ -79,7 +77,6 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 	            $obj['name'] = $this->createid($obj);
 	        }
 	        $obj['id'] = $obj['name'];
-	        $this->canonicalId = true;
 	    }
 	    $obj['name'] = $obj['name'] ?? $this->name ?? $named;
 	    $obj['id'] = $obj['id'] ?? $this->id ?? $this->createid($obj);

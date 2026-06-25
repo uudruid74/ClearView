@@ -42,7 +42,7 @@ class input extends Element
                 [ $this->hasField('label') ], [!$this->isOob()]
         ])
         ->out('<input
-            {{id=id}} {{hx}}
+            {{hx}}
             {{type=type}}
             {{value=value}}
             {{autocomplete=autocomplete}}

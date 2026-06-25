@@ -23,23 +23,23 @@ class a extends Element
         switch($this->linktype()) {
             // Link adds a tab to the form
             case 'addtab':
-                new Facet("<a {{id=id}} hx-post='/form/{{addtab}}/addtab/' hx-swap='outerHTML' {{title=title}} {{hx}}>{{value}}");
+                new Facet("<a hx-post='/form/{{addtab}}/addtab/' hx-swap='outerHTML' {{title=title}} {{hx}}>{{value}}");
                 break;
 
             // Link switches to another tab
             case 'switchtab':
-                new Facet("<a {{id=id}} hx-get='/form/{{switchtab}}/html/' hx-swap='outerHTML' {{title=title}} {{hx}}>{{value}}");
+                new Facet("<a hx-get='/form/{{switchtab}}/html/' hx-swap='outerHTML' {{title=title}} {{hx}}>{{value}}");
                 break;
 
             // Email verification link
             case 'emailkey':
                 $key = ClearView::hanna("[[user emailkey=1]]");       //FIXME: This needs to be in a class!
-                new Facet("<a {{id=id}} href='/e/{$key}/' {{title=title}} {{hx}}>{{value}}");
+                new Facet("<a href='/e/{$key}/' {{title=title}} {{hx}}>{{value}}");
                 break;
 
             // Everything else (note hx-get instead of href)
             default:
-                new Facet("<a {{id=id}} {{href=href}} {{title=title}} {{hx}}>{{value}}");
+                new Facet("<a {{href=href}} {{title=title}} {{hx}}>{{value}}");
         }
     }
 

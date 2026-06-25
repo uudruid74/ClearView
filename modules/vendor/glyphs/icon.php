@@ -17,7 +17,7 @@ class icon extends Element
     }
     public function render()
     {
-        new Facet('<img {{id=id}} {{src=src}} {{alt=alt}} {{title=title}} {{hx}} {{disabled}}>');
+        new Facet('<img {{src=src}} {{alt=alt}} {{title=title}} {{hx}} {{disabled}}>');
     }
 
 } // end of class

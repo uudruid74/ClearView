@@ -46,7 +46,7 @@ class main extends Element
     public function render()
     {
         $facet = (new Facet($this))
-            ->open('<main {{id=id}} {{class=class}} {{hx}}>');
+            ->open('<main {{class=class}} {{hx}}>');
 
         // Emit the Mosaic hidden inputs inside <main> so they survive swaps.
         $facet->create(new \ClearView\Element\Mosaic());

@@ -290,6 +290,15 @@ class Element extends Shard
             $out .= "hx-trigger=\"{$triggers}\" ";
             $out .= "hx-post=\"/{$panename}/events/\" ";
         }
+        // Auto-generate id from name: PaneName-inlay-name
+        $explicitId = $this->getField('id');
+        if ($explicitId && $explicitId !== '#') {
+            $out .= "id=\"{$explicitId}\" ";
+        } elseif ($name = $this->getField('name')) {
+            $panename = Mosaic::getVar('Input::panename') ?? '';
+            $inlay = $this->inlay();
+            $out .= "id=\"{$panename}-{$inlay}-{$name}\" ";
+        }
         $retval = $out . $hxAttrs;
         Exception::debug('VAR', "HX: " . Facet::_(addslashes($retval)));
         return $retval;
@@ -481,16 +490,6 @@ class Element extends Shard
             return Mosaic::getVar($name);
         }
         switch ($name) {
-            case 'id':
-                $storedId = parent::getField('id');
-                if (empty($storedId)) {
-                    return null;
-                }
-                if ($this->canonicalId) { // TODO: This should be its own function to generate IDs
-                    $name = parent::getField('name') ?? $storedId;
-                    return Mosaic::getVar('Pane::name') . '-' . $this->inlay() . '-' . $name;
-                }
-                return $storedId;
             case 'hx':
                 return $this->getHxVals();
             case 'interact':

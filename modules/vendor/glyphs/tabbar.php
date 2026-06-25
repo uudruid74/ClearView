@@ -32,7 +32,7 @@ class tabbar extends Element
     {
         // Output the tabbar container
         $this->debug('TAB CONTENTS: {{id}} {{inlay}} :' . Facet::_($this->getField(Config::SHARD_ARRAYNAME)));
-        new Facet("<ul {{id=id}} {{hx}}>");
+        new Facet("<ul {{hx}}>");
     }
     /**
      * Initializes the tabbar contents by creating an array of tab elements.

@@ -30,7 +30,7 @@ class closebutton extends Element
     {
         new Facet(
         '<button
-            {{id=id}}
+            
             aria-label="Close"
             rel="prev"
             data-tooltip="Close"

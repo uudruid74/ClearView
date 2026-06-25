@@ -37,7 +37,7 @@ class pane extends Element
         }
 
         (new Facet($this))
-            ->open("<{{element}} {{id=id}} {{hx}} {{preload}} {{preload-images}}>")
+            ->open("<{{element}} {{hx}} {{preload}} {{preload-images}}>")
             ;
     }
 
