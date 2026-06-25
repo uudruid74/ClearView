@@ -7,7 +7,7 @@ use ClearView\Facet;
 
 class li extends Element
 {
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->open('<li {{data-tooltip=data-tooltip}} {{hx}}>{{value}}');

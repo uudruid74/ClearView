@@ -6,7 +6,7 @@ use ClearView\Facet;
 
 class span extends Element
 {
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->open('<span {{hx}}>{{value}}');

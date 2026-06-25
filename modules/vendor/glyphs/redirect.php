@@ -13,7 +13,7 @@ use ClearView\Mosaic;
 
 class redirect extends Element
 {
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         new Facet(ClearView::Mosaic()->handleMethodCall($this->id()));
     }

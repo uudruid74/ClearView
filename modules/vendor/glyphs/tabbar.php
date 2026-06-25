@@ -28,7 +28,7 @@ class tabbar extends Element
     /**
      * Renders the tabbar by initializing tabs and rendering contents.
      */
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         // Output the tabbar container
         $this->debug('TAB CONTENTS: {{id}} {{inlay}} :' . Facet::_($this->getField(Config::SHARD_ARRAYNAME)));

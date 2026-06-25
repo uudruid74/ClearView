@@ -43,7 +43,7 @@ class main extends Element
      * Opens <main>, emits preserved Mosaic inputs, then loads
      * and renders the current view or captured children.
      */
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         $facet = (new Facet($this))
             ->open('<main {{class=class}} {{hx}}>');

@@ -21,7 +21,7 @@ class fragment extends Element
 {
     protected $primaryField = 'children';
 
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         return;
     }

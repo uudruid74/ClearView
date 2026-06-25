@@ -12,7 +12,7 @@ class glyph extends Element
     /**
      * This is the default render for unknown elements
      */
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->open(<<<EOT

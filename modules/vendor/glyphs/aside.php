@@ -46,7 +46,7 @@ class aside extends Element
      *
      * Outputs: {{Pane::<name>}} which resolves Pane->getVar(<name>).
      */
-    public function render(): void
+    public function render(bool $capture = false): ?string
     {
         $name = $this->getField('name');
         if (!$name) {

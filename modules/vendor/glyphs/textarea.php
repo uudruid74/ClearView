@@ -7,7 +7,7 @@ class textarea extends Element
 {
     protected $primaryField = Config::SHARD_ARRAYNAME;
 
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
         ->open('<label class="dynamic">{{label}}:', match: [$this->hasField('label')])

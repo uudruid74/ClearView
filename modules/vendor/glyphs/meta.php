@@ -7,7 +7,7 @@ use ClearView\Facet;
 
 class meta extends Element
 {
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->out("<meta {{name=name}} {{content=content}}>")

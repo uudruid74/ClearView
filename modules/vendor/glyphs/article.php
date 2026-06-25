@@ -51,7 +51,7 @@ class article extends Element
      *
      * @return void
      */
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->open('<article {{name=name}} {{hx}}>');

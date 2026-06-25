@@ -15,7 +15,7 @@ class icon extends Element
         }
         $this->initField('alt', Facet::_("{{title}} icon"));
     }
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         new Facet('<img {{src=src}} {{alt=alt}} {{title=title}} {{hx}} {{disabled}}>');
     }

@@ -88,16 +88,27 @@ class MosaicBrowser extends TestRig
     {
         $this->capturedEvents = [];
         try {
-            ob_start();
             if ($this->view) {
+                ob_start();
                 $this->renderTestView($this->view);
+                $html = ob_get_clean();
+                // Parse rendered HTML into Mosaic Shards
+                $data = jsonmangler::fromhtml($html, $this->view);
+                Shard::loadShard($data, inlay: $this->inlayname);
+                if ($this->dump) {
+                    echo "\n--- Response ---\n{$html}\n--- End Response ---\n";
+                }
             } else {
-                // Framework lifecycle — needs ProcessWire for Pane::load()
-                $this->html();
-            }
-            $output = ob_get_clean();
-            if ($this->dump && $output) {
-                echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
+                ob_start();
+                if ($this->methodname === 'init' || $this->methodname === 'open') {
+                    $this->html();
+                } else {
+                    $this->handleCommand();
+                }
+                $output = ob_get_clean();
+                if ($this->dump && $output) {
+                    echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
+                }
             }
             ClearView::dumpOOBdata();
             $this->processEvents();

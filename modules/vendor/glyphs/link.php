@@ -7,7 +7,7 @@ use ClearView\Facet;
 
 class link extends Element
 {
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->out("<link {{rel=rel}} {{rel=rel}} {{href=href}} {{type=type}} {{sizes=sizes}} {{as=as}}>")

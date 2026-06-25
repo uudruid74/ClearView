@@ -25,7 +25,7 @@ use ClearView\Facet;
  */
 class layout extends Element
 {
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         // View mode: become invisible — let children render through parent.
         if (!empty($this['view'])) {

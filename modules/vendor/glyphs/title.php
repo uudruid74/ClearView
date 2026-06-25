@@ -12,7 +12,7 @@ class title extends Element
         $this->initVar('value', "{{Config::title_prefix}} {{Page::title}}");
     }
 
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->open("<title>{{value}}")

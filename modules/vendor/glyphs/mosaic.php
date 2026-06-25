@@ -23,7 +23,7 @@ class Mosaic extends Element
     /**
      * Renders Mosaic state as hidden inputs or OOB patches.
      */
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         $mosaic = ClearView::Mosaic();
         if (!$mosaic) {

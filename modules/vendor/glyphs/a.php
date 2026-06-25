@@ -18,7 +18,7 @@ class a extends Element
         }
     }
 
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         switch($this->linktype()) {
             // Link adds a tab to the form

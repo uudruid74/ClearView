@@ -9,7 +9,7 @@ class button extends Element
 {
     public static $buzz = 50;
 
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         $name = $this->getField('name') ?? $this->getField('type') ?? $this->getField('id') ?? 'unnamedbutton';
         $this->initFields([

@@ -34,7 +34,7 @@ class attr extends Element
      *
      * @return void
      */
-    public function render(): void
+    public function render(bool $capture = false): ?string
     {
         $view = $this->getField('view');
 

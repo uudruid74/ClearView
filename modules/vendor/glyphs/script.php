@@ -7,7 +7,7 @@ use ClearView\Facet;
 
 class script extends Element
 {
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         (new Facet($this))
             ->out("<script {{src=src}} {{integrity=integrity}} {{crossorigin=crossorigin}}></script>")

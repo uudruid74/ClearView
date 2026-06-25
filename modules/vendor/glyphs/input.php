@@ -18,7 +18,7 @@ class input extends Element
         ]);
     }
 
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         switch ($this->getField('type')) {
             case "username":

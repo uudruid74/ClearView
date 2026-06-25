@@ -88,7 +88,7 @@ class reference extends Element
     /**
      * Renders the Reference by delegating to the resolved target.
      */
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         $target = $this->resolve();
         if ($target) {

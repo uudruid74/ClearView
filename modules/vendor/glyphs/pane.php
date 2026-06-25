@@ -20,7 +20,7 @@ class pane extends Element
         ]);
     }
 
-    public function render()
+    public function render(bool $capture = false): ?string
     {
         // Build hx-vals from all Shard attributes (skip internal/HTMX keys)
         $vals = [];
