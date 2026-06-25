@@ -18,7 +18,7 @@ use ReflectionClass;
  * @see \ClearView\Mosaic
  * @see \ClearView\Page
  */
-abstract class Crystal extends Page implements ArrayAccess
+abstract class Crystal extends Page implements \ArrayAccess
 {
     protected $mosaic;
     /**

@@ -70,7 +70,8 @@ class Framework implements \ArrayAccess
      */
     public function getModuleList(): array
     {
-        $modules = Config::MODULES_LIST;
+        // Hardcoded default — Config crystal loads later via Crystal::loadAll()
+        $modules = ['vendor'];
 
         // Merge per-pane module override if PaneAttr is loaded
         try {
@@ -93,7 +94,7 @@ class Framework implements \ArrayAccess
     /**
      * The public version calls through so we can override getModuleList
      */
-    public function Modules(): array
+    public static function Modules(): array
     {
 	return self::$instance->getModuleList();
     }

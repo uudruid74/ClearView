@@ -9,6 +9,6 @@ require_once __DIR__ . "/Crystal.php";
 require_once __DIR__ . "/Facet.php";
 require_once __DIR__ . "/Mosaic.php";
 require_once __DIR__ . "/Element.php";
-require_once __DIR__ . "/Pane.php";
+require_once __DIR__ . "/Framework.php";
 require_once __DIR__ . "/Inlay.php";
-require_once __DIR__ . "/Main.php";
+require_once __DIR__ . "/TestRig.php";

@@ -54,12 +54,12 @@ class Inlay extends Framework
      * differs from the current inlay name.
      * @return void
      */
-    public function html(): void
+    public function html(?string $template = null): void
     {
         (new Facet())
-	    ->html('Page::body')
-	    ->triggerevent('inlaychange', ['inlay' = $this['Input::inlayname']], 
-    		unless: [[ $this['Shared::prevInlay'] === $this['Shared::inlayname'] ]] 
+            ->html('Page::body')
+            ->triggerevent('inlaychange', ['inlay' => $this['Input::inlayname']],
+                unless: [[ $this['Shared::prevInlay'] === $this['Shared::inlayname'] ]])
             ->close();
 
         $this['Shared::prevInlay'] = $this['Input::inlayname'];

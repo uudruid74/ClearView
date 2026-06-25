@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Mosaic Browser runner — bootstrap then launch the REPL.
+ *
+ * Usage:
+ *   php bin/mosaic-browser --url=/loginform/newaccount/
+ *   php bin/mosaic-browser --pane=loginform --inlay=newaccount --verbose
+ */
+
+// ProcessWire stubs for headless mode
+if (!class_exists('ProcessWire\WireException')) {
+    class ProcessWire_WireException extends \Exception {}
+    class_alias('ProcessWire_WireException', 'ProcessWire\WireException');
+}
+
+require_once __DIR__ . '/../_init.php';
+require_once __DIR__ . '/../MosaicBrowser.php';
+
+\ClearView\MosaicBrowser::main();
