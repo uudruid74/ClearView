@@ -27,8 +27,9 @@ class User extends Crystal
      */
     public function trylogin()
     {
-        $user = Mosaic::getVar('username', 'test-login') ?? '';
-        $pass = Mosaic::getVar('password', 'test-login') ?? '';
+        $user = (string)(Mosaic::getVar('username', 'Default') ?? '');
+        $pass = (string)(Mosaic::getVar('password', 'Default') ?? '');
+        error_log("trylogin: user='{$user}' pass='{$pass}' match=" . (($user === 'admin' && $pass === '1234') ? 'YES' : 'NO'));
         if ($user === 'admin' && $pass === '1234') {
             $this->id = 1;
             Framework::triggerevent('loginchange');
