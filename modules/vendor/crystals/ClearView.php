@@ -93,15 +93,6 @@ class ClearView extends Crystal
     }
 
     /**
-     * Returns the current Framework/Pane instance.
-     * @return Framework|null
-     */
-    public static function paneobj($value = null): ?Framework
-    {
-        return Framework::instance();
-    }
-
-    /**
      * Set the current Mosaic object.
      * @return Mosaic|null
      */

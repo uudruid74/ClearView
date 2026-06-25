@@ -252,7 +252,7 @@ class Sanitizer extends Crystal
      */
     public function validate($value = null, $sanitizers = null)
     {
-        $value = $value ?? ClearView::paneobj();
+        $value = $value ?? Framework::instance();
         $sanitizerList = self::getSanitizerList($sanitizers);
         if (empty($sanitizerList)) {
             throw new Exception("No sanitizers specified for validation.");

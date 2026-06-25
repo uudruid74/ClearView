@@ -48,7 +48,7 @@ class attr extends Element
             }
 
             Framework::retargetResult('main');
-            ClearView::paneobj()->triggerevent('inlaychange');
+            Framework::instance()->triggerevent('inlaychange');
             return;
         }
 
