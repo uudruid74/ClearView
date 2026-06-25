@@ -185,6 +185,12 @@ class Framework implements \ArrayAccess
         Mosaic::delVar($key, 'Pane');
     }
 
+    /** Fill Mosaic variables — delegates to Mosaic::fill. */
+    public function fill(array $values, ?string $inlay = null): void
+    {
+        Mosaic::fill($values, $inlay);
+    }
+
     // ── Lifecycle methods ────────────────────────────────────────
 
     /**
