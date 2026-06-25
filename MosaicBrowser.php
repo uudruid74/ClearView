@@ -207,6 +207,24 @@ class MosaicBrowser extends TestRig
 
             $this->setInput($this->panename, $this->inlayname, $this->methodname);
             echo "→ {$this->panename}/{$this->inlayname}/{$this->methodname}/\n";
+
+            // In view mode, load inlay and dispatch command directly
+            if ($this->view) {
+                try {
+                    $className = Inlay::load($this->panename, $this->inlayname);
+                    $inlay = new $className();
+                    ob_start();
+                    $inlay->{$this->methodname}();
+                    $output = ob_get_clean();
+                    if ($this->dump && $output) {
+                        echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
+                    }
+                } catch (\Throwable $e) {
+                    echo "  error: " . $e->getMessage() . "\n";
+                }
+                return;
+            }
+
             $this->loadPane();
             return;
         }
