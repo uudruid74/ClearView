@@ -1,20 +1,61 @@
 #!/usr/bin/env php
 <?php
-/**
- * Mosaic Browser runner — bootstrap then launch the REPL.
- *
- * Usage:
- *   php bin/mosaic-browser --url=/loginform/newaccount/
- *   php bin/mosaic-browser --pane=loginform --inlay=newaccount --verbose
- */
 
-// ProcessWire stubs for headless mode
-if (!class_exists('ProcessWire\WireException')) {
-    class ProcessWire_WireException extends \Exception {}
-    class_alias('ProcessWire_WireException', 'ProcessWire\WireException');
+// ── ProcessWire stubs for headless mode ──────────────────────
+
+namespace {
+    if (!class_exists('ProcessWire\WireException')) {
+        class ProcessWire_WireException extends \Exception {}
+        class_alias('ProcessWire_WireException', 'ProcessWire\WireException');
+    }
+    if (!class_exists('ProcessWire\Wire')) {
+        class ProcessWire_Wire { public $id = 0; }
+        class_alias('ProcessWire_Wire', 'ProcessWire\Wire');
+    }
+    if (!class_exists('ProcessWire\Page')) {
+        class ProcessWire_Page extends \ProcessWire\Wire {
+            public function get($key) { return null; }
+            public function set($key, $value) { return $this; }
+            public function save() { return true; }
+            public function addRole($role) {}
+            public function delete() {}
+        }
+        class_alias('ProcessWire_Page', 'ProcessWire\Page');
+    }
+    if (!class_exists('ProcessWire\PageArray')) {
+        class ProcessWire_PageArray extends \ProcessWire\Wire implements \IteratorAggregate {
+            public function getIterator(): \Traversable { return new \ArrayIterator([]); }
+            public function find($selector) { return $this; }
+            public function children($selector = null) { return $this; }
+        }
+        class_alias('ProcessWire_PageArray', 'ProcessWire\PageArray');
+    }
+    if (!class_exists('ProcessWire\WireHttp')) {
+        class ProcessWire_WireHttp {
+            public function get($url, $options = []) { return ''; }
+            public function post($url, $data = []) { return ''; }
+        }
+        class_alias('ProcessWire_WireHttp', 'ProcessWire\WireHttp');
+    }
 }
 
-require_once __DIR__ . '/../_init.php';
-require_once __DIR__ . '/../MosaicBrowser.php';
+namespace ProcessWire {
+    if (!function_exists('ProcessWire\page')) {
+        function page($selector = null) { return null; }
+        function pages() { return null; }
+        function modules() { return null; }
+        function user() { return null; }
+        function session() { return null; }
+        function input($key = null) { return null; }
+        function sanitizer() { return null; }
+        function config() { return null; }
+        function fields() { return null; }
+        function templates() { return null; }
+    }
+}
 
-\ClearView\MosaicBrowser::main();
+namespace {
+    require_once __DIR__ . '/../_init.php';
+    require_once __DIR__ . '/../MosaicBrowser.php';
+    \ClearView\MosaicBrowser::main();
+}

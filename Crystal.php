@@ -101,7 +101,7 @@ abstract class Crystal extends Page implements \ArrayAccess
                 new $class(null, $shortName, 'ClearView', $mosaic);
             }
         }
-        new Page(\ProcessWire\page(), 'Page', 'ClearView', $mosaic);
+        new Page(\ProcessWire\page() ?? new \ProcessWire\Page(), 'Page', 'ClearView', $mosaic);
 
         // Load per-module _init.php config after crystals are instantiated
         foreach ($modules as $module) {
