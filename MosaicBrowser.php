@@ -78,11 +78,8 @@ class MosaicBrowser extends TestRig
 
     private function setInput(string $pane, string $inlay, string $method): void
     {
-        Mosaic::setVar('panename', $pane, 'Input');
-        Mosaic::setVar('inlayname', $inlay, 'Input');
-        Mosaic::setVar('methodname', $method, 'Input');
-        Mosaic::setVar('url', "/{$pane}/{$inlay}/{$method}/", 'Input');
         // Static jig values — survive Framework instance changes during inlay construction
+        TestRig::setJig('url', "/{$pane}/{$inlay}/{$method}/", 'Input');
         TestRig::setJig('panename', $pane);
         TestRig::setJig('inlayname', $inlay);
         TestRig::setJig('methodname', $method);
@@ -218,9 +215,8 @@ class MosaicBrowser extends TestRig
                 try {
                     $className = Inlay::load($this->panename, $this->inlayname);
                     ob_start();
-                    // Call inlay method on shell instance — Mosaic is singleton, state persists
-                    $dummy = (new \ReflectionClass($className))->newInstanceWithoutConstructor();
-                    $dummy->{$this->methodname}();
+                    $inlay = new $className();
+                    $inlay->{$this->methodname}();
                     $output = ob_get_clean();
                     // Reset to view inlay so show() reads dispatch results
                     $this->inlayname = 'Default';

@@ -39,6 +39,11 @@ class ClearView extends Crystal
     /** Resolve Crystal::User() → Mosaic::index('ClearView', 'User') */
     public static function __callStatic(string $name, array $args): mixed
     {
-        return Mosaic::index('ClearView', $name);
+        $result = Mosaic::index('ClearView', $name);
+        $all = Mosaic::getShardsByInlay('ClearView');
+        $names = array_map(fn($s) => $s->getField('name') ?? $s->getField('id'), $all);
+        error_log("ClearView shards: " . implode(', ', $names));
+        error_log("ClearView::{$name}() → " . ($result ? get_class($result) : 'NULL'));
+        return $result;
     }
 }

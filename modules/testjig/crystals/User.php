@@ -13,6 +13,8 @@ class User extends Crystal
     public function __construct($pwObject = null, $panename = null, $inlayname = null, $mos = null)
     {
         $this->data = [];
+        parent::__construct($pwObject, $panename, $inlayname, $mos);
+        parent::__construct($pwObject, $panename, $inlayname, $mos);
     }
 
     public function getVar($key = null)

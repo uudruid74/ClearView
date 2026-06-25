@@ -188,42 +188,27 @@ class Framework implements \ArrayAccess
     // ── Lifecycle methods ────────────────────────────────────────
 
     /**
-     * Initializes the ClearView framework from the request.
-     * @return void
+     * Initializes the ClearView Framework — sets up Mosaic and instance.
+     * Does NOT load an Inlay. Use {@see loadInlay()} for the full lifecycle.
      */
     public function __construct()
     {
-        // Register as the active Framework BEFORE Mosaic::load() so
-        // Crystal::loadAll() can call $this->Modules() for the module list.
         self::$instance = $this;
-
-        // Load Mosaic via the static factory — crystals are initialized,
-        // Input crystal is ready with panename/inlayname/methodname.
         $this->mosaic = Mosaic::load();
-
-        $p = Mosaic::getVar('Input::panename');
-        $i = Mosaic::getVar('Input::inlayname');
-        $s = Mosaic::index('Input', 'panename');
-        $sv = $s ? (string)$s : 'NO SHARD';
-        error_log("Framework constructor: panename='{$p}' inlayname='{$i}' shard='{$sv}'");
-        $PaneClass = Inlay::load($this['Input::panename'], $this['Input::inlayname']);
-
-        // Skip re-instantiation — bind inlay methods via closure instead
-        if (ltrim($PaneClass, '\\') !== ltrim(static::class, '\\')) {
-            // Bind init/open methods from the inlay class
-            foreach (['init', 'open'] as $method) {
-                if (method_exists($PaneClass, $method)) {
-                    $rm = new \ReflectionMethod($PaneClass, $method);
-                    $dummy = (new \ReflectionClass($PaneClass))->newInstanceWithoutConstructor();
-                    $closure = $rm->getClosure($dummy);
-                    $closure = $closure->bindTo($this, $this);
-                    $closure();
-                }
-            }
-        }
-
-        // Debug header — tracemode comes from Config, not ProcessWire
         Exception::outheader(Config::TRACEMODE);
+    }
+
+    /**
+     * Static factory: loads the correct Inlay class and returns its instance.
+     * Replaces the old (new Framework()) pattern — no double construction.
+     */
+    public static function loadInlay(): Framework
+    {
+        $mosaic = Mosaic::load();
+        $panename = $mosaic->getVar('Input::panename');
+        $inlayname = $mosaic->getVar('Input::inlayname');
+        $class = Inlay::load($panename, $inlayname);
+        return new $class();
     }
 
     /** Default full-page render. */

@@ -63,6 +63,11 @@ class Mosaic
      */
     public static function load(array $options = []): Mosaic
     {
+        // Return existing Mosaic if already loaded (prevents double init from loadInlay)
+        if (self::$instance !== null && empty($options)) {
+            return self::$instance;
+        }
+
         $loadCrystals  = $options['loadCrystals'] ?? true;
         $loadInputData = $options['loadInputData'] ?? false;
         $loadCliData   = $options['loadCliData'] ?? [];

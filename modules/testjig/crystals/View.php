@@ -11,6 +11,7 @@ class View extends Crystal
     {
         $this->mosaic = $mos;
         $this->data = [];
+        parent::__construct($pwObject, $panename, $inlayname, $mos);
     }
 
     public function getVar($key = null)
