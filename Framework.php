@@ -199,7 +199,7 @@ class Framework implements \ArrayAccess
 
         // Load Mosaic via the static factory — crystals are initialized,
         // Input crystal is ready with panename/inlayname/methodname.
-        $this->mosaic = Mosaic::instance() ?? Mosaic::load();
+        $this->mosaic = Mosaic::load();
 
         $p = Mosaic::getVar('Input::panename');
         $i = Mosaic::getVar('Input::inlayname');
