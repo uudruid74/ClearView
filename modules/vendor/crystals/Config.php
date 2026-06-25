@@ -338,4 +338,22 @@ class Config extends Crystal
         static::$config[$var] = $value;
         return $this;
     }
+
+    /**
+     * Bulk-load config values with first-module-wins semantics.
+     *
+     * Stores each key-value pair in Mosaic under the 'Config' inlay.
+     * Uses initVar so the first module to define a key wins —
+     * later modules cannot override earlier values.
+     *
+     * Called from Crystal::loadAll() during bootstrap.
+     *
+     * @param array $values Key-value pairs from a module _init.php file.
+     */
+    public static function fill(array $values): void
+    {
+        foreach ($values as $key => $val) {
+            Mosaic::initVar($key, (string)$val, 'Config');
+        }
+    }
 }

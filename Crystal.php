@@ -102,15 +102,15 @@ abstract class Crystal extends Page implements ArrayAccess
         }
         new Page(\ProcessWire\page(), 'Page', 'ClearView', $mosaic);
 
-        // Load per-module _init.php config after crystals are instantiated
+        // Load per-module _init.php config after crystals are instantiated.
+        // Uses Config::fill() which enforces first-module-wins:
+        // site/_init.php values override vendor/_init.php for the same keys.
         foreach ($modules as $module) {
             $initFile = __DIR__ . "/modules/{$module}/_init.php";
             if (file_exists($initFile)) {
                 $vars = require $initFile;
                 if (is_array($vars)) {
-                    foreach ($vars as $key => $value) {
-                        Mosaic::setVar($key, $value, 'Config');
-                    }
+                    Config::fill($vars);
                 }
             }
         }

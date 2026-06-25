@@ -68,7 +68,6 @@ class loginform_login extends Inlay
     public function logout()
     {
         ClearView::User()->logout();
-        $this->triggerevent('userchange');
     }
 
     public function login()
@@ -80,7 +79,6 @@ class loginform_login extends Inlay
                 'summary'  => 'Welcome back<br>{{text20\\User::displayname}}!',
                 'login'    => 'Success!'
             ])
-            ->triggerevent('userchange')
             ->close();         // close the form
         } else {
             $this->fill([
@@ -93,7 +91,7 @@ class loginform_login extends Inlay
 }
 ```
 
-POST to `/loginform/login/login/` or hook up a button with `hx-post`. ProcessWire handles authentication; `fill()` replaces the form's content via Mosaic diffs; `close()` removes the form from the DOM.
+POST to `/loginform/login/login/` or hook up a button with `hx-post`. ProcessWire handles authentication; `fill()` replaces the form's content via Mosaic diffs; `close()` removes the form from the DOM.  User crystal sends 'loginchange' events.
 
 ---
 
