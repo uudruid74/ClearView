@@ -347,8 +347,7 @@ ClearView/
 └── views/              ← Base view directory (fallback)
 ```
 
-Views support `*_append.php` files: `head_append.php` adds to the parent
-module's `head.php` rather than replacing it.
+Views use wildcard globs for combining: `<fragment view="head/*"/>` loads all\nmatching files across every module and combines them as children.
 
 ---
 
@@ -454,6 +453,17 @@ They are listed here for historical reference:
 | `defaultMethod()` request→method mapping | **Done** |
 | Two-tier glyph/module loader replacing legacy `panes/<name>s/` | **Done** |
 | Field content loaded from `Page::contents` instead of `json_template` | **Done** |
+| `inlay` data field removed — `inlay()` returns `Input::inlayname` | **Done** (2026-06) |
+| `SHARD_ANONINLAY` constant → `isAnonymous()` method (no name = anonymous) | **Done** (2026-06) |
+| `childType` flags removed → `getChildType()` runtime inspection | **Done** (2026-06) |
+| Prisms: AlertBox (N-button modal), Confirm (transparent yes/no) | **Done** (2026-06) |
+| `listen` attribute on `<pane>` for lifecycle events → `events.php` inlay | **Done** (2026-06) |
+| `triggerevent`/`sendHtmxHeader`/`retargetResult` made static with `on*` instance hooks | **Done** (2026-06) |
+| Per-module `_init.php` config via `Config::fill()` | **Done** (2026-06) |
+| `Module` crystal for PW module autoloading | **Done** (2026-06) |
+| User crystal `add()`/`update()`/`delete()` with auto-save | **Done** (2026-06) |
+| Wiki module: MarkdownToShard parser, WikiPage crystal, `_init.php` Page override | **Done** (2026-06) |
+| Default view lookup removed — explicit `view=` required; wildcards combine across modules | **Done** (2026-06) |
 
 ### Planned (not yet implemented)
 
@@ -462,8 +472,8 @@ They are listed here for historical reference:
 | Drop `s` suffix on inlay directories (`panes/forms/` → `panes/form/`) | **Planned** |
 | `<pane>` tag creates embedded pane with `hx-trigger="load"` | **Planned** |
 | Layerstack as `<layerstack>` glyph with `addLayer()` | **Planned** |
-| Boolean function operators in templates (\|\|, &&) | **Planned** |
-| Children type coercion (StringArray ↔ ShardArray merging) | **Planned** |
+| Boolean function operators in templates (\\|\\|, &&) | **Done** (2026-06) |
+| Children type coercion (StringArray ↔ ShardArray migration) | **Done** — `getChildType()` inspects array, `addChildren()` enforces, `replaceChildren()` normalizes |
 | Testing framework per design docs | **Planned** |
 
 ---
@@ -492,7 +502,7 @@ They are listed here for historical reference:
 - This overview is a **reference snapshot**. The wiki is the master spec.
 - `setlocalmethod()` is removed from `Element.php` and from all docs.
 - `Form.php` is removed; its behavior merges into `Pane.php` and `glyphs/pane.php`.
-- Anonymous Shards use `__anonymous` inlay and are never sent to the client.
+- Anonymous Shards have no `name` field — detected via `isAnonymous()`, never sent to client.
 - Canonical ids (`id="#"`) expand to `<panename>-<inlay>-<name>` via `Element::getField('id')`.
 - The generated phpdoc in `docs/phpdoc/` is auto-generated via `phpDocumentor` (configured in `phpdoc.dist.xml`). Do not edit it by hand.
 
