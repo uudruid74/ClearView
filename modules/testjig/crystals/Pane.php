@@ -3,7 +3,7 @@
 namespace ClearView;
 
 /**
- * Null Pane crystal — returns null for all values.
+ * Null Pane crystal — returns field names as values for getVar().
  * Used when ProcessWire is unavailable (CLI testing, headless mode).
  */
 class PaneCrystal extends Crystal
@@ -13,16 +13,14 @@ class PaneCrystal extends Crystal
         $this->data = [];
     }
 
-    public function getVar($key = null)
+    public function getVar($varname = null)
     {
-        return $varname ?? $key ?? null;
+        return $varname ?? null;
     }
 
     /** Headless Pane loader — returns null since no ProcessWire pages exist. */
-
-
     public static function load(string $panename, ?string $inlayname = null, ?Mosaic $mosaic = null): ?\ClearView\Element
     {
-        return $varname ?? $key ?? null;
+        return null;
     }
 }
