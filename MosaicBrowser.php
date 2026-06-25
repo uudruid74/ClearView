@@ -82,6 +82,10 @@ class MosaicBrowser extends TestRig
         Mosaic::setVar('inlayname', $inlay, 'Input');
         Mosaic::setVar('methodname', $method, 'Input');
         Mosaic::setVar('url', "/{$pane}/{$inlay}/{$method}/", 'Input');
+        // Static jig values — survive Framework instance changes during inlay construction
+        TestRig::setJig('panename', $pane);
+        TestRig::setJig('inlayname', $inlay);
+        TestRig::setJig('methodname', $method);
     }
 
     private function loadPane(): void

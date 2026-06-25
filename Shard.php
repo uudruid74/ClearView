@@ -263,9 +263,9 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
                 $classPath = Element::loadGlyph($determinedGlyph);
             }
             Exception::debug('GLYPH',"Creating classPath $classPath");
-            $shard = new $classPath($obj, primaryField: $primaryField);
+            $shard = new $classPath($obj, primaryField: $primaryField, named: $inlay);
         } else {
-            $shard = new Shard($obj, primaryField: $primaryField);
+            $shard = new Shard($obj, primaryField: $primaryField, named: $inlay);
         }
         $shard->canonicalizeChildren();
         return $shard;
@@ -603,7 +603,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function inlay(): string
     {
-        return Mosaic::getVar('Input::inlayname') ?? 'Default';
+        return $this->data['inlay'] ?? Mosaic::getVar('Input::inlayname') ?? 'Default';
     }
 
     /**

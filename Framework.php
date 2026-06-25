@@ -191,7 +191,7 @@ class Framework implements \ArrayAccess
      * Initializes the ClearView framework from the request.
      * @return void
      */
-    public function __construct(string $template = '')
+    public function __construct()
     {
         // Register as the active Framework BEFORE Mosaic::load() so
         // Crystal::loadAll() can call $this->Modules() for the module list.

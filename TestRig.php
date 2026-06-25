@@ -17,6 +17,9 @@ class TestRig extends Framework
     /** @var array CLI argument overrides */
     private array $cliArgs = [];
 
+    /** @var array Static jig values for headless Input crystal */
+    private static array $jig = [];
+
     /**
      * Creates a headless test Pane.
      * @param array $cliArgs  Key-value pairs from CLI (e.g. ['panename' => 'TestPage'])
@@ -40,7 +43,19 @@ class TestRig extends Framework
         }
 
         Mosaic::load($options);
-	$this->mosaic = Mosaic::instance();
+        $this->mosaic = Mosaic::instance();
+    }
+
+    /** Set a jig value for headless Input crystal access. */
+    public static function setJig(string $key, mixed $value): void
+    {
+        self::$jig[$key] = $value;
+    }
+
+    /** Get a jig value. */
+    public static function getJig(string $key): mixed
+    {
+        return self::$jig[$key] ?? null;
     }
 
     /**

@@ -384,7 +384,11 @@ class Mosaic
             } else {
                 $data = ['id' => $varname, 'inlay' => $inlay, $field ?? 'value' => $val];
             }
-            $shard = Shard::loadShard($data);
+            $shard = Shard::loadShard($data, inlay: $inlay);
+        }
+        // Ensure address uses the correct inlay for Mosaic storage
+        if ($shard && $inlay) {
+            $shard->address = Mosaic::makeAddress(['id' => $shard->getField('id') ?? $varname, 'inlay' => $inlay]);
         }
         return $shard;
     }
