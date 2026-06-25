@@ -330,6 +330,22 @@ class Mosaic
     }
 
     /**
+     * Returns all Shards grouped by inlay.
+     * @return array<string, array<Shard>>
+     */
+    public static function getAllShards(): array
+    {
+        $grouped = [];
+        foreach (self::$instance->mosaic ?? [] as $address => $shard) {
+            if (!$shard instanceof Shard) continue;
+            $parts = explode('-', $address, 2);
+            $inlay = $parts[0];
+            $grouped[$inlay][] = $shard;
+        }
+        return $grouped;
+    }
+
+    /**
      * Checks if an inlay and ID exist in the mosaic.
      * @param string $inlay The inlay name to check.
      * @param string $id The Shard ID.

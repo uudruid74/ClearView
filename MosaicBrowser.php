@@ -150,34 +150,36 @@ class MosaicBrowser extends TestRig
     public function getInteractables(): array
     {
         $items = [];
-        $inlayShards = Mosaic::getShardsByInlay($this->inlayname);
+        $allShards = Mosaic::getAllShards();
 
-        foreach ($inlayShards as $shard) {
-            if (!$shard instanceof Shard) continue;
-            if ($shard->isAnonymous()) continue;
+        foreach ($allShards as $inlayName => $inlayShards) {
+            foreach ($inlayShards as $shard) {
+                if (!$shard instanceof Shard) continue;
+                if ($shard->isAnonymous()) continue;
 
-            $name = $shard->getField('name') ?? $shard->getField('id');
-            if (empty($name)) continue;
+                $name = $shard->getField('name') ?? $shard->getField('id');
+                if (empty($name)) continue;
 
-            $glyph = $shard->getField('glyph') ?? 'Shard';
-            $value = (string)$shard;
-            $shardInlay = $shard->getField('inlay') ?? $shard->inlay();
+                $glyph = $shard->getField('glyph') ?? 'Shard';
+                $value = (string)$shard;
+                $shardInlay = $shard->getField('inlay') ?? $shard->inlay();
 
-            $postUrl = $shard->getField('hx-post');
-            $getUrl = $shard->getField('hx-get');
-            $url = $postUrl ?? $getUrl ?? $shard->getField('href') ?? null;
-            $method = $postUrl ? 'POST' : ($getUrl ? 'GET' : null);
+                $postUrl = $shard->getField('hx-post');
+                $getUrl = $shard->getField('hx-get');
+                $url = $postUrl ?? $getUrl ?? $shard->getField('href') ?? null;
+                $method = $postUrl ? 'POST' : ($getUrl ? 'GET' : null);
 
-            $items[] = [
-                'name'   => $name,
-                'glyph'  => $glyph,
-                'value'  => $value,
-                'url'    => $url,
-                'action' => $url !== null,
-                'method' => $method,
-                'inlay'  => $shardInlay,
-                'shard'  => $shard,
-            ];
+                $items[] = [
+                    'name'   => $name,
+                    'glyph'  => $glyph,
+                    'value'  => $value,
+                    'url'    => $url,
+                    'action' => $url !== null,
+                    'method' => $method,
+                    'inlay'  => $inlayName,
+                    'shard'  => $shard,
+                ];
+            }
         }
         return $items;
     }
