@@ -260,7 +260,12 @@ class MosaicBrowser extends TestRig
                     echo "  <number>               interact with item #N\n";
                     break;
                 case 'show': case 'refresh': break;
-                case 'd': case 'dump': $this->toggleDump(); break;
+                case 'd':
+                    if (($parts[1] ?? '') === 'on') { $this->dump = true; }
+                    elseif (($parts[1] ?? '') === 'off') { $this->dump = false; }
+                    echo "Dump: " . ($this->dump ? 'ON' : 'OFF') . "\n";
+                    break;
+                case 'dump': $this->toggleDump(); break;
 
                 case 'set':
                     $rest = ($parts[1] ?? '') . ' ' . ($parts[2] ?? '');
