@@ -24,10 +24,9 @@ class Page extends Shard
      */
     public function __construct($pwObject=null,$name=null,$inlay='ClearView')
     {
-        $init = [       // Default inlay is ANONINLAY to not record these Shards
+        $init = [
             Config::PAGE_PWOBJECT => $pwObject,
             '__pF'  => Config::PAGE_PWOBJECT,
-            'id'    => $name,
             'name'  => $name,
             'inlay' => $inlay,
         ];

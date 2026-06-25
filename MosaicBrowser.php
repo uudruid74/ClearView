@@ -239,19 +239,6 @@ class MosaicBrowser extends TestRig
         echo "Dump: " . ($this->dump ? 'ON' : 'OFF') . "\n";
     }
 
-    public function dumpShard(int $index): void
-    {
-        $items = $this->getInteractables();
-        if (!isset($items[$index - 1])) {
-            echo "Invalid number.\n";
-            return;
-        }
-        $item = $items[$index - 1];
-        $shard = $item['shard'];
-        echo "\n─── Shard: {$item['name']} ({$item['glyph']}) inlay={$item['inlay']} ───\n";
-        Mosaic::dumpShard($shard, 1);
-    }
-
     public function repl(): void
     {
         $this->bootstrap();
@@ -287,7 +274,13 @@ class MosaicBrowser extends TestRig
 
                 case 'ds':
                     if (is_numeric($parts[1] ?? '')) {
-                        $this->dumpShard((int)$parts[1]);
+                        $items = $this->getInteractables();
+                        $idx = (int)$parts[1] - 1;
+                        if (isset($items[$idx])) {
+                            echo json_encode($items[$idx]['shard'], JSON_PRETTY_PRINT) . "\n";
+                        } else {
+                            echo "Invalid number.\n";
+                        }
                     } else {
                         echo "Usage: ds <#>\n";
                     }

@@ -73,13 +73,12 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
 	    // Store the name as the Mosaic key so References can
 	    // resolve via Mosaic index($inlay, $name).
 	    if (($obj['id'] ?? null) === '#') {
-	        if (empty($obj['name'])) {
-	            $obj['name'] = $this->createid($obj);
-	        }
-	        $obj['id'] = $obj['name'];
+	            if (empty($obj['name'])) {
+	                $obj['name'] = $this->createid($obj);
+	            }
+	            unset($obj['id']);
 	    }
 	    $obj['name'] = $obj['name'] ?? $this->name ?? $named;
-	    $obj['id'] = $obj['id'] ?? $this->id ?? $this->createid($obj);
 	}
         if (isset($obj['__pF'])) {
             $primaryField = $obj['__pF'];
@@ -91,6 +90,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!$this->isAnonymous()) {
             $this->address = $obj['__address'] = Mosaic::makeAddress($this);
             Mosaic::addShard($this);
+            // Inlay is now encoded in the address — no need for it in data
+            unset($this->data['inlay']);
         }
         $this->init();
     }
@@ -594,7 +595,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function id(): string
     {
-        return $this->data['id'] ?? '';
+        return $this->data['id'] ?? $this->data['name'] ?? '';
     }
 
     /**
@@ -603,7 +604,11 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
      */
     public function inlay(): string
     {
-        return $this->data['inlay'] ?? Mosaic::getVar('Input::inlayname') ?? 'Default';
+        if ($this->address) {
+            $parts = explode('-', $this->address, 2);
+            return $parts[0];
+        }
+        return $this->data['inlay'] ?? 'Default';
     }
 
     /**
