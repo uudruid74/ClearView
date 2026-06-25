@@ -287,45 +287,6 @@ class jsonmangler
 
             $hasView = !empty($element['view']);
 
-            // Default view lookup — skip for void (self-closing) elements
-            // and skip when an explicit view= attribute is present.
-            if (!$hasView && !in_array($glyph, self::VOID_ELEMENTS, true)) {
-                $pane = Facet::me()->getField('name') ?? 'Default';
-
-                // 1. Nested context: views/{pane}/{context}/{glyph}.php
-                if ($context !== null) {
-                    foreach (\ClearView\Framework::instance()->Modules() as $module) {
-                        $ctxPath = __DIR__ . "/../modules/{$module}/views/{$pane}/{$context}/{$glyph}.php";
-                        if (file_exists($ctxPath)) {
-                            $element['__loadExternal'] = "View::{$context}/{$glyph}";
-                            break;
-                        }
-                    }
-                }
-
-                // 2. Top-level: views/{pane}/{glyph}.php
-                if (empty($element['__loadExternal'])) {
-                    foreach (\ClearView\Framework::instance()->Modules() as $module) {
-                        $filePath = __DIR__ . "/../modules/{$module}/views/{$pane}/{$glyph}.php";
-                        if (file_exists($filePath)) {
-                            $element['__loadExternal'] = "View::$glyph";
-                            break;
-                        }
-                    }
-                }
-
-                // 3. Default fallback: views/Default/{glyph}.php
-                if (empty($element['__loadExternal']) && $pane != 'Default') {
-                    foreach (\ClearView\Framework::instance()->Modules() as $module) {
-                        $filePath = __DIR__ . "/../modules/{$module}/views/Default/{$glyph}.php";
-                        if (file_exists($filePath)) {
-                            $element['__loadExternal'] = "View::$glyph";
-                            break;
-                        }
-                    }
-                }
-            }
-
             if ($hasView) {
                 // view="name" overrides element children.
                 // Handle folder globs: load all matching files as sibling fragments.
