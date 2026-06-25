@@ -249,38 +249,7 @@ class MosaicBrowser extends TestRig
         $item = $items[$index - 1];
         $shard = $item['shard'];
         echo "\n─── Shard: {$item['name']} ({$item['glyph']}) inlay={$item['inlay']} ───\n";
-        $this->dumpShardRecursive($shard, 1);
-    }
-
-    private function dumpShardRecursive(Shard $shard, int $depth): void
-    {
-        $indent = str_repeat('  ', $depth);
-        $fields = $shard->getFields('*') ?: [];
-        $id = $shard->getField('id') ?? '-';
-        $glyph = $shard->getField('glyph') ?? 'Shard';
-        $inlay = $shard->inlay();
-        $addr = $shard->address ?? '-';
-        echo "{$indent}[{$glyph}] id={$id} inlay={$inlay} addr={$addr}\n";
-
-        foreach ($fields as $key => $value) {
-            if ($key === 'children' || $key === 'id' || str_starts_with((string)$key, '__')) continue;
-            if (is_scalar($value) || is_null($value)) {
-                $display = var_export($value, true);
-                echo "{$indent}  {$key}: {$display}\n";
-            }
-        }
-
-        $children = $shard->getField('children');
-        if (!empty($children) && is_array($children)) {
-            echo "{$indent}  children:\n";
-            foreach ($children as $i => $child) {
-                if ($child instanceof Shard) {
-                    $this->dumpShardRecursive($child, $depth + 1);
-                } else {
-                    echo "{$indent}    [{$i}] " . var_export($child, true) . "\n";
-                }
-            }
-        }
+        Mosaic::dumpShard($shard, 1);
     }
 
     public function dumpEverything(): void
@@ -289,7 +258,7 @@ class MosaicBrowser extends TestRig
         foreach (Mosaic::getAllShards() as $inlayName => $shards) {
             echo "\n─── Inlay: {$inlayName} ───\n";
             foreach ($shards as $shard) {
-                $this->dumpShardRecursive($shard, 1);
+                Mosaic::dumpShard($shard, 1);
             }
         }
         echo "\n═══════ End ═══════\n";

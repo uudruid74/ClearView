@@ -346,6 +346,39 @@ class Mosaic
     }
 
     /**
+     * Recursive dump of a single Shard to stdout.
+     */
+    public static function dumpShard(Shard $shard, int $depth = 1): void
+    {
+        $indent = str_repeat('  ', $depth);
+        $fields = $shard->getFields('*') ?: [];
+        $id = $shard->getField('id') ?? '-';
+        $glyph = $shard->getField('glyph') ?? 'Shard';
+        $inlay = $shard->inlay();
+        $addr = $shard->address ?? '-';
+        echo "{$indent}[{$glyph}] id={$id} inlay={$inlay} addr={$addr}\n";
+
+        foreach ($fields as $key => $value) {
+            if ($key === 'children' || $key === 'id' || str_starts_with((string)$key, '__')) continue;
+            if (is_scalar($value) || is_null($value)) {
+                echo "{$indent}  {$key}: " . var_export($value, true) . "\n";
+            }
+        }
+
+        $children = $shard->getField('children');
+        if (!empty($children) && is_array($children)) {
+            echo "{$indent}  children:\n";
+            foreach ($children as $i => $child) {
+                if ($child instanceof Shard) {
+                    self::dumpShard($child, $depth + 1);
+                } else {
+                    echo "{$indent}    [{$i}] " . var_export($child, true) . "\n";
+                }
+            }
+        }
+    }
+
+    /**
      * Checks if an inlay and ID exist in the mosaic.
      * @param string $inlay The inlay name to check.
      * @param string $id The Shard ID.
