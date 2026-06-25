@@ -287,10 +287,13 @@ class MosaicBrowser extends TestRig
                             if ($items[$idx]['action']) {
                                 $this->invoke($items[$idx]['name']);
                             } else {
-                                $glyph = $items[$idx]['glyph'];
                                 $name = $items[$idx]['name'];
                                 $val = $items[$idx]['value'];
-                                echo "  {$glyph} {$name} = {$val}\n";
+                                echo "  {$items[$idx]['glyph']} {$name} = {$val}\n  new value: ";
+                                $newVal = trim(fgets(STDIN));
+                                if ($newVal !== '') {
+                                    $this->set($name, $newVal);
+                                }
                             }
                         } else {
                             echo "Invalid number.\n";
