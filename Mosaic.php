@@ -306,6 +306,25 @@ class Mosaic
     }
 
     /**
+     * Returns all Shards stored under a given inlay.
+     * @param string $inlay Inlay name to query.
+     * @return array<Shard>
+     */
+    public static function getShardsByInlay(string $inlay): array
+    {
+        $prefix = $inlay . '-';
+        $shards = [];
+        foreach (self::$instance->mosaic ?? [] as $address => $shard) {
+            if (!str_starts_with($address, $prefix)) continue;
+            if (is_string($shard)) continue;
+            if ($shard instanceof Shard) {
+                $shards[] = $shard;
+            }
+        }
+        return $shards;
+    }
+
+    /**
      * Checks if an inlay and ID exist in the mosaic.
      * @param string $inlay The inlay name to check.
      * @param string $id The Shard ID.
