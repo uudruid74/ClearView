@@ -252,11 +252,6 @@ class MosaicBrowser extends TestRig
         Mosaic::dumpShard($shard, 1);
     }
 
-    public function dumpEverything(): void
-    {
-        Mosaic::dumpEverything();
-    }
-
     public function repl(): void
     {
         $this->bootstrap();
@@ -299,7 +294,7 @@ class MosaicBrowser extends TestRig
                     break;
 
                 case 'de':
-                    $this->dumpEverything();
+                    Mosaic::dumpEverything();
                     break;
 
                 case 'set':
