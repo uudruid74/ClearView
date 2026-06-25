@@ -23,7 +23,7 @@ class ClearView extends Crystal
 
     public function getVar($key = null)
     {
-        return null;
+        return $varname ?? $key ?? null;
     }
 
     public static function panename($value = null): string { return 'Default'; }

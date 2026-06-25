@@ -15,7 +15,7 @@ class PaneCrystal extends Crystal
 
     public function getVar($key = null)
     {
-        return null;
+        return $varname ?? $key ?? null;
     }
 
     /** Headless Pane loader — returns null since no ProcessWire pages exist. */
@@ -23,6 +23,6 @@ class PaneCrystal extends Crystal
 
     public static function load(string $panename, ?string $inlayname = null, ?Mosaic $mosaic = null): ?\ClearView\Element
     {
-        return null;
+        return $varname ?? $key ?? null;
     }
 }

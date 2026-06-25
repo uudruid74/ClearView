@@ -15,6 +15,6 @@ class View extends Crystal
 
     public function getVar($key = null)
     {
-        return null;
+        return $varname ?? $key ?? null;
     }
 }
