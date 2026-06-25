@@ -201,6 +201,11 @@ class Framework implements \ArrayAccess
         // Input crystal is ready with panename/inlayname/methodname.
         $this->mosaic = Mosaic::instance() ?? Mosaic::load();
 
+        $p = Mosaic::getVar('Input::panename');
+        $i = Mosaic::getVar('Input::inlayname');
+        $s = Mosaic::index('Input', 'panename');
+        $sv = $s ? (string)$s : 'NO SHARD';
+        error_log("Framework constructor: panename='{$p}' inlayname='{$i}' shard='{$sv}'");
         $PaneClass = Inlay::load($this['Input::panename'], $this['Input::inlayname']);
 
         // Debug header — tracemode comes from Config, not ProcessWire

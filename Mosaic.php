@@ -376,7 +376,8 @@ class Mosaic
 
         $shard = self::index($inlay, $varname);
         if ($shard) {
-            $shard->$field = $val;
+            $targetField = $field ?? 'value';
+            $shard->$targetField = $val;
             self::checkShard($shard);
         } else {
             if ($varname == 'value') {

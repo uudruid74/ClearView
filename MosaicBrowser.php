@@ -86,6 +86,7 @@ class MosaicBrowser extends TestRig
         TestRig::setJig('panename', $pane);
         TestRig::setJig('inlayname', $inlay);
         TestRig::setJig('methodname', $method);
+        error_log("setInput: pane='{$pane}' inlay='{$inlay}' method='{$method}'");
     }
 
     private function loadPane(): void

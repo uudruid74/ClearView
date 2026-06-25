@@ -50,7 +50,8 @@ namespace ProcessWire {
         function sanitizer() { return null; }
         function config() { return null; }
         function fields() { return null; }
-        function templates() { return null; }
+        function datetime($format = 'Y-m-d H:i:s') { return date($format); }
+        function wireDate($format, $timestamp = null) { return date($format, $timestamp); }
     }
 }
 
