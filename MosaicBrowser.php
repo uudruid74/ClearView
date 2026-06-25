@@ -264,9 +264,9 @@ class MosaicBrowser extends TestRig
                 case 'd':
                     if (($parts[1] ?? '') === 'on') { $this->dump = true; }
                     elseif (($parts[1] ?? '') === 'off') { $this->dump = false; }
+                    else { $this->dump = !$this->dump; }
                     echo "Dump: " . ($this->dump ? 'ON' : 'OFF') . "\n";
                     break;
-                case 'dump': $this->toggleDump(); break;
 
                 case 'set':
                     $rest = ($parts[1] ?? '') . ' ' . ($parts[2] ?? '');
