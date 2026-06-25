@@ -35,4 +35,10 @@ class ClearView extends Crystal
     public static function asyncjs(string $string): void {}
     public static function sendOOB($elem): void {}
     public function dumpOOBdata(): void {}
+
+    /** Resolve Crystal::User() → Mosaic::index('ClearView', 'User') */
+    public static function __callStatic(string $name, array $args): mixed
+    {
+        return Mosaic::index('ClearView', $name);
+    }
 }

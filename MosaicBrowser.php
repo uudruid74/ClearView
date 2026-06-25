@@ -217,9 +217,10 @@ class MosaicBrowser extends TestRig
             if ($this->view) {
                 try {
                     $className = Inlay::load($this->panename, $this->inlayname);
-                    $inlay = new $className();
                     ob_start();
-                    $inlay->{$this->methodname}();
+                    // Call inlay method on shell instance — Mosaic is singleton, state persists
+                    $dummy = (new \ReflectionClass($className))->newInstanceWithoutConstructor();
+                    $dummy->{$this->methodname}();
                     $output = ob_get_clean();
                     // Reset to view inlay so show() reads dispatch results
                     $this->inlayname = 'Default';
@@ -227,7 +228,7 @@ class MosaicBrowser extends TestRig
                         echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
                     }
                 } catch (\Throwable $e) {
-                    echo "  error: " . $e->getMessage() . "\n";
+                    echo "  error: " . $e->getMessage() . "\n  trace: " . $e->getTraceAsString() . "\n";
                 }
                 return;
             }

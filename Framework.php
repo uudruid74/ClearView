@@ -208,10 +208,22 @@ class Framework implements \ArrayAccess
         error_log("Framework constructor: panename='{$p}' inlayname='{$i}' shard='{$sv}'");
         $PaneClass = Inlay::load($this['Input::panename'], $this['Input::inlayname']);
 
+        // Skip re-instantiation — bind inlay methods via closure instead
+        if (ltrim($PaneClass, '\\') !== ltrim(static::class, '\\')) {
+            // Bind init/open methods from the inlay class
+            foreach (['init', 'open'] as $method) {
+                if (method_exists($PaneClass, $method)) {
+                    $rm = new \ReflectionMethod($PaneClass, $method);
+                    $dummy = (new \ReflectionClass($PaneClass))->newInstanceWithoutConstructor();
+                    $closure = $rm->getClosure($dummy);
+                    $closure = $closure->bindTo($this, $this);
+                    $closure();
+                }
+            }
+        }
+
         // Debug header — tracemode comes from Config, not ProcessWire
         Exception::outheader(Config::TRACEMODE);
-
-        return new $PaneClass();
     }
 
     /** Default full-page render. */
