@@ -27,14 +27,14 @@ class User extends Crystal
      */
     public function trylogin()
     {
-        $user = (string)(Mosaic::getVar('username', 'Default') ?? '');
-        $pass = (string)(Mosaic::getVar('password', 'Default') ?? '');
-        error_log("trylogin: user='{$user}' pass='{$pass}' match=" . (($user === 'admin' && $pass === '1234') ? 'YES' : 'NO'));
-        if ($user === 'admin' && $pass === '1234') {
+	Exception::debug('VAR',Facet::_("trylogin: user='{{username}}' pass='{{password}}'"));
+        if (Mosaic::getVar('username') === 'admin' && Mosaic::getVar('password') === '1234') {
             $this->id = 1;
             Framework::triggerevent('loginchange');
             return $this;
-        }
+	}
+	Exception::debug('VAR',Facet::_('[{{Input::inlayname}}] Password Failed for username: ' . 
+		Mosaic::getVar('username') . " and password: " . Mosaic::getVar('password')));
         return null;
     }
 

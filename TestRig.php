@@ -77,11 +77,7 @@ class TestRig extends Framework
      */
     public function renderTestView(string $name): void
     {
-        // Try module vendor views first, then root views
-        $path = __DIR__ . "/modules/vendor/views/{$name}.php";
-        if (!file_exists($path)) {
-            $path = __DIR__ . "/views/{$name}.php";
-        }
+        $path = __DIR__ . "/modules/testjig/views/{$name}.php";
         if (!file_exists($path)) {
             throw new Exception("View not found: {$name}");
         }

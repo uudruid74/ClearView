@@ -458,12 +458,14 @@ class QueryParser
             return $field ? ($value->getField($field) ?? null) : $value;
         }
 
-        // 2. Check current element via Facet::me()
-        $elem = Facet::me();
-        if ($elem && is_object($elem) && method_exists($elem, 'getField')) {
-            $value = $elem->getField($var);
-            if ($value !== null) {
-                return $field ? ($value->getField($field) ?? null) : $value;
+        // 2. Check current element via Facet::me() — skip when inlay is explicit
+        if (!$inlay) {
+            $elem = Facet::me();
+            if ($elem && is_object($elem) && method_exists($elem, 'getField')) {
+                $value = $elem->getField($var);
+                if ($value !== null) {
+                    return $field ? ($value->getField($field) ?? null) : $value;
+                }
             }
         }
 

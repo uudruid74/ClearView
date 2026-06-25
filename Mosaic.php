@@ -365,7 +365,7 @@ class Mosaic
      */
     public static function getVar(string $expression, ?string $inlay = null)
     {
-        return QueryParser::parseAndResolve($expression, inlay:$inlay);
+        return QueryParser::parseAndResolve($expression, $inlay);
     }
 
     /**
