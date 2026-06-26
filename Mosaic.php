@@ -38,6 +38,17 @@ class Mosaic
     private ?Facet $facetsingleton = null;
 
     /**
+     * Resets the Mosaic singleton for a fresh request scope.
+     * Used by MosaicBrowser to simulate new HTTP requests —
+     * each open() or manual invocation gets a clean Mosaic.
+     * Crystals are reloaded on the next Mosaic::load() call.
+     */
+    public static function reset(): void
+    {
+        self::$instance = null;
+    }
+
+    /**
      * Returns the current Mosaic instance.
      * @return Mosaic|null
      */

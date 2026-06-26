@@ -5,17 +5,22 @@ namespace ClearView;
 /**
  * Mosaic Browser — CLI REPL for exploring panes without a web browser.
  *
+ * Two modes:
+ *   dummy (default) — test views + null crystals, zero dependencies
+ *   real            — vendor/site crystals, requires ProcessWire
+ *
  * Usage:
  *   php bin/mosaic-browser --view=test-login
  *   php bin/mosaic-browser --pane=loginform --inlay=login --method=open
  *   php bin/mosaic-browser --view=test-login --dump
+ *   php bin/mosaic-browser --mode=real --url=/loginform/login/
  *
- * @see \ClearView\TestRig
+ * @see \\ClearView\\TestJig
  */
-class MosaicBrowser extends TestRig
+class MosaicBrowser extends TestJig
 {
     private bool $dump = false;
-    private string $panename = 'Default';
+    private string $mode = 'dummy';
     private string $inlayname = 'Default';
     private string $methodname = 'open';
     private ?string $view = null;
@@ -25,6 +30,10 @@ class MosaicBrowser extends TestRig
     {
         $this->dump = !empty($cliArgs['dump']);
         $this->view = $cliArgs['view'] ?? null;
+        $this->mode = $cliArgs['mode'] ?? 'dummy';
+        if (!in_array($this->mode, ['dummy', 'real'], true)) {
+            $this->mode = 'dummy';
+        }
         $this->resolveUrl($cliArgs);
         parent::__construct($cliArgs);
     }
@@ -47,16 +56,67 @@ class MosaicBrowser extends TestRig
     public function getModuleList(): array
     {
         $modules = parent::getModuleList();
-        if (!in_array('dummy', $modules)) {
-            $modules[] = 'dummy';
+        // Dummy mode: testjig is already prepended by TestJig
+        // Real mode: strip testjig, use only vendor/site modules
+        if ($this->mode === 'real') {
+            $modules = array_values(array_filter($modules, fn($m) => $m !== 'testjig'));
         }
-        return $modules;
+        return array_values(array_unique($modules));
     }
 
     public function bootstrap(): void
     {
         $this->setInput($this->panename, $this->inlayname, $this->methodname);
-        $this->loadPane();
+        // Real mode without view: bootstrap via ProcessWire URL
+        if ($this->mode === 'real' && !$this->view) {
+            $this->loadPaneReal();
+        } else {
+            $this->loadPane();
+        }
+    }
+
+    /**
+     * Bootstrap in real mode — loads the pane via ProcessWire page.
+     * Requires PW to be installed and configured.
+     */
+    private function loadPaneReal(): void
+    {
+        $this->capturedEvents = [];
+        try {
+            $segments = [$this->panename, $this->inlayname, $this->methodname];
+            $url = '/' . implode('/', array_filter($segments, fn($s) => $s !== 'Default')) . '/';
+
+            ob_start();
+            // Try to load via ProcessWire page lookup
+            $body = '';
+            try {
+                $page = \ProcessWire\pages()->get($url);
+                if ($page && $page->id) {
+                    $body = $page->get('body') ?? '';
+                }
+            } catch (\Throwable $e) {
+                // PW not available — body stays empty, fall through to html()
+            }
+
+            if ($body) {
+                $data = jsonmangler::fromhtml($body, $this->panename);
+                Shard::loadShard($data, inlay: $this->inlayname);
+            } else {
+                // No PW page body — use Framework::html() for direct rendering
+                $this->html();
+            }
+            $output = ob_get_clean();
+            if ($this->dump && $output) {
+                echo "\n--- Response ---\n{$output}\n--- End Response ---\n";
+            }
+            ClearView::dumpOOBdata();
+            $this->processEvents();
+        } catch (\Throwable $e) {
+            if (ob_get_level()) ob_end_clean();
+            echo "Error (real mode): " . $e->getMessage() . "\n";
+            echo "Falling back to dummy mode. Use --mode=dummy for offline use.\n";
+            $this->mode = 'dummy';
+        }
     }
 
     public function onSendHtmxHeader(string $header, $event, $params): void
@@ -68,9 +128,9 @@ class MosaicBrowser extends TestRig
 
     private function setInput(string $pane, string $inlay, string $method): void
     {
-        TestRig::setJig('panename', $pane);
-        TestRig::setJig('inlayname', $inlay);
-        TestRig::setJig('methodname', $method);
+        TestJig::setJig('panename', $pane);
+        TestJig::setJig('inlayname', $inlay);
+        TestJig::setJig('methodname', $method);
     }
 
     private function loadPane(): void
@@ -79,7 +139,7 @@ class MosaicBrowser extends TestRig
         try {
             if ($this->view) {
                 ob_start();
-                $this->renderTestView($this->view);
+                $this->renderTestView($this->view, $this->panename);
                 $html = ob_get_clean();
                 $data = jsonmangler::fromhtml($html, $this->view);
                 Shard::loadShard($data, inlay: $this->inlayname);
@@ -87,6 +147,8 @@ class MosaicBrowser extends TestRig
                     echo "\n--- Response ---\n{$html}\n--- End Response ---\n";
                 }
             } else {
+                // Fresh Mosaic for each open — simulates new HTTP request
+                Mosaic::reset();
                 ob_start();
                 $this->html();
                 $output = ob_get_clean();
@@ -120,8 +182,8 @@ class MosaicBrowser extends TestRig
         }
 
         echo "\n" . str_repeat("═", 80) . "\n";
-        printf("  %-50s %s\n", $this->panename . '/' . $this->inlayname,
-            'q=quit h=help d=dump [' . ($this->dump ? 'ON' : 'OFF') . ']');
+        printf("  %-38s mode=%s  %s\n", '/' . $this->panename . '/' . $this->inlayname . '/' . $this->methodname . '/',
+            $this->mode, 'q=quit h=help d=dump [' . ($this->dump ? 'ON' : 'OFF') . ']');
         echo str_repeat("─", 80) . "\n";
         printf("  %-3s %-8s %-20s %-8s %s\n", '#', 'Glyph', 'Name', 'Inlay', 'Value/Action');
 
@@ -209,25 +271,28 @@ class MosaicBrowser extends TestRig
             $this->setInput($this->panename, $this->inlayname, $this->methodname);
             echo "→ {$this->panename}/{$this->inlayname}/{$this->methodname}/\n";
 
-            if ($this->view) {
-                try {
-                    $className = Inlay::load($this->panename, $this->inlayname);
-                    ob_start();
-                    $inlay = new $className();
-                    $inlay->{$this->methodname}();
-                    $output = ob_get_clean();
-                    $this->inlayname = 'Default';
-                    $this->processEvents();
-                    if ($this->dump && $output) {
-                        echo "--- Response ---\n{$output}\n--- End Response ---\n";
-                    }
-                } catch (\Throwable $e) {
-                    echo "  error: " . $e->getMessage() . "\n";
+            try {
+                // Fresh Mosaic for manual invocation — simulates new HTTP request
+                Mosaic::reset();
+                $className = Inlay::load($this->panename, $this->inlayname);
+                ob_start();
+                $inlay = new $className();
+                $inlay->{$this->methodname}();
+                $output = ob_get_clean();
+                // Sync from Input crystal after execution — URL ↔ pane/inlay
+                $currentInlay = Mosaic::getVar('Input::inlayname');
+                if ($currentInlay) {
+                    $this->inlayname = (string)$currentInlay;
+                    $this->panename = (string)(Mosaic::getVar('Input::panename') ?: $this->panename);
                 }
-                return;
+                $this->processEvents();
+                if ($this->dump && $output) {
+                    echo "--- Response ---\n{$output}\n--- End Response ---\n";
+                }
+            } catch (\Throwable $e) {
+                if (ob_get_level()) ob_end_clean();
+                echo "  error: " . $e->getMessage() . "\n";
             }
-
-            $this->loadPane();
             return;
         }
         echo "No element named '{$name}' found.\n";
@@ -259,6 +324,7 @@ class MosaicBrowser extends TestRig
                     echo "  run <name>             execute a method\n";
                     echo "  show / refresh         redisplay\n";
                     echo "  dump / d               toggle response dump\n";
+                    echo "  mode [real|dummy]      show or switch mode\n";
                     echo "  ds <#>                 dump a single shard (all fields)\n";
                     echo "  de                     dump everything (recursive tree)\n";
                     echo "  quit / exit / q        exit\n";
@@ -270,6 +336,17 @@ class MosaicBrowser extends TestRig
                     elseif (($parts[1] ?? '') === 'off') { $this->dump = false; }
                     else { $this->dump = !$this->dump; }
                     echo "Dump: " . ($this->dump ? 'ON' : 'OFF') . "\n";
+                    break;
+
+                case 'mode':
+                    if (isset($parts[1]) && in_array($parts[1], ['real', 'dummy'], true)) {
+                        $this->mode = $parts[1];
+                        echo "Mode: {$this->mode}\n";
+                        echo "(reloading with new module configuration...)\n";
+                        $this->bootstrap();
+                    } else {
+                        echo "Mode: {$this->mode} (use 'mode real' or 'mode dummy')\n";
+                    }
                     break;
 
                 case 'ds':
