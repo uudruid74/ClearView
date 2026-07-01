@@ -50,7 +50,7 @@ class Framework implements \ArrayAccess
     /**
      * Returns the active Framework instance for this request.
      * There is exactly one Framework per request; subclasses like
-     * TestRig set themselves as the instance during construction.
+     * TestJig set themselves as the instance during construction.
      * @return self Description.
      */
     public static function instance(): self
@@ -65,7 +65,7 @@ class Framework implements \ArrayAccess
      * Base implementation returns Config::MODULES_LIST.  PaneAttr::modules
      * (from the <pane modules="..."> attribute) is prepended when set.
      * Subclasses override to inject framework-specific modules (e.g.
-     * TestRig prepends 'testjig' for null crystals).
+     * TestJig prepends 'testjig' for null crystals).
      * @return array<string>
      */
     public function getModuleList(): array
@@ -229,14 +229,14 @@ class Framework implements \ArrayAccess
 	$isOpen = [[ $this['Input::methodname'] === 'open' ]];
 
         (new Facet($this['Pane::body']))
-	    ->render("Pane::open", match: $isOpen)
+	    ->html("Pane::open", match: $isOpen)
             ->html('Pane::body')
 	    ->html(['glyph' => 'mosaic'], match: $isOpen)
 	    ->triggerevent('paneopen', match: $isOpen)
-	    ->triggerevent('inlaychange', ['inlay' => $currentInlay], 
+	    ->triggerevent('inlaychange', ['inlay' => $this['Input::inlayname']], 
 		unless: [[ $this['Shared::prevInlay'] === $this['Input::inlayname'] ]])
             ->close();
-        $this['Shared::prevInlay'] = $currentInlay;
+        $this['Shared::prevInlay'] = $this['Input::inlayname'];
     }
 
     /** Renders the launcher element. */
