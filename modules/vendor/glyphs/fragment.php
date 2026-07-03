@@ -23,6 +23,6 @@ class fragment extends Element
 
     public function render(bool $capture = false): ?string
     {
-        return;
+        return null;
     }
 } // end of class

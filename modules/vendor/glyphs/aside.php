@@ -50,7 +50,7 @@ class aside extends Element
     {
         $name = $this->getField('name');
         if (!$name) {
-            return;
+            return null;
         }
         $value = Mosaic::getVar("Pane::{$name}");
         echo $value ?? '';

@@ -29,7 +29,7 @@ class layout extends Element
     {
         // View mode: become invisible — let children render through parent.
         if (!empty($this['view'])) {
-            return;
+            return null;
         }
 
         // Default mode: emit <div> wrapper.

@@ -27,7 +27,7 @@ class Mosaic extends Element
     {
         $mosaic = ClearView::Mosaic();
         if (!$mosaic) {
-            return;
+            return null;
         }
         $mosaic->outputMosaic();
     }

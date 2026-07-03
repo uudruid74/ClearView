@@ -49,13 +49,13 @@ class attr extends Element
 
             Framework::retargetResult('main');
             Framework::instance()->triggerevent('inlaychange');
-            return;
+            return null;
         }
 
         // Branch 2: view matches current layout — render children normally
         if ($view !== null) {
             $this->html();
-            return;
+            return null;
         }
 
         // Store listen in PaneAttr for lifecycle event dispatch
