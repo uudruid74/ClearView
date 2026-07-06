@@ -21,15 +21,15 @@ class loginform_login extends Inlay
         // Requires inputs named username and password
         if (ClearView::User()->trylogin()) {
             $this->fill([         // Login successful
-                'headline'     => 'Login Succeeded!',
-                'summary'      => 'Welcome back<br>{{text20\\User::displayname}}!',
+                'formtitle'    => 'Login Succeeded!',
+                'forminfo'     => 'Welcome back<br>{{text20\\User::displayname}}!',
                 'login'        => 'Success!'
             ])
             ->close();       // close the form
         } else {
             $this->fill([         // Login failed
-                'headline'     => "Login Failed!",
-                'summary'      => "Try again, or reset your password using the link below",
+                'formtitle'    => "Login Failed!",
+                'forminfo'     => "Try again, or reset your password using the link below",
                 'login'        => 'Try Again!'
             ]);
         }

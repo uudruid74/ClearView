@@ -21,7 +21,7 @@ use ClearView\Mosaic;
 
 $wikiPage = Mosaic::index('ClearView', 'WikiPage');
 if ($wikiPage !== null) {
-    // Re-key as Page — Shard::id() reads data['id']
+    // Re-key as Page — address determines the inlay-id key
     $wikiPage->setField('id', 'Page');
     $wikiPage->setField('name', 'Page');
     // Point address at the Page slot (public property on Shard)

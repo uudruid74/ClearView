@@ -13,8 +13,7 @@ class ClearView extends Crystal
 
     public function __construct($pwObject = null, $name = null, $inlay = 'ClearView', $mos = null)
     {
-        $this->mosaic = $mos;
-        $this->data = [];
+        parent::__construct($pwObject, $name, $inlay, $mos);
         self::$instance ??= $this;
         $this->scripts = [];
         $this->async = '';

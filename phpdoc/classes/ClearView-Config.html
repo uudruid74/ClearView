@@ -67,6 +67,10 @@
                 <a href="namespaces/clearview-element.html" class="">Element</a>
                 
             </li>
+                    <li>
+                <a href="namespaces/clearview-prism.html" class="">Prism</a>
+                
+            </li>
             </ul>
 
                         </section>
@@ -121,17 +125,67 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="crystals/null/Config.php"><a href="files/crystals-null-config.html"><abbr title="crystals/null/Config.php">Config.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">8</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Null Config crystal — returns null for all vars.</p>
+            <p class="phpdocumentor-summary">Manages static and runtime configuration for the ClearView framework.</p>
 
 
+    <section class="phpdocumentor-description"><p>TODO: Allow ClearView to create a site-settings page in the admin-UI.
+This could be automatic, or via a method you could invoke via a CLI.
+On start-up, if this page exists, return it wrapped in a ClearView Page
+object and return it as the Config Crystal.  The page API does the rest.</p>
+<p>Config extends Crystal to provide both static configuration constants and a runtime configuration array
+accessible via templates (e.g., <code class="prettyprint">{{Config::layername_clearview}}</code>). It defines constants for key identifiers
+(e.g., layer names, form IDs, CSS classes) used during PHP initialization and stores corresponding values in
+a static <code class="prettyprint">$config</code> array for runtime access. As a Crystal, Config integrates with Mosaic for template variable
+resolution, allowing configuration values to be embedded directly in HTML output. The class supports
+debugging modes (<code class="prettyprint">fail_mode</code>) and trace flags (<code class="prettyprint">tracemode</code>) for low-level diagnostics, and provides defaults
+for dynamic settings like haptic feedback strength.</p>
+<p>Key features:</p>
+<ul>
+<li>Defines constants prefixed with <code class="prettyprint">_CV_</code> for static initialization (e.g., <code class="prettyprint">LAYERNAME_CLEARVIEW</code>, <code class="prettyprint">ID_MAIN_FORM</code>).</li>
+<li>Maintains a <code class="prettyprint">$config</code> array for runtime access to configuration values.</li>
+<li>Supports template access via <code class="prettyprint">{{Config::key}}</code> through Crystal’s integration with Mosaic.</li>
+<li>Configures debugging behavior with <code class="prettyprint">fail_mode</code> (HTML comments vs. console output) and <code class="prettyprint">tracemode</code> flags.</li>
+<li>Provides defaults for UI components (e.g., form close delay, CSS classes) and system settings (e.g., stack limit).</li>
+</ul>
+<p>Usage:</p>
+<ul>
+<li>Access constants directly in PHP (e.g., <code class="prettyprint">Config::LAYERNAME_CLEARVIEW</code>).</li>
+<li>Retrieve runtime values via <code class="prettyprint">Config::getVar('layername_clearview')</code> or templates (<code class="prettyprint">{{Config::layername_clearview}}</code>).</li>
+<li>Configure <code class="prettyprint">fail_mode</code> for debug output style and <code class="prettyprint">tracemode</code> for trace verbosity.</li>
+</ul>
+<p>Dependencies: Requires ProcessWire for context, Crystal for template integration, and Mosaic for variable
+resolution. Assumes <code class="prettyprint">jsonmangler</code> for data handling in related components.</p>
+</section>
 
 
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/ClearView-Config.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">see</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Crystal.html"><abbr title="\ClearView\Crystal">Crystal</abbr></a></span>
+                                                                
+                                    </dd>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span>
+                                                                
+                                    </dd>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/ClearView-ClearView.html"><abbr title="\ClearView\ClearView">ClearView</abbr></a></span>
+                                                                
+                                    </dd>
+                        </dl>
 
     
     
@@ -154,11 +208,74 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_ChildArray">ChildArray</a>
+    <a class="" href="classes/ClearView-Config.html#constant_CLASS_CLOSE_BUTTON">CLASS_CLOSE_BUTTON</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;children&#039;                            </span>
+        &nbsp;: mixed&nbsp;= &#039;close&#039;                            </span>
 </dt>
-<dd>childType calls -&gt;children() of the Page</dd>
+<dd>CSS class for close buttons.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_CLASS_DEBUGCONSOLE">CLASS_DEBUGCONSOLE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;debugconsole&#039;                            </span>
+</dt>
+<dd>CSS class for the debug console dialog element.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_CLASS_MOSAIC">CLASS_MOSAIC</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;mosaic&#039;                            </span>
+</dt>
+<dd>CSS class for variable storage elements.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_CLASS_TABBAR">CLASS_TABBAR</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;tabbar&#039;                            </span>
+</dt>
+<dd>CSS class for tab bars.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_CLASS_TABBODY">CLASS_TABBODY</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;tabbody&#039;                            </span>
+</dt>
+<dd>CSS class for tab bodies.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_CLASS_TRANSPARENT">CLASS_TRANSPARENT</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;transparent&#039;                            </span>
+</dt>
+<dd>CSS class for transparent modal overlays (Confirm, etc.).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_CLEARVIEW_PREFIX">CLEARVIEW_PREFIX</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;_CV_&#039;                            </span>
+</dt>
+<dd>Prefix for ClearView IDs and some other values.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_DEBUG_CONSOLE">DEBUG_CONSOLE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= false                            </span>
+</dt>
+<dd>Enable the per-pane debug console dialog.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_FAIL_MODE">FAIL_MODE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= false                            </span>
+</dt>
+<dd>Debug mode for failure output.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_FORM_CLOSE_DELAY">FORM_CLOSE_DELAY</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;850&#039;                            </span>
+</dt>
+<dd>Default form close animation delay (in milliseconds).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/ClearView-Shard.html#constant_HTML">HTML</a>
@@ -168,11 +285,123 @@
 <dd>Input type for HTML strings.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_ID_CLOSE_BUTTON">ID_CLOSE_BUTTON</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;closebutton&#039;                            </span>
+</dt>
+<dd>ID for close buttons.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_ID_FORM_TABBAR">ID_FORM_TABBAR</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;tabbar&#039;                            </span>
+</dt>
+<dd>ID for the form tab bar.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_ID_FORM_TABBODY">ID_FORM_TABBODY</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;tabbody&#039;                            </span>
+</dt>
+<dd>ID for the form tab body.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_ID_FORM_TABPREFIX">ID_FORM_TABPREFIX</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;tab_&#039;                            </span>
+</dt>
+<dd>Prefix for individual tab IDs.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_ID_MAIN_BODY">ID_MAIN_BODY</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;mainbody&#039;                            </span>
+</dt>
+<dd>ID for the Default main content pane.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_ID_MAIN_FORM">ID_MAIN_FORM</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;mainform&#039;                            </span>
+</dt>
+<dd>ID for the main form element.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/ClearView-Shard.html#constant_JSON">JSON</a>
     <span>
         &nbsp;: mixed&nbsp;= &#039;json&#039;                            </span>
 </dt>
 <dd>Input type for JSON strings.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_CONTAINER">LAYER_SUFFIX_CONTAINER</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;-container&#039;                            </span>
+</dt>
+<dd>Layer suffix for the pane container element.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUG">LAYER_SUFFIX_DEBUG</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;-debug&#039;                            </span>
+</dt>
+<dd>Layer suffix for the pane-scoped debug output layer.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUGCONSOLE">LAYER_SUFFIX_DEBUGCONSOLE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;-debugconsole&#039;                            </span>
+</dt>
+<dd>Layer suffix for the pane-scoped debug console dialog.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_MOSAIC">LAYER_SUFFIX_MOSAIC</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;-mos&#039;                            </span>
+</dt>
+<dd>Layer suffix for the Mosaic variable storage layer.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_PANE">LAYER_SUFFIX_PANE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;-pane&#039;                            </span>
+</dt>
+<dd>Layer suffix for the main pane element.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_SCRIPT">LAYER_SUFFIX_SCRIPT</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;-script&#039;                            </span>
+</dt>
+<dd>Layer suffix for the pane-scoped script layer.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYERNAME_CLEARVIEW">LAYERNAME_CLEARVIEW</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;ClearView&#039;                            </span>
+</dt>
+<dd>Layer name for the main ClearView framework.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYERNAME_MODAL">LAYERNAME_MODAL</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;alerts&#039;                            </span>
+</dt>
+<dd>Layer name for modal alerts.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYERNAME_SCRIPTS">LAYERNAME_SCRIPTS</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;scripts&#039;                            </span>
+</dt>
+<dd>Layer name for script storage.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_LAYERSTACKID">LAYERSTACKID</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;layerstack&#039;                            </span>
+</dt>
+<dd>ID for the layer stack container.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/ClearView-Shard.html#constant_MANGLED">MANGLED</a>
@@ -182,32 +411,61 @@
 <dd>Input type for mangled JSON strings.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_PageArray">PageArray</a>
+    <a class="" href="classes/ClearView-Config.html#constant_MODULES_LIST">MODULES_LIST</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;pagearray&#039;                            </span>
+        &nbsp;: array&lt;int, string&gt;&nbsp;= [&#039;site&#039;, &#039;vendor&#039;]                            </span>
 </dt>
-<dd>childType is a processWire PageArray</dd>
+<dd>Ordered list of active module directories.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_ShardArray">ShardArray</a>
+    <a class="" href="classes/ClearView-Config.html#constant_PAGE_PWOBJECT">PAGE_PWOBJECT</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;shard&#039;                            </span>
+        &nbsp;: mixed&nbsp;= &quot;__pwObject&quot;                            </span>
 </dt>
-<dd>childType is an array of Shards.</dd>
+<dd>The name of the field holding a reference to a processwire object</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_StringArray">StringArray</a>
+    <a class="" href="classes/ClearView-Config.html#constant_PAGE_PWPANE">PAGE_PWPANE</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;string&#039;                            </span>
+        &nbsp;: mixed&nbsp;= &quot;__pwPane&quot;                            </span>
 </dt>
-<dd>childType is an array of strings.</dd>
+<dd>The name of the field holding the Pane&#039;s shared processwire page</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_UndefinedArray">UndefinedArray</a>
+    <a class="" href="classes/ClearView-Config.html#constant_SANI_PAGE_SAVE">SANI_PAGE_SAVE</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;undefined&#039;                            </span>
+        &nbsp;: mixed&nbsp;= &#039;noScripts\noBraces\\&#039;                            </span>
 </dt>
-<dd>childType type is undefined, set on first write.</dd>
+<dd>Sanitizer list ending in &#039;\&#039; to use on page saves</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_STACK_LIMIT">STACK_LIMIT</a>
+    <span>
+        &nbsp;: mixed&nbsp;= 127                            </span>
+</dt>
+<dd>Maximum stack depth to prevent recursion.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_SYSTEM_SESSION">SYSTEM_SESSION</a>
+    <span>
+        &nbsp;: mixed&nbsp;= self::CLEARVIEW_PREFIX . &#039;system&#039;                            </span>
+</dt>
+<dd>Identifier for the system session.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_TITLE_PREFIX">TITLE_PREFIX</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;ClearView&#039;                            </span>
+</dt>
+<dd>Prefix for ProcessWire titles.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/ClearView-Config.html#constant_TRACEMODE">TRACEMODE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= [&#039;ALL&#039;]                            </span>
+</dt>
+<dd>Lost the list of these - check Exception.php
+You can change &quot;Config::tracemode&quot; in your PHP code to debug specific sections of code.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/ClearView-Shard.html#constant_VIEW">VIEW</a>
@@ -231,17 +489,12 @@
                         &nbsp;: string            </span>
 </dt>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/ClearView-Shard.html#property_canonicalId">$canonicalId</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/ClearView-Config.html#property_config">$config</a>
     <span>
-                        &nbsp;: bool            </span>
+                        &nbsp;: array&lt;string, mixed&gt;            </span>
 </dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/ClearView-Shard.html#property_childType">$childType</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
+<dd>Runtime configuration array.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/ClearView-Shard.html#property_data">$data</a>
@@ -276,7 +529,7 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Config.html#method___construct">__construct()</a>
+    <a class="" href="classes/ClearView-Crystal.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
@@ -301,14 +554,7 @@
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Adds content to the children field.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Page.html#method_buildModuleStack">buildModuleStack()</a>
-    <span>
-                                &nbsp;: array&lt;string|int, string&gt;    </span>
-</dt>
-<dd>Build a module search stack from PaneAttr::modules attribute.</dd>
+<dd>Adds content to the children field, enforcing type consistency.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_canonicalizeChildren">canonicalizeChildren()</a>
@@ -385,9 +631,9 @@ and replaces their tree slots with References. Unnamed children
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_getChildType">getChildType()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: string|null    </span>
 </dt>
-<dd>Returns the child type.</dd>
+<dd>Returns the child type by inspecting the children array.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Page.html#method_getField">getField()</a>
@@ -422,7 +668,7 @@ and replaces their tree slots with References. Unnamed children
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Wrap getVar() to getField(), not Mosaic, but return a wrapped object</dd>
+<dd>Retrieves a configuration variable.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Page.html#method_getVars">getVars()</a>
@@ -500,6 +746,13 @@ and replaces their tree slots with References. Unnamed children
                                 &nbsp;: string    </span>
 </dt>
 <dd>Returns the Shard&#039;s inlay context.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Shard.html#method_isAnonymous">isAnonymous()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Returns true if this Shard has no name — cannot be stored in Mosaic.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_isEmpty">isEmpty()</a>
@@ -618,6 +871,7 @@ and replaces their tree slots with References. Unnamed children
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Replaces children, normalizing all items to Shards.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_rewind">rewind()</a>
@@ -632,13 +886,6 @@ and replaces their tree slots with References. Unnamed children
                                 &nbsp;: <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>    </span>
 </dt>
 <dd>Placeholder for adding scripts.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Shard.html#method_setChildType">setChildType()</a>
-    <span>
-                                &nbsp;: $this    </span>
-</dt>
-<dd>Sets the children type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Page.html#method_setField">setField()</a>
@@ -662,11 +909,11 @@ and replaces their tree slots with References. Unnamed children
 <dd>Sets the primary field name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Page.html#method_setVar">setVar()</a>
+    <a class="" href="classes/ClearView-Config.html#method_setVar">setVar()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: self    </span>
 </dt>
-<dd>Page&#039;s and crystals use setVar/getVar as synonyms for getField, not Mosaic calls</dd>
+<dd>Sets a config value in the static $config array.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Page.html#method_setVars">setVars()</a>
@@ -736,31 +983,327 @@ and replaces their tree slots with References. Unnamed children
 
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_ChildArray">
-        ChildArray
-        <a href="classes/ClearView-Shard.html#constant_ChildArray" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_CLASS_CLOSE_BUTTON">
+        CLASS_CLOSE_BUTTON
+        <a href="classes/ClearView-Config.html#constant_CLASS_CLOSE_BUTTON" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">71</span>
+    <span class="phpdocumentor-element-found-in__line">184</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">childType calls -&gt;children() of the Page</p>
+        <p class="phpdocumentor-summary">CSS class for close buttons.</p>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">ChildArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;children&#039;</span>
+    <span class="phpdocumentor-signature__name">CLASS_CLOSE_BUTTON</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;close&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Class name for styling close buttons in forms or modals.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_CLASS_DEBUGCONSOLE">
+        CLASS_DEBUGCONSOLE
+        <a href="classes/ClearView-Config.html#constant_CLASS_DEBUGCONSOLE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">118</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">CSS class for the debug console dialog element.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">CLASS_DEBUGCONSOLE</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;debugconsole&#039;</span>
 </code>
 
 
     
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_CLASS_MOSAIC">
+        CLASS_MOSAIC
+        <a href="classes/ClearView-Config.html#constant_CLASS_MOSAIC" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">202</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">CSS class for variable storage elements.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">CLASS_MOSAIC</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;mosaic&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Class name for elements storing Mosaic variables (e.g., hidden inputs).</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_CLASS_TABBAR">
+        CLASS_TABBAR
+        <a href="classes/ClearView-Config.html#constant_CLASS_TABBAR" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">190</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">CSS class for tab bars.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">CLASS_TABBAR</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;tabbar&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Class name for styling tab bar containers.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_CLASS_TABBODY">
+        CLASS_TABBODY
+        <a href="classes/ClearView-Config.html#constant_CLASS_TABBODY" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">196</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">CSS class for tab bodies.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">CLASS_TABBODY</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;tabbody&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Class name for styling tab body containers.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_CLASS_TRANSPARENT">
+        CLASS_TRANSPARENT
+        <a href="classes/ClearView-Config.html#constant_CLASS_TRANSPARENT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">207</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">CSS class for transparent modal overlays (Confirm, etc.).</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">CLASS_TRANSPARENT</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;transparent&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_CLEARVIEW_PREFIX">
+        CLEARVIEW_PREFIX
+        <a href="classes/ClearView-Config.html#constant_CLEARVIEW_PREFIX" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">47</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Prefix for ClearView IDs and some other values.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">CLEARVIEW_PREFIX</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;_CV_&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Used to namespace ClearView-specific identifiers to avoid collisions with other systems.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_DEBUG_CONSOLE">
+        DEBUG_CONSOLE
+        <a href="classes/ClearView-Config.html#constant_DEBUG_CONSOLE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">124</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Enable the per-pane debug console dialog.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">DEBUG_CONSOLE</span>
+    = <span class="phpdocumentor-signature__default-value">false</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>When true, dumpOOBdata() emits a <dialog class="debugconsole"> with buffered messages.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_FAIL_MODE">
+        FAIL_MODE
+        <a href="classes/ClearView-Config.html#constant_FAIL_MODE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">227</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Debug mode for failure output.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">FAIL_MODE</span>
+    = <span class="phpdocumentor-signature__default-value">false</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>When true, debug information is output as HTML comments for low-level diagnostics. When false, debug
+output is sent to the browser console with colorized formatting.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_FORM_CLOSE_DELAY">
+        FORM_CLOSE_DELAY
+        <a href="classes/ClearView-Config.html#constant_FORM_CLOSE_DELAY" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">219</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Default form close animation delay (in milliseconds).</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">FORM_CLOSE_DELAY</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;850&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Specifies the delay for form close animations, used in UI transitions.</p>
+</section>
+
     
     
 
@@ -776,7 +1319,7 @@ and replaces their tree slots with References. Unnamed children
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -798,6 +1341,204 @@ and replaces their tree slots with References. Unnamed children
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_ID_CLOSE_BUTTON">
+        ID_CLOSE_BUTTON
+        <a href="classes/ClearView-Config.html#constant_ID_CLOSE_BUTTON" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">213</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">ID for close buttons.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">ID_CLOSE_BUTTON</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;closebutton&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Unique identifier for close buttons in forms or modals.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_ID_FORM_TABBAR">
+        ID_FORM_TABBAR
+        <a href="classes/ClearView-Config.html#constant_ID_FORM_TABBAR" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">166</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">ID for the form tab bar.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">ID_FORM_TABBAR</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;tabbar&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Unique identifier for the tab bar container, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_ID_FORM_TABBODY">
+        ID_FORM_TABBODY
+        <a href="classes/ClearView-Config.html#constant_ID_FORM_TABBODY" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">160</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">ID for the form tab body.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">ID_FORM_TABBODY</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;tabbody&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Unique identifier for the tab body container, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_ID_FORM_TABPREFIX">
+        ID_FORM_TABPREFIX
+        <a href="classes/ClearView-Config.html#constant_ID_FORM_TABPREFIX" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">172</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Prefix for individual tab IDs.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">ID_FORM_TABPREFIX</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;tab_&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Prefix for generating tab-specific IDs, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_ID_MAIN_BODY">
+        ID_MAIN_BODY
+        <a href="classes/ClearView-Config.html#constant_ID_MAIN_BODY" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">154</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">ID for the Default main content pane.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">ID_MAIN_BODY</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;mainbody&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Unique identifier for the primary form, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_ID_MAIN_FORM">
+        ID_MAIN_FORM
+        <a href="classes/ClearView-Config.html#constant_ID_MAIN_FORM" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">143</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">ID for the main form element.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">ID_MAIN_FORM</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;mainform&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Unique identifier for the primary form, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_JSON">
         JSON
         <a href="classes/ClearView-Shard.html#constant_JSON" class="headerlink"><i class="fas fa-link"></i></a>
@@ -807,7 +1548,7 @@ and replaces their tree slots with References. Unnamed children
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">86</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -829,6 +1570,337 @@ and replaces their tree slots with References. Unnamed children
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYER_SUFFIX_CONTAINER">
+        LAYER_SUFFIX_CONTAINER
+        <a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_CONTAINER" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">89</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer suffix for the pane container element.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYER_SUFFIX_CONTAINER</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;-container&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Appended to the pane name to form the container ID (e.g., 'Default-container').</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYER_SUFFIX_DEBUG">
+        LAYER_SUFFIX_DEBUG
+        <a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUG" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">107</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer suffix for the pane-scoped debug output layer.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYER_SUFFIX_DEBUG</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;-debug&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Appended to the pane name to form the debug ID (e.g., 'Default-debug').</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYER_SUFFIX_DEBUGCONSOLE">
+        LAYER_SUFFIX_DEBUGCONSOLE
+        <a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUGCONSOLE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">113</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer suffix for the pane-scoped debug console dialog.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYER_SUFFIX_DEBUGCONSOLE</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;-debugconsole&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Appended to the pane name to form the debug console ID (e.g., 'Default-debugconsole').</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYER_SUFFIX_MOSAIC">
+        LAYER_SUFFIX_MOSAIC
+        <a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_MOSAIC" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">101</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer suffix for the Mosaic variable storage layer.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYER_SUFFIX_MOSAIC</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;-mos&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Appended to the pane name to form the Mosaic ID (e.g., 'Default-mos').</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYER_SUFFIX_PANE">
+        LAYER_SUFFIX_PANE
+        <a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_PANE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">95</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer suffix for the main pane element.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYER_SUFFIX_PANE</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;-pane&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Appended to the pane name to form the pane ID (e.g., 'Default-pane').</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYER_SUFFIX_SCRIPT">
+        LAYER_SUFFIX_SCRIPT
+        <a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_SCRIPT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">130</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer suffix for the pane-scoped script layer.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYER_SUFFIX_SCRIPT</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;-script&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Appended to the pane name to form the script ID (e.g., 'Default-script').</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYERNAME_CLEARVIEW">
+        LAYERNAME_CLEARVIEW
+        <a href="classes/ClearView-Config.html#constant_LAYERNAME_CLEARVIEW" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">71</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer name for the main ClearView framework.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYERNAME_CLEARVIEW</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;ClearView&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Identifies the primary layer for ClearView rendering operations.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYERNAME_MODAL">
+        LAYERNAME_MODAL
+        <a href="classes/ClearView-Config.html#constant_LAYERNAME_MODAL" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">77</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer name for modal alerts.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYERNAME_MODAL</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;alerts&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Identifies the layer for modal dialogs or alerts, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYERNAME_SCRIPTS">
+        LAYERNAME_SCRIPTS
+        <a href="classes/ClearView-Config.html#constant_LAYERNAME_SCRIPTS" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">83</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Layer name for script storage.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYERNAME_SCRIPTS</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;scripts&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Identifies the layer for storing inline or external scripts, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_LAYERSTACKID">
+        LAYERSTACKID
+        <a href="classes/ClearView-Config.html#constant_LAYERSTACKID" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">137</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">ID for the layer stack container.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">LAYERSTACKID</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;layerstack&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Used as the target for dynamically added panes and dialogs
+appended to the end of the document body.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_MANGLED">
         MANGLED
         <a href="classes/ClearView-Shard.html#constant_MANGLED" class="headerlink"><i class="fas fa-link"></i></a>
@@ -838,7 +1910,7 @@ and replaces their tree slots with References. Unnamed children
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -860,27 +1932,77 @@ and replaces their tree slots with References. Unnamed children
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_PageArray">
-        PageArray
-        <a href="classes/ClearView-Shard.html#constant_PageArray" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_MODULES_LIST">
+        MODULES_LIST
+        <a href="classes/ClearView-Config.html#constant_MODULES_LIST" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">245</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">childType is a processWire PageArray</p>
+        <p class="phpdocumentor-summary">Ordered list of active module directories.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">array&lt;int, string&gt;</span>
+    <span class="phpdocumentor-signature__name">MODULES_LIST</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;site&#039;, &#039;vendor&#039;]</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Modules are tried in order for glyph/views/pane/crystal lookups.
+'site' is tried first (user overrides), 'vendor' last (pristine
+ClearView code).  PaneAttr::modules from the <pane modules="...">
+attribute is prepended at runtime by Framework::Modules().</p>
+</section>
+
+    
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="constant_MODULES_LIST_tags">
+        Tags
+        <a href="classes/ClearView-Config.html#constant_MODULES_LIST_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">see</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\ClearView\ClearView\Framework::Modules()">Framework::Modules()</abbr></span>
+                                                                
+                                    </dd>
+                        </dl>
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PAGE_PWOBJECT">
+        PAGE_PWOBJECT
+        <a href="classes/ClearView-Config.html#constant_PAGE_PWOBJECT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">60</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The name of the field holding a reference to a processwire object</p>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">PageArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;pagearray&#039;</span>
+    <span class="phpdocumentor-signature__name">PAGE_PWOBJECT</span>
+    = <span class="phpdocumentor-signature__default-value">&quot;__pwObject&quot;</span>
 </code>
 
 
@@ -891,27 +2013,27 @@ and replaces their tree slots with References. Unnamed children
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_ShardArray">
-        ShardArray
-        <a href="classes/ClearView-Shard.html#constant_ShardArray" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_PAGE_PWPANE">
+        PAGE_PWPANE
+        <a href="classes/ClearView-Config.html#constant_PAGE_PWPANE" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">61</span>
+    <span class="phpdocumentor-element-found-in__line">65</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">childType is an array of Shards.</p>
+        <p class="phpdocumentor-summary">The name of the field holding the Pane&#039;s shared processwire page</p>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">ShardArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;shard&#039;</span>
+    <span class="phpdocumentor-signature__name">PAGE_PWPANE</span>
+    = <span class="phpdocumentor-signature__default-value">&quot;__pwPane&quot;</span>
 </code>
 
 
@@ -922,27 +2044,27 @@ and replaces their tree slots with References. Unnamed children
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_StringArray">
-        StringArray
-        <a href="classes/ClearView-Shard.html#constant_StringArray" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_SANI_PAGE_SAVE">
+        SANI_PAGE_SAVE
+        <a href="classes/ClearView-Config.html#constant_SANI_PAGE_SAVE" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">148</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">childType is an array of strings.</p>
+        <p class="phpdocumentor-summary">Sanitizer list ending in &#039;\&#039; to use on page saves</p>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">StringArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;string&#039;</span>
+    <span class="phpdocumentor-signature__name">SANI_PAGE_SAVE</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;noScripts\noBraces\\&#039;</span>
 </code>
 
 
@@ -953,31 +2075,133 @@ and replaces their tree slots with References. Unnamed children
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_UndefinedArray">
-        UndefinedArray
-        <a href="classes/ClearView-Shard.html#constant_UndefinedArray" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_STACK_LIMIT">
+        STACK_LIMIT
+        <a href="classes/ClearView-Config.html#constant_STACK_LIMIT" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">233</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">childType type is undefined, set on first write.</p>
+        <p class="phpdocumentor-summary">Maximum stack depth to prevent recursion.</p>
 
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">UndefinedArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;undefined&#039;</span>
+    <span class="phpdocumentor-signature__name">STACK_LIMIT</span>
+    = <span class="phpdocumentor-signature__default-value">127</span>
 </code>
 
 
+        <section class="phpdocumentor-description"><p>Limits the tag stack size to prevent infinite recursion in rendering operations.</p>
+</section>
+
     
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_SYSTEM_SESSION">
+        SYSTEM_SESSION
+        <a href="classes/ClearView-Config.html#constant_SYSTEM_SESSION" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">178</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Identifier for the system session.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">SYSTEM_SESSION</span>
+    = <span class="phpdocumentor-signature__default-value">self::CLEARVIEW_PREFIX . &#039;system&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Unique identifier for session storage, prefixed with <code class="prettyprint">CLEARVIEW_PREFIX</code>.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_TITLE_PREFIX">
+        TITLE_PREFIX
+        <a href="classes/ClearView-Config.html#constant_TITLE_PREFIX" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">53</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Prefix for ProcessWire titles.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">TITLE_PREFIX</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;ClearView&#039;</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Used to namespace ClearView-specific identifiers to avoid collisions with other systems.</p>
+</section>
+
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_TRACEMODE">
+        TRACEMODE
+        <a href="classes/ClearView-Config.html#constant_TRACEMODE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">252</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Lost the list of these - check Exception.php
+You can change &quot;Config::tracemode&quot; in your PHP code to debug specific sections of code.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">TRACEMODE</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;ALL&#039;]</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>You can also change this in a Facet for auto-restore on tag-close.</p>
+</section>
+
     
     
 
@@ -993,7 +2217,7 @@ and replaces their tree slots with References. Unnamed children
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">96</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -1040,7 +2264,7 @@ and replaces their tree slots with References. Unnamed children
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -1066,75 +2290,74 @@ and replaces their tree slots with References. Unnamed children
         class="
             phpdocumentor-element
             -property
-            -protected
-                                                                    "
+            -public
+            -static                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_canonicalId">
-        $canonicalId
-        <a href="classes/ClearView-Shard.html#property_canonicalId" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_config">
+        $config
+        <a href="classes/ClearView-Config.html#property_config" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">263</span>
 
     </aside>
 
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$canonicalId</span>
-     = <span class="phpdocumentor-signature__default-value">false</span></code>
+        <p class="phpdocumentor-summary">Runtime configuration array.</p>
 
     
-        <section class="phpdocumentor-description"><p>True when the original id was &quot;#&quot; — getField('id') should expand
-to the canonical pane/inlay/name form instead of returning the stored id.</p>
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$config</span>
+     = <span class="phpdocumentor-signature__default-value">[
+    &#039;modules_list&#039; =&gt; self::MODULES_LIST,
+    &#039;layername_clearview&#039; =&gt; self::LAYERNAME_CLEARVIEW,
+    &#039;title_prefix&#039; =&gt; self::TITLE_PREFIX,
+    &#039;page_pwobject&#039; =&gt; self::PAGE_PWOBJECT,
+    &#039;page_pwPane&#039; =&gt; self::PAGE_PWPANE,
+    &#039;layername_modal&#039; =&gt; self::LAYERNAME_MODAL,
+    &#039;layername_scripts&#039; =&gt; self::LAYERNAME_SCRIPTS,
+    &#039;layer_suffix_container&#039; =&gt; self::LAYER_SUFFIX_CONTAINER,
+    &#039;layer_suffix_pane&#039; =&gt; self::LAYER_SUFFIX_PANE,
+    &#039;layer_suffix_mosaic&#039; =&gt; self::LAYER_SUFFIX_MOSAIC,
+    &#039;layer_suffix_debug&#039; =&gt; self::LAYER_SUFFIX_DEBUG,
+    &#039;layer_suffix_debugconsole&#039; =&gt; self::LAYER_SUFFIX_DEBUGCONSOLE,
+    &#039;layer_suffix_script&#039; =&gt; self::LAYER_SUFFIX_SCRIPT,
+    &#039;layerstackid&#039; =&gt; self::LAYERSTACKID,
+    &#039;sani_page_save&#039; =&gt; self::SANI_PAGE_SAVE,
+    &#039;id_main_form&#039; =&gt; self::ID_MAIN_FORM,
+    &#039;id_main_body&#039; =&gt; self::ID_MAIN_BODY,
+    &#039;id_form_tabbody&#039; =&gt; self::ID_FORM_TABBODY,
+    &#039;id_form_tabbar&#039; =&gt; self::ID_FORM_TABBAR,
+    &#039;id_form_tabprefix&#039; =&gt; self::ID_FORM_TABPREFIX,
+    &#039;system_session&#039; =&gt; self::SYSTEM_SESSION,
+    &#039;class_close_button&#039; =&gt; self::CLASS_CLOSE_BUTTON,
+    &#039;class_tabbar&#039; =&gt; self::CLASS_TABBAR,
+    &#039;class_tabbody&#039; =&gt; self::CLASS_TABBODY,
+    &#039;class_mosaic&#039; =&gt; self::CLASS_MOSAIC,
+    &#039;class_transparent&#039; =&gt; self::CLASS_TRANSPARENT,
+    &#039;class_debugconsole&#039; =&gt; self::CLASS_DEBUGCONSOLE,
+    &#039;id_close_button&#039; =&gt; self::ID_CLOSE_BUTTON,
+    &#039;user_haptic-strength&#039; =&gt; 1,
+    // Default multiplier for haptic feedback
+    &#039;form_close_delay&#039; =&gt; self::FORM_CLOSE_DELAY,
+    &#039;fail_mode&#039; =&gt; self::FAIL_MODE,
+    &#039;debug_console&#039; =&gt; self::DEBUG_CONSOLE,
+    &#039;stack_limit&#039; =&gt; self::STACK_LIMIT,
+    &#039;tracemode&#039; =&gt; self::TRACEMODE,
+]</span></code>
+
+        <section class="phpdocumentor-description"><p>Stores configuration key-value pairs for runtime access via <code class="prettyprint">getVar()</code> or templates. Keys use
+underscores for compatibility with PHP constants. Includes all constant values plus dynamic settings
+like <code class="prettyprint">user_haptic-strength</code> and <code class="prettyprint">tracemode</code>.</p>
 </section>
 
     
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_childType">
-        $childType
-        <a href="classes/ClearView-Shard.html#property_childType" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">45</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$childType</span>
-     = <span class="phpdocumentor-signature__default-value">self::UndefinedArray</span></code>
-
-    
-        <section class="phpdocumentor-description"><p>Type of children array (StringArray, ShardArray, or UndefinedArray).</p>
-</section>
-
     
 
         
@@ -1158,7 +2381,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
@@ -1197,7 +2420,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
@@ -1234,7 +2457,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 
     </aside>
 
@@ -1278,7 +2501,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">317</span>
+    <span class="phpdocumentor-element-found-in__line">273</span>
 
     </aside>
 
@@ -1323,13 +2546,13 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/ClearView-Config.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Crystal.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="crystals/null/Config.php"><a href="files/crystals-null-config.html"><abbr title="crystals/null/Config.php">Config.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">10</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -1337,14 +2560,13 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pwObject</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$panename</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlayname</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mos</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pwObject</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'ClearView'</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mos</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
         <section class="phpdocumentor-description"><p>Called during instantiation to set the ProcessWire object that the Crystal wraps. Subclasses may override
 to provide default objects if none is provided.</p>
-<p>Why: Establishes the link between ClearView’s data model and ProcessWire’s API.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1359,25 +2581,31 @@ to provide default objects if none is provided.</p>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$panename</span>
+                <span class="phpdocumentor-argument-list__argument__name">$name</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$inlayname</span>
+                <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">'ClearView'</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$mos</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1401,7 +2629,7 @@ to provide default objects if none is provided.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">571</span>
+    <span class="phpdocumentor-element-found-in__line">410</span>
 
     </aside>
 
@@ -1432,7 +2660,6 @@ to provide default objects if none is provided.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field value.</p>
-<p>Why: Supports property-style field setting, mapping 'value' to primaryField.</p>
 </section>
 
             </dd>
@@ -1458,7 +2685,7 @@ to provide default objects if none is provided.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">586</span>
+    <span class="phpdocumentor-element-found-in__line">422</span>
 
     </aside>
 
@@ -1482,7 +2709,6 @@ to provide default objects if none is provided.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The primary field value.</p>
-<p>Why: Implements Stringable for string conversion, used in string contexts.</p>
 </section>
 
             </section>
@@ -1502,11 +2728,11 @@ to provide default objects if none is provided.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">237</span>
+    <span class="phpdocumentor-element-found-in__line">226</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Adds content to the children field.</p>
+        <p class="phpdocumentor-summary">Adds content to the children field, enforcing type consistency.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1515,7 +2741,9 @@ to provide default objects if none is provided.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>If new content type differs from existing children, upgrades to Shards.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1524,7 +2752,6 @@ to provide default objects if none is provided.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Content to add (string, Shard, or array).</p>
-<p>Why: Provides explicit content addition for dynamic updates (e.g., HTMX).</p>
 </section>
 
             </dd>
@@ -1540,52 +2767,6 @@ to provide default objects if none is provided.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_buildModuleStack">
-        buildModuleStack()
-        <a href="classes/ClearView-Page.html#method_buildModuleStack" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">303</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Build a module search stack from PaneAttr::modules attribute.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildModuleStack</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Reads the comma-separated module list from the &quot;PaneAttr&quot; Mosaic
-inlay's &quot;modules&quot; field.  Falls back to Config::MODULES_LIST
-when no modules attribute is set.</p>
-<p>No ProcessWire dependency — pure Mosaic lookup.  The modules
-attribute is set on the pane body element and editable via the
-<attr> glyph.</p>
-</section>
-
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_canonicalizeChildren">
@@ -1596,7 +2777,7 @@ attribute is set on the pane body element and editable via the
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">389</span>
+    <span class="phpdocumentor-element-found-in__line">263</span>
 
     </aside>
 
@@ -1613,9 +2794,6 @@ and replaces their tree slots with References. Unnamed children
     
         <section class="phpdocumentor-description"><p>Recurses into unnamed children's own children arrays so nested named
 elements are also canonicalized.</p>
-<p>Why: Ensures named and auto-id children live exactly once in Mosaic,
-preventing duplicate Shards and DOM clutter from the legacy
-__unnamed system.</p>
 </section>
 
     
@@ -1639,7 +2817,7 @@ __unnamed system.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">195</span>
+    <span class="phpdocumentor-element-found-in__line">111</span>
 
     </aside>
 
@@ -1675,9 +2853,6 @@ __unnamed system.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The generated ID.</p>
-<p>Why: Ensures each Shard has a unique identifier for Mosaic tracking and DOM rendering.
-When id=&quot;#&quot; and no name exists, a synthetic name is generated so the element
-can be stored and addressed in Mosaic.</p>
 </section>
 
             </section>
@@ -1697,7 +2872,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1141</span>
+    <span class="phpdocumentor-element-found-in__line">906</span>
 
     </aside>
 
@@ -1721,7 +2896,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The current content item.</p>
-<p>Why: Implements Iterator for children access.</p>
 </section>
 
             </section>
@@ -1741,7 +2915,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">937</span>
+    <span class="phpdocumentor-element-found-in__line">719</span>
 
     </aside>
 
@@ -1786,7 +2960,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Facilitates debugging with method chaining.</p>
 </section>
 
             </section>
@@ -1806,7 +2979,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">665</span>
+    <span class="phpdocumentor-element-found-in__line">484</span>
 
     </aside>
 
@@ -1830,7 +3003,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The mangled JSON string.</p>
-<p>Why: Provides a compact serialization format for storage or transmission.</p>
 </section>
 
             </section>
@@ -1850,7 +3022,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">699</span>
+    <span class="phpdocumentor-element-found-in__line">506</span>
 
     </aside>
 
@@ -1863,9 +3035,7 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Cleans up Shard data and Mosaic references during deletion.</p>
-</section>
-
+    
     
     
 
@@ -1887,7 +3057,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1070</span>
+    <span class="phpdocumentor-element-found-in__line">828</span>
 
     </aside>
 
@@ -1918,7 +3088,6 @@ can be stored and addressed in Mosaic.</p>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Inlay context.</p>
-<p>Why: Supports bulk variable removal for cleanup.</p>
 </section>
 
             </dd>
@@ -1944,7 +3113,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1051</span>
+    <span class="phpdocumentor-element-found-in__line">812</span>
 
     </aside>
 
@@ -1977,7 +3146,6 @@ can be stored and addressed in Mosaic.</p>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Inlay context.</p>
-<p>Why: Supports bulk variable setting via Mosaic.</p>
 </section>
 
             </dd>
@@ -2003,7 +3171,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
@@ -2011,7 +3179,7 @@ can be stored and addressed in Mosaic.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">from</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">from</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2021,10 +3189,12 @@ can be stored and addressed in Mosaic.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$search</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -2056,7 +3226,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">218</span>
+    <span class="phpdocumentor-element-found-in__line">207</span>
 
     </aside>
 
@@ -2092,7 +3262,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>An array of matching strings or Shards.</p>
-<p>Why: Provides flexible access to children, supporting both indexing and value-based searches.</p>
 </section>
 
             </section>
@@ -2112,15 +3281,15 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1119</span>
+    <span class="phpdocumentor-element-found-in__line">881</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the child type.</p>
+        <p class="phpdocumentor-summary">Returns the child type by inspecting the children array.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getChildType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getChildType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2133,10 +3302,9 @@ can be stored and addressed in Mosaic.</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The child type (StringArray, ShardArray, UndefinedArray).</p>
-<p>Why: Allows external access to childType for optimized processing.</p>
+                <section class="phpdocumentor-description"><p>The type: 'string', class name, or null for no children.</p>
 </section>
 
             </section>
@@ -2156,7 +3324,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 
     </aside>
 
@@ -2211,7 +3379,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1082</span>
+    <span class="phpdocumentor-element-found-in__line">837</span>
 
     </aside>
 
@@ -2235,7 +3403,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The field data.</p>
-<p>Why: Provides access to all fields for inspection or serialization.</p>
 </section>
 
             </section>
@@ -2255,7 +3422,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">161</span>
+    <span class="phpdocumentor-element-found-in__line">155</span>
 
     </aside>
 
@@ -2268,9 +3435,7 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Simplifies batch retrieval of ProcessWire data.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2312,7 +3477,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">262</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 
     </aside>
 
@@ -2336,7 +3501,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The rendered HTML.</p>
-<p>Why: Provides HTML output for string-based operations, such as HTMX responses.</p>
 </section>
 
             </section>
@@ -2354,30 +3518,42 @@ can be stored and addressed in Mosaic.</p>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="crystals/null/Config.php"><a href="files/crystals-null-config.html"><abbr title="crystals/null/Config.php">Config.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">322</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Wrap getVar() to getField(), not Mosaic, but return a wrapped object</p>
+        <p class="phpdocumentor-summary">Retrieves a configuration variable.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getVar</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">getVar</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$varname</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Used to access runtime configuration values from the <code class="prettyprint">$config</code> array. Supports direct PHP access and
+template rendering via <code class="prettyprint">{{Config::key}}</code>. Returns null if the key is not found.</p>
+<p>Why: Provides a unified interface for accessing configuration values at runtime.</p>
+<p>Examples:</p>
+<pre class="prettyprint"><code class="language-php">$layer = Config::getVar('layername_clearview'); // Returns 'ClearView'
+$layer = Mosaic getVar(&quot;Config::layername_clearview&quot;);  // As above
+$layer = Config::LAYERNAME_CLEARVIEW // Static init compatible
+</code></pre>
+<p>Template usage:</p>
+<pre class="prettyprint"><code class="language-html">&lt;div {{class=Config::class_tabbar}}&gt;...&lt;/div&gt; &lt;!-- Outputs class=&quot;tabbar&quot; --&gt;
+</code></pre>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                <span class="phpdocumentor-argument-list__argument__name">$varname</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>to retrieve from Page</p>
+                    <section class="phpdocumentor-description"><p>The configuration key (using underscores, e.g., <code class="prettyprint">layername_clearview</code>).</p>
 </section>
 
             </dd>
@@ -2391,7 +3567,7 @@ can be stored and addressed in Mosaic.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>the wrapped page</p>
+                <section class="phpdocumentor-description"><p>The configuration value or null if not found.</p>
 </section>
 
             </section>
@@ -2411,7 +3587,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">101</span>
 
     </aside>
 
@@ -2424,9 +3600,7 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Simplifies batch retrieval of ProcessWire data.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -2468,7 +3642,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">173</span>
+    <span class="phpdocumentor-element-found-in__line">165</span>
 
     </aside>
 
@@ -2513,7 +3687,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">967</span>
+    <span class="phpdocumentor-element-found-in__line">743</span>
 
     </aside>
 
@@ -2549,7 +3723,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if the field exists.</p>
-<p>Why: Supports field existence checks for conditional logic.</p>
 </section>
 
             </section>
@@ -2569,7 +3742,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">247</span>
+    <span class="phpdocumentor-element-found-in__line">153</span>
 
     </aside>
 
@@ -2582,9 +3755,7 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Delegates rendering to Facet for consistent HTML output.</p>
-</section>
-
+    
     
     
 
@@ -2606,7 +3777,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">770</span>
+    <span class="phpdocumentor-element-found-in__line">585</span>
 
     </aside>
 
@@ -2619,7 +3790,9 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Falls back to name if no explicit ID override is stored.</p>
+</section>
+
     
     
 
@@ -2628,11 +3801,6 @@ can be stored and addressed in Mosaic.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The ID.</p>
-<p>Why: Provides access to the Shard's unique identifier.</p>
-</section>
-
             </section>
 
 </article>
@@ -2650,7 +3818,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">689</span>
+    <span class="phpdocumentor-element-found-in__line">498</span>
 
     </aside>
 
@@ -2686,7 +3854,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The inflated Shard.</p>
-<p>Why: Restores a Shard from serialized data for reconstruction.</p>
 </section>
 
             </section>
@@ -2706,7 +3873,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">804</span>
+    <span class="phpdocumentor-element-found-in__line">602</span>
 
     </aside>
 
@@ -2730,7 +3897,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Allows subclasses to perform initialization tasks.</p>
 </section>
 
             </section>
@@ -2750,7 +3916,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1002</span>
+    <span class="phpdocumentor-element-found-in__line">773</span>
 
     </aside>
 
@@ -2781,7 +3947,6 @@ can be stored and addressed in Mosaic.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Initial value.</p>
-<p>Why: Safely initializes fields without overwriting existing values.</p>
 </section>
 
             </dd>
@@ -2807,7 +3972,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1031</span>
+    <span class="phpdocumentor-element-found-in__line">796</span>
 
     </aside>
 
@@ -2829,7 +3994,6 @@ can be stored and addressed in Mosaic.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field-value pairs.</p>
-<p>Why: Efficiently initializes multiple fields during setup.</p>
 </section>
 
             </dd>
@@ -2855,7 +4019,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">558</span>
+    <span class="phpdocumentor-element-found-in__line">400</span>
 
     </aside>
 
@@ -2886,7 +4050,6 @@ can be stored and addressed in Mosaic.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Initial value.</p>
-<p>Why: Ensures Mosaic variables are initialized safely.</p>
 </section>
 
             </dd>
@@ -2912,7 +4075,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">782</span>
+    <span class="phpdocumentor-element-found-in__line">562</span>
 
     </aside>
 
@@ -2936,9 +4099,47 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The inlay.</p>
-<p>Why: Provides access to the Shard's inlay for context-aware operations.</p>
 </section>
 
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_isAnonymous">
+        isAnonymous()
+        <a href="classes/ClearView-Shard.html#method_isAnonymous" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">575</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns true if this Shard has no name — cannot be stored in Mosaic.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">isAnonymous</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
             </section>
 
 </article>
@@ -2956,7 +4157,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">977</span>
+    <span class="phpdocumentor-element-found-in__line">753</span>
 
     </aside>
 
@@ -3011,7 +4212,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1291</span>
+    <span class="phpdocumentor-element-found-in__line">1031</span>
 
     </aside>
 
@@ -3065,7 +4266,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string|array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The concatenated results or array of results.</p>
-<p>Why: Supports dynamic processing of Shard fields with optional filtering.</p>
 </section>
 
             </section>
@@ -3085,7 +4285,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">843</span>
+    <span class="phpdocumentor-element-found-in__line">632</span>
 
     </aside>
 
@@ -3121,7 +4321,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The JSON data.</p>
-<p>Why: Provides JSON output with control over variable substitution.</p>
 </section>
 
             </section>
@@ -3141,7 +4340,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">830</span>
+    <span class="phpdocumentor-element-found-in__line">622</span>
 
     </aside>
 
@@ -3165,7 +4364,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The serialized data.</p>
-<p>Why: Implements JsonSerializable for JSON output with variable substitution.</p>
 </section>
 
             </section>
@@ -3185,7 +4383,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1160</span>
+    <span class="phpdocumentor-element-found-in__line">919</span>
 
     </aside>
 
@@ -3209,7 +4407,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The current key.</p>
-<p>Why: Implements Iterator for key access.</p>
 </section>
 
             </section>
@@ -3229,7 +4426,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
@@ -3237,14 +4434,16 @@ can be stored and addressed in Mosaic.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadAll</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mosaic</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$overridePath</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadAll</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mosaic</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Called during system startup to instantiate all concrete Crystal subclasses
-and register them as Shards in Mosaic. Also instantiates the ClearView
-crystal explicitly.</p>
+        <section class="phpdocumentor-description"><p>Iterates the Framework module stack and loads crystal files from
+modules/<module>/crystals/.  First module to define a crystal wins;
+lower-priority modules are skipped for already-loaded crystals.
+Called during system startup.  Requires Framework::instance() to be
+set before Mosaic::load() so the module list is available.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -3258,15 +4457,6 @@ crystal explicitly.</p>
 </section>
 
             </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$overridePath</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Load from crystals/<path>/ instead of crystals/</p>
-</section>
-
-            </dd>
             </dl>
 
     
@@ -3277,7 +4467,7 @@ crystal explicitly.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a></span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The Mosaic instance (also assigned to Pane)</p>
+                <section class="phpdocumentor-description"><p>The Mosaic instance</p>
 </section>
 
             </section>
@@ -3297,7 +4487,7 @@ crystal explicitly.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">308</span>
+    <span class="phpdocumentor-element-found-in__line">200</span>
 
     </aside>
 
@@ -3373,8 +4563,6 @@ crystal explicitly.</p>
                             <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
                                                                                         <section class="phpdocumentor-description"><p>On invalid input or recursion in VIEW mode.</p>
-<p>Why: Provides a flexible entry point for creating Shards from various input types,
-including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadView().</p>
 </section>
 
                                     </dd>
@@ -3406,7 +4594,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">990</span>
+    <span class="phpdocumentor-element-found-in__line">763</span>
 
     </aside>
 
@@ -3442,7 +4630,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if the field is missing.</p>
-<p>Why: Provides a convenience method for missing field checks.</p>
 </section>
 
             </section>
@@ -3462,7 +4649,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1170</span>
+    <span class="phpdocumentor-element-found-in__line">927</span>
 
     </aside>
 
@@ -3475,9 +4662,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Implements Iterator for traversal.</p>
-</section>
-
+    
     
     
 
@@ -3499,7 +4684,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -3535,7 +4720,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if the field exists.</p>
-<p>Why: Implements ArrayAccess for field existence checks.</p>
 </section>
 
             </section>
@@ -3555,7 +4739,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -3591,7 +4775,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The field value.</p>
-<p>Why: Implements ArrayAccess for array-style field access.</p>
 </section>
 
             </section>
@@ -3611,7 +4794,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -3642,7 +4825,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field value.</p>
-<p>Why: Implements ArrayAccess for array-style field setting.</p>
 </section>
 
             </dd>
@@ -3668,7 +4850,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Crystal.php"><a href="files/crystal.html">Crystal.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
@@ -3690,7 +4872,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field name.</p>
-<p>Why: Implements ArrayAccess for field removal.</p>
 </section>
 
             </dd>
@@ -3716,7 +4897,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">856</span>
+    <span class="phpdocumentor-element-found-in__line">642</span>
 
     </aside>
 
@@ -3752,7 +4933,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The JSON data.</p>
-<p>Why: Provides raw JSON output for cases where templating is not needed.</p>
 </section>
 
             </section>
@@ -3772,7 +4952,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">272</span>
+    <span class="phpdocumentor-element-found-in__line">261</span>
 
     </aside>
 
@@ -3785,9 +4965,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Provides a default rendering method for subclasses to override.</p>
-</section>
-
+    
     
     
 
@@ -3809,7 +4987,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">277</span>
+    <span class="phpdocumentor-element-found-in__line">267</span>
 
     </aside>
 
@@ -3822,9 +5000,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Outputs children, optimizing for strings or Shards.</p>
-</section>
-
+    
     
     
 
@@ -3846,11 +5022,12 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">254</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Replaces children, normalizing all items to Shards.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">replaceChildren</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$content</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -3890,7 +5067,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1129</span>
+    <span class="phpdocumentor-element-found-in__line">897</span>
 
     </aside>
 
@@ -3903,9 +5080,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Implements Iterator for children traversal.</p>
-</section>
-
+    
     
     
 
@@ -3927,7 +5102,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">289</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 
     </aside>
 
@@ -3951,60 +5126,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Allows method chaining for script additions (to be implemented by subclasses).</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_setChildType">
-        setChildType()
-        <a href="classes/ClearView-Shard.html#method_setChildType" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">1106</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sets the children type</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setChildType</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$arrayType</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$arrayType</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">$this</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>for chaining</p>
 </section>
 
             </section>
@@ -4024,7 +5145,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">119</span>
+    <span class="phpdocumentor-element-found-in__line">112</span>
 
     </aside>
 
@@ -4080,7 +5201,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">950</span>
+    <span class="phpdocumentor-element-found-in__line">729</span>
 
     </aside>
 
@@ -4102,7 +5223,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field-value pairs.</p>
-<p>Why: Efficiently updates multiple fields in one operation.</p>
 </section>
 
             </dd>
@@ -4128,7 +5248,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">653</span>
+    <span class="phpdocumentor-element-found-in__line">475</span>
 
     </aside>
 
@@ -4150,7 +5270,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field name.</p>
-<p>Why: Allows customization of the primary field for specific Shards.</p>
 </section>
 
             </dd>
@@ -4170,21 +5289,21 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
 >
     <h4 class="phpdocumentor-element__name" id="method_setVar">
         setVar()
-        <a href="classes/ClearView-Page.html#method_setVar" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Config.html#method_setVar" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/crystals/Config.php"><a href="files/modules-vendor-crystals-config.html"><abbr title="modules/vendor/crystals/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">133</span>
+    <span class="phpdocumentor-element-found-in__line">336</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Page&#039;s and crystals use setVar/getVar as synonyms for getField, not Mosaic calls</p>
+        <p class="phpdocumentor-summary">Sets a config value in the static $config array.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setVar</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setVar</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$var</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -4193,11 +5312,11 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                <span class="phpdocumentor-argument-list__argument__name">$var</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>to set</p>
+                    <section class="phpdocumentor-description"><p>Config key name.</p>
 </section>
 
             </dd>
@@ -4206,7 +5325,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>to set</p>
+                    <section class="phpdocumentor-description"><p>Config value.</p>
 </section>
 
             </dd>
@@ -4216,7 +5335,11 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -4232,7 +5355,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">147</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 
     </aside>
 
@@ -4240,14 +5363,12 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setVars</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setVars</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Simplifies batch updates to ProcessWire data.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -4261,10 +5382,12 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -4288,7 +5411,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">885</span>
+    <span class="phpdocumentor-element-found-in__line">669</span>
 
     </aside>
 
@@ -4347,7 +5470,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">277</span>
+    <span class="phpdocumentor-element-found-in__line">176</span>
 
     </aside>
 
@@ -4371,7 +5494,6 @@ are included directly. The output contains only the fields, without an outer ele
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Allows method chaining for style additions (to be implemented by subclasses).</p>
 </section>
 
             </section>
@@ -4391,7 +5513,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1182</span>
+    <span class="phpdocumentor-element-found-in__line">936</span>
 
     </aside>
 
@@ -4415,7 +5537,6 @@ are included directly. The output contains only the fields, without an outer ele
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if valid.</p>
-<p>Why: Implements Iterator for traversal control.</p>
 </section>
 
             </section>
@@ -4435,7 +5556,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1017</span>
+    <span class="phpdocumentor-element-found-in__line">785</span>
 
     </aside>
 
@@ -4466,7 +5587,6 @@ are included directly. The output contains only the fields, without an outer ele
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Initial value.</p>
-<p>Why: Supports low-level field initialization during construction.</p>
 </section>
 
             </dd>
@@ -4492,7 +5612,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Page.php"><a href="files/page.html">Page.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">193</span>
+    <span class="phpdocumentor-element-found-in__line">182</span>
 
     </aside>
 
@@ -4555,7 +5675,6 @@ are included directly. The output contains only the fields, without an outer ele
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>Matching values or Shards.</p>
-<p>Why: Enables efficient content searches, optimized by childType.</p>
 </section>
 
             </section>
@@ -4575,7 +5694,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">625</span>
+    <span class="phpdocumentor-element-found-in__line">453</span>
 
     </aside>
 
@@ -4606,7 +5725,6 @@ are included directly. The output contains only the fields, without an outer ele
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field value.</p>
-<p>Why: Allows low-level field setting during initialization.</p>
 </section>
 
             </dd>
@@ -4632,7 +5750,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">637</span>
+    <span class="phpdocumentor-element-found-in__line">462</span>
 
     </aside>
 
@@ -4654,7 +5772,6 @@ are included directly. The output contains only the fields, without an outer ele
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field-value pairs.</p>
-<p>Why: Efficiently initializes multiple fields during construction.</p>
 </section>
 
             </dd>
@@ -4688,14 +5805,43 @@ are included directly. The output contains only the fields, without an outer ele
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_ChildArray">ChildArray</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_CLASS_CLOSE_BUTTON">CLASS_CLOSE_BUTTON</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_CLASS_DEBUGCONSOLE">CLASS_DEBUGCONSOLE</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_CLASS_MOSAIC">CLASS_MOSAIC</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_CLASS_TABBAR">CLASS_TABBAR</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_CLASS_TABBODY">CLASS_TABBODY</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_CLASS_TRANSPARENT">CLASS_TRANSPARENT</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_CLEARVIEW_PREFIX">CLEARVIEW_PREFIX</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_DEBUG_CONSOLE">DEBUG_CONSOLE</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_FAIL_MODE">FAIL_MODE</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_FORM_CLOSE_DELAY">FORM_CLOSE_DELAY</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_HTML">HTML</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_ID_CLOSE_BUTTON">ID_CLOSE_BUTTON</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_ID_FORM_TABBAR">ID_FORM_TABBAR</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_ID_FORM_TABBODY">ID_FORM_TABBODY</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_ID_FORM_TABPREFIX">ID_FORM_TABPREFIX</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_ID_MAIN_BODY">ID_MAIN_BODY</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_ID_MAIN_FORM">ID_MAIN_FORM</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_JSON">JSON</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_CONTAINER">LAYER_SUFFIX_CONTAINER</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUG">LAYER_SUFFIX_DEBUG</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_DEBUGCONSOLE">LAYER_SUFFIX_DEBUGCONSOLE</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_MOSAIC">LAYER_SUFFIX_MOSAIC</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_PANE">LAYER_SUFFIX_PANE</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYER_SUFFIX_SCRIPT">LAYER_SUFFIX_SCRIPT</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYERNAME_CLEARVIEW">LAYERNAME_CLEARVIEW</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYERNAME_MODAL">LAYERNAME_MODAL</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYERNAME_SCRIPTS">LAYERNAME_SCRIPTS</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_LAYERSTACKID">LAYERSTACKID</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_MANGLED">MANGLED</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_PageArray">PageArray</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_ShardArray">ShardArray</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_StringArray">StringArray</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_UndefinedArray">UndefinedArray</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_MODULES_LIST">MODULES_LIST</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_PAGE_PWOBJECT">PAGE_PWOBJECT</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_PAGE_PWPANE">PAGE_PWPANE</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_SANI_PAGE_SAVE">SANI_PAGE_SAVE</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_STACK_LIMIT">STACK_LIMIT</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_SYSTEM_SESSION">SYSTEM_SESSION</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_TITLE_PREFIX">TITLE_PREFIX</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#constant_TRACEMODE">TRACEMODE</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_VIEW">VIEW</a></li>
                                             </ul>
                 </li>
@@ -4704,8 +5850,7 @@ are included directly. The output contains only the fields, without an outer ele
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_address">$address</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#property_canonicalId">$canonicalId</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#property_childType">$childType</a></li>
+                                                    <li class=""><a href="classes/ClearView-Config.html#property_config">$config</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_data">$data</a></li>
                                                     <li class=""><a href="classes/ClearView-Crystal.html#property_mosaic">$mosaic</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_primaryField">$primaryField</a></li>
@@ -4716,11 +5861,10 @@ are included directly. The output contains only the fields, without an outer ele
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/ClearView-Page.html#method___call">__call()</a></li>
-                                            <li class=""><a href="classes/ClearView-Config.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/ClearView-Crystal.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method___set">__set()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method___toString">__toString()</a></li>
                                             <li class=""><a href="classes/ClearView-Page.html#method_addChildren">addChildren()</a></li>
-                                            <li class=""><a href="classes/ClearView-Page.html#method_buildModuleStack">buildModuleStack()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_canonicalizeChildren">canonicalizeChildren()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_createid">createid()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_current">current()</a></li>
@@ -4748,6 +5892,7 @@ are included directly. The output contains only the fields, without an outer ele
                                             <li class=""><a href="classes/ClearView-Shard.html#method_initFields">initFields()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_initVar">initVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_inlay">inlay()</a></li>
+                                            <li class=""><a href="classes/ClearView-Shard.html#method_isAnonymous">isAnonymous()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_isEmpty">isEmpty()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_iterateFields">iterateFields()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_json">json()</a></li>
@@ -4767,11 +5912,10 @@ are included directly. The output contains only the fields, without an outer ele
                                             <li class=""><a href="classes/ClearView-Page.html#method_replaceChildren">replaceChildren()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_rewind">rewind()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_script">script()</a></li>
-                                            <li class=""><a href="classes/ClearView-Shard.html#method_setChildType">setChildType()</a></li>
                                             <li class=""><a href="classes/ClearView-Page.html#method_setField">setField()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_setFields">setFields()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_setPrimaryField">setPrimaryField()</a></li>
-                                            <li class=""><a href="classes/ClearView-Page.html#method_setVar">setVar()</a></li>
+                                            <li class=""><a href="classes/ClearView-Config.html#method_setVar">setVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Page.html#method_setVars">setVars()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_simpleJson">simpleJson()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_style">style()</a></li>

@@ -67,6 +67,10 @@
                 <a href="namespaces/clearview-element.html" class="">Element</a>
                 
             </li>
+                    <li>
+                <a href="namespaces/clearview-prism.html" class="">Prism</a>
+                
+            </li>
             </ul>
 
                         </section>
@@ -120,7 +124,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
@@ -280,28 +284,7 @@ deflating Shards in template processing.</p>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Closes tags back to the instance&#039;s position.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Facet.html#method_create">create()</a>
-    <span>
-                                &nbsp;: self    </span>
-</dt>
-<dd>Renders a Shard or object as HTML by calling html().</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Facet.html#method_debug">debug()</a>
-    <span>
-                                &nbsp;: self    </span>
-</dt>
-<dd>Buffer a debug trace message for the current pane.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Facet.html#method_debug_break">debug_break()</a>
-    <span>
-                                &nbsp;: self    </span>
-</dt>
-<dd>Buffer a debug breakpoint message for the current pane.</dd>
+<dd>Closes tags back to the instance’s position.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_decField">decField()</a>
@@ -309,6 +292,13 @@ deflating Shards in template processing.</p>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Decrements a field value in the static data array.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Facet.html#method_dumpVars">dumpVars()</a>
+    <span>
+                                &nbsp;: $this    </span>
+</dt>
+<dd>Outputs Mosaic variables based on the current command.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_forward">forward()</a>
@@ -332,11 +322,19 @@ deflating Shards in template processing.</p>
 <dd>Handles a popped tag from the stack.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Facet.html#method_html">html()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Full render cycle. Two branches:
+- With argument: accepts Shard, array, or string; renders + children + auto-close.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_id">id()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Gets the ID of the current element.</dd>
+<dd>Retrieves the ID of the current target element via me()-&gt;id().</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_incField">incField()</a>
@@ -344,6 +342,13 @@ deflating Shards in template processing.</p>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Increments a field value in the static data array.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Facet.html#method_inlay">inlay()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Gets the inlay of the current element.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_isContained">isContained()</a>
@@ -365,14 +370,6 @@ deflating Shards in template processing.</p>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Checks if any output recording is active.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Facet.html#method_loadMosaic">loadMosaic()</a>
-    <span>
-                                &nbsp;: self    </span>
-</dt>
-<dd>Swaps the current Mosaic for a new one, pushing the old onto the
-Facet tag stack for automatic restoration on close().</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_me">me()</a>
@@ -431,25 +428,11 @@ Facet tag stack for automatic restoration on close().</dd>
 <dd>Renders the current element and its contents.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Facet.html#method_restoreMosaic">restoreMosaic()</a>
-    <span>
-                                &nbsp;: self    </span>
-</dt>
-<dd>Restores the previous Mosaic instance from the tag stack.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_setField">setField()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Sets a field value in the static data array.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Facet.html#method_snapshot">snapshot()</a>
-    <span>
-                                &nbsp;: self    </span>
-</dt>
-<dd>Snapshots the current Mosaic state to a view file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_stop">stop()</a>
@@ -471,6 +454,13 @@ Facet tag stack for automatic restoration on close().</dd>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Stops recording output and returns the captured content.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Facet.html#method_triggerevent">triggerevent()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Triggers an HTMX event, with optional conditional gating via match/unless.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Facet.html#method_use">use()</a>
@@ -530,7 +520,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -569,7 +559,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -608,7 +598,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -647,7 +637,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -686,7 +676,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -725,7 +715,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -764,7 +754,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -808,7 +798,7 @@ Facet tag stack for automatic restoration on close().</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">125</span>
+    <span class="phpdocumentor-element-found-in__line">133</span>
 
     </aside>
 
@@ -876,7 +866,7 @@ Collapses whitespace and processes nested <code class="prettyprint">{{...}}</cod
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">824</span>
+    <span class="phpdocumentor-element-found-in__line">799</span>
 
     </aside>
 
@@ -943,7 +933,7 @@ traceability. Handles special case for <code class="prettyprint">debug()</code> 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
@@ -1011,7 +1001,7 @@ or object. The instance tracks its position in the tag stack for proper closing.
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">353</span>
+    <span class="phpdocumentor-element-found-in__line">363</span>
 
     </aside>
 
@@ -1024,7 +1014,7 @@ or object. The instance tracks its position in the tag stack for proper closing.
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Generates a debug string showing the current stack position, and an optional message.</p>
+        <section class="phpdocumentor-description"><p>Generates a debug string showing the current element’s ID, stack position, and an optional message.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1048,7 +1038,7 @@ or object. The instance tracks its position in the tag stack for proper closing.
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Formatted debug string (e.g., <code class="prettyprint">[pos/count] msg</code>).</p>
+                <section class="phpdocumentor-description"><p>Formatted debug string (e.g., <code class="prettyprint">[element_id : pos/count] msg</code>).</p>
 </section>
 
             </section>
@@ -1068,7 +1058,7 @@ or object. The instance tracks its position in the tag stack for proper closing.
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">412</span>
+    <span class="phpdocumentor-element-found-in__line">424</span>
 
     </aside>
 
@@ -1125,11 +1115,11 @@ or object. The instance tracks its position in the tag stack for proper closing.
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">776</span>
+    <span class="phpdocumentor-element-found-in__line">753</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Closes tags back to the instance&#039;s position.</p>
+        <p class="phpdocumentor-summary">Closes tags back to the instance’s position.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1179,23 +1169,127 @@ markers (e.g., <code class="prettyprint">-&gt;stopOOB</code>) via <code class="p
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_create">
-        create()
-        <a href="classes/ClearView-Facet.html#method_create" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_decField">
+        decField()
+        <a href="classes/ClearView-Facet.html#method_decField" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">704</span>
+    <span class="phpdocumentor-element-found-in__line">291</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Renders a Shard or object as HTML by calling html().</p>
+        <p class="phpdocumentor-summary">Decrements a field value in the static data array.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">create</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$match</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$unless</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$unlessContained</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$isOOB</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$isRecording</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">decField</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Decrements a numeric field in <code class="prettyprint">data[]</code> (or initializes it to -1 if unset) and pushes a <code class="prettyprint">++fieldname</code>
+tag to increment it on stack pop.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$field</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The field name to decrement.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>For method chaining.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_dumpVars">
+        dumpVars()
+        <a href="classes/ClearView-Facet.html#method_dumpVars" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">738</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Outputs Mosaic variables based on the current command.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">dumpVars</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Triggers <code class="prettyprint">Mosaic::outputMosaic()</code> for 'open' commands or <code class="prettyprint">Mosaic::updateMosaic()</code> for updates, typically
+for hidden input fields in HTMX responses. Supports session data via <code class="prettyprint">ClearView::Session;key</code>.</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">$this</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>for chaining</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_forward">
+        forward()
+        <a href="classes/ClearView-Facet.html#method_forward" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">349</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The &quot;forward&quot; command just performs the named method on the target object immediately</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">forward</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$command</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__variadic-operator">...</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1204,11 +1298,202 @@ markers (e.g., <code class="prettyprint">-&gt;stopOOB</code>) via <code class="p
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$input</span>
-                : <span class="phpdocumentor-argument-list__argument__type">object</span>
+                <span class="phpdocumentor-argument-list__argument__name">$command</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The Shard or object to render.</p>
+                    <section class="phpdocumentor-description"><p>The command to execute</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$args</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">$this</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>for chaining</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getField">
+        getField()
+        <a href="classes/ClearView-Facet.html#method_getField" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">238</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Gets a field value from the static data array.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getField</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$default</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Retrieves a value from the static <code class="prettyprint">data[]</code> array, returning a default if the field is not set.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The field name to retrieve.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$default</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The default value to return if the field is not set.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The field value or default.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_handleTag">
+        handleTag()
+        <a href="classes/ClearView-Facet.html#method_handleTag" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">477</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Handles a popped tag from the stack.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">handleTag</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$poppedTag</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Processes a popped tag, outputting HTML, calling a method for <code class="prettyprint">-&gt;method</code>, or handling field operations
+for <code class="prettyprint">++field</code>, <code class="prettyprint">--field</code>, <code class="prettyprint">0=field</code>, or <code class="prettyprint">==field</code>.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$poppedTag</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The tag or operation to handle.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The Facet instance or method result.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_html">
+        html()
+        <a href="classes/ClearView-Facet.html#method_html" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">654</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Full render cycle. Two branches:
+- With argument: accepts Shard, array, or string; renders + children + auto-close.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">html</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$match</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$unless</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$unlessContained</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$isOOB</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$isRecording</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><ul>
+<li>No argument: operates on current target (me()); renders + children + close.</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Shard, array, string, or null for current target.</p>
 </section>
 
             </dd>
@@ -1279,348 +1564,6 @@ markers (e.g., <code class="prettyprint">-&gt;stopOOB</code>) via <code class="p
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_debug">
-        debug()
-        <a href="classes/ClearView-Facet.html#method_debug" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">797</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Buffer a debug trace message for the current pane.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">debug</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$msg</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$msg</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The debug message.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>For method chaining.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_debug_break">
-        debug_break()
-        <a href="classes/ClearView-Facet.html#method_debug_break" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">808</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Buffer a debug breakpoint message for the current pane.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">debug_break</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>For method chaining.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_decField">
-        decField()
-        <a href="classes/ClearView-Facet.html#method_decField" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">283</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Decrements a field value in the static data array.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">decField</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Decrements a numeric field in <code class="prettyprint">data[]</code> (or initializes it to -1 if unset) and pushes a <code class="prettyprint">++fieldname</code>
-tag to increment it on stack pop.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$field</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The field name to decrement.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>For method chaining.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_forward">
-        forward()
-        <a href="classes/ClearView-Facet.html#method_forward" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">341</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">The &quot;forward&quot; command just performs the named method on the target object immediately</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">forward</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$command</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__variadic-operator">...</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$command</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The command to execute</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$args</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">$this</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>for chaining</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_getField">
-        getField()
-        <a href="classes/ClearView-Facet.html#method_getField" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">230</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Gets a field value from the static data array.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getField</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$default</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Retrieves a value from the static <code class="prettyprint">data[]</code> array, returning a default if the field is not set.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The field name to retrieve.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$default</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The default value to return if the field is not set.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The field value or default.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_handleTag">
-        handleTag()
-        <a href="classes/ClearView-Facet.html#method_handleTag" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">465</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Handles a popped tag from the stack.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">handleTag</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$poppedTag</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Processes a popped tag, outputting HTML, calling a method for <code class="prettyprint">-&gt;method</code>, or handling field operations
-for <code class="prettyprint">++field</code>, <code class="prettyprint">--field</code>, <code class="prettyprint">0=field</code>, or <code class="prettyprint">==field</code>.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$poppedTag</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The tag or operation to handle.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">mixed</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The Facet instance or method result.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_id">
         id()
         <a href="classes/ClearView-Facet.html#method_id" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1629,11 +1572,11 @@ for <code class="prettyprint">++field</code>, <code class="prettyprint">--field<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">109</span>
+    <span class="phpdocumentor-element-found-in__line">105</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gets the ID of the current element.</p>
+        <p class="phpdocumentor-summary">Retrieves the ID of the current target element via me()-&gt;id().</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1642,9 +1585,7 @@ for <code class="prettyprint">++field</code>, <code class="prettyprint">--field<
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Retrieves the ID of the current target element via me()-&gt;id().</p>
-</section>
-
+    
     
     
 
@@ -1674,7 +1615,7 @@ for <code class="prettyprint">++field</code>, <code class="prettyprint">--field<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">267</span>
+    <span class="phpdocumentor-element-found-in__line">275</span>
 
     </aside>
 
@@ -1724,6 +1665,51 @@ tag to decrement it on stack pop.</p>
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_inlay">
+        inlay()
+        <a href="classes/ClearView-Facet.html#method_inlay" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">116</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Gets the inlay of the current element.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">inlay</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Retrieves the inlay of the current target element via me()-&gt;inlay().</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The inlay of the current element.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_isContained">
         isContained()
         <a href="classes/ClearView-Facet.html#method_isContained" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1732,7 +1718,7 @@ tag to decrement it on stack pop.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">598</span>
+    <span class="phpdocumentor-element-found-in__line">610</span>
 
     </aside>
 
@@ -1778,7 +1764,7 @@ reference count.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">573</span>
+    <span class="phpdocumentor-element-found-in__line">585</span>
 
     </aside>
 
@@ -1824,7 +1810,7 @@ the element is contained to prevent nested OOB rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">585</span>
+    <span class="phpdocumentor-element-found-in__line">597</span>
 
     </aside>
 
@@ -1859,62 +1845,6 @@ the element is contained to prevent nested OOB rendering.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_loadMosaic">
-        loadMosaic()
-        <a href="classes/ClearView-Facet.html#method_loadMosaic" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">612</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Swaps the current Mosaic for a new one, pushing the old onto the
-Facet tag stack for automatic restoration on close().</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">loadMosaic</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$options</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Mosaic::load() options (loadCrystals, loadInputData, etc.)</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>For method chaining.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_me">
@@ -1925,7 +1855,7 @@ Facet tag stack for automatic restoration on close().</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">86</span>
+    <span class="phpdocumentor-element-found-in__line">85</span>
 
     </aside>
 
@@ -1971,7 +1901,7 @@ no objects. The target is used for method calls and field access during renderin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">398</span>
+    <span class="phpdocumentor-element-found-in__line">410</span>
 
     </aside>
 
@@ -2030,7 +1960,7 @@ call on the Facet or forwarded via <code class="prettyprint">__call()</code>.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">508</span>
+    <span class="phpdocumentor-element-found-in__line">520</span>
 
     </aside>
 
@@ -2076,7 +2006,7 @@ call on the Facet or forwarded via <code class="prettyprint">__call()</code>.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">306</span>
+    <span class="phpdocumentor-element-found-in__line">314</span>
 
     </aside>
 
@@ -2204,7 +2134,7 @@ self-closing tags (e.g., <code class="prettyprint">&lt;input&gt;</code>) and pus
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">681</span>
+    <span class="phpdocumentor-element-found-in__line">629</span>
 
     </aside>
 
@@ -2307,7 +2237,7 @@ conditions before outputting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">366</span>
+    <span class="phpdocumentor-element-found-in__line">378</span>
 
     </aside>
 
@@ -2344,7 +2274,7 @@ conditions before outputting.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Formatted debug string (e.g., <code class="prettyprint">[-/count] msg</code>).</p>
+                <section class="phpdocumentor-description"><p>Formatted debug string (e.g., <code class="prettyprint">[element_id : -/count] msg</code>).</p>
 </section>
 
             </section>
@@ -2364,7 +2294,7 @@ conditions before outputting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">541</span>
+    <span class="phpdocumentor-element-found-in__line">553</span>
 
     </aside>
 
@@ -2410,7 +2340,7 @@ via <code class="prettyprint">onClose()</code> to be called when the stack is po
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">736</span>
+    <span class="phpdocumentor-element-found-in__line">707</span>
 
     </aside>
 
@@ -2449,51 +2379,6 @@ after.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_restoreMosaic">
-        restoreMosaic()
-        <a href="classes/ClearView-Facet.html#method_restoreMosaic" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">627</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Restores the previous Mosaic instance from the tag stack.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">restoreMosaic</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Called automatically via onClose('-&gt;restoreMosaic').</p>
-</section>
-
-    
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>For method chaining.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_setField">
         setField()
         <a href="classes/ClearView-Facet.html#method_setField" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2502,7 +2387,7 @@ after.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">246</span>
+    <span class="phpdocumentor-element-found-in__line">254</span>
 
     </aside>
 
@@ -2562,65 +2447,6 @@ unset it on stack pop.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_snapshot">
-        snapshot()
-        <a href="classes/ClearView-Facet.html#method_snapshot" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">653</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Snapshots the current Mosaic state to a view file.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">snapshot</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>Renders all Shards as hidden <input> tags and writes them to
-views/<name>.php. The resulting file is a valid ClearView view
-that can be loaded later via Mosaic::load(['loadSnapShot' =&gt; $name]).</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$name</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Snapshot name (saved to views/<name>.php)</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>For method chaining.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_stop">
         stop()
         <a href="classes/ClearView-Facet.html#method_stop" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2629,7 +2455,7 @@ that can be loaded later via Mosaic::load(['loadSnapShot' =&gt; $name]).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">760</span>
+    <span class="phpdocumentor-element-found-in__line">723</span>
 
     </aside>
 
@@ -2672,7 +2498,7 @@ that can be loaded later via Mosaic::load(['loadSnapShot' =&gt; $name]).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">524</span>
+    <span class="phpdocumentor-element-found-in__line">536</span>
 
     </aside>
 
@@ -2686,7 +2512,7 @@ that can be loaded later via Mosaic::load(['loadSnapShot' =&gt; $name]).</p>
         </div>
     
         <section class="phpdocumentor-description"><p>Terminates an OOB buffer, decrementing the OOB reference count, capturing the buffer contents, and
-sending them to ClearView::sendOOB() for HTMX delivery.</p>
+sending them to Mosaic::sendOOB() for HTMX delivery.</p>
 </section>
 
     
@@ -2718,7 +2544,7 @@ sending them to ClearView::sendOOB() for HTMX delivery.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">557</span>
+    <span class="phpdocumentor-element-found-in__line">569</span>
 
     </aside>
 
@@ -2754,6 +2580,90 @@ content as a string.</p>
         class="phpdocumentor-element
             -method
             -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_triggerevent">
+        triggerevent()
+        <a href="classes/ClearView-Facet.html#method_triggerevent" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">777</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Triggers an HTMX event, with optional conditional gating via match/unless.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">triggerevent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$match</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$unless</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Forwards to Framework::triggerevent() on the current target.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$event</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Event name to trigger.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Optional event parameters.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$match</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Conditions to check for true (optional).</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$unless</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Conditions to check for false (optional).</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>For method chaining.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_use">
@@ -2764,7 +2674,7 @@ content as a string.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">426</span>
+    <span class="phpdocumentor-element-found-in__line">438</span>
 
     </aside>
 
@@ -2821,7 +2731,7 @@ content as a string.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">382</span>
+    <span class="phpdocumentor-element-found-in__line">394</span>
 
     </aside>
 
@@ -2879,7 +2789,7 @@ Acts as syntactic sugar for pushing to <code class="prettyprint">$tagstack</code
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">157</span>
+    <span class="phpdocumentor-element-found-in__line">165</span>
 
     </aside>
 
@@ -2975,7 +2885,7 @@ the logic, requiring conditions to evaluate to false.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Facet.php"><a href="files/facet.html">Facet.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">442</span>
+    <span class="phpdocumentor-element-found-in__line">454</span>
 
     </aside>
 
@@ -3061,19 +2971,18 @@ results (e.g., recorded strings) if applicable.</p>
                                             <li class=""><a href="classes/ClearView-Facet.html#method__p">_p()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_afterClose">afterClose()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_close">close()</a></li>
-                                            <li class=""><a href="classes/ClearView-Facet.html#method_create">create()</a></li>
-                                            <li class=""><a href="classes/ClearView-Facet.html#method_debug">debug()</a></li>
-                                            <li class=""><a href="classes/ClearView-Facet.html#method_debug_break">debug_break()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_decField">decField()</a></li>
+                                            <li class=""><a href="classes/ClearView-Facet.html#method_dumpVars">dumpVars()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_forward">forward()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_getField">getField()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_handleTag">handleTag()</a></li>
+                                            <li class=""><a href="classes/ClearView-Facet.html#method_html">html()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_id">id()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_incField">incField()</a></li>
+                                            <li class=""><a href="classes/ClearView-Facet.html#method_inlay">inlay()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_isContained">isContained()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_isOOB">isOOB()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_isRecording">isRecording()</a></li>
-                                            <li class=""><a href="classes/ClearView-Facet.html#method_loadMosaic">loadMosaic()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_me">me()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_onClose">onClose()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_oob">oob()</a></li>
@@ -3082,12 +2991,11 @@ results (e.g., recorded strings) if applicable.</p>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_print">print()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_record">record()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_render">render()</a></li>
-                                            <li class=""><a href="classes/ClearView-Facet.html#method_restoreMosaic">restoreMosaic()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_setField">setField()</a></li>
-                                            <li class=""><a href="classes/ClearView-Facet.html#method_snapshot">snapshot()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_stop">stop()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_stopOOB">stopOOB()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_stopRecording">stopRecording()</a></li>
+                                            <li class=""><a href="classes/ClearView-Facet.html#method_triggerevent">triggerevent()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_use">use()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_using">using()</a></li>
                                             <li class=""><a href="classes/ClearView-Facet.html#method_checkQualifiers">checkQualifiers()</a></li>

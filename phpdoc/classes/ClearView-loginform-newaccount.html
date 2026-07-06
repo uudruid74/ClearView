@@ -67,6 +67,10 @@
                 <a href="namespaces/clearview-element.html" class="">Element</a>
                 
             </li>
+                    <li>
+                <a href="namespaces/clearview-prism.html" class="">Prism</a>
+                
+            </li>
             </ul>
 
                         </section>
@@ -123,7 +127,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/panes/loginform/newaccount.php"><a href="files/modules-vendor-panes-loginform-newaccount.html"><abbr title="modules/vendor/panes/loginform/newaccount.php">newaccount.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">11</span>
 
     </aside>
 
@@ -170,7 +174,13 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/ClearView-Runtime.html#property_mosaic">$mosaic</a>
+    <a class="" href="classes/ClearView-Framework.html#property_instance">$instance</a>
+    <span>
+                        &nbsp;: <a href="classes/ClearView-Framework.html"><abbr title="\ClearView\Framework">Framework</abbr></a>|null            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/ClearView-Framework.html#property_mosaic">$mosaic</a>
     <span>
                         &nbsp;: <a href="classes/ClearView-Mosaic.html"><abbr title="\ClearView\Mosaic">Mosaic</abbr></a>            </span>
 </dt>
@@ -184,21 +194,21 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method___call">__call()</a>
+    <a class="" href="classes/ClearView-Framework.html#method___call">__call()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Catch unknown method calls.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method___construct">__construct()</a>
+    <a class="" href="classes/ClearView-Framework.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Initializes the ClearView framework from the request.</dd>
+<dd>Initializes the ClearView Framework — sets up Mosaic and instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_close">close()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_close">close()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
@@ -209,43 +219,45 @@
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Creates the user account after all validations pass.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_debug">debug()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_debug">debug()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
 <dd>Wrapper around Exception::debug() for inlays.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_defaultMethod">defaultMethod()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Returns the default method name for a given request method.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_doesNotUnderstand">doesNotUnderstand()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_doesNotUnderstand">doesNotUnderstand()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Handles unknown commands.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_fill">fill()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_fill">fill()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Fills the Mosaic with an array of values.</dd>
+<dd>Fill Mosaic variables — delegates to Mosaic::fill.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-loginform-newaccount.html#method_getEmailAddr">getEmailAddr()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: string|null    </span>
 </dt>
+<dd>Extracts and validates the email address from the nextinlay queue.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_handleCommand">handleCommand()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_getModuleList">getModuleList()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, string&gt;    </span>
+</dt>
+<dd>Returns the ordered module list for resource lookups.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Framework.html#method_handleCommand">handleCommand()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
@@ -263,23 +275,31 @@
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Pre-fills the form with data from the email link.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_inTesting">inTesting()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_instance">instance()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Returns the active Framework instance for this request.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Framework.html#method_inTesting">inTesting()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Check if we&#039;re running in a test environment.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_is_htmx_boosted">is_htmx_boosted()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_is_htmx_boosted">is_htmx_boosted()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Check if the request is from a boosted link.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_is_htmx_request">is_htmx_request()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_is_htmx_request">is_htmx_request()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
@@ -288,11 +308,12 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-loginform-newaccount.html#method_isValidEmail">isValidEmail()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: bool    </span>
 </dt>
+<dd>Validates an email address using the EmailVerification PW module.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_launcher">launcher()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_launcher">launcher()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
@@ -306,78 +327,114 @@
 <dd>Load Inlay by panename and inlayname.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_offsetExists">offsetExists()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_loadInlay">loadInlay()</a>
+    <span>
+                                &nbsp;: <a href="classes/ClearView-Framework.html"><abbr title="\ClearView\Framework">Framework</abbr></a>    </span>
+</dt>
+<dd>Static factory: loads the correct Inlay class and returns its instance.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Framework.html#method_Modules">Modules()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>The public version calls through so we can override getModuleList</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Framework.html#method_offsetExists">offsetExists()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_offsetGet">offsetGet()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_offsetGet">offsetGet()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Get a variable with existence-check routing.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_offsetSet">offsetSet()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_offsetSet">offsetSet()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Set a variable with existence-check routing.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_offsetUnset">offsetUnset()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_offsetUnset">offsetUnset()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_open">open()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_onRetargetResult">onRetargetResult()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Instance override point for retargetResult.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Framework.html#method_onSendHtmxHeader">onSendHtmxHeader()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Instance override point for sendHtmxHeader.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Framework.html#method_onTriggerevent">onTriggerevent()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Instance override point for triggerevent.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Framework.html#method_open">open()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Default full-page render.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_redirect">redirect()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_redirect">redirect()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Redirects to a URL via HX-Location JSON payload.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_reloadPage">reloadPage()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_reloadPage">reloadPage()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Reloads the page.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_retargetResult">retargetResult()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_retargetResult">retargetResult()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Sets the HX-Retarget header.</dd>
+<dd>Sets the HX-Retarget header. Calls through instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_sendHtmxHeader">sendHtmxHeader()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_sendHtmxHeader">sendHtmxHeader()</a>
     <span>
-                                &nbsp;: self    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Sends a special header in the server response.</dd>
+<dd>Sends a special header in the server response. Calls through instance.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-loginform-newaccount.html#method_submit">submit()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Submits the form — shows terms confirmation AlertBox before creating account.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Runtime.html#method_triggerevent">triggerevent()</a>
+    <a class="" href="classes/ClearView-Framework.html#method_triggerevent">triggerevent()</a>
     <span>
-                                &nbsp;: self    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>Triggers an htmx event.</dd>
+<dd>Triggers an htmx event. Calls through instance for subclass overrides.</dd>
 
     </dl>
 
@@ -397,19 +454,58 @@
             phpdocumentor-element
             -property
             -public
-                                                                    "
+            -static                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="property_mosaic">
-        $mosaic
-        <a href="classes/ClearView-Runtime.html#property_mosaic" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_instance">
+        $instance
+        <a href="classes/ClearView-Framework.html#property_instance" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><a href="classes/ClearView-Framework.html"><abbr title="\ClearView\Framework">Framework</abbr></a>|null</span>
+    <span class="phpdocumentor-signature__name">$instance</span>
+     = <span class="phpdocumentor-signature__default-value">null</span></code>
+
+    
+        <section class="phpdocumentor-description"><p>The active Framework instance for this request.</p>
+</section>
+
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_mosaic">
+        $mosaic
+        <a href="classes/ClearView-Framework.html#property_mosaic" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
@@ -447,13 +543,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___call">
         __call()
-        <a href="classes/ClearView-Runtime.html#method___call" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method___call" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">383</span>
+    <span class="phpdocumentor-element-found-in__line">367</span>
 
     </aside>
 
@@ -499,56 +595,30 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/ClearView-Runtime.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">172</span>
+    <span class="phpdocumentor-element-found-in__line">200</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Initializes the ClearView framework from the request.</p>
+        <p class="phpdocumentor-summary">Initializes the ClearView Framework — sets up Mosaic and instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$template</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$template</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The ProcessWire page template name.</p>
+        <section class="phpdocumentor-description"><p>Does NOT load an Inlay. Use <abbr title="\ClearView\loadInlay()">loadInlay()</abbr> for the full lifecycle.</p>
 </section>
 
-            </dd>
-            </dl>
-
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method___construct_tags">
-        Tags
-        <a href="classes/ClearView-Runtime.html#method___construct_tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
-                                                                                        <section class="phpdocumentor-description"><p>on errors.</p>
-</section>
-
-                                    </dd>
-                        </dl>
+    
 
         
     
@@ -562,13 +632,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_close">
         close()
-        <a href="classes/ClearView-Runtime.html#method_close" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_close" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">266</span>
+    <span class="phpdocumentor-element-found-in__line">251</span>
 
     </aside>
 
@@ -613,11 +683,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/panes/loginform/newaccount.php"><a href="files/modules-vendor-panes-loginform-newaccount.html"><abbr title="modules/vendor/panes/loginform/newaccount.php">newaccount.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Creates the user account after all validations pass.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">createAccount</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -641,13 +712,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_debug">
         debug()
-        <a href="classes/ClearView-Runtime.html#method_debug" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_debug" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">323</span>
+    <span class="phpdocumentor-element-found-in__line">312</span>
 
     </aside>
 
@@ -693,66 +764,17 @@
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_defaultMethod">
-        defaultMethod()
-        <a href="classes/ClearView-Runtime.html#method_defaultMethod" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">32</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Returns the default method name for a given request method.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">defaultMethod</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$method</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$method</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_doesNotUnderstand">
         doesNotUnderstand()
-        <a href="classes/ClearView-Runtime.html#method_doesNotUnderstand" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_doesNotUnderstand" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">374</span>
+    <span class="phpdocumentor-element-found-in__line">360</span>
 
     </aside>
 
@@ -791,35 +813,39 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_fill">
         fill()
-        <a href="classes/ClearView-Runtime.html#method_fill" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_fill" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">154</span>
+    <span class="phpdocumentor-element-found-in__line">189</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Fills the Mosaic with an array of values.</p>
+        <p class="phpdocumentor-summary">Fill Mosaic variables — delegates to Mosaic::fill.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">fill</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$values</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">fill</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$values</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Each key-value pair is set via offsetSet(), which uses
-existence-check routing to determine the correct inlay.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$values</span>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -845,14 +871,15 @@ existence-check routing to determine the correct inlay.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/panes/loginform/newaccount.php"><a href="files/modules-vendor-panes-loginform-newaccount.html"><abbr title="modules/vendor/panes/loginform/newaccount.php">newaccount.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Extracts and validates the email address from the nextinlay queue.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getEmailAddr</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">getEmailAddr</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -863,7 +890,59 @@ existence-check routing to determine the correct inlay.</p>
 
         
     
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Full email address, or null if invalid.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getModuleList">
+        getModuleList()
+        <a href="classes/ClearView-Framework.html#method_getModuleList" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">71</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the ordered module list for resource lookups.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getModuleList</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
     
+        <section class="phpdocumentor-description"><p>Base implementation returns Config::MODULES_LIST.  PaneAttr::modules
+(from the <pane modules="..."> attribute) is prepended when set.
+Subclasses override to inject framework-specific modules (e.g.
+TestJig prepends 'testjig' for null crystals).</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -873,13 +952,13 @@ existence-check routing to determine the correct inlay.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_handleCommand">
         handleCommand()
-        <a href="classes/ClearView-Runtime.html#method_handleCommand" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_handleCommand" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">332</span>
+    <span class="phpdocumentor-element-found-in__line">319</span>
 
     </aside>
 
@@ -914,7 +993,7 @@ existence-check routing to determine the correct inlay.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -922,7 +1001,7 @@ existence-check routing to determine the correct inlay.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">html</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">html</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$template</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -932,7 +1011,17 @@ pane/inlay URL. Fires inlaychange event when $this['Shared::prevInlay']
 differs from the current inlay name.</p>
 </section>
 
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$template</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
     
 
         
@@ -953,11 +1042,12 @@ differs from the current inlay name.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/panes/loginform/newaccount.php"><a href="files/modules-vendor-panes-loginform-newaccount.html"><abbr title="modules/vendor/panes/loginform/newaccount.php">newaccount.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">103</span>
+    <span class="phpdocumentor-element-found-in__line">124</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Pre-fills the form with data from the email link.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">init</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -979,15 +1069,61 @@ differs from the current inlay name.</p>
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_inTesting">
-        inTesting()
-        <a href="classes/ClearView-Runtime.html#method_inTesting" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_instance">
+        instance()
+        <a href="classes/ClearView-Framework.html#method_instance" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the active Framework instance for this request.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">instance</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>There is exactly one Framework per request; subclasses like
+TestJig set themselves as the instance during construction.</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_inTesting">
+        inTesting()
+        <a href="classes/ClearView-Framework.html#method_inTesting" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
@@ -1020,13 +1156,13 @@ differs from the current inlay name.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_is_htmx_boosted">
         is_htmx_boosted()
-        <a href="classes/ClearView-Runtime.html#method_is_htmx_boosted" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_is_htmx_boosted" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -1059,13 +1195,13 @@ differs from the current inlay name.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_is_htmx_request">
         is_htmx_request()
-        <a href="classes/ClearView-Runtime.html#method_is_htmx_request" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_is_htmx_request" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -1104,14 +1240,15 @@ differs from the current inlay name.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/panes/loginform/newaccount.php"><a href="files/modules-vendor-panes-loginform-newaccount.html"><abbr title="modules/vendor/panes/loginform/newaccount.php">newaccount.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Validates an email address using the EmailVerification PW module.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">isValidEmail</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$email</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">isValidEmail</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$email</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1121,10 +1258,12 @@ differs from the current inlay name.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$email</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Email address to validate.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1132,7 +1271,15 @@ differs from the current inlay name.</p>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the email host is valid.</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1142,13 +1289,13 @@ differs from the current inlay name.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_launcher">
         launcher()
-        <a href="classes/ClearView-Runtime.html#method_launcher" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_launcher" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">256</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 
     </aside>
 
@@ -1183,7 +1330,7 @@ differs from the current inlay name.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Inlay.php"><a href="files/inlay.html">Inlay.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
@@ -1254,17 +1401,97 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_loadInlay">
+        loadInlay()
+        <a href="classes/ClearView-Framework.html#method_loadInlay" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">211</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Static factory: loads the correct Inlay class and returns its instance.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">loadInlay</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Framework.html"><abbr title="\ClearView\Framework">Framework</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Replaces the old (new Framework()) pattern — no double construction.</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Framework.html"><abbr title="\ClearView\Framework">Framework</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_Modules">
+        Modules()
+        <a href="classes/ClearView-Framework.html#method_Modules" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">97</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The public version calls through so we can override getModuleList</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">Modules</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_offsetExists">
         offsetExists()
-        <a href="classes/ClearView-Runtime.html#method_offsetExists" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_offsetExists" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">131</span>
+    <span class="phpdocumentor-element-found-in__line">173</span>
 
     </aside>
 
@@ -1306,13 +1533,13 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_offsetGet">
         offsetGet()
-        <a href="classes/ClearView-Runtime.html#method_offsetGet" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_offsetGet" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
@@ -1340,7 +1567,9 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1348,7 +1577,15 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 
         
     
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">mixed</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1358,13 +1595,13 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_offsetSet">
         offsetSet()
-        <a href="classes/ClearView-Runtime.html#method_offsetSet" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_offsetSet" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">150</span>
 
     </aside>
 
@@ -1392,14 +1629,18 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$value</span>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Description.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1417,13 +1658,13 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_offsetUnset">
         offsetUnset()
-        <a href="classes/ClearView-Runtime.html#method_offsetUnset" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_offsetUnset" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">136</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 
     </aside>
 
@@ -1459,15 +1700,178 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_open">
-        open()
-        <a href="classes/ClearView-Runtime.html#method_open" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_onRetargetResult">
+        onRetargetResult()
+        <a href="classes/ClearView-Framework.html#method_onRetargetResult" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">223</span>
+    <span class="phpdocumentor-element-found-in__line">306</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Instance override point for retargetResult.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">onRetargetResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$target</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_onSendHtmxHeader">
+        onSendHtmxHeader()
+        <a href="classes/ClearView-Framework.html#method_onSendHtmxHeader" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">288</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Instance override point for sendHtmxHeader.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">onSendHtmxHeader</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$header</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$header</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$event</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_onTriggerevent">
+        onTriggerevent()
+        <a href="classes/ClearView-Framework.html#method_onTriggerevent" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">276</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Instance override point for triggerevent.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">onTriggerevent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$event</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_open">
+        open()
+        <a href="classes/ClearView-Framework.html#method_open" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">221</span>
 
     </aside>
 
@@ -1496,13 +1900,13 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_redirect">
         redirect()
-        <a href="classes/ClearView-Runtime.html#method_redirect" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_redirect" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">274</span>
+    <span class="phpdocumentor-element-found-in__line">257</span>
 
     </aside>
 
@@ -1541,13 +1945,13 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method_reloadPage">
         reloadPage()
-        <a href="classes/ClearView-Runtime.html#method_reloadPage" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_reloadPage" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">283</span>
+    <span class="phpdocumentor-element-found-in__line">264</span>
 
     </aside>
 
@@ -1572,25 +1976,25 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+                                    -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_retargetResult">
         retargetResult()
-        <a href="classes/ClearView-Runtime.html#method_retargetResult" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_retargetResult" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">315</span>
+    <span class="phpdocumentor-element-found-in__line">300</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Sets the HX-Retarget header.</p>
+        <p class="phpdocumentor-summary">Sets the HX-Retarget header. Calls through instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">retargetResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">retargetResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1624,25 +2028,25 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+                                    -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_sendHtmxHeader">
         sendHtmxHeader()
-        <a href="classes/ClearView-Runtime.html#method_sendHtmxHeader" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_sendHtmxHeader" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">300</span>
+    <span class="phpdocumentor-element-found-in__line">282</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Sends a special header in the server response.</p>
+        <p class="phpdocumentor-summary">Sends a special header in the server response. Calls through instance.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">sendHtmxHeader</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$header</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">sendHtmxHeader</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$header</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1677,11 +2081,7 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -1697,11 +2097,12 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="modules/vendor/panes/loginform/newaccount.php"><a href="files/modules-vendor-panes-loginform-newaccount.html"><abbr title="modules/vendor/panes/loginform/newaccount.php">newaccount.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Submits the form — shows terms confirmation AlertBox before creating account.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">submit</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -1721,25 +2122,25 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+                                    -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_triggerevent">
         triggerevent()
-        <a href="classes/ClearView-Runtime.html#method_triggerevent" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/ClearView-Framework.html#method_triggerevent" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Runtime.php"><a href="files/runtime.html">Runtime.php</a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="Framework.php"><a href="files/framework.html">Framework.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">291</span>
+    <span class="phpdocumentor-element-found-in__line">270</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Triggers an htmx event.</p>
+        <p class="phpdocumentor-summary">Triggers an htmx event. Calls through instance for subclass overrides.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">triggerevent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">triggerevent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1767,11 +2168,7 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">self</span>
-            </section>
-
+    
 </article>
             </section>
 
@@ -1795,42 +2192,49 @@ and returns ClearView&lt;panename&gt;_<inlayname>.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/ClearView-Runtime.html#property_mosaic">$mosaic</a></li>
+                                                    <li class=""><a href="classes/ClearView-Framework.html#property_instance">$instance</a></li>
+                                                    <li class=""><a href="classes/ClearView-Framework.html#property_mosaic">$mosaic</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method___call">__call()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method___construct">__construct()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_close">close()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method___call">__call()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_close">close()</a></li>
                                             <li class=""><a href="classes/ClearView-loginform-newaccount.html#method_createAccount">createAccount()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_debug">debug()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_defaultMethod">defaultMethod()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_doesNotUnderstand">doesNotUnderstand()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_fill">fill()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_debug">debug()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_doesNotUnderstand">doesNotUnderstand()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_fill">fill()</a></li>
                                             <li class=""><a href="classes/ClearView-loginform-newaccount.html#method_getEmailAddr">getEmailAddr()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_handleCommand">handleCommand()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_getModuleList">getModuleList()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_handleCommand">handleCommand()</a></li>
                                             <li class=""><a href="classes/ClearView-Inlay.html#method_html">html()</a></li>
                                             <li class=""><a href="classes/ClearView-loginform-newaccount.html#method_init">init()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_inTesting">inTesting()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_is_htmx_boosted">is_htmx_boosted()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_is_htmx_request">is_htmx_request()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_instance">instance()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_inTesting">inTesting()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_is_htmx_boosted">is_htmx_boosted()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_is_htmx_request">is_htmx_request()</a></li>
                                             <li class=""><a href="classes/ClearView-loginform-newaccount.html#method_isValidEmail">isValidEmail()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_launcher">launcher()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_launcher">launcher()</a></li>
                                             <li class=""><a href="classes/ClearView-Inlay.html#method_load">load()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_offsetExists">offsetExists()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_offsetGet">offsetGet()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_offsetSet">offsetSet()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_offsetUnset">offsetUnset()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_open">open()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_redirect">redirect()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_reloadPage">reloadPage()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_retargetResult">retargetResult()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_sendHtmxHeader">sendHtmxHeader()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_loadInlay">loadInlay()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_Modules">Modules()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_offsetExists">offsetExists()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_offsetGet">offsetGet()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_offsetSet">offsetSet()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_offsetUnset">offsetUnset()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_onRetargetResult">onRetargetResult()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_onSendHtmxHeader">onSendHtmxHeader()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_onTriggerevent">onTriggerevent()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_open">open()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_redirect">redirect()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_reloadPage">reloadPage()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_retargetResult">retargetResult()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_sendHtmxHeader">sendHtmxHeader()</a></li>
                                             <li class=""><a href="classes/ClearView-loginform-newaccount.html#method_submit">submit()</a></li>
-                                            <li class=""><a href="classes/ClearView-Runtime.html#method_triggerevent">triggerevent()</a></li>
+                                            <li class=""><a href="classes/ClearView-Framework.html#method_triggerevent">triggerevent()</a></li>
                                     </ul>
             </li>
                     </ul>

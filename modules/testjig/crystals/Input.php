@@ -3,7 +3,7 @@
 namespace ClearView;
 
 /**
- * Null Input crystal — reads from TestRig jig values for headless testing.
+ * Null Input crystal — reads from TestJig jig values for headless testing.
  */
 class Input extends Crystal
 {
@@ -17,7 +17,7 @@ class Input extends Crystal
 
     public function getVar($key = null)
     {
-        $jig = TestRig::getJig($key);
+        $jig = TestJig::getJig($key);
         if ($jig !== null) return $jig;
         return $key ?? null;
     }

@@ -76,10 +76,9 @@ class ViewBuilder
         }
 
         $data = array_merge([
-            'id'    => $id,
             'name'  => $id,
             'glyph' => $tag,
-            'inlay' => $this->inlayname,
+            'inlay' => $this->inlayname,  // needed for constructor, cleaned by unset after makeAddress
         ], $attrs);
 
         $element = new $class($data);

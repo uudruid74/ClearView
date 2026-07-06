@@ -37,12 +37,13 @@ namespace {
         '/Page.php',
         '/Crystal.php',
         '/modules/vendor/crystals/Config.php',
+        '/modules/testjig/crystals/ClearView.php',
         '/Exception.php',
         '/Facet.php',
         '/Mosaic.php',
-        '/ClearView.php',
         '/Element.php',
         '/Pane.php',
+        '/Framework.php',
         // Test fixtures — load Fixture\TestFixtureException first (parent class)
         '/Test/Fixture/TestFixtureException.php',
         '/Test/TestFixtureException.php',
@@ -50,6 +51,7 @@ namespace {
         '/Test/StubPane.php',
         '/Test/Fixture/InlayStub.php',
         '/Test/Fixture/ViewBuilder.php',
+        '/tests/Harness/TestHarnessException.php',
     ];
 
     foreach ($files as $file) {

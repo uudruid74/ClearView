@@ -67,6 +67,10 @@
                 <a href="namespaces/clearview-element.html" class="">Element</a>
                 
             </li>
+                    <li>
+                <a href="namespaces/clearview-prism.html" class="">Prism</a>
+                
+            </li>
             </ul>
 
                         </section>
@@ -120,7 +124,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
@@ -129,8 +133,8 @@
 
     <section class="phpdocumentor-description"><p>Shards are indexed by inlay-id, deflated into hidden inputs on the client,
 and re-inflated on every request. The Mosaic is the first thing created
-during bootstrap, fully initialized before any Pane acts.</p>
-<p>All methods are static and call through Mosaic::$instance.
+during bootstrap, fully initialized before any Pane acts.
+All methods are static and call through Mosaic::$instance.
 The instance is set by Mosaic::load() or the constructor.</p>
 </section>
 
@@ -314,6 +318,20 @@ The instance is set by Mosaic::load() or the constructor.</p>
 <dd>Finds multiple Shards by field and value.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Mosaic.html#method_getAllShards">getAllShards()</a>
+    <span>
+                                &nbsp;: array&lt;string, array&lt;string|int, <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>&gt;&gt;    </span>
+</dt>
+<dd>Returns all Shards grouped by inlay.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Mosaic.html#method_getShardsByInlay">getShardsByInlay()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>&gt;    </span>
+</dt>
+<dd>Returns all Shards stored under a given inlay.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Mosaic.html#method_getVar">getVar()</a>
     <span>
                                 &nbsp;: mixed    </span>
@@ -405,6 +423,13 @@ The instance is set by Mosaic::load() or the constructor.</p>
 <dd>Generates OOB HTML to remove a shard.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Mosaic.html#method_reset">reset()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Resets the Mosaic singleton for a fresh request scope.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Mosaic.html#method_setVar">setVar()</a>
     <span>
                                 &nbsp;: mixed    </span>
@@ -469,7 +494,7 @@ The instance is set by Mosaic::load() or the constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -508,7 +533,7 @@ The instance is set by Mosaic::load() or the constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -547,7 +572,7 @@ The instance is set by Mosaic::load() or the constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
@@ -586,7 +611,7 @@ The instance is set by Mosaic::load() or the constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 
     </aside>
 
@@ -625,7 +650,7 @@ The instance is set by Mosaic::load() or the constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -669,7 +694,7 @@ The instance is set by Mosaic::load() or the constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">161</span>
+    <span class="phpdocumentor-element-found-in__line">168</span>
 
     </aside>
 
@@ -708,7 +733,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">637</span>
+    <span class="phpdocumentor-element-found-in__line">659</span>
 
     </aside>
 
@@ -716,7 +741,7 @@ which Pane stores for backward compatibility.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">addShard</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$json</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">addShard</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$json</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -734,11 +759,11 @@ which Pane stores for backward compatibility.</p>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$id</span>
+                <span class="phpdocumentor-argument-list__argument__name">$name</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The Shard ID.</p>
+                    <section class="phpdocumentor-description"><p>The Shard name.</p>
 </section>
 
             </dd>
@@ -773,7 +798,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">669</span>
+    <span class="phpdocumentor-element-found-in__line">688</span>
 
     </aside>
 
@@ -820,7 +845,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">268</span>
+    <span class="phpdocumentor-element-found-in__line">271</span>
 
     </aside>
 
@@ -869,7 +894,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">655</span>
+    <span class="phpdocumentor-element-found-in__line">675</span>
 
     </aside>
 
@@ -916,7 +941,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">488</span>
+    <span class="phpdocumentor-element-found-in__line">518</span>
 
     </aside>
 
@@ -972,7 +997,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">470</span>
+    <span class="phpdocumentor-element-found-in__line">501</span>
 
     </aside>
 
@@ -1028,7 +1053,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">510</span>
+    <span class="phpdocumentor-element-found-in__line">539</span>
 
     </aside>
 
@@ -1075,7 +1100,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">329</span>
+    <span class="phpdocumentor-element-found-in__line">361</span>
 
     </aside>
 
@@ -1135,7 +1160,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">149</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
@@ -1176,7 +1201,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">397</span>
+    <span class="phpdocumentor-element-found-in__line">431</span>
 
     </aside>
 
@@ -1232,7 +1257,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">686</span>
+    <span class="phpdocumentor-element-found-in__line">704</span>
 
     </aside>
 
@@ -1314,7 +1339,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">711</span>
+    <span class="phpdocumentor-element-found-in__line">728</span>
 
     </aside>
 
@@ -1388,6 +1413,96 @@ which Pane stores for backward compatibility.</p>
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getAllShards">
+        getAllShards()
+        <a href="classes/ClearView-Mosaic.html#method_getAllShards" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">343</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns all Shards grouped by inlay.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getAllShards</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array&lt;string|int, <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getShardsByInlay">
+        getShardsByInlay()
+        <a href="classes/ClearView-Mosaic.html#method_getShardsByInlay" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">325</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns all Shards stored under a given inlay.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getShardsByInlay</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$inlay</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Inlay name to query.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_getVar">
         getVar()
         <a href="classes/ClearView-Mosaic.html#method_getVar" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1396,7 +1511,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">342</span>
+    <span class="phpdocumentor-element-found-in__line">373</span>
 
     </aside>
 
@@ -1452,7 +1567,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">311</span>
+    <span class="phpdocumentor-element-found-in__line">309</span>
 
     </aside>
 
@@ -1460,7 +1575,7 @@ which Pane stores for backward compatibility.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">index</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>|null</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">index</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1478,13 +1593,11 @@ which Pane stores for backward compatibility.</p>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$id</span>
+                <span class="phpdocumentor-argument-list__argument__name">$name</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The Shard ID.</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -1512,7 +1625,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">430</span>
+    <span class="phpdocumentor-element-found-in__line">463</span>
 
     </aside>
 
@@ -1520,7 +1633,7 @@ which Pane stores for backward compatibility.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initArray</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$dest</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$defaults</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">initArray</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$dest</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$defaults</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1530,10 +1643,10 @@ which Pane stores for backward compatibility.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$dest</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The destination array to modify.</p>
+                    <section class="phpdocumentor-description"><p>Description.</p>
 </section>
 
             </dd>
@@ -1568,7 +1681,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">414</span>
+    <span class="phpdocumentor-element-found-in__line">447</span>
 
     </aside>
 
@@ -1633,7 +1746,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">454</span>
+    <span class="phpdocumentor-element-found-in__line">486</span>
 
     </aside>
 
@@ -1689,7 +1802,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">587</span>
+    <span class="phpdocumentor-element-found-in__line">612</span>
 
     </aside>
 
@@ -1736,7 +1849,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -1775,7 +1888,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">299</span>
+    <span class="phpdocumentor-element-found-in__line">298</span>
 
     </aside>
 
@@ -1826,7 +1939,7 @@ which Pane stores for backward compatibility.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
@@ -1854,7 +1967,6 @@ returns the fully-initialized Mosaic.</p>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>{
 loadCrystals: true|false     — load all Crystal subclasses (default: true)
-overridePath: &quot;null&quot;|string  — load crystals from crystals/<path>/ subdir
 loadInputData: true          — inflate shards from GET/POST data
 loadCliData: array           — key-value pairs to inject directly
 loadSnapShot: &quot;name&quot;         — restore from views/<name>.php snapshot
@@ -1908,7 +2020,7 @@ loadSnapShot: &quot;name&quot;         — restore from views/<name>.php snapsho
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">176</span>
+    <span class="phpdocumentor-element-found-in__line">182</span>
 
     </aside>
 
@@ -1933,7 +2045,7 @@ Enables change tracking after loading.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Input data to process, typically from ProcessWire's input.</p>
+                    <section class="phpdocumentor-description"><p>Description.</p>
 </section>
 
             </dd>
@@ -1959,7 +2071,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">279</span>
+    <span class="phpdocumentor-element-found-in__line">281</span>
 
     </aside>
 
@@ -1980,7 +2092,7 @@ Enables change tracking after loading.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>|array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Shard object or array with 'id' and 'inlay' keys.</p>
+                    <section class="phpdocumentor-description"><p>Shard object or array with 'name' and 'inlay' keys.</p>
 </section>
 
             </dd>
@@ -1994,7 +2106,7 @@ Enables change tracking after loading.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The unique address in the format &quot;inlay-id&quot;.</p>
+                <section class="phpdocumentor-description"><p>The unique address in the format &quot;inlay-name&quot;.</p>
 </section>
 
             </section>
@@ -2014,7 +2126,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">527</span>
+    <span class="phpdocumentor-element-found-in__line">555</span>
 
     </aside>
 
@@ -2049,7 +2161,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">620</span>
+    <span class="phpdocumentor-element-found-in__line">643</span>
 
     </aside>
 
@@ -2088,6 +2200,45 @@ Enables change tracking after loading.</p>
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_reset">
+        reset()
+        <a href="classes/ClearView-Mosaic.html#method_reset" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">46</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Resets the Mosaic singleton for a fresh request scope.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">reset</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Used by MosaicBrowser to simulate new HTTP requests —
+each open() or manual invocation gets a clean Mosaic.
+Crystals are reloaded on the next Mosaic::load() call.</p>
+</section>
+
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_setVar">
         setVar()
         <a href="classes/ClearView-Mosaic.html#method_setVar" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2096,7 +2247,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">355</span>
+    <span class="phpdocumentor-element-found-in__line">385</span>
 
     </aside>
 
@@ -2161,7 +2312,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">575</span>
+    <span class="phpdocumentor-element-found-in__line">601</span>
 
     </aside>
 
@@ -2215,7 +2366,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">548</span>
+    <span class="phpdocumentor-element-found-in__line">575</span>
 
     </aside>
 
@@ -2250,7 +2401,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">604</span>
+    <span class="phpdocumentor-element-found-in__line">628</span>
 
     </aside>
 
@@ -2306,7 +2457,7 @@ Enables change tracking after loading.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Mosaic.php"><a href="files/mosaic.html">Mosaic.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">131</span>
 
     </aside>
 
@@ -2385,6 +2536,8 @@ Enables change tracking after loading.</p>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_fill">fill()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_findShard">findShard()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_findShards">findShards()</a></li>
+                                            <li class=""><a href="classes/ClearView-Mosaic.html#method_getAllShards">getAllShards()</a></li>
+                                            <li class=""><a href="classes/ClearView-Mosaic.html#method_getShardsByInlay">getShardsByInlay()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_getVar">getVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_index">index()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_initArray">initArray()</a></li>
@@ -2398,6 +2551,7 @@ Enables change tracking after loading.</p>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_makeAddress">makeAddress()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_outputMosaic">outputMosaic()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_removeShard">removeShard()</a></li>
+                                            <li class=""><a href="classes/ClearView-Mosaic.html#method_reset">reset()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_setVar">setVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_storeShard">storeShard()</a></li>
                                             <li class=""><a href="classes/ClearView-Mosaic.html#method_updateMosaic">updateMosaic()</a></li>

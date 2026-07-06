@@ -81,6 +81,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
         if (!$this->isAnonymous()) {
             $this->address = $obj['__address'] = Mosaic::makeAddress($this);
             Mosaic::addShard($this);
+            unset($this->data['inlay']);  // address IS the inlay — no duplicate storage
         }
         $this->init();
     }
@@ -228,6 +229,13 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             throw new Exception("Invalid input type for loadShard: " . gettype($obj));
         }
 
+        // Inject inlay context when explicitly provided —
+        // required for MosaicBrowser --inlay=login and similar flows
+        // where fromhtml() produces data without an inlay key.
+        if ($inlay !== null && !isset($obj['inlay'])) {
+            $obj['inlay'] = $inlay;
+        }
+
         $determinedGlyph = $obj['glyph'] ?? null;
         $determinedGlyph = $determinedGlyph ?? $glyph;
 
@@ -266,6 +274,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             return;
         }
 
+        $currentInlay = $this->inlay();
+
         foreach ($children as $i => &$child) {
             if (!is_array($child)) {
                 continue;
@@ -280,7 +290,8 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             $hasName = !empty($child['name']);
             if ($hasName) {
                 // Create a Shard (stores it in Mosaic)
-                $childShard = self::loadShard($child);
+                // Propagate parent inlay so children land in the correct inlay
+                $childShard = self::loadShard($child, inlay: $currentInlay);
                 // Replace the tree slot with a Reference.
                 // Reference is stored with anon inlay so it never
                 // registers in Mosaic (would overwrite the target).
@@ -292,7 +303,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             } elseif (!empty($child['children'])) {
                 // Unnamed child with nested children — recurse inline
                 // without creating a Shard (unnamed items skip Mosaic).
-                $this->canonicalizeInline($child['children'], $inlay);
+                $this->canonicalizeInline($child['children'], $currentInlay);
             }
         }
     }
@@ -318,7 +329,7 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             }
             $hasName = !empty($child['name']);
             if ($hasName) {
-                $childShard = self::loadShard($child);
+                $childShard = self::loadShard($child, inlay: $inlay);
                 $children[$i] = [
                     'glyph' => 'reference',
                     'name' => $child['name'],
@@ -564,7 +575,10 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
             $parts = explode('-', $this->address, 2);
             return $parts[0];
         }
-	return Mosaic::getVar("Input::inlayname") ?? 'Default';
+        // For anonymous Shards (no name, no address), use the bootstrap inlay
+        // from data if available — this preserves inlay context passed via
+        // Shard::loadShard(inlay: ...) for MosaicBrowser flows.
+        return $this->data['inlay'] ?? Mosaic::getVar("Input::inlayname") ?? 'Default';
     }
 
     /**
@@ -574,6 +588,16 @@ class Shard implements \Stringable, \ArrayAccess, \JsonSerializable, \Iterator
     public function isAnonymous(): bool
     {
         return !isset($this->data['name']);
+    }
+
+    /**
+     * Returns the Shard's ID.
+     * Falls back to name if no explicit ID override is stored.
+     * @return string
+     */
+    public function id(): string
+    {
+        return $this->data['id'] ?? $this->data['name'] ?? '';
     }
 
     /** Renders the Shard's primary field value. */

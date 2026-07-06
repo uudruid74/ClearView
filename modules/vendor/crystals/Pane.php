@@ -18,7 +18,7 @@ use ProcessWire;
  *
  * @see \ClearView\Crystal
  * @see \ClearView\Page
- * @see \ClearView\PaneAttr   (attribute manager)
+ * @see \ClearView\Lead   (attribute manager)
  */
 class Pane extends Crystal
 {
@@ -114,7 +114,7 @@ class Pane extends Crystal
      * Load and resolve the body Element for a pane+inlay.
      *
      * Finds the ProcessWire page, converts its body field to an Element,
-     * merges PaneAttr::attributes, and loads any template view.
+     * merges Lead::attributes, and loads any template view.
      *
      * @param string      $panename
      * @param string      $inlayname
@@ -140,9 +140,9 @@ class Pane extends Crystal
         $data = \ClearView\jsonmangler::fromhtml((string)$bodyField);
         $element = \ClearView\Shard::loadShard($data, id: 'body', inlay: 'Pane');
 
-        // 4. Merge PaneAttr attributes into the Element
+        // 4. Merge Lead attributes into the Element
         $mosaic = $mosaic ?? Mosaic::instance();
-        $attrsShard = Mosaic::index('PaneAttr', 'attributes');
+        $attrsShard = Mosaic::index('Lead', 'attributes');
         if ($attrsShard) {
             $attrs = $attrsShard->getFields('');
             if (is_array($attrs)) {

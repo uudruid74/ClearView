@@ -58,10 +58,10 @@ class attr extends Element
             return null;
         }
 
-        // Store listen in PaneAttr for lifecycle event dispatch
+        // Store listen in Lead for lifecycle event dispatch
         $listen = $this->getField('listen');
         if ($listen) {
-            Mosaic::setVar('listen', $listen, 'PaneAttr');
+            Mosaic::setVar('listen', $listen, 'Lead');
         }
 
         // Branch 3: generate Surreal JavaScript for attribute/content modifiers

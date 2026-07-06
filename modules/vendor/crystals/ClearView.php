@@ -43,7 +43,7 @@ class ClearView extends Crystal
 
     // ── Lifecycle ─────────────────────────────────────────────
 
-    public function __construct($pwObject = null, $name = null, $inlay = 'ClearView',$mos)
+    public function __construct($pwObject = null, $name = null, $inlay = 'ClearView', $mos = null)
     {
         parent::__construct($pwObject, $name, $inlay,$mos);
         self::$instance ??= $this;

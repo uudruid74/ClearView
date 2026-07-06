@@ -36,7 +36,7 @@ class Input extends Crystal
     /**
      * Gets a variable or field from the input object.
      *
-     * Supports special cases for 'requestMethod', 'url', 'all', 'panename', 'inlayname', 'methodname', and 'nextinlay'.
+     * Supports special cases for 'requestMethod', 'url', 'all', 'panename', 'inlayname', 'methodname', 'nextinlay', and 'inlaypath'.
      * For other keys, uses the parent getVar, supporting '.' notation for nested fields.
      *
      * @param string|null $key The key to retrieve, or null for the entire object.
@@ -65,6 +65,8 @@ class Input extends Crystal
                 return $this->parseUrlSegments($pw)[2] ?? 'Pane';
             case 'methodname':
                 return $this->parseUrlSegments($pw)[3] ?? self::defaultMethod($pw->requestMethod());
+            case 'inlaypath':
+                return $this->parseInlayPath($pw);
             case 'nextinlay':
                 return $this->parseUrlSegments($pw)[$nextinlay++] ?? null;
             case 'all':
@@ -81,5 +83,40 @@ class Input extends Crystal
         $segments = $path ? array_filter(explode('/', $path)) : [];
         array_unshift($segments, $domain);
         return array_values($segments);
+    }
+
+    /**
+     * Parses the URL path with the panename segment removed.
+     *
+     * Examples:
+     *   /node/my/path/page  →  '/my/path/page'  (panename='node')
+     *   /Default/login      →  '/login'          (panename='Default')
+     *
+     * ALSO sets the current Page crystal to the ProcessWire page
+     * at the inlaypath so that subsequent {{Page::name}} references
+     * resolve to the named page, not the full-URL page.
+     *
+     * @param mixed $pw The ProcessWire input object.
+     * @return string The URL path without the leading panename segment.
+     */
+    private function parseInlayPath($pw): string
+    {
+        $parsed = parse_url($pw->url());
+        $path = isset($parsed['path']) ? $parsed['path'] : '';
+        $segments = explode('/', trim($path, '/'));
+        $inlaypath = isset($segments[1]) ? '/' . implode('/', array_slice($segments, 1)) : '/';
+
+        // Route the Page crystal to the inlaypath page so that
+        // Page::name / Page::body resolve to the named page.
+        $pwPage = \ProcessWire\pages()->get($inlaypath);
+        if ($pwPage && $pwPage->id) {
+            $currentPage = Mosaic::index('ClearView', 'Page');
+            $pageClass = $currentPage ? get_class($currentPage) : Page::class;
+            $newPage = new $pageClass($pwPage, 'Page', 'ClearView');
+            $newPage->address = 'ClearView-Page';
+            Mosaic::addShard($newPage);
+        }
+
+        return $inlaypath;
     }
 }

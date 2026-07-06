@@ -236,7 +236,7 @@ class Config extends Crystal
      * Ordered list of active module directories.
      * Modules are tried in order for glyph/views/pane/crystal lookups.
      * 'site' is tried first (user overrides), 'vendor' last (pristine
-     * ClearView code).  PaneAttr::modules from the <pane modules="...">
+     * ClearView code).  Lead::modules from the <pane modules="...">
      * attribute is prepended at runtime by Framework::Modules().
      *
      * @see ClearView\Framework::Modules()

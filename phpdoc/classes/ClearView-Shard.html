@@ -67,6 +67,10 @@
                 <a href="namespaces/clearview-element.html" class="">Element</a>
                 
             </li>
+                    <li>
+                <a href="namespaces/clearview-prism.html" class="">Prism</a>
+                
+            </li>
             </ul>
 
                         </section>
@@ -123,7 +127,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 
     </aside>
 
@@ -191,13 +195,6 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_ChildArray">ChildArray</a>
-    <span>
-        &nbsp;: mixed&nbsp;= &#039;children&#039;                            </span>
-</dt>
-<dd>childType calls -&gt;children() of the Page</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/ClearView-Shard.html#constant_HTML">HTML</a>
     <span>
         &nbsp;: mixed&nbsp;= &#039;html&#039;                            </span>
@@ -219,34 +216,6 @@
 <dd>Input type for mangled JSON strings.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_PageArray">PageArray</a>
-    <span>
-        &nbsp;: mixed&nbsp;= &#039;pagearray&#039;                            </span>
-</dt>
-<dd>childType is a processWire PageArray</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_ShardArray">ShardArray</a>
-    <span>
-        &nbsp;: mixed&nbsp;= &#039;shard&#039;                            </span>
-</dt>
-<dd>childType is an array of Shards.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_StringArray">StringArray</a>
-    <span>
-        &nbsp;: mixed&nbsp;= &#039;string&#039;                            </span>
-</dt>
-<dd>childType is an array of strings.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/ClearView-Shard.html#constant_UndefinedArray">UndefinedArray</a>
-    <span>
-        &nbsp;: mixed&nbsp;= &#039;undefined&#039;                            </span>
-</dt>
-<dd>childType type is undefined, set on first write.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/ClearView-Shard.html#constant_VIEW">VIEW</a>
     <span>
         &nbsp;: mixed&nbsp;= &#039;view&#039;                            </span>
@@ -264,18 +233,6 @@
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a class="" href="classes/ClearView-Shard.html#property_address">$address</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/ClearView-Shard.html#property_canonicalId">$canonicalId</a>
-    <span>
-                        &nbsp;: bool            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/ClearView-Shard.html#property_childType">$childType</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
@@ -332,7 +289,7 @@
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Adds content to the children field.</dd>
+<dd>Adds content to the children field, enforcing type consistency.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_canonicalizeChildren">canonicalizeChildren()</a>
@@ -402,9 +359,9 @@ and replaces their tree slots with References. Unnamed children
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_getChildType">getChildType()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: string|null    </span>
 </dt>
-<dd>Returns the child type.</dd>
+<dd>Returns the child type by inspecting the children array.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_getField">getField()</a>
@@ -519,6 +476,13 @@ and replaces their tree slots with References. Unnamed children
 <dd>Returns the Shard&#039;s inlay context.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Shard.html#method_isAnonymous">isAnonymous()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Returns true if this Shard has no name — cannot be stored in Mosaic.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_isEmpty">isEmpty()</a>
     <span>
                                 &nbsp;: <abbr title="\ClearView\book">book</abbr>    </span>
@@ -624,6 +588,13 @@ and replaces their tree slots with References. Unnamed children
 <dd>Renders the children of the Shard.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/ClearView-Shard.html#method_replaceChildren">replaceChildren()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Replaces children, normalizing all items to Shards.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_rewind">rewind()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -636,13 +607,6 @@ and replaces their tree slots with References. Unnamed children
                                 &nbsp;: <a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a>    </span>
 </dt>
 <dd>Placeholder for adding scripts.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/ClearView-Shard.html#method_setChildType">setChildType()</a>
-    <span>
-                                &nbsp;: $this    </span>
-</dt>
-<dd>Sets the children type</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/ClearView-Shard.html#method_setField">setField()</a>
@@ -756,37 +720,6 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
 
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_ChildArray">
-        ChildArray
-        <a href="classes/ClearView-Shard.html#constant_ChildArray" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">71</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">childType calls -&gt;children() of the Page</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">ChildArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;children&#039;</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_HTML">
         HTML
         <a href="classes/ClearView-Shard.html#constant_HTML" class="headerlink"><i class="fas fa-link"></i></a>
@@ -796,7 +729,7 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -827,7 +760,7 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">86</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -858,7 +791,7 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -880,130 +813,6 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_PageArray">
-        PageArray
-        <a href="classes/ClearView-Shard.html#constant_PageArray" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">66</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">childType is a processWire PageArray</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">PageArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;pagearray&#039;</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_ShardArray">
-        ShardArray
-        <a href="classes/ClearView-Shard.html#constant_ShardArray" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">61</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">childType is an array of Shards.</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">ShardArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;shard&#039;</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_StringArray">
-        StringArray
-        <a href="classes/ClearView-Shard.html#constant_StringArray" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">56</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">childType is an array of strings.</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">StringArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;string&#039;</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_UndefinedArray">
-        UndefinedArray
-        <a href="classes/ClearView-Shard.html#constant_UndefinedArray" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">76</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">childType type is undefined, set on first write.</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">UndefinedArray</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;undefined&#039;</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_VIEW">
         VIEW
         <a href="classes/ClearView-Shard.html#constant_VIEW" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1013,7 +822,7 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">96</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -1060,7 +869,7 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -1089,85 +898,6 @@ found at any depth are stored in Mosaic and replaced with References.</dd>
             -protected
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_canonicalId">
-        $canonicalId
-        <a href="classes/ClearView-Shard.html#property_canonicalId" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">51</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">bool</span>
-    <span class="phpdocumentor-signature__name">$canonicalId</span>
-     = <span class="phpdocumentor-signature__default-value">false</span></code>
-
-    
-        <section class="phpdocumentor-description"><p>True when the original id was &quot;#&quot; — getField('id') should expand
-to the canonical pane/inlay/name form instead of returning the stored id.</p>
-</section>
-
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_childType">
-        $childType
-        <a href="classes/ClearView-Shard.html#property_childType" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">45</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$childType</span>
-     = <span class="phpdocumentor-signature__default-value">self::UndefinedArray</span></code>
-
-    
-        <section class="phpdocumentor-description"><p>Type of children array (StringArray, ShardArray, or UndefinedArray).</p>
-</section>
-
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
     <h4 class="phpdocumentor-element__name" id="property_data">
         $data
         <a href="classes/ClearView-Shard.html#property_data" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1178,7 +908,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
@@ -1217,7 +947,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 
     </aside>
 
@@ -1256,7 +986,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -1300,7 +1030,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">109</span>
+    <span class="phpdocumentor-element-found-in__line">59</span>
 
     </aside>
 
@@ -1308,7 +1038,7 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$obj</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$primaryField</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$named</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$childType</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$obj</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$primaryField</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$named</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1343,17 +1073,6 @@ to the canonical pane/inlay/name form instead of returning the stored id.</p>
 </section>
 
             </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$childType</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Type of children array (StringArray, ShardArray, UndefinedArray).</p>
-<p>Why: Initializes a Shard with data, sets up Mosaic integration, and processes children,
-supporting flexible input types and child type enforcement.</p>
-</section>
-
-            </dd>
             </dl>
 
     
@@ -1376,7 +1095,7 @@ supporting flexible input types and child type enforcement.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">571</span>
+    <span class="phpdocumentor-element-found-in__line">410</span>
 
     </aside>
 
@@ -1407,7 +1126,6 @@ supporting flexible input types and child type enforcement.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field value.</p>
-<p>Why: Supports property-style field setting, mapping 'value' to primaryField.</p>
 </section>
 
             </dd>
@@ -1433,7 +1151,7 @@ supporting flexible input types and child type enforcement.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">586</span>
+    <span class="phpdocumentor-element-found-in__line">422</span>
 
     </aside>
 
@@ -1457,7 +1175,6 @@ supporting flexible input types and child type enforcement.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The primary field value.</p>
-<p>Why: Implements Stringable for string conversion, used in string contexts.</p>
 </section>
 
             </section>
@@ -1477,11 +1194,11 @@ supporting flexible input types and child type enforcement.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1094</span>
+    <span class="phpdocumentor-element-found-in__line">848</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Adds content to the children field.</p>
+        <p class="phpdocumentor-summary">Adds content to the children field, enforcing type consistency.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1490,7 +1207,9 @@ supporting flexible input types and child type enforcement.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>If new content type differs from existing children, upgrades to Shards.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1499,7 +1218,6 @@ supporting flexible input types and child type enforcement.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Content to add (string, Shard, or array).</p>
-<p>Why: Provides explicit content addition for dynamic updates (e.g., HTMX).</p>
 </section>
 
             </dd>
@@ -1525,7 +1243,7 @@ supporting flexible input types and child type enforcement.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">389</span>
+    <span class="phpdocumentor-element-found-in__line">263</span>
 
     </aside>
 
@@ -1542,9 +1260,6 @@ and replaces their tree slots with References. Unnamed children
     
         <section class="phpdocumentor-description"><p>Recurses into unnamed children's own children arrays so nested named
 elements are also canonicalized.</p>
-<p>Why: Ensures named and auto-id children live exactly once in Mosaic,
-preventing duplicate Shards and DOM clutter from the legacy
-__unnamed system.</p>
 </section>
 
     
@@ -1568,7 +1283,7 @@ __unnamed system.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">195</span>
+    <span class="phpdocumentor-element-found-in__line">111</span>
 
     </aside>
 
@@ -1604,9 +1319,6 @@ __unnamed system.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The generated ID.</p>
-<p>Why: Ensures each Shard has a unique identifier for Mosaic tracking and DOM rendering.
-When id=&quot;#&quot; and no name exists, a synthetic name is generated so the element
-can be stored and addressed in Mosaic.</p>
 </section>
 
             </section>
@@ -1626,7 +1338,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1141</span>
+    <span class="phpdocumentor-element-found-in__line">906</span>
 
     </aside>
 
@@ -1650,7 +1362,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The current content item.</p>
-<p>Why: Implements Iterator for children access.</p>
 </section>
 
             </section>
@@ -1670,7 +1381,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">937</span>
+    <span class="phpdocumentor-element-found-in__line">719</span>
 
     </aside>
 
@@ -1715,7 +1426,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Facilitates debugging with method chaining.</p>
 </section>
 
             </section>
@@ -1735,7 +1445,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">665</span>
+    <span class="phpdocumentor-element-found-in__line">484</span>
 
     </aside>
 
@@ -1759,7 +1469,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The mangled JSON string.</p>
-<p>Why: Provides a compact serialization format for storage or transmission.</p>
 </section>
 
             </section>
@@ -1779,7 +1488,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">699</span>
+    <span class="phpdocumentor-element-found-in__line">506</span>
 
     </aside>
 
@@ -1792,9 +1501,7 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Cleans up Shard data and Mosaic references during deletion.</p>
-</section>
-
+    
     
     
 
@@ -1816,7 +1523,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1070</span>
+    <span class="phpdocumentor-element-found-in__line">828</span>
 
     </aside>
 
@@ -1847,7 +1554,6 @@ can be stored and addressed in Mosaic.</p>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Inlay context.</p>
-<p>Why: Supports bulk variable removal for cleanup.</p>
 </section>
 
             </dd>
@@ -1873,7 +1579,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1051</span>
+    <span class="phpdocumentor-element-found-in__line">812</span>
 
     </aside>
 
@@ -1906,7 +1612,6 @@ can be stored and addressed in Mosaic.</p>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Inlay context.</p>
-<p>Why: Supports bulk variable setting via Mosaic.</p>
 </section>
 
             </dd>
@@ -1932,7 +1637,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1245</span>
+    <span class="phpdocumentor-element-found-in__line">987</span>
 
     </aside>
 
@@ -1968,7 +1673,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>An array of matching strings or Shards.</p>
-<p>Why: Provides flexible access to children, supporting both indexing and value-based searches.</p>
 </section>
 
             </section>
@@ -1988,15 +1692,15 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1119</span>
+    <span class="phpdocumentor-element-found-in__line">881</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the child type.</p>
+        <p class="phpdocumentor-summary">Returns the child type by inspecting the children array.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getChildType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getChildType</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2009,10 +1713,9 @@ can be stored and addressed in Mosaic.</p>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>The child type (StringArray, ShardArray, UndefinedArray).</p>
-<p>Why: Allows external access to childType for optimized processing.</p>
+                <section class="phpdocumentor-description"><p>The type: 'string', class name, or null for no children.</p>
 </section>
 
             </section>
@@ -2032,7 +1735,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">598</span>
+    <span class="phpdocumentor-element-found-in__line">432</span>
 
     </aside>
 
@@ -2087,7 +1790,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1082</span>
+    <span class="phpdocumentor-element-found-in__line">837</span>
 
     </aside>
 
@@ -2111,7 +1814,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The field data.</p>
-<p>Why: Provides access to all fields for inspection or serialization.</p>
 </section>
 
             </section>
@@ -2131,7 +1833,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1202</span>
+    <span class="phpdocumentor-element-found-in__line">950</span>
 
     </aside>
 
@@ -2167,7 +1869,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>An array of matching field names or values.</p>
-<p>Why: Allows flexible searching of Shard fields using wildcards or regex patterns.</p>
 </section>
 
             </section>
@@ -2187,7 +1888,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">262</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 
     </aside>
 
@@ -2211,7 +1912,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The rendered HTML.</p>
-<p>Why: Provides HTML output for string-based operations, such as HTMX responses.</p>
 </section>
 
             </section>
@@ -2231,7 +1931,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">518</span>
+    <span class="phpdocumentor-element-found-in__line">369</span>
 
     </aside>
 
@@ -2267,7 +1967,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The variable value.</p>
-<p>Why: Provides access to Mosaic variables for dynamic data retrieval.</p>
 </section>
 
             </section>
@@ -2287,7 +1986,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">531</span>
+    <span class="phpdocumentor-element-found-in__line">379</span>
 
     </aside>
 
@@ -2323,7 +2022,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The matching variables.</p>
-<p>Why: Enables bulk retrieval of Mosaic variables for efficiency.</p>
 </section>
 
             </section>
@@ -2343,7 +2041,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">816</span>
+    <span class="phpdocumentor-element-found-in__line">611</span>
 
     </aside>
 
@@ -2367,7 +2065,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The current serialized value if changed, null otherwise.</p>
-<p>Why: Supports change detection for dynamic updates (e.g., HTMX).</p>
 </section>
 
             </section>
@@ -2387,7 +2084,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">967</span>
+    <span class="phpdocumentor-element-found-in__line">743</span>
 
     </aside>
 
@@ -2423,7 +2120,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if the field exists.</p>
-<p>Why: Supports field existence checks for conditional logic.</p>
 </section>
 
             </section>
@@ -2443,7 +2139,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">247</span>
+    <span class="phpdocumentor-element-found-in__line">153</span>
 
     </aside>
 
@@ -2456,9 +2152,7 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Delegates rendering to Facet for consistent HTML output.</p>
-</section>
-
+    
     
     
 
@@ -2480,7 +2174,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">770</span>
+    <span class="phpdocumentor-element-found-in__line">585</span>
 
     </aside>
 
@@ -2493,7 +2187,9 @@ can be stored and addressed in Mosaic.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>Falls back to name if no explicit ID override is stored.</p>
+</section>
+
     
     
 
@@ -2502,11 +2198,6 @@ can be stored and addressed in Mosaic.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>The ID.</p>
-<p>Why: Provides access to the Shard's unique identifier.</p>
-</section>
-
             </section>
 
 </article>
@@ -2524,7 +2215,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">689</span>
+    <span class="phpdocumentor-element-found-in__line">498</span>
 
     </aside>
 
@@ -2560,7 +2251,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The inflated Shard.</p>
-<p>Why: Restores a Shard from serialized data for reconstruction.</p>
 </section>
 
             </section>
@@ -2580,7 +2270,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">804</span>
+    <span class="phpdocumentor-element-found-in__line">602</span>
 
     </aside>
 
@@ -2604,7 +2294,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Allows subclasses to perform initialization tasks.</p>
 </section>
 
             </section>
@@ -2624,7 +2313,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1002</span>
+    <span class="phpdocumentor-element-found-in__line">773</span>
 
     </aside>
 
@@ -2655,7 +2344,6 @@ can be stored and addressed in Mosaic.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Initial value.</p>
-<p>Why: Safely initializes fields without overwriting existing values.</p>
 </section>
 
             </dd>
@@ -2681,7 +2369,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1031</span>
+    <span class="phpdocumentor-element-found-in__line">796</span>
 
     </aside>
 
@@ -2703,7 +2391,6 @@ can be stored and addressed in Mosaic.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field-value pairs.</p>
-<p>Why: Efficiently initializes multiple fields during setup.</p>
 </section>
 
             </dd>
@@ -2729,7 +2416,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">558</span>
+    <span class="phpdocumentor-element-found-in__line">400</span>
 
     </aside>
 
@@ -2760,7 +2447,6 @@ can be stored and addressed in Mosaic.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Initial value.</p>
-<p>Why: Ensures Mosaic variables are initialized safely.</p>
 </section>
 
             </dd>
@@ -2786,7 +2472,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">782</span>
+    <span class="phpdocumentor-element-found-in__line">562</span>
 
     </aside>
 
@@ -2810,9 +2496,47 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The inlay.</p>
-<p>Why: Provides access to the Shard's inlay for context-aware operations.</p>
 </section>
 
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_isAnonymous">
+        isAnonymous()
+        <a href="classes/ClearView-Shard.html#method_isAnonymous" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">575</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns true if this Shard has no name — cannot be stored in Mosaic.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">isAnonymous</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
             </section>
 
 </article>
@@ -2830,7 +2554,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">977</span>
+    <span class="phpdocumentor-element-found-in__line">753</span>
 
     </aside>
 
@@ -2885,7 +2609,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1291</span>
+    <span class="phpdocumentor-element-found-in__line">1031</span>
 
     </aside>
 
@@ -2939,7 +2663,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">string|array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The concatenated results or array of results.</p>
-<p>Why: Supports dynamic processing of Shard fields with optional filtering.</p>
 </section>
 
             </section>
@@ -2959,7 +2682,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">843</span>
+    <span class="phpdocumentor-element-found-in__line">632</span>
 
     </aside>
 
@@ -2995,7 +2718,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The JSON data.</p>
-<p>Why: Provides JSON output with control over variable substitution.</p>
 </section>
 
             </section>
@@ -3015,7 +2737,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">830</span>
+    <span class="phpdocumentor-element-found-in__line">622</span>
 
     </aside>
 
@@ -3039,7 +2761,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The serialized data.</p>
-<p>Why: Implements JsonSerializable for JSON output with variable substitution.</p>
 </section>
 
             </section>
@@ -3059,7 +2780,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1160</span>
+    <span class="phpdocumentor-element-found-in__line">919</span>
 
     </aside>
 
@@ -3083,7 +2804,6 @@ can be stored and addressed in Mosaic.</p>
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The current key.</p>
-<p>Why: Implements Iterator for key access.</p>
 </section>
 
             </section>
@@ -3103,7 +2823,7 @@ can be stored and addressed in Mosaic.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">308</span>
+    <span class="phpdocumentor-element-found-in__line">200</span>
 
     </aside>
 
@@ -3179,8 +2899,6 @@ can be stored and addressed in Mosaic.</p>
                             <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><a href="classes/ClearView-Exception.html"><abbr title="\ClearView\Exception">Exception</abbr></a></span>
                                                                                         <section class="phpdocumentor-description"><p>On invalid input or recursion in VIEW mode.</p>
-<p>Why: Provides a flexible entry point for creating Shards from various input types,
-including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadView().</p>
 </section>
 
                                     </dd>
@@ -3212,7 +2930,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">990</span>
+    <span class="phpdocumentor-element-found-in__line">763</span>
 
     </aside>
 
@@ -3248,7 +2966,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if the field is missing.</p>
-<p>Why: Provides a convenience method for missing field checks.</p>
 </section>
 
             </section>
@@ -3268,7 +2985,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1170</span>
+    <span class="phpdocumentor-element-found-in__line">927</span>
 
     </aside>
 
@@ -3281,9 +2998,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Implements Iterator for traversal.</p>
-</section>
-
+    
     
     
 
@@ -3305,7 +3020,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">745</span>
+    <span class="phpdocumentor-element-found-in__line">543</span>
 
     </aside>
 
@@ -3341,7 +3056,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if the field exists.</p>
-<p>Why: Implements ArrayAccess for field existence checks.</p>
 </section>
 
             </section>
@@ -3361,7 +3075,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">713</span>
+    <span class="phpdocumentor-element-found-in__line">517</span>
 
     </aside>
 
@@ -3397,7 +3111,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The field value.</p>
-<p>Why: Implements ArrayAccess for array-style field access.</p>
 </section>
 
             </section>
@@ -3417,7 +3130,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">731</span>
+    <span class="phpdocumentor-element-found-in__line">532</span>
 
     </aside>
 
@@ -3448,7 +3161,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field value.</p>
-<p>Why: Implements ArrayAccess for array-style field setting.</p>
 </section>
 
             </dd>
@@ -3474,7 +3186,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">757</span>
+    <span class="phpdocumentor-element-found-in__line">552</span>
 
     </aside>
 
@@ -3496,7 +3208,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field name.</p>
-<p>Why: Implements ArrayAccess for field removal.</p>
 </section>
 
             </dd>
@@ -3522,7 +3233,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">856</span>
+    <span class="phpdocumentor-element-found-in__line">642</span>
 
     </aside>
 
@@ -3558,7 +3269,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The JSON data.</p>
-<p>Why: Provides raw JSON output for cases where templating is not needed.</p>
 </section>
 
             </section>
@@ -3578,7 +3288,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">792</span>
+    <span class="phpdocumentor-element-found-in__line">593</span>
 
     </aside>
 
@@ -3591,9 +3301,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Provides a default rendering method for subclasses to override.</p>
-</section>
-
+    
     
     
 
@@ -3615,7 +3323,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">218</span>
+    <span class="phpdocumentor-element-found-in__line">126</span>
 
     </aside>
 
@@ -3628,10 +3336,55 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Outputs children, optimizing for strings or Shards.</p>
+    
+    
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_replaceChildren">
+        replaceChildren()
+        <a href="classes/ClearView-Shard.html#method_replaceChildren" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">868</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Replaces children, normalizing all items to Shards.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">replaceChildren</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$newChildren</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$newChildren</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Single item or array of items.</p>
 </section>
 
-    
+            </dd>
+            </dl>
+
     
 
         
@@ -3652,7 +3405,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1129</span>
+    <span class="phpdocumentor-element-found-in__line">897</span>
 
     </aside>
 
@@ -3665,9 +3418,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Why: Implements Iterator for children traversal.</p>
-</section>
-
+    
     
     
 
@@ -3689,7 +3440,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">289</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 
     </aside>
 
@@ -3713,60 +3464,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Allows method chaining for script additions (to be implemented by subclasses).</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_setChildType">
-        setChildType()
-        <a href="classes/ClearView-Shard.html#method_setChildType" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">1106</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sets the children type</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setChildType</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$arrayType</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$arrayType</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">$this</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>for chaining</p>
 </section>
 
             </section>
@@ -3786,7 +3483,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">611</span>
+    <span class="phpdocumentor-element-found-in__line">442</span>
 
     </aside>
 
@@ -3817,7 +3514,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field value.</p>
-<p>Why: Updates field data and notifies Mosaic for state tracking.</p>
 </section>
 
             </dd>
@@ -3843,7 +3539,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">950</span>
+    <span class="phpdocumentor-element-found-in__line">729</span>
 
     </aside>
 
@@ -3865,7 +3561,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field-value pairs.</p>
-<p>Why: Efficiently updates multiple fields in one operation.</p>
 </section>
 
             </dd>
@@ -3891,7 +3586,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">653</span>
+    <span class="phpdocumentor-element-found-in__line">475</span>
 
     </aside>
 
@@ -3913,7 +3608,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field name.</p>
-<p>Why: Allows customization of the primary field for specific Shards.</p>
 </section>
 
             </dd>
@@ -3939,7 +3633,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">545</span>
+    <span class="phpdocumentor-element-found-in__line">390</span>
 
     </aside>
 
@@ -3984,7 +3678,6 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
         <span class="phpdocumentor-signature__response_type">mixed</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The set value.</p>
-<p>Why: Allows setting Mosaic variables for state management.</p>
 </section>
 
             </section>
@@ -4004,7 +3697,7 @@ including HTML via jsonmangler::fromhtml() and view loading via ClearView::loadV
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">885</span>
+    <span class="phpdocumentor-element-found-in__line">669</span>
 
     </aside>
 
@@ -4063,7 +3756,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">277</span>
+    <span class="phpdocumentor-element-found-in__line">176</span>
 
     </aside>
 
@@ -4087,7 +3780,6 @@ are included directly. The output contains only the fields, without an outer ele
         <span class="phpdocumentor-signature__response_type"><a href="classes/ClearView-Shard.html"><abbr title="\ClearView\Shard">Shard</abbr></a></span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>This Shard instance.</p>
-<p>Why: Allows method chaining for style additions (to be implemented by subclasses).</p>
 </section>
 
             </section>
@@ -4107,7 +3799,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1182</span>
+    <span class="phpdocumentor-element-found-in__line">936</span>
 
     </aside>
 
@@ -4131,7 +3823,6 @@ are included directly. The output contains only the fields, without an outer ele
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if valid.</p>
-<p>Why: Implements Iterator for traversal control.</p>
 </section>
 
             </section>
@@ -4151,7 +3842,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1017</span>
+    <span class="phpdocumentor-element-found-in__line">785</span>
 
     </aside>
 
@@ -4182,7 +3873,6 @@ are included directly. The output contains only the fields, without an outer ele
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Initial value.</p>
-<p>Why: Supports low-level field initialization during construction.</p>
 </section>
 
             </dd>
@@ -4208,7 +3898,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">487</span>
+    <span class="phpdocumentor-element-found-in__line">341</span>
 
     </aside>
 
@@ -4271,7 +3961,6 @@ are included directly. The output contains only the fields, without an outer ele
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>Matching values or Shards.</p>
-<p>Why: Enables efficient content searches, optimized by childType.</p>
 </section>
 
             </section>
@@ -4291,7 +3980,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">625</span>
+    <span class="phpdocumentor-element-found-in__line">453</span>
 
     </aside>
 
@@ -4322,7 +4011,6 @@ are included directly. The output contains only the fields, without an outer ele
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field value.</p>
-<p>Why: Allows low-level field setting during initialization.</p>
 </section>
 
             </dd>
@@ -4348,7 +4036,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">637</span>
+    <span class="phpdocumentor-element-found-in__line">462</span>
 
     </aside>
 
@@ -4370,7 +4058,6 @@ are included directly. The output contains only the fields, without an outer ele
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>Field-value pairs.</p>
-<p>Why: Efficiently initializes multiple fields during construction.</p>
 </section>
 
             </dd>
@@ -4396,7 +4083,7 @@ are included directly. The output contains only the fields, without an outer ele
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">445</span>
+    <span class="phpdocumentor-element-found-in__line">309</span>
 
     </aside>
 
@@ -4406,7 +4093,7 @@ found at any depth are stored in Mosaic and replaced with References.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">canonicalizeInline</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$children</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">canonicalizeInline</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$children</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$inlay</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -4416,10 +4103,10 @@ found at any depth are stored in Mosaic and replaced with References.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$children</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Reference to the children array to process.</p>
+                    <section class="phpdocumentor-description"><p>Description.</p>
 </section>
 
             </dd>
@@ -4454,7 +4141,7 @@ found at any depth are stored in Mosaic and replaced with References.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">176</span>
+    <span class="phpdocumentor-element-found-in__line">97</span>
 
     </aside>
 
@@ -4513,7 +4200,7 @@ other glyphs are rendered as-is, not mangled into <article> tags.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Shard.php"><a href="files/shard.html">Shard.php</a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1230</span>
+    <span class="phpdocumentor-element-found-in__line">975</span>
 
     </aside>
 
@@ -4549,7 +4236,6 @@ other glyphs are rendered as-is, not mangled into <article> tags.</p>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The equivalent regex pattern.</p>
-<p>Why: Facilitates wildcard searches by transforming them into regex for field matching.</p>
 </section>
 
             </section>
@@ -4577,14 +4263,9 @@ other glyphs are rendered as-is, not mangled into <article> tags.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_ChildArray">ChildArray</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_HTML">HTML</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_JSON">JSON</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_MANGLED">MANGLED</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_PageArray">PageArray</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_ShardArray">ShardArray</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_StringArray">StringArray</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#constant_UndefinedArray">UndefinedArray</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#constant_VIEW">VIEW</a></li>
                                             </ul>
                 </li>
@@ -4593,8 +4274,6 @@ other glyphs are rendered as-is, not mangled into <article> tags.</p>
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_address">$address</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#property_canonicalId">$canonicalId</a></li>
-                                                    <li class=""><a href="classes/ClearView-Shard.html#property_childType">$childType</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_data">$data</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_primaryField">$primaryField</a></li>
                                                     <li class=""><a href="classes/ClearView-Shard.html#property_iteratorPosition">$iteratorPosition</a></li>
@@ -4634,6 +4313,7 @@ other glyphs are rendered as-is, not mangled into <article> tags.</p>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_initFields">initFields()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_initVar">initVar()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_inlay">inlay()</a></li>
+                                            <li class=""><a href="classes/ClearView-Shard.html#method_isAnonymous">isAnonymous()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_isEmpty">isEmpty()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_iterateFields">iterateFields()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_json">json()</a></li>
@@ -4649,9 +4329,9 @@ other glyphs are rendered as-is, not mangled into <article> tags.</p>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_rawJson">rawJson()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_render">render()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_renderChildren">renderChildren()</a></li>
+                                            <li class=""><a href="classes/ClearView-Shard.html#method_replaceChildren">replaceChildren()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_rewind">rewind()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_script">script()</a></li>
-                                            <li class=""><a href="classes/ClearView-Shard.html#method_setChildType">setChildType()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_setField">setField()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_setFields">setFields()</a></li>
                                             <li class=""><a href="classes/ClearView-Shard.html#method_setPrimaryField">setPrimaryField()</a></li>

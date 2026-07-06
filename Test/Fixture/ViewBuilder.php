@@ -103,11 +103,16 @@ class ViewBuilder
             throw new TestFixtureException("Duplicate shard ID '{$id}' in inlay '{$inlay}'");
         }
 
-        $data['id']    = $id;
-        $data['inlay'] = $inlay;
+        $data['name']  = $id;        // Mosaic address key
+        $data['inlay'] = $inlay;     // needed for constructor, cleaned by unset after makeAddress
+        if (($data['id'] ?? null) !== null && $data['id'] !== $data['name']) {
+            // Only keep explicit id override distinct from name
+        } else {
+            unset($data['id']);
+        }
 
         $shard = Shard::loadShard($data);
-        Mosaic::addShard($shard, id: $id, inlay: $inlay);
+        Mosaic::addShard($shard, name: $id, inlay: $inlay);
 
         $this->shardIds[]          = $id;
         $this->registered[$key]    = true;
@@ -127,12 +132,17 @@ class ViewBuilder
             throw new TestFixtureException("Duplicate element ID '{$id}' in inlay '{$inlay}'");
         }
 
-        $attrs['id']    = $id;
-        $attrs['inlay'] = $inlay;
+        $attrs['name']  = $id;       // Mosaic address key
+        $attrs['inlay'] = $inlay;    // needed for constructor, cleaned by unset after makeAddress
         $attrs['glyph'] = $tag;
+        if (($attrs['id'] ?? null) !== null && $attrs['id'] !== $attrs['name']) {
+            // Only keep explicit id override distinct from name
+        } else {
+            unset($attrs['id']);
+        }
 
         $shard = Shard::loadShard($attrs);
-        Mosaic::addShard($shard, id: $id, inlay: $inlay);
+        Mosaic::addShard($shard, name: $id, inlay: $inlay);
 
         $this->shardIds[]       = $id;
         $this->registered[$key] = true;

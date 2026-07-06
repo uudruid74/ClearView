@@ -62,7 +62,7 @@ class Framework implements \ArrayAccess
 
     /**
      * Returns the ordered module list for resource lookups.
-     * Base implementation returns Config::MODULES_LIST.  PaneAttr::modules
+     * Base implementation returns Config::MODULES_LIST.  Lead::modules
      * (from the <pane modules="..."> attribute) is prepended when set.
      * Subclasses override to inject framework-specific modules (e.g.
      * TestJig prepends 'testjig' for null crystals).
@@ -73,15 +73,15 @@ class Framework implements \ArrayAccess
         // Hardcoded default — Config crystal loads later via Crystal::loadAll()
         $modules = ['vendor'];
 
-        // Merge per-pane module override if PaneAttr is loaded
+        // Merge per-pane module override if Lead is loaded
         try {
-            $paneModules = Mosaic::getVar('PaneAttr::modules');
+            $paneModules = Mosaic::getVar('Lead::modules');
             if ($paneModules && is_string($paneModules) && strlen($paneModules) > 0) {
                 $paneList = array_map('trim', explode(',', $paneModules));
                 $modules = array_merge($paneList, $modules);
             }
         } catch (\Throwable $e) {
-            // PaneAttr not loaded yet during bootstrap — use Config defaults
+            // Lead not loaded yet during bootstrap — use Config defaults
         }
 
         // Always ensure 'vendor' is the terminal fallback

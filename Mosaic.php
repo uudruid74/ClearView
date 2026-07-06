@@ -224,9 +224,9 @@ class Mosaic
         $i->trackChanges = true; // Start tracking changes
         self::setVar("Shared::lastInlay", $currentInlay);
 
-        // ── PaneAttr extraction ────────────────────────────
+        // ── Lead extraction ────────────────────────────
         // hx-vals from <pane> arrive as regular POST params. Keys without
-        // '-' that aren't internal prefixes become PaneAttr attributes.
+        // '-' that aren't internal prefixes become Lead attributes.
         $sharedVars = null;
         $attrs = [];
         foreach ($input as $key => $value) {
@@ -245,9 +245,9 @@ class Mosaic
             }
         }
         if (!empty($attrs)) {
-            // Store under PaneAttr inlay as 'attributes' shard
-            Shard::loadShard(array_merge(['id' => 'attributes', 'inlay' => 'PaneAttr'], $attrs));
-            Exception::debug('VAR', "PaneAttr::attributes set: " . json_encode($attrs));
+            // Store under Lead inlay as 'attributes' shard
+            Shard::loadShard(array_merge(['id' => 'attributes', 'inlay' => 'Lead'], $attrs));
+            Exception::debug('VAR', "Lead::attributes set: " . json_encode($attrs));
         }
         if ($sharedVars !== null) {
             $varNames = is_array($sharedVars)
